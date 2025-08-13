@@ -30,6 +30,7 @@ public class PlayerController2D : MonoBehaviour
 
     private Rigidbody2D rb;
     private Vector2 input;
+    private float inputX;
     private bool isGrounded;
 
     private void Awake()
@@ -54,7 +55,12 @@ public class PlayerController2D : MonoBehaviour
     {
         // Read Input
         input = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
-
+        if (input.x > 0)
+            inputX = input.x / input.x;
+        else if (input.x < 0)
+            inputX = -input.x / input.x;
+        else inputX = 0;
+            Debug.Log(inputX);
         // Ground Check
         Vector2 checkPos = (Vector2)transform.position + groundCheckOffset;
         bool groundedNow = Physics2D.OverlapCircle(checkPos, groundRadius, groundLayers);
@@ -86,7 +92,7 @@ public class PlayerController2D : MonoBehaviour
         if (animator)
         {
             animator.SetBool("Grounded", isGrounded);
-            animator.SetFloat("Speed", Mathf.Abs(input.x));   // 걷기 전이용
+            animator.SetFloat("Speed", Mathf.Abs(inputX));   // 걷기 전이용
             animator.SetFloat("VelY", rb.linearVelocityY);    // 점프/낙하 전이용
         }
     }
@@ -94,7 +100,7 @@ public class PlayerController2D : MonoBehaviour
     private void FixedUpdate()
     {
         // 가속/감속 없이 즉시 반영
-        rb.linearVelocity = new Vector2(input.x * moveSpeed, rb.linearVelocityY); 
+        rb.linearVelocity = new Vector2(inputX * moveSpeed, rb.linearVelocityY); 
 
     }
 
