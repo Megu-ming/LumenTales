@@ -2,7 +2,13 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("attributes")]
+    [SerializeField] private int hp = 100;
+    [SerializeField] private int mp = 100;
+    [SerializeField] private int damage = 10;
+    [SerializeField] private int str = 1;
+    [SerializeField] private int dex = 1;
+
     void Start()
     {
         
