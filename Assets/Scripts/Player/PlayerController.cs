@@ -4,13 +4,16 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController2D : MonoBehaviour
 {
+    #region MovementInput
     [Header("Input Actions")]
     [SerializeField] private InputActionReference moveAction;   // Player/Move (Vector2)
     [SerializeField] private InputActionReference jumpAction;   // Player/Jump (Button)
+    [SerializeField] private InputActionReference sprintAction;   // Player/Sprint (Button)
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float jumpForce = 8f;
+    [SerializeField] private float sprintMul = 1.5f;
 
     [Header("Ground Check")]
     [SerializeField] private Vector2 groundCheckOffset = new Vector2(0f, -0.5f);
@@ -23,44 +26,48 @@ public class PlayerController2D : MonoBehaviour
     private bool wasGrounded;
     [SerializeField] private float groundResetBlock = 0.05f; // 점프 직후 리셋 금지 시간
     private float blockResetUntil = -1f;
-
-    [Header("Visual")]
-    [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private Animator animator; // Parameters: "Speed"(Float), "Grounded"(Bool), "VelY"(Float)
+    #endregion
 
     private Rigidbody2D rb;
-    private Vector2 input;
+    private SpriteRenderer sprite;
+    private Animator animator;
     private float inputX;
     private bool isGrounded;
+    private float isSprint;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         rb.freezeRotation = true;
-        if (!sprite) sprite = GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
     {
         moveAction?.action.Enable();
         jumpAction?.action.Enable();
+        sprintAction?.action.Enable();
     }
     private void OnDisable()
     {
         moveAction?.action.Disable();
         jumpAction?.action.Disable();
+        sprintAction?.action.Disable();
     }
 
     private void Update()
     {
         // Read Input
-        input = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
-        if (input.x > 0)
-            inputX = input.x / input.x;
-        else if (input.x < 0)
-            inputX = -input.x / input.x;
+        inputX = moveAction ? moveAction.action.ReadValue<Vector2>().x : 0.0f;
+        if (inputX > 0)
+            inputX = inputX / inputX;
+        else if (inputX < 0)
+            inputX = -inputX / inputX;
         else inputX = 0;
-            Debug.Log(inputX);
+
+        isSprint = sprintAction.action.ReadValue<float>();
+       
         // Ground Check
         Vector2 checkPos = (Vector2)transform.position + groundCheckOffset;
         bool groundedNow = Physics2D.OverlapCircle(checkPos, groundRadius, groundLayers);
@@ -85,8 +92,8 @@ public class PlayerController2D : MonoBehaviour
         }
 
         // 좌우 반전
-        if (sprite && Mathf.Abs(input.x) > 0.01f)
-            sprite.flipX = input.x < 0f;
+        if (sprite && Mathf.Abs(inputX) > 0.01f)
+            sprite.flipX = inputX < 0f;
 
         // 애니메이터 파라미터
         if (animator)
@@ -94,14 +101,14 @@ public class PlayerController2D : MonoBehaviour
             animator.SetBool("Grounded", isGrounded);
             animator.SetFloat("Speed", Mathf.Abs(inputX));   // 걷기 전이용
             animator.SetFloat("VelY", rb.linearVelocityY);    // 점프/낙하 전이용
+            animator.SetFloat("Sprint", isSprint);
         }
+
     }
 
     private void FixedUpdate()
     {
-        // 가속/감속 없이 즉시 반영
-        rb.linearVelocity = new Vector2(inputX * moveSpeed, rb.linearVelocityY); 
-
+        rb.linearVelocity = isSprint > 0 ? new Vector2(inputX * moveSpeed * sprintMul, rb.linearVelocityY) : new Vector2(inputX * moveSpeed, rb.linearVelocityY);
     }
 
 #if UNITY_EDITOR
