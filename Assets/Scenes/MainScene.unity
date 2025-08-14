@@ -5466,6 +5466,7 @@ GameObject:
   - component: {fileID: 806360880}
   - component: {fileID: 806360883}
   - component: {fileID: 806360884}
+  - component: {fileID: 806360885}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5526,11 +5527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 713122f8f252afb45a64fb2771cff91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
-  mp: 100
-  damage: 10
-  str: 1
-  dex: 1
 --- !u!50 &806360880
 Rigidbody2D:
   serializedVersion: 5
@@ -5672,6 +5668,46 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.16, y: 0.36}
   m_Direction: 0
+--- !u!114 &806360885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806360876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de89ead91d5265c479885d549d64b242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackAction: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  steps:
+  - animTrigger: Attack_01
+    windup: 0
+    active: 0
+    recovery: 0
+    hitOffset: {x: 0, y: 0}
+    hitRadius: 0
+    damage: 0
+  - animTrigger: Attack_02
+    windup: 0
+    active: 0
+    recovery: 0
+    hitOffset: {x: 0, y: 0}
+    hitRadius: 0
+    damage: 0
+  - animTrigger: Attack_03
+    windup: 0
+    active: 0
+    recovery: 0
+    hitOffset: {x: 0, y: 0}
+    hitRadius: 0
+    damage: 0
+  comboTimeout: 0.5
+  inputBuffer: 0.2
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &907981957
 GameObject:
   m_ObjectHideFlags: 0

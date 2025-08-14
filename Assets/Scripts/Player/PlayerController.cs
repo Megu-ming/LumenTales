@@ -4,12 +4,12 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController2D : MonoBehaviour
 {
-    #region MovementInput
     [Header("Input Actions")]
     [SerializeField] private InputActionReference moveAction;   // Player/Move (Vector2)
     [SerializeField] private InputActionReference jumpAction;   // Player/Jump (Button)
     [SerializeField] private InputActionReference sprintAction;   // Player/Sprint (Button)
 
+    #region MovementVariables
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float jumpForce = 8f;
