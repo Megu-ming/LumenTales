@@ -41,5 +41,26 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: 1Sky
+    uniqueID: 1346365709
+    locked: 0
+  - name: 2Mountain
+    uniqueID: 663520805
+    locked: 0
+  - name: 3Forest
+    uniqueID: 1115496005
+    locked: 0
+  - name: 4Forest
+    uniqueID: 1179077013
+    locked: 0
+  - name: 5Forest
+    uniqueID: 2374132003
+    locked: 0
+  - name: Player
+    uniqueID: 1043645373
+    locked: 0
+  - name: TileMaps
+    uniqueID: 3330951421
+    locked: 0
   m_RenderingLayers:
   - Default
