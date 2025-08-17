@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 6139769252167781464}
   - component: {fileID: 136393141177277862}
   - component: {fileID: 3049017276102811984}
-  - component: {fileID: 5612750273251761237}
   - component: {fileID: 2386166218813518417}
   m_Layer: 0
   m_Name: Player
@@ -54,10 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0e7169cfd3d0246b0ef14224a0503a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  jumpAction: {fileID: -2099379676528639254, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  sprintAction: {fileID: -7471211009204490832, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  moveSpeed: 30
+  moveSpeed: 50
   jumpForce: 7
   sprintMul: 1.5
   groundCheckOffset: {x: 0, y: -0.2}
@@ -221,26 +217,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.16, y: 0.36}
   m_Direction: 0
---- !u!114 &5612750273251761237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 910687419780863520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de89ead91d5265c479885d549d64b242, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackAction: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  steps: []
-  comboTimeout: 0.5
-  inputBuffer: 0.2
-  hitLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  currentStepIndex: -1
 --- !u!114 &2386166218813518417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,8 +290,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4268916457519343671}
         m_TargetAssemblyTypeName: PlayerController2D, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: OnJump
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
