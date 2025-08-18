@@ -1,14 +1,69 @@
+using System;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController2D : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     #region MovementVariables
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 8f;
-    [SerializeField] private float sprintMul = 1.5f;
+    [SerializeField] private float sprintMul = 1.2f;
+    [SerializeField] private bool _isMoving = false;
+    public bool isMoving { 
+        get 
+        { return _isMoving; } 
+        set
+        {
+            _isMoving = value;
+            animator.SetBool("IsMoving", value);
+        }
+    
+    }
+
+    [SerializeField] private bool _isSprint = false;
+    public bool isSprint
+    {
+        get { return _isSprint; }
+        set
+        {
+            _isSprint = value;
+            animator.SetBool("IsSprint", value);
+        }
+    }
+
+    [SerializeField] private float moveSpeed = 2f;
+    public float CurrentSpeed
+    {
+        get
+        {
+            if (CanMove)
+            {
+                if (isMoving)
+                {
+                    if (isSprint) return moveSpeed * sprintMul;
+                    else return moveSpeed;
+                }
+                else return 0;
+            }
+            else return 0;
+        }
+    }
+
+    public bool _isFacingRight = true;
+    public bool IsFacingRight { get { return _isFacingRight; } private set { 
+        if(_isFacingRight!=value)
+            {
+                transform.localScale *= new Vector2(-1, 1);
+            }
+        _isFacingRight = value;
+        } }
+
+    public bool CanMove
+    {
+        get { return animator.GetBool("canMove"); }
+    }
 
     [Header("Ground Check")]
     [SerializeField] private Vector2 groundCheckOffset = new Vector2(0f, -0.5f);
@@ -28,7 +83,6 @@ public class PlayerController2D : MonoBehaviour
     private Animator animator;
     private Vector2 moveInput;
     private bool isGrounded;
-    private float isSprint;
     public bool isAttacking = false;
 
     private void Awake()
@@ -53,36 +107,24 @@ public class PlayerController2D : MonoBehaviour
         isGrounded = groundedNow;
 
         // 좌우 반전
-        if (sprite && Mathf.Abs(moveInput.x) > 0.01f)
-            sprite.flipX = moveInput.x < 0f;
+        //if (sprite && Mathf.Abs(moveInput.x) > 0.01f)
+        //    sprite.flipX = moveInput.x < 0f;
 
         // 애니메이터 파라미터
         if (animator)
         {
             animator.SetBool("Grounded", isGrounded);
-            animator.SetFloat("Speed", Mathf.Abs(moveInput.x));   // 걷기 전이용
             animator.SetFloat("VelY", rb.linearVelocityY);    // 점프/낙하 전이용
-            animator.SetFloat("Sprint", isSprint);
+            //animator.SetFloat("Speed", Mathf.Abs(moveInput.x));   // 걷기 전이용
+            //animator.SetFloat("Sprint", isSprint);
         }
 
     }
 
     private void FixedUpdate()
     {
-        //if (!isAttacking)
-        //    rb.linearVelocity = isSprint > 0 ? new Vector2(moveInput.x * moveSpeed * sprintMul, rb.linearVelocityY) : new Vector2(moveInput.x * moveSpeed, rb.linearVelocityY);
-        //else
-        //    rb.linearVelocity = Vector2.zero;
-
-        if (!isAttacking)
-        {
-            float sx = (isSprint > 0 ? sprintMul : 1f);
-            rb.linearVelocity = new Vector2(moveInput.x * moveSpeed * sx, rb.linearVelocityY); // ★ deltaTime 제거 + velocity 통일
-        }
-        else
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
+        rb.linearVelocity = new Vector2(moveInput.x * CurrentSpeed, rb.linearVelocityY);
+        Debug.Log(CurrentSpeed);
     }
 
 #if UNITY_EDITOR
@@ -98,6 +140,8 @@ public class PlayerController2D : MonoBehaviour
     {
         moveInput = context.ReadValue<Vector2>();
 
+        isMoving = moveInput != Vector2.zero;
+
         if (moveInput.x > 0)
             moveInput.x = 1f;
         else if (moveInput.x < 0)
@@ -105,11 +149,25 @@ public class PlayerController2D : MonoBehaviour
         else
             moveInput.x = 0f;
 
+        SetFacingDirection(moveInput);
+    }
+
+    private void SetFacingDirection(Vector2 moveInput)
+    {
+        if(moveInput.x > 0 && !IsFacingRight)
+        {
+            IsFacingRight = true;
+        }
+        else if(moveInput.x < 0 && IsFacingRight)
+        {
+            IsFacingRight = false;
+        }
+            
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && jumpCount > 0)
+        if (context.performed && jumpCount > 0 && CanMove)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
             jumpCount--;
@@ -122,10 +180,10 @@ public class PlayerController2D : MonoBehaviour
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (context.performed)
-            isSprint = context.ReadValue<float>();
+        if(context.performed)
+            isSprint = true;
         else if (context.canceled)
-            isSprint = 0.0f;
+            isSprint = false;
     }
 
     public void OnAttack(InputAction.CallbackContext context)

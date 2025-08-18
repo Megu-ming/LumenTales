@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &66023253 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
+  m_PrefabInstance: {fileID: 1322611433}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &258062513
 GameObject:
   m_ObjectHideFlags: 0
@@ -5520,7 +5525,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 66023253}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -5613,10 +5618,6 @@ PrefabInstance:
     - target: {fileID: 910687419780863520, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
-      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.x
