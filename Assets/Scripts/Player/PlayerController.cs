@@ -6,7 +6,7 @@ public class PlayerController2D : MonoBehaviour
 {
     #region MovementVariables
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float sprintMul = 1.5f;
 
@@ -29,6 +29,7 @@ public class PlayerController2D : MonoBehaviour
     private Vector2 moveInput;
     private bool isGrounded;
     private float isSprint;
+    public bool isAttacking = false;
 
     private void Awake()
     {
@@ -68,7 +69,20 @@ public class PlayerController2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = isSprint > 0 ? new Vector2(moveInput.x * moveSpeed * sprintMul * Time.fixedDeltaTime, rb.linearVelocityY) : new Vector2(moveInput.x * moveSpeed * Time.fixedDeltaTime, rb.linearVelocityY);
+        //if (!isAttacking)
+        //    rb.linearVelocity = isSprint > 0 ? new Vector2(moveInput.x * moveSpeed * sprintMul, rb.linearVelocityY) : new Vector2(moveInput.x * moveSpeed, rb.linearVelocityY);
+        //else
+        //    rb.linearVelocity = Vector2.zero;
+
+        if (!isAttacking)
+        {
+            float sx = (isSprint > 0 ? sprintMul : 1f);
+            rb.linearVelocity = new Vector2(moveInput.x * moveSpeed * sx, rb.linearVelocityY); // ★ deltaTime 제거 + velocity 통일
+        }
+        else
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
 #if UNITY_EDITOR

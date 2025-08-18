@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0e7169cfd3d0246b0ef14224a0503a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 50
+  moveSpeed: 5
   jumpForce: 7
   sprintMul: 1.5
   groundCheckOffset: {x: 0, y: -0.2}
@@ -64,6 +64,7 @@ MonoBehaviour:
   maxJumpCount: 1
   jumpCount: 0
   groundResetBlock: 0.05
+  isAttacking: 0
 --- !u!114 &1830119513191245129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,7 +579,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6616328917977678726}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
