@@ -55,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -93,7 +93,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,12 +134,12 @@ TextureImporter:
       name: DEFEND_0
       rect:
         serializedVersion: 2
-        x: 35
-        y: 21
-        width: 25
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 36
+        y: 22
+        width: 23
+        height: 36
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -156,12 +156,12 @@ TextureImporter:
       name: DEFEND_1
       rect:
         serializedVersion: 2
-        x: 126
-        y: 21
-        width: 33
-        height: 37
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 127
+        y: 22
+        width: 31
+        height: 35
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -178,12 +178,12 @@ TextureImporter:
       name: DEFEND_2
       rect:
         serializedVersion: 2
-        x: 220
-        y: 21
-        width: 35
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 221
+        y: 22
+        width: 33
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -200,12 +200,12 @@ TextureImporter:
       name: DEFEND_3
       rect:
         serializedVersion: 2
-        x: 315
-        y: 21
-        width: 37
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 316
+        y: 22
+        width: 35
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -222,12 +222,12 @@ TextureImporter:
       name: DEFEND_4
       rect:
         serializedVersion: 2
-        x: 413
-        y: 21
-        width: 35
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 414
+        y: 22
+        width: 34
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -241,37 +241,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DEFEND_5
-      rect:
-        serializedVersion: 2
-        x: 443
-        y: 40
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 653fdc5fb327ea330800000000000000
-      internalID: 3724039543734530902
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: DEFEND_6
       rect:
         serializedVersion: 2
-        x: 511
-        y: 21
-        width: 30
-        height: 37
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 512
+        y: 22
+        width: 28
+        height: 36
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -288,7 +266,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 6f20278829f24064b9a09d89bf47d8eb
     internalID: 0
     vertices: []
     indices: 

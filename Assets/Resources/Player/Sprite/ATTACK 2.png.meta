@@ -49,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -87,7 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,12 +128,12 @@ TextureImporter:
       name: ATTACK 2_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 21
-        width: 35
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 28
+        y: 22
+        width: 33
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -150,12 +150,12 @@ TextureImporter:
       name: ATTACK 2_1
       rect:
         serializedVersion: 2
-        x: 119
-        y: 21
-        width: 53
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 120
+        y: 22
+        width: 51
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -172,12 +172,12 @@ TextureImporter:
       name: ATTACK 2_2
       rect:
         serializedVersion: 2
-        x: 214
-        y: 21
-        width: 46
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 215
+        y: 22
+        width: 44
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -194,12 +194,12 @@ TextureImporter:
       name: ATTACK 2_3
       rect:
         serializedVersion: 2
-        x: 310
-        y: 21
-        width: 39
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 311
+        y: 22
+        width: 37
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -216,12 +216,12 @@ TextureImporter:
       name: ATTACK 2_4
       rect:
         serializedVersion: 2
-        x: 406
-        y: 21
-        width: 39
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 407
+        y: 22
+        width: 37
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -238,7 +238,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 11eb98d15ec005c4ba11fcfa0e19af25
     internalID: 0
     vertices: []
     indices: 

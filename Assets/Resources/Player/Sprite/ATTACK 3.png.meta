@@ -64,7 +64,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -102,7 +102,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -140,15 +140,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ATTACK 3_0
+      name: ATTACK 3_1
       rect:
         serializedVersion: 2
-        x: 123
-        y: 21
-        width: 32
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 124
+        y: 22
+        width: 30
+        height: 38
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -162,15 +162,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ATTACK 3_1
+      name: ATTACK 3_2
       rect:
         serializedVersion: 2
-        x: 218
-        y: 21
-        width: 55
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 219
+        y: 22
+        width: 53
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -184,15 +184,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ATTACK 3_2
+      name: ATTACK 3_3
       rect:
         serializedVersion: 2
-        x: 314
-        y: 21
-        width: 55
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 315
+        y: 22
+        width: 53
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -206,59 +206,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ATTACK 3_3
+      name: ATTACK 3_0
       rect:
         serializedVersion: 2
-        x: 341
-        y: 58
-        width: 21
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f57470e60a1cccb40800000000000000
-      internalID: 5461953342878467935
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ATTACK 3_4
-      rect:
-        serializedVersion: 2
-        x: 456
-        y: 42
-        width: 9
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 75ced2097845e8520800000000000000
-      internalID: 2706193367312493655
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ATTACK 3_5
-      rect:
-        serializedVersion: 2
-        x: 22
-        y: 21
-        width: 40
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 23
+        y: 22
+        width: 38
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -272,15 +228,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ATTACK 3_6
+      name: ATTACK 3_4
       rect:
         serializedVersion: 2
-        x: 409
-        y: 21
-        width: 50
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 410
+        y: 22
+        width: 54
+        height: 37
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -294,59 +250,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ATTACK 3_7
+      name: ATTACK 3_5
       rect:
         serializedVersion: 2
-        x: 457
-        y: 30
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: db8450845e45f6af0800000000000000
-      internalID: -401008498080134979
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ATTACK 3_8
-      rect:
-        serializedVersion: 2
-        x: 459
-        y: 35
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 63aea115f0b6a8540800000000000000
-      internalID: 5010935248932497974
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ATTACK 3_9
-      rect:
-        serializedVersion: 2
-        x: 507
-        y: 21
-        width: 36
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 508
+        y: 22
+        width: 34
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -363,7 +275,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 641bdf1c7bd8c2e42abae342482060e4
     internalID: 0
     vertices: []
     indices: 
@@ -373,16 +285,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ATTACK 3_0: 5657851921139860834
-      ATTACK 3_1: 8167334401786168451
-      ATTACK 3_2: -2486501126090535953
-      ATTACK 3_3: 5461953342878467935
-      ATTACK 3_4: 2706193367312493655
-      ATTACK 3_5: -8047713305943468122
-      ATTACK 3_6: -2616100659346094035
+      ATTACK 3_0: -8047713305943468122
+      ATTACK 3_1: 5657851921139860834
+      ATTACK 3_2: 8167334401786168451
+      ATTACK 3_3: -2486501126090535953
+      ATTACK 3_4: -2616100659346094035
+      ATTACK 3_5: -573243720678724564
       ATTACK 3_7: -401008498080134979
       ATTACK 3_8: 5010935248932497974
-      ATTACK 3_9: -573243720678724564
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
