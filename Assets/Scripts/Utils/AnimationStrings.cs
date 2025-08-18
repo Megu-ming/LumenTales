@@ -16,5 +16,6 @@ namespace Assets.Scripts.Utils
         internal static string grounded = "Grounded";
         internal static string velY = "VelY";
         internal static string attack = "Attack";
+        internal static string isAlive = "IsAlive";
     }
 }
