@@ -125,12 +125,12 @@ TextureImporter:
       name: HURT_0
       rect:
         serializedVersion: 2
-        x: 33
-        y: 21
-        width: 26
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 34
+        y: 22
+        width: 24
+        height: 36
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -147,12 +147,12 @@ TextureImporter:
       name: HURT_1
       rect:
         serializedVersion: 2
-        x: 123
-        y: 21
-        width: 34
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 124
+        y: 22
+        width: 32
+        height: 36
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -169,12 +169,12 @@ TextureImporter:
       name: HURT_2
       rect:
         serializedVersion: 2
-        x: 219
-        y: 21
-        width: 34
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 220
+        y: 22
+        width: 32
+        height: 36
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -191,12 +191,12 @@ TextureImporter:
       name: HURT_3
       rect:
         serializedVersion: 2
-        x: 318
-        y: 21
-        width: 31
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 319
+        y: 22
+        width: 29
+        height: 36
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 43a31acc8f254644299a9337362608f0
     internalID: 0
     vertices: []
     indices: 

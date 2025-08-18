@@ -1,3 +1,4 @@
+using Assets.Scripts.Utils;
 using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -11,25 +12,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float sprintMul = 1.2f;
     [SerializeField] private bool _isMoving = false;
-    public bool isMoving { 
+    public bool IsMoving { 
         get 
         { return _isMoving; } 
         set
         {
             _isMoving = value;
-            animator.SetBool("IsMoving", value);
+            animator.SetBool(AnimationStrings.move, value);
         }
     
     }
 
     [SerializeField] private bool _isSprint = false;
-    public bool isSprint
+    public bool IsSprint
     {
         get { return _isSprint; }
         set
         {
             _isSprint = value;
-            animator.SetBool("IsSprint", value);
+            animator.SetBool(AnimationStrings.sprint, value);
         }
     }
 
@@ -40,9 +41,9 @@ public class PlayerController : MonoBehaviour
         {
             if (CanMove)
             {
-                if (isMoving)
+                if (IsMoving)
                 {
-                    if (isSprint) return moveSpeed * sprintMul;
+                    if (IsSprint) return moveSpeed * sprintMul;
                     else return moveSpeed;
                 }
                 else return 0;
@@ -62,8 +63,9 @@ public class PlayerController : MonoBehaviour
 
     public bool CanMove
     {
-        get { return animator.GetBool("canMove"); }
+        get { return animator.GetBool(AnimationStrings.canMove); }
     }
+    #endregion
 
     [Header("Ground Check")]
     [SerializeField] private Vector2 groundCheckOffset = new Vector2(0f, -0.5f);
@@ -76,20 +78,16 @@ public class PlayerController : MonoBehaviour
     private bool wasGrounded;
     [SerializeField] private float groundResetBlock = 0.05f; // 점프 직후 리셋 금지 시간
     private float blockResetUntil = -1f;
-    #endregion
 
     private Rigidbody2D rb;
-    private SpriteRenderer sprite;
     private Animator animator;
     private Vector2 moveInput;
     private bool isGrounded;
-    public bool isAttacking = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         rb.freezeRotation = true;
     }
 
@@ -106,17 +104,11 @@ public class PlayerController : MonoBehaviour
         }
         isGrounded = groundedNow;
 
-        // 좌우 반전
-        //if (sprite && Mathf.Abs(moveInput.x) > 0.01f)
-        //    sprite.flipX = moveInput.x < 0f;
-
         // 애니메이터 파라미터
         if (animator)
         {
-            animator.SetBool("Grounded", isGrounded);
-            animator.SetFloat("VelY", rb.linearVelocityY);    // 점프/낙하 전이용
-            //animator.SetFloat("Speed", Mathf.Abs(moveInput.x));   // 걷기 전이용
-            //animator.SetFloat("Sprint", isSprint);
+            animator.SetBool(AnimationStrings.grounded, isGrounded);
+            animator.SetFloat(AnimationStrings.velY, rb.linearVelocityY);    // 점프/낙하 전이용
         }
 
     }
@@ -124,7 +116,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         rb.linearVelocity = new Vector2(moveInput.x * CurrentSpeed, rb.linearVelocityY);
-        Debug.Log(CurrentSpeed);
     }
 
 #if UNITY_EDITOR
@@ -136,11 +127,13 @@ public class PlayerController : MonoBehaviour
     }
 #endif
 
+
+    #region InputFunction
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
 
-        isMoving = moveInput != Vector2.zero;
+        IsMoving = moveInput != Vector2.zero;
 
         if (moveInput.x > 0)
             moveInput.x = 1f;
@@ -150,19 +143,6 @@ public class PlayerController : MonoBehaviour
             moveInput.x = 0f;
 
         SetFacingDirection(moveInput);
-    }
-
-    private void SetFacingDirection(Vector2 moveInput)
-    {
-        if(moveInput.x > 0 && !IsFacingRight)
-        {
-            IsFacingRight = true;
-        }
-        else if(moveInput.x < 0 && IsFacingRight)
-        {
-            IsFacingRight = false;
-        }
-            
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -181,9 +161,9 @@ public class PlayerController : MonoBehaviour
     public void OnSprint(InputAction.CallbackContext context)
     {
         if(context.performed)
-            isSprint = true;
+            IsSprint = true;
         else if (context.canceled)
-            isSprint = false;
+            IsSprint = false;
     }
 
     public void OnAttack(InputAction.CallbackContext context)
@@ -191,8 +171,32 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             // 공격 로직 구현
-            Debug.Log("Attack performed");
-            animator.SetTrigger("Attack_01");
+            animator.SetTrigger(AnimationStrings.attack);
         }
     }
+
+    #endregion
+
+    #region Functions
+    // Setting Facing Direction Function
+    private void SetFacingDirection(Vector2 moveInput)
+    {
+        if (moveInput.x > 0 && !IsFacingRight)
+        {
+            IsFacingRight = true;
+        }
+        else if (moveInput.x < 0 && IsFacingRight)
+        {
+            IsFacingRight = false;
+        }
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(collision.gameObject.name);
+    }
+
+    
+    #endregion
 }
