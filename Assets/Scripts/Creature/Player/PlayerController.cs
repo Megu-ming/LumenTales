@@ -64,6 +64,15 @@ public class PlayerController : MonoBehaviour
     {
         get { return animator.GetBool(AnimationStrings.canMove); }
     }
+
+    public bool IsAlive 
+    {
+        get
+        {
+            return animator.GetBool(AnimationStrings.isAlive);
+        }
+    }
+
     #endregion
 
     [Header("Ground Check")]
@@ -131,8 +140,12 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-
-        IsMoving = moveInput != Vector2.zero;
+        if(IsAlive)
+        {
+            IsMoving = moveInput != Vector2.zero;
+            SetFacingDirection(moveInput);
+        }
+        else IsMoving = false;
 
         if (moveInput.x > 0)
             moveInput.x = 1f;
@@ -140,8 +153,6 @@ public class PlayerController : MonoBehaviour
             moveInput.x = -1f;
         else
             moveInput.x = 0f;
-
-        SetFacingDirection(moveInput);
     }
 
     public void OnJump(InputAction.CallbackContext context)

@@ -40,7 +40,7 @@ public class EnemyController : MonoBehaviour
         set
         {
             _hasTarget = value;
-            animator.SetBool(AnimationStrings.hasTarget, value);
+            animator?.SetBool(AnimationStrings.hasTarget, value);
         }
     }
 
@@ -59,7 +59,7 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         touchingDirections = GetComponent<TouchingDirections>();
     }
 

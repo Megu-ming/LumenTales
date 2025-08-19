@@ -32,12 +32,13 @@ public class Status : MonoBehaviour
         { 
             _isAlive = value;
             animator.SetBool(AnimationStrings.isAlive, value);
+            Debug.Log("IsAlive: " + value);
         }
     }
 
-    private bool isInvincible = false;
-    private float timeSinceHit;
+    [SerializeField] private bool isInvincible = false;
     [SerializeField] private float invincibilityTime = 0.25f;
+    private float timeSinceHit = 0f;
 
     Animator animator;
 

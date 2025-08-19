@@ -21,7 +21,7 @@ public class TouchingDirections : MonoBehaviour
         private set 
         { 
             _isGrounded = value;
-            animator.SetBool("IsGrounded", value);
+            animator?.SetBool("IsGrounded", value);
         }
     }
 
@@ -32,7 +32,7 @@ public class TouchingDirections : MonoBehaviour
         private set
         {
             _isOnWall = value;
-            animator.SetBool("IsOnWall", value);
+            animator?.SetBool("IsOnWall", value);
         }
     }
     [SerializeField] private bool _isOnCeiling;
@@ -42,7 +42,7 @@ public class TouchingDirections : MonoBehaviour
         private set 
         {
             _isOnCeiling = value;
-            animator.SetBool("IsOnCeiling", value);
+            animator?.SetBool("IsOnCeiling", value);
         }
     }
 
@@ -51,13 +51,13 @@ public class TouchingDirections : MonoBehaviour
     private void Awake()
     {
         touchingCol = GetComponent<CapsuleCollider2D>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void FixedUpdate()
     {
-        IsGrounded = touchingCol.Cast(Vector2.down, castFilter, groundHits, groundDistance) > 0;
-        IsOnWall = touchingCol.Cast(wallCheckDirection, castFilter, wallHits, wallDistance) > 0;
-        IsOnCeiling = touchingCol.Cast(Vector2.up, castFilter, ceilingHits, ceilingDistance) > 0;
+        IsGrounded = touchingCol?.Cast(Vector2.down, castFilter, groundHits, groundDistance) > 0;
+        IsOnWall = touchingCol?.Cast(wallCheckDirection, castFilter, wallHits, wallDistance) > 0;
+        IsOnCeiling = touchingCol?.Cast(Vector2.up, castFilter, ceilingHits, ceilingDistance) > 0;
     }
 }
