@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
             _isMoving = value;
             animator.SetBool(AnimationStrings.move, value);
         }
-    
     }
 
     [SerializeField] private bool _isSprint = false;
@@ -196,7 +195,5 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log(collision.gameObject.name);
     }
-
-    
     #endregion
 }

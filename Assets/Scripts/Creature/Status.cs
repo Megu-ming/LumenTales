@@ -32,7 +32,6 @@ public class Status : MonoBehaviour
         { 
             _isAlive = value;
             animator.SetBool(AnimationStrings.isAlive, value);
-            Debug.Log("IsAlive set " + value);
         }
     }
 
