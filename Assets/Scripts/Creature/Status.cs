@@ -1,3 +1,4 @@
+using System;
 using Assets.Scripts.Utils;
 using UnityEngine;
 
@@ -66,12 +67,20 @@ public class Status : MonoBehaviour
         }
     }
 
-    public void Hit(int damage)
+    public bool Hit(int damage)
     {
         if (IsAlive && !isInvincible)
         {
             Health -= damage; 
             isInvincible=true;
+            return true;
         }
+
+        return false;
+    }
+
+    internal void Hit(object attackDamage)
+    {
+        throw new NotImplementedException();
     }
 }

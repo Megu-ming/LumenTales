@@ -201,10 +201,5 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log(collision.gameObject.name);
-    }
     #endregion
 }

@@ -79,6 +79,7 @@ MonoBehaviour:
   _maxHealth: 0
   _health: 0
   _isAlive: 0
+  isInvincible: 0
   invincibilityTime: 0.25
 --- !u!50 &6139769252167781464
 Rigidbody2D:
@@ -363,6 +364,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7952325382867517994}
   - component: {fileID: 5936729525980213921}
+  - component: {fileID: 3267624261442157425}
   m_Layer: 8
   m_Name: SwordAttack3
   m_TagString: Untagged
@@ -431,6 +433,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5377377, y: 0.41391718}
   m_EdgeRadius: 0
+--- !u!114 &3267624261442157425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606769465347345484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4277144329417345487
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +455,7 @@ GameObject:
   m_Component:
   - component: {fileID: 197294040694006334}
   - component: {fileID: 6062718588057438582}
+  - component: {fileID: 346941916326392380}
   m_Layer: 8
   m_Name: SwordAttack1
   m_TagString: Untagged
@@ -509,6 +524,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.4386816, y: 0.35613453}
   m_EdgeRadius: 0
+--- !u!114 &346941916326392380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4277144329417345487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5795559674297493043
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,6 +659,7 @@ GameObject:
   m_Component:
   - component: {fileID: 829465157006815437}
   - component: {fileID: 3114538645673633502}
+  - component: {fileID: 8622396945579030696}
   m_Layer: 8
   m_Name: SwordAttack2
   m_TagString: Untagged
@@ -700,3 +728,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.4551909, y: 0.3767711}
   m_EdgeRadius: 0
+--- !u!114 &8622396945579030696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6616328917977678726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
