@@ -12,10 +12,11 @@ namespace Assets.Scripts.Utils
     {
         internal static string move = "IsMoving";
         internal static string sprint = "IsSprint";
-        internal static string canMove = "canMove";
+        internal static string canMove = "CanMove";
         internal static string grounded = "Grounded";
         internal static string velY = "VelY";
         internal static string attack = "Attack";
         internal static string isAlive = "IsAlive";
+        internal static string hasTarget = "HasTarget";
     }
 }

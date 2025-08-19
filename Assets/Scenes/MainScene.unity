@@ -5363,7 +5363,7 @@ GameObject:
   - component: {fileID: 424520494}
   - component: {fileID: 424520496}
   - component: {fileID: 424520495}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: NoCollision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6699,13 +6699,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4750482188371169509, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453916790132671503, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: moveSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8431617840549984468, guid: 967abeca170200340894a736771f7ab0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.7
       objectReference: {fileID: 0}
     - target: {fileID: 8431617840549984468, guid: 967abeca170200340894a736771f7ab0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.501
+      value: -1.565
       objectReference: {fileID: 0}
     - target: {fileID: 8431617840549984468, guid: 967abeca170200340894a736771f7ab0, type: 3}
       propertyPath: m_LocalPosition.z

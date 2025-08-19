@@ -1,13 +1,15 @@
 using System;
+using Assets.Scripts.Utils;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D),typeof(TouchingDirections))]
 public class EnemyController : MonoBehaviour
 {
-    public float moveSpeed = 2f;
+    public float moveSpeed = 1f;
+    public float walkStopRate = 0.6f;
+    public DetectionZone attackZone;
     private Vector2 walkDirectionVector = Vector2.right;
-    Rigidbody2D rb;
-    TouchingDirections touchingDirections;
     public enum WalkableDirection { Right, Left };
 
     private WalkableDirection _walkDirection;
@@ -31,17 +33,50 @@ public class EnemyController : MonoBehaviour
             _walkDirection = value; }
     }
 
+    public bool _hasTarget = false;
+    public bool HasTarget
+    {
+        get { return _hasTarget; }
+        set
+        {
+            _hasTarget = value;
+            animator.SetBool(AnimationStrings.hasTarget, value);
+        }
+    }
+
+    public bool CanMove
+    {
+        get
+        {
+            return animator.GetBool(AnimationStrings.canMove);
+        }
+    }
+
+    Rigidbody2D rb;
+    Animator animator;
+    TouchingDirections touchingDirections;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         touchingDirections = GetComponent<TouchingDirections>();
+    }
+
+    private void Update()
+    {
+        HasTarget = attackZone?.detectedColliders.Count > 0;
     }
 
     private void FixedUpdate()
     {
         if (touchingDirections.IsGrounded && touchingDirections.IsOnWall)
             FlipDirection();
-        rb.linearVelocity = new Vector2(moveSpeed * walkDirectionVector.x, rb.linearVelocity.y);
+
+        if (CanMove)
+            rb.linearVelocity = new Vector2(moveSpeed * walkDirectionVector.x, rb.linearVelocity.y);
+        else
+            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocityX, 0, walkStopRate), rb.linearVelocity.y);
     }
 
     private void FlipDirection()
