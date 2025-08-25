@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int maxJumpCount = 2;
     [SerializeField] private int jumpCount;
     private bool wasGrounded;
-    [SerializeField] private float groundResetBlock = 0.05f; // Á¡ÇÁ Á÷ÈÄ ¸®¼Â ±İÁö ½Ã°£
+    [SerializeField] private float groundResetBlock = 0.05f; // ì í”„ ì§í›„ ë¦¬ì…‹ ê¸ˆì§€ ì‹œê°„
     private float blockResetUntil = -1f;
 
     private Rigidbody2D rb;
@@ -113,11 +113,11 @@ public class PlayerController : MonoBehaviour
         }
         isGrounded = groundedNow;
 
-        // ¾Ö´Ï¸ŞÀÌÅÍ ÆÄ¶ó¹ÌÅÍ
+        // ì• ë‹ˆë©”ì´í„° íŒŒë¼ë¯¸í„°
         if (animator)
         {
             animator.SetBool(AnimationStrings.grounded, isGrounded);
-            animator.SetFloat(AnimationStrings.velY, rb.linearVelocityY);    // Á¡ÇÁ/³«ÇÏ ÀüÀÌ¿ë
+            animator.SetFloat(AnimationStrings.velY, rb.linearVelocityY);    // ì í”„/ë‚™í•˜ ì „ì´ìš©
         }
 
     }
@@ -163,10 +163,10 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
             jumpCount--;
-            // Á¡ÇÁ Á÷ÈÄ 'Áö¸é ¸®¼Â'À» Àá±ñ ¸·¾Æ¹ö¸®±â
+            // ì í”„ ì§í›„ 'ì§€ë©´ ë¦¬ì…‹'ì„ ì ê¹ ë§‰ì•„ë²„ë¦¬ê¸°
             blockResetUntil = Time.time + groundResetBlock;
-            isGrounded = false;        // °°Àº ÇÁ·¹ÀÓ¿¡ ´Ù½Ã ¸®¼ÂµÇ´Â °Í ¹æÁö
-            wasGrounded = false;       // ÀüÀÌ »óÅÂ ÀçÁ¤·Ä
+            isGrounded = false;        // ê°™ì€ í”„ë ˆì„ì— ë‹¤ì‹œ ë¦¬ì…‹ë˜ëŠ” ê²ƒ ë°©ì§€
+            wasGrounded = false;       // ì „ì´ ìƒíƒœ ì¬ì •ë ¬
         }
     }
 
@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            // °ø°İ ·ÎÁ÷ ±¸Çö
+            // ê³µê²© ë¡œì§ êµ¬í˜„
             animator.SetTrigger(AnimationStrings.attack);
         }
     }
