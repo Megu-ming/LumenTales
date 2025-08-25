@@ -72,7 +72,6 @@ public class PlayerController : MonoBehaviour
             return animator.GetBool(AnimationStrings.isAlive);
         }
     }
-
     #endregion
 
     [Header("Ground Check")]
@@ -89,6 +88,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private Status status;
     private Vector2 moveInput;
     private bool isGrounded;
 
@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
+        status = GetComponent<Status>();
         rb.freezeRotation = true;
     }
 
@@ -123,7 +124,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(moveInput.x * CurrentSpeed, rb.linearVelocityY);
+        if(!status.LockVelocity)
+            rb.linearVelocity = new Vector2(moveInput.x * CurrentSpeed, rb.linearVelocityY);
     }
 
 #if UNITY_EDITOR
@@ -183,6 +185,11 @@ public class PlayerController : MonoBehaviour
             // 공격 로직 구현
             animator.SetTrigger(AnimationStrings.attack);
         }
+    }
+
+    public void OnHit(int damage, Vector2 knockback)
+    {
+        rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
     }
 
     #endregion

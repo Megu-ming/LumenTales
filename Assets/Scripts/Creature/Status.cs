@@ -1,9 +1,12 @@
 using System;
 using Assets.Scripts.Utils;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Status : MonoBehaviour
 {
+    public UnityEvent<int, Vector2> damageableHit;
+
     [SerializeField] private int _maxHealth;
     public int MaxHealth
     {
@@ -37,7 +40,17 @@ public class Status : MonoBehaviour
         }
     }
 
+    public bool LockVelocity
+    {
+        get { return animator.GetBool(AnimationStrings.lockVelocity); }
+        set
+        {
+            animator.SetBool(AnimationStrings.lockVelocity, value);
+        }
+    }
+
     [SerializeField] private bool isInvincible = false;
+
     [SerializeField] private float invincibilityTime = 0.25f;
     private float timeSinceHit = 0f;
 
@@ -67,20 +80,20 @@ public class Status : MonoBehaviour
         }
     }
 
-    public bool Hit(int damage)
+    public bool Hit(int damage, Vector2 knockback)
     {
         if (IsAlive && !isInvincible)
         {
             Health -= damage; 
             isInvincible=true;
+
+            animator.SetTrigger(AnimationStrings.hitTrigger);
+            LockVelocity = true;
+            damageableHit?.Invoke(damage, knockback);
+
             return true;
         }
 
         return false;
-    }
-
-    internal void Hit(object attackDamage)
-    {
-        throw new NotImplementedException();
     }
 }

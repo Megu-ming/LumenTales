@@ -76,6 +76,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 713122f8f252afb45a64fb2771cff91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageableHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4268916457519343671}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnHit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _maxHealth: 0
   _health: 0
   _isAlive: 0
@@ -445,6 +460,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackDamage: 10
+  knockBack: {x: 0, y: 0}
 --- !u!1 &4277144329417345487
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,6 +553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackDamage: 10
+  knockBack: {x: 0, y: 0}
 --- !u!1 &5795559674297493043
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,3 +759,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackDamage: 10
+  knockBack: {x: 0, y: 0}

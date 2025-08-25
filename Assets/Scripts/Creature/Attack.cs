@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    private int attackDamage = 10;
+    public int attackDamage = 10;
+    public Vector2 knockBack = Vector2.zero;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,7 +23,7 @@ public class Attack : MonoBehaviour
 
         if(status != null)
         {
-            bool gotHit = status.Hit(attackDamage);
+            bool gotHit = status.Hit(attackDamage, knockBack);
 
             if (gotHit)
                 Debug.Log("Hit " + collision.name + " for " + attackDamage);

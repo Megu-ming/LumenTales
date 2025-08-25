@@ -6400,13 +6400,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 346941916326392380, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: knockBack.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 346941916326392380, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: knockBack.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 910687419780863520, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1830119513191245129, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: _health
-      value: 100
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 1830119513191245129, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: _isAlive
@@ -6414,11 +6422,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1830119513191245129, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: _maxHealth
-      value: 100
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3114538645673633502, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3267624261442157425, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: knockBack.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3267624261442157425, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: knockBack.y
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6468,11 +6484,30 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8622396945579030696, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: knockBack.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8622396945579030696, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: knockBack.y
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3c87a704a597964c982986d465d715c, type: 3}
+--- !u!114 &1635076128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5453916790132671503, guid: 967abeca170200340894a736771f7ab0, type: 3}
+  m_PrefabInstance: {fileID: 8251256155209699107}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688c6c9944d5d4b42ab1f1239017e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1815620215
 GameObject:
   m_ObjectHideFlags: 0
@@ -6695,6 +6730,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 961586681756457868, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: invincibilityTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 961586681756457868, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: damageableHit.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 961586681756457868, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: damageableHit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1635076128}
+    - target: {fileID: 961586681756457868, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: damageableHit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 961586681756457868, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: damageableHit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 961586681756457868, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: damageableHit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EnemyController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 961586681756457868, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: damageableHit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1053739807569563271, guid: 967abeca170200340894a736771f7ab0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.323
@@ -6702,6 +6765,14 @@ PrefabInstance:
     - target: {fileID: 1053739807569563271, guid: 967abeca170200340894a736771f7ab0, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.136
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303271724863923917, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5243463
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303271724863923917, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.40386203
       objectReference: {fileID: 0}
     - target: {fileID: 4750482188371169509, guid: 967abeca170200340894a736771f7ab0, type: 3}
       propertyPath: m_Name
@@ -6757,6 +6828,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8431617840549984468, guid: 967abeca170200340894a736771f7ab0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533255323771661083, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: knockBack.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533255323771661083, guid: 967abeca170200340894a736771f7ab0, type: 3}
+      propertyPath: knockBack.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

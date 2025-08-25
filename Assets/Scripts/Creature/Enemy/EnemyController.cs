@@ -54,12 +54,14 @@ public class EnemyController : MonoBehaviour
 
     Rigidbody2D rb;
     Animator animator;
+    Status status;
     TouchingDirections touchingDirections;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
+        status = GetComponent<Status>();
         touchingDirections = GetComponent<TouchingDirections>();
     }
 
@@ -73,10 +75,18 @@ public class EnemyController : MonoBehaviour
         if (touchingDirections.IsGrounded && touchingDirections.IsOnWall)
             FlipDirection();
 
-        if (CanMove)
-            rb.linearVelocity = new Vector2(moveSpeed * walkDirectionVector.x, rb.linearVelocity.y);
-        else
-            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocityX, 0, walkStopRate), rb.linearVelocity.y);
+        if(!status.LockVelocity)
+        {
+            if (CanMove)
+                rb.linearVelocity = new Vector2(moveSpeed * walkDirectionVector.x, rb.linearVelocity.y);
+            else
+                rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocityX, 0, walkStopRate), rb.linearVelocity.y);
+        }
+    }
+
+    public void OnHit(int damage, Vector2 knockback)
+    {
+        rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
     }
 
     private void FlipDirection()
