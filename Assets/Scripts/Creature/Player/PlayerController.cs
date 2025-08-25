@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : CreatureController
 {
     #region MovementVariables
     [Header("Movement")]
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float moveSpeed = 2f;            
     public float CurrentSpeed
     {
         get
@@ -86,9 +86,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundResetBlock = 0.05f; // 점프 직후 리셋 금지 시간
     private float blockResetUntil = -1f;
 
-    private Rigidbody2D rb;
-    private Animator animator;
-    private Status status;
     private Vector2 moveInput;
     private bool isGrounded;
 

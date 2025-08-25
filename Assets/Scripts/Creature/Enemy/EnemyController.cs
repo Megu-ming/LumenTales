@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D),typeof(TouchingDirections))]
-public class EnemyController : MonoBehaviour
+public class EnemyController : CreatureController
 {
     public float moveSpeed = 1f;
     public float walkStopRate = 0.6f;
@@ -59,9 +59,6 @@ public class EnemyController : MonoBehaviour
         private set { animator.SetFloat(AnimationStrings.attackCooldown, Mathf.Max(value, 0)); }
     }
 
-    Rigidbody2D rb;
-    Animator animator;
-    Status status;
     TouchingDirections touchingDirections;
 
     private void Awake()
