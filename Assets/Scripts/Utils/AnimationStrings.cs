@@ -20,5 +20,6 @@ namespace Assets.Scripts.Utils
         internal static string hasTarget = "HasTarget";
         internal static string hitTrigger = "Hit";
         internal static string lockVelocity = "LockVelocity";
+        internal static string attackCooldown = "AttackCooldown";
     }
 }

@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     public float moveSpeed = 1f;
     public float walkStopRate = 0.6f;
     public DetectionZone attackZone;
+    public DetectionZone cliffDetectionZone;
     private Vector2 walkDirectionVector = Vector2.right;
     public enum WalkableDirection { Right, Left };
 
@@ -52,6 +53,12 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public float AttackCooldown
+    {
+        get { return animator.GetFloat(AnimationStrings.attackCooldown); }
+        private set { animator.SetFloat(AnimationStrings.attackCooldown, Mathf.Max(value, 0)); }
+    }
+
     Rigidbody2D rb;
     Animator animator;
     Status status;
@@ -68,6 +75,9 @@ public class EnemyController : MonoBehaviour
     private void Update()
     {
         HasTarget = attackZone?.detectedColliders.Count > 0;
+
+        if(AttackCooldown > 0)
+            AttackCooldown -= Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -87,6 +97,12 @@ public class EnemyController : MonoBehaviour
     public void OnHit(int damage, Vector2 knockback)
     {
         rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
+    }
+
+    public void OnCliffDetected()
+    {
+        if(touchingDirections.IsGrounded)
+            FlipDirection();
     }
 
     private void FlipDirection()
