@@ -116,7 +116,6 @@ public class PlayerController : CreatureController
             animator.SetBool(AnimationStrings.grounded, isGrounded);
             animator.SetFloat(AnimationStrings.velY, rb.linearVelocityY);    // 점프/낙하 전이용
         }
-
     }
 
     private void FixedUpdate()

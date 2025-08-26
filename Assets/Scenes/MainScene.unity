@@ -7057,6 +7057,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 372443217234336205, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
+      propertyPath: HPBar
+      value: 
+      objectReference: {fileID: 4195173742399689021, guid: eec7e79d47bf75f458090caa3baa5327, type: 3}
+    - target: {fileID: 372443217234336205, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
       propertyPath: gameCanvas
       value: 
       objectReference: {fileID: 247433995}

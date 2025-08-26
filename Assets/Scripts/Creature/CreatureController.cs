@@ -6,6 +6,7 @@ public class CreatureController : MonoBehaviour
     protected Animator animator;
     protected Status status;
 
+    public GameObject HPBarUI;
     private void Awake()
     {
         

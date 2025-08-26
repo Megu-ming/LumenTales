@@ -5,6 +5,7 @@ public class UIManager : MonoBehaviour
 {
     public GameObject damageTextPrefab;
     public GameObject healthTextPrefab;
+    public GameObject HPBar;
 
     public Canvas gameCanvas;
 
@@ -27,6 +28,15 @@ public class UIManager : MonoBehaviour
 
     public void CharacterTookDamage(GameObject character, int damageReceived)
     {
+        CreatureController cc = character.GetComponent<CreatureController>();
+        if(!cc.HPBarUI)
+        {
+            Vector3 barSpawnPos = Camera.main.WorldToScreenPoint(character.transform.position);
+            barSpawnPos.y += 50;
+            cc.HPBarUI = Instantiate(HPBar, barSpawnPos, Quaternion.identity, gameCanvas.transform);
+        }
+
+
         Vector3 spawnPos = Camera.main.WorldToScreenPoint(character.transform.position);
 
         TMP_Text tmpText = Instantiate(damageTextPrefab, spawnPos, Quaternion.identity, gameCanvas.transform).GetComponent<TMP_Text>();
