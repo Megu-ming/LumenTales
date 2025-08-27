@@ -6,14 +6,4 @@ public class CreatureController : MonoBehaviour
     protected Animator animator;
     protected Status status;
 
-    private void Awake()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

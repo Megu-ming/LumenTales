@@ -7,13 +7,14 @@ public class Status : MonoBehaviour
 {
     public UnityEvent<int, Vector2> damageableHit;
 
-    [Header("HPBar")]
+    [Header("HP바")]
     public RectTransform hpBar;
     public GameObject barPrefab;
     protected GameObject hpBarInstance;
     public Canvas canvas;
     public float barHeight;
 
+    [Header("상태")]
     [SerializeField] private int _maxHealth;
     public int MaxHealth
     {
@@ -53,14 +54,11 @@ public class Status : MonoBehaviour
     public bool LockVelocity
     {
         get { return animator.GetBool(AnimationStrings.lockVelocity); }
-        set
-        {
-            animator.SetBool(AnimationStrings.lockVelocity, value);
-        }
+        set { animator.SetBool(AnimationStrings.lockVelocity, value); }
     }
 
+    [Header("무적시간")]
     [SerializeField] private bool isInvincible = false;
-
     [SerializeField] private float invincibilityTime = 0.25f;
     private float timeSinceHit = 0f;
 
@@ -71,8 +69,12 @@ public class Status : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         canvas = FindAnyObjectByType<Canvas>();
-        hpBarInstance = Instantiate(barPrefab, canvas.transform);
-        hpBar = hpBarInstance.GetComponent<RectTransform>();
+
+        if (barPrefab != null)
+        {
+            hpBarInstance = Instantiate(barPrefab, canvas.transform);
+            hpBar = hpBarInstance.GetComponent<RectTransform>();
+        }
     }
 
     void Start()
@@ -93,15 +95,21 @@ public class Status : MonoBehaviour
             timeSinceHit +=Time.deltaTime;
         }
 
-        HPBar bar = hpBarInstance.GetComponent<HPBar>();
-        bar.curHp = Health;
-        bar.maxHp = MaxHealth;
+        if (barPrefab != null)
+        {
+            HPBar bar = hpBarInstance.GetComponent<HPBar>();
+            bar.curHp = Health;
+            bar.maxHp = MaxHealth;
+        }
     }
 
     private void FixedUpdate()
     {
-        Vector3 barPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + barHeight, 0));
-        hpBar.position = barPos;
+        if (barPrefab != null)
+        {
+            Vector3 barPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + barHeight, 0));
+            hpBar.position = barPos;
+        }
     }
 
     public bool Hit(int damage, Vector2 knockback)
