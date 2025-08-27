@@ -273,7 +273,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageableHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5453916790132671503}
+        m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
+        m_MethodName: OnHit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hpBar: {fileID: 5398922983480022076, guid: 51617cc5ae3e477409ccf6c68d81f7bd, type: 3}
   barPrefab: {fileID: 3817013291082002495, guid: 51617cc5ae3e477409ccf6c68d81f7bd, type: 3}
   canvas: {fileID: 0}
@@ -282,7 +294,7 @@ MonoBehaviour:
   _health: 100
   _isAlive: 1
   isInvincible: 0
-  invincibilityTime: 0.25
+  invincibilityTime: 0
 --- !u!1 &5786434029583975151
 GameObject:
   m_ObjectHideFlags: 0
