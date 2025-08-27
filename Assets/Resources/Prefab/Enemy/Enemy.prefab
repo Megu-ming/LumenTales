@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688c6c9944d5d4b42ab1f1239017e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 1
   walkStopRate: 0.6
   attackZone: {fileID: 7470044588417653628}
   cliffDetectionZone: {fileID: 3728677011259859720}
@@ -274,6 +274,10 @@ MonoBehaviour:
   damageableHit:
     m_PersistentCalls:
       m_Calls: []
+  hpBar: {fileID: 5398922983480022076, guid: 51617cc5ae3e477409ccf6c68d81f7bd, type: 3}
+  barPrefab: {fileID: 3817013291082002495, guid: 51617cc5ae3e477409ccf6c68d81f7bd, type: 3}
+  canvas: {fileID: 0}
+  barHeight: 0.2
   _maxHealth: 100
   _health: 100
   _isAlive: 1

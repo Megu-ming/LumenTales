@@ -5,18 +5,6 @@ public class Attack : MonoBehaviour
     public int attackDamage = 10;
     public Vector2 knockBack = Vector2.zero;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Status status = collision.GetComponentInParent<Status>();

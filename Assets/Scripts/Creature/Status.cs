@@ -7,6 +7,13 @@ public class Status : MonoBehaviour
 {
     public UnityEvent<int, Vector2> damageableHit;
 
+    [Header("HPBar")]
+    public RectTransform hpBar;
+    public GameObject barPrefab;
+    protected GameObject hpBarInstance;
+    public Canvas canvas;
+    public float barHeight;
+
     [SerializeField] private int _maxHealth;
     public int MaxHealth
     {
@@ -24,7 +31,10 @@ public class Status : MonoBehaviour
         { 
             _health = value;
             if (_health <= 0)
+            {
                 IsAlive = false;
+                hpBarInstance.SetActive(false);
+            }
         }
     }
 
@@ -59,6 +69,10 @@ public class Status : MonoBehaviour
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
+
+        canvas = FindAnyObjectByType<Canvas>();
+        hpBarInstance = Instantiate(barPrefab, canvas.transform);
+        hpBar = hpBarInstance.GetComponent<RectTransform>();
     }
 
     void Start()
@@ -78,6 +92,16 @@ public class Status : MonoBehaviour
             }
             timeSinceHit +=Time.deltaTime;
         }
+
+        HPBar bar = hpBarInstance.GetComponent<HPBar>();
+        bar.curHp = Health;
+        bar.maxHp = MaxHealth;
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 barPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + barHeight, 0));
+        hpBar.position = barPos;
     }
 
     public bool Hit(int damage, Vector2 knockback)
