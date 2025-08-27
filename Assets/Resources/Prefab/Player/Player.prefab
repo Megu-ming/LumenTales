@@ -91,6 +91,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  hpBar: {fileID: 5398922983480022076, guid: 51617cc5ae3e477409ccf6c68d81f7bd, type: 3}
+  barPrefab: {fileID: 3817013291082002495, guid: 51617cc5ae3e477409ccf6c68d81f7bd, type: 3}
+  canvas: {fileID: 0}
+  barHeight: 0.2
   _maxHealth: 0
   _health: 0
   _isAlive: 0

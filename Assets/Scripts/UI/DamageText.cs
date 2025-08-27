@@ -4,7 +4,7 @@ using UnityEngine;
 public class DamageText : MonoBehaviour
 {
     // Pixels per second
-    public Vector3 moveSpeed = new Vector3(0, 75, 0);
+    public Vector3 moveSpeed = new Vector3(0, 100, 0);
     public float timeToLive = 3f;
 
     RectTransform textTransform;

@@ -47,10 +47,7 @@ public class EnemyController : CreatureController
 
     public bool CanMove
     {
-        get
-        {
-            return animator.GetBool(AnimationStrings.canMove);
-        }
+        get { return animator.GetBool(AnimationStrings.canMove); }
     }
 
     public float AttackCooldown
