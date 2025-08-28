@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Assets.Scripts.Utils;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -58,6 +59,11 @@ public class EnemyController : CreatureController
 
     TouchingDirections touchingDirections;
 
+
+    [Header("ItemData")]
+    ItemData itemData;
+    [SerializeField] GameObject itemPrefab;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -93,6 +99,13 @@ public class EnemyController : CreatureController
         rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
     }
 
+    public void OnDead()
+    {
+        gameObject.SetActive(false);
+        Instantiate<GameObject>(itemPrefab, transform.position, Quaternion.identity);
+    }
+
+    #region AIFunction
     public void OnCliffDetected()
     {
         if(touchingDirections.IsGrounded)
@@ -110,4 +123,5 @@ public class EnemyController : CreatureController
             Debug.LogError("Current Walkable direction is not set to legal valus of right or left");
         }
     }
+    #endregion
 }

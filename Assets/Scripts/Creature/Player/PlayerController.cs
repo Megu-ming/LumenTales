@@ -88,9 +88,10 @@ public class PlayerController : CreatureController
 
     private Vector2 moveInput;
     private bool isGrounded;
-    public bool IsGrounded { get { return isGrounded; }
+    public bool IsGrounded 
+    { 
+        get { return isGrounded; }
         set { animator.SetBool(AnimationStrings.grounded, value); }
-
     }
 
     private void Awake()
@@ -126,16 +127,6 @@ public class PlayerController : CreatureController
         if(!status.LockVelocity)
             rb.linearVelocity = new Vector2(moveInput.x * CurrentSpeed, rb.linearVelocityY);
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Vector2 checkPos = (Vector2)transform.position + groundCheckOffset;
-        Gizmos.DrawWireSphere(checkPos, groundRadius);
-    }
-#endif
-
 
     #region InputFunction
     public void OnMove(InputAction.CallbackContext context)
@@ -208,4 +199,24 @@ public class PlayerController : CreatureController
 
     }
     #endregion
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Item item = collision.gameObject.GetComponent<Item>();
+        if(item != null)
+        {
+
+        }
+    }
+
+
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Vector2 checkPos = (Vector2)transform.position + groundCheckOffset;
+        Gizmos.DrawWireSphere(checkPos, groundRadius);
+    }
+#endif
 }

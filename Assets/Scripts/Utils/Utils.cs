@@ -2,7 +2,8 @@ public enum ItemType
 {
     Weapon,
     Armor,
-    Consumable
+    Consumable,
+    Gold
 }
 
 public enum QuestGoalType

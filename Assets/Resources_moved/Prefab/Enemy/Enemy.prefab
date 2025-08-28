@@ -190,6 +190,7 @@ MonoBehaviour:
   attackZone: {fileID: 7470044588417653628}
   cliffDetectionZone: {fileID: 3728677011259859720}
   _hasTarget: 0
+  itemPrefab: {fileID: 2173544672815880689, guid: 1f0435bf836b7f3409514ef3e7ae8aef, type: 3}
 --- !u!70 &1937265425853730964
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

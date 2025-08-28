@@ -16,7 +16,7 @@ TagManager:
   - PlayerHitBox
   - EnemyHitBox
   - GroundDetection
-  - 
+  - Item
   - 
   - 
   - 
@@ -64,6 +64,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1043645373
+    locked: 0
+  - name: Item
+    uniqueID: 3725161781
     locked: 0
   m_RenderingLayers:
   - Default
