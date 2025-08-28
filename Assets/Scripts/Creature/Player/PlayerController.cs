@@ -209,8 +209,6 @@ public class PlayerController : CreatureController
         }
     }
 
-
-
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
