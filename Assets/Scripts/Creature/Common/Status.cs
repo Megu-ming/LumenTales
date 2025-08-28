@@ -47,7 +47,8 @@ public class Status : MonoBehaviour
         { 
             _isAlive = value;
             animator.SetBool(AnimationStrings.isAlive, value);
-            Debug.Log("IsAlive: " + value);
+            if(value)
+                gameObject.SetActive(true);
         }
     }
 
@@ -128,5 +129,12 @@ public class Status : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void Respawn()
+    {
+        Health = MaxHealth;
+        IsAlive = true;
+        hpBarInstance.SetActive(true);
     }
 }

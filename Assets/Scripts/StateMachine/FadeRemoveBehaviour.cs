@@ -32,7 +32,7 @@ public class FadeRemoveBehaviour : StateMachineBehaviour
             {
                 // object Pooling으로 삭제 방지
                 // Destroy(objToRemove);
-                objToRemove.SetActive(false);
+                objToRemove.transform.root.gameObject.SetActive(false);
             }
         }
     }

@@ -75,7 +75,7 @@ public class PlayerController : CreatureController
     #endregion
 
     [Header("Ground Check")]
-    [SerializeField] private Vector2 groundCheckOffset = new Vector2(0f, -0.5f);
+    [SerializeField] private Vector2 groundCheckOffset = new Vector2(0f, -0.25f);
     [SerializeField] private float groundRadius = 0.05f;
     [SerializeField] private LayerMask groundLayers;
 
@@ -88,6 +88,10 @@ public class PlayerController : CreatureController
 
     private Vector2 moveInput;
     private bool isGrounded;
+    public bool IsGrounded { get { return isGrounded; }
+        set { animator.SetBool(AnimationStrings.grounded, value); }
+
+    }
 
     private void Awake()
     {
@@ -108,12 +112,11 @@ public class PlayerController : CreatureController
         {
             jumpCount = maxJumpCount;
         }
-        isGrounded = groundedNow;
+        IsGrounded = groundedNow;
 
         // 애니메이터 파라미터
         if (animator)
         {
-            animator.SetBool(AnimationStrings.grounded, isGrounded);
             animator.SetFloat(AnimationStrings.velY, rb.linearVelocityY);    // 점프/낙하 전이용
         }
     }
@@ -161,7 +164,7 @@ public class PlayerController : CreatureController
             jumpCount--;
             // 점프 직후 '지면 리셋'을 잠깐 막아버리기
             blockResetUntil = Time.time + groundResetBlock;
-            isGrounded = false;        // 같은 프레임에 다시 리셋되는 것 방지
+            IsGrounded = false;        // 같은 프레임에 다시 리셋되는 것 방지
             wasGrounded = false;       // 전이 상태 재정렬
         }
     }
