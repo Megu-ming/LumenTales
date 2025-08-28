@@ -7,6 +7,4 @@ public class EnemyData : ScriptableObject
     public int damage;
     public float cooldown;
     public int maxHp;
-
-    public Color spriteColor;
 }

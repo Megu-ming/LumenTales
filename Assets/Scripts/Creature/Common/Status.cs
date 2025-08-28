@@ -135,6 +135,7 @@ public class Status : MonoBehaviour
     {
         Health = MaxHealth;
         IsAlive = true;
+        transform.root.gameObject.SetActive(true);
         hpBarInstance.SetActive(true);
     }
 }

@@ -9,7 +9,8 @@ public class EnemySpawner : MonoBehaviour
     public float respawnTime = 7f;
 
     [Header("State")]
-    public GameObject enemyInstance;
+    [SerializeField]
+    private GameObject enemyInstance;
 
     private Coroutine spawnLoop;
 
@@ -62,7 +63,6 @@ public class EnemySpawner : MonoBehaviour
             enemyInstance.transform.position = transform.position;
             Status status = enemyInstance.GetComponent<Status>();
             status.Respawn();
-            enemyInstance.SetActive(true);
 
             return;
         }
