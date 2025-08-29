@@ -5,7 +5,8 @@ public enum ItemType
     Weapon,
     Armor,
     Consumable,
-    Gold
+    Gold,
+    Other
 }
 
 public enum QuestGoalType
@@ -13,4 +14,12 @@ public enum QuestGoalType
     Kill,
     Gather,
     Talk
+}
+
+public enum EnemyType
+{
+    None,
+    Object,
+    Normal,
+    Boss
 }

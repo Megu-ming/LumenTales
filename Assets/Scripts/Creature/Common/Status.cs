@@ -15,6 +15,7 @@ public class Status : MonoBehaviour
     public float barHeight;
 
     [Header("상태")]
+    public EnemyType Type { get; set; } = EnemyType.None;
     [SerializeField] private int _damage;
     public int Damage
     {
@@ -41,8 +42,7 @@ public class Status : MonoBehaviour
             if (_health <= 0)
             {
                 IsAlive = false;
-                hpBarInstance.SetActive(false);
-
+                hpBarInstance?.SetActive(false);
             }
         }
     }
@@ -76,10 +76,10 @@ public class Status : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
 
-        canvas = FindAnyObjectByType<Canvas>();
-
         if (barPrefab != null)
         {
+            canvas = FindAnyObjectByType<Canvas>();
+
             hpBarInstance = Instantiate(barPrefab, canvas.transform);
             hpBar = hpBarInstance.GetComponent<RectTransform>();
         }

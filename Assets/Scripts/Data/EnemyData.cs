@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public string enemyName;
+    public EnemyType enemyType;
 
     [Header("Status")]
     public int damage;

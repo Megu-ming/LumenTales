@@ -91,7 +91,7 @@ public class PlayerController : CreatureController
     public bool IsGrounded 
     { 
         get { return isGrounded; }
-        set { animator.SetBool(AnimationStrings.grounded, value); }
+        set { animator.SetBool(AnimationStrings.isGrounded, value); }
     }
 
     private void Awake()

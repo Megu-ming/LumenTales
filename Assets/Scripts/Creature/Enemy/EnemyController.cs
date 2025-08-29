@@ -65,20 +65,7 @@ public class EnemyController : CreatureController
         status = GetComponent<Status>();
         touchingDirections = GetComponent<TouchingDirections>();
 
-        if(enemyData != null)
-        {
-            gameObject.name = enemyData.enemyName;
-            moveSpeed = enemyData.moveSpeed;
-            walkStopRate = enemyData.walkStopRate;
-            status.MaxHealth = enemyData.maxHp;
-            status.Health = enemyData.maxHp;
-            status.Damage = enemyData.damage;
-            status.knockBack = enemyData.knockBack;
-        }
-        else
-        {
-            Debug.LogError("Enemy Data is not assigned in " + gameObject.name);
-        }
+        Init();
     }
 
     private void Update()
@@ -103,6 +90,26 @@ public class EnemyController : CreatureController
         }
     }
 
+    private void Init()
+    {
+        if (enemyData != null)
+        {
+            gameObject.name = enemyData.enemyName;
+            moveSpeed = enemyData.moveSpeed;
+            walkStopRate = enemyData.walkStopRate;
+            status.Type = enemyData.enemyType;
+            status.MaxHealth = enemyData.maxHp;
+            status.Health = enemyData.maxHp;
+            status.Damage = enemyData.damage;
+            status.knockBack = enemyData.knockBack;
+
+        }
+        else
+        {
+            Debug.LogError("Enemy Data is not assigned in " + gameObject.name);
+        }
+    }
+
     public void OnHit(int damage, Vector2 knockback)
     {
         rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
@@ -111,7 +118,7 @@ public class EnemyController : CreatureController
     public void OnDead()
     {
         gameObject.SetActive(false);
-        enemyData.itemDT.ItemDrop(transform.position);
+        enemyData.itemDT.ItemDropAll(transform.position);
     }
 
     #region AIFunction

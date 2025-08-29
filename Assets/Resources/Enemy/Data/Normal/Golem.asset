@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Golem
   m_EditorClassIdentifier: 
   enemyName: Golem
+  enemyType: 2
   damage: 10
   knockBack: {x: 0, y: 0}
   cooldown: 2
