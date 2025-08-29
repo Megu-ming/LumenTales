@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class ItemDT : ScriptableObject
 
     public List<Items> items = new List<Items>();
 
-    protected ItemData PickItem()
+    public ItemData PickItem()
     {
         int sum = 0;
         foreach (var item in items)
@@ -23,7 +24,7 @@ public class ItemDT : ScriptableObject
 
         var rnd = Random.Range(0, sum);
 
-        for(int i=0;i<items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             var item = items[i];
             if (item.weight > rnd) return items[i].item;
@@ -33,7 +34,7 @@ public class ItemDT : ScriptableObject
         return null;
     }
 
-    protected ItemData[] PickItem(int val)
+    public List<ItemData> PickItem(int val)
     {
         int sum = 0;
         foreach (var item in items)
@@ -41,17 +42,16 @@ public class ItemDT : ScriptableObject
             sum += item.weight;
         }
 
-        ItemData[] newItems = new ItemData[items.Count];
+        var newItems = new List<ItemData>();
 
         for (int i = 0; i < items.Count; i++)
         {
             var rnd = Random.Range(0, sum);
             var item = items[i];
-            if (item.weight > rnd) 
-                newItems[i] = item.item;
-            else 
-            { 
-                newItems[i] = null;
+            if (item.weight > rnd)
+                newItems.Add(item.item);
+            else
+            {
                 sum -= item.weight;
             }
         }
@@ -59,28 +59,29 @@ public class ItemDT : ScriptableObject
         return newItems;
     }
 
+    //public ItemData ItemDrop(Vector3 position)
+    //{
+    //    var item = PickItem();
+    //    if (item == null)
+    //    {
+    //        Debug.Log("Drop nothing");
+    //        return null;
+    //    }
 
+    //    //Instantiate(item.prefab, position, Quaternion.identity).GetComponent<Item>().Init(item);
+    //    return item;
+    //}
 
-    public void ItemDrop(Vector3 position)
-    {
-        var item = PickItem();
-        if (item == null)
-        {
-            Debug.Log("Drop nothing");
-            return;
-        }
-        
-        Instantiate(item.prefab, position, Quaternion.identity).GetComponent<Item>().Init(item);
-    }
+    //public ItemData[] ItemDropAll(Vector3 position)
+    //{
+    //    var items = PickItem(1);
+    //    foreach (var item in items)
+    //    {
+    //        if (item == null) continue;
 
-    public void ItemDropAll(Vector3 position)
-    {
-        var items = PickItem(1);
-        foreach (var item in items)
-        {
-            if(item == null) continue;
+    //        Instantiate(item.prefab, position, Quaternion.identity).GetComponent<Item>().Init(item);
+    //    }
 
-            Instantiate(item.prefab, position, Quaternion.identity).GetComponent<Item>().Init(item);
-        }
-    }
+    //    return items;
+    //}
 }

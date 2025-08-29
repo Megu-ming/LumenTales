@@ -15,8 +15,8 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 509b1f49b6117b6489d286c1b302b766
   m_SerializeEntries:
-  - m_GUID: d3c87a704a597964c982986d465d715c
-    m_Address: Player.prefab
+  - m_GUID: 967abeca170200340894a736771f7ab0
+    m_Address: Enemy.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
