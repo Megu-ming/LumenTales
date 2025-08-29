@@ -200,15 +200,6 @@ public class PlayerController : CreatureController
     }
     #endregion
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Item item = collision.gameObject.GetComponent<Item>();
-        if(item != null)
-        {
-
-        }
-    }
-
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {

@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour
         {
             // 아이템 획득 로직 구현
             Debug.Log("Item Collected: " + item.name);
-            Destroy(item.gameObject, 1f);
+            //Destroy(item.gameObject, 1f);
         }
     }
 }

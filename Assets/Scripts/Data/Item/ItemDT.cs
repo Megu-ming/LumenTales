@@ -41,7 +41,7 @@ public class ItemDT : ScriptableObject
             Debug.Log("Drop nothing");
             return;
         }
-
-        Debug.Log("Drop " + Instantiate(item.prefab, position, Quaternion.identity).name);
+        
+        Instantiate(item.prefab, position, Quaternion.identity).GetComponent<Item>().Init(item);
     }
 }
