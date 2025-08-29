@@ -15,6 +15,13 @@ public class Status : MonoBehaviour
     public float barHeight;
 
     [Header("상태")]
+    [SerializeField] private int _damage;
+    public int Damage
+    {
+        get { return _damage; }
+        set { _damage = value; }
+    }
+    public Vector2 knockBack = Vector2.zero;
     [SerializeField] private int _maxHealth;
     public int MaxHealth
     {
@@ -35,10 +42,10 @@ public class Status : MonoBehaviour
             {
                 IsAlive = false;
                 hpBarInstance.SetActive(false);
+
             }
         }
     }
-
     [SerializeField] private bool _isAlive;
     public bool IsAlive
     {

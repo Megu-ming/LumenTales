@@ -7,13 +7,15 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D),typeof(TouchingDirections))]
 public class EnemyController : CreatureController
 {
-    public float moveSpeed = 1f;
-    public float walkStopRate = 0.6f;
-    public DetectionZone attackZone;
-    public DetectionZone cliffDetectionZone;
-    private Vector2 walkDirectionVector = Vector2.right;
-    public enum WalkableDirection { Right, Left };
+    [SerializeField]
+    private EnemyData enemyData;
 
+    float moveSpeed;
+    float walkStopRate;
+    [SerializeField] private DetectionZone attackZone;
+    [SerializeField] private DetectionZone cliffDetectionZone;
+    private Vector2 walkDirectionVector = Vector2.right;
+    
     private WalkableDirection _walkDirection;
     public WalkableDirection WalkDirection
     {
@@ -46,10 +48,7 @@ public class EnemyController : CreatureController
         }
     }
 
-    public bool CanMove
-    {
-        get { return animator.GetBool(AnimationStrings.canMove); }
-    }
+    public bool CanMove { get { return animator.GetBool(AnimationStrings.canMove); } }
 
     public float AttackCooldown
     {
@@ -59,17 +58,27 @@ public class EnemyController : CreatureController
 
     TouchingDirections touchingDirections;
 
-
-    [Header("ItemData")]
-    ItemData itemData;
-    [SerializeField] GameObject itemPrefab;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         status = GetComponent<Status>();
         touchingDirections = GetComponent<TouchingDirections>();
+
+        if(enemyData != null)
+        {
+            gameObject.name = enemyData.enemyName;
+            moveSpeed = enemyData.moveSpeed;
+            walkStopRate = enemyData.walkStopRate;
+            status.MaxHealth = enemyData.maxHp;
+            status.Health = enemyData.maxHp;
+            status.Damage = enemyData.damage;
+            status.knockBack = enemyData.knockBack;
+        }
+        else
+        {
+            Debug.LogError("Enemy Data is not assigned in " + gameObject.name);
+        }
     }
 
     private void Update()
@@ -102,7 +111,7 @@ public class EnemyController : CreatureController
     public void OnDead()
     {
         gameObject.SetActive(false);
-        Instantiate<GameObject>(itemPrefab, transform.position, Quaternion.identity);
+        enemyData.itemDT.ItemDrop(transform.position);
     }
 
     #region AIFunction

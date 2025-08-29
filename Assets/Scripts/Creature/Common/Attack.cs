@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public int attackDamage = 10;
-    public Vector2 knockBack = Vector2.zero;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Status status = collision.GetComponentInParent<Status>();
+        Status otherStatus = collision.GetComponentInParent<Status>();
+        Status myStatus = GetComponentInParent<Status>();
+        int damage = myStatus.Damage;
+        Vector2 knockBack = myStatus.knockBack;
 
-        if(status != null)
+        if (otherStatus != null)
         {
-            bool gotHit = status.Hit(attackDamage, knockBack);
+            bool gotHit = otherStatus.Hit(damage, knockBack);
 
             if (gotHit)
-                Debug.Log("Hit " + collision.name + " for " + attackDamage);
+                Debug.Log("Hit " + collision.name + " for " + damage);
         }
     }
 }

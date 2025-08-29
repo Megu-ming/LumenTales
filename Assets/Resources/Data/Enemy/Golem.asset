@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33990cbc6cad383439594300bf043cd6, type: 3}
-  m_Name: Gold
+  m_Script: {fileID: 11500000, guid: 1df252db530a87e4fb2b4526a78ff8cd, type: 3}
+  m_Name: Golem
   m_EditorClassIdentifier: 
-  itemName: Gold
-  icon: {fileID: 0}
-  type: 3
-  power: 5
-  description: 
+  EnemyName: Golem
+  damage: 10
+  cooldown: 2
+  maxHp: 15
+  isInvincible: 1
+  invincibilityTime: 0.25
+  moveSpeed: 1
+  itemDT: {fileID: 11400000, guid: acb7b8ea2259ad24ba1d441388ce51ca, type: 2}
