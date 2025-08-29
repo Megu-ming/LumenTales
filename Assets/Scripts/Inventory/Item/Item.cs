@@ -4,6 +4,7 @@ public class Item : MonoBehaviour
 {
     [Header("ItemValues")]
     public ItemData itemData;
+    private ItemType itemType;
 
     [SerializeField] private int price;
     [SerializeField] private string description;
@@ -32,10 +33,22 @@ public class Item : MonoBehaviour
             Debug.LogError($"ItemData is not assigned in {gameObject.name}");
         else
         {
-            gameObject.name = itemData.itemName;
-            sprite.sprite = itemData.icon;
-            price = itemData.price;
-            description = itemData.description;
+            itemType = itemData.itemType;
+            switch(itemType)
+            {
+                case ItemType.Gold:
+                    gameObject.name = itemData.itemName;
+                    sprite.sprite = itemData.icon;
+                    price = Random.Range(itemData.minGoldPrice, itemData.maxGoldPrice + 1);
+                    description = itemData.description;
+                    break;
+                default:
+                    gameObject.name = itemData.itemName;
+                    sprite.sprite = itemData.icon;
+                    price = itemData.price;
+                    description = itemData.description;
+                    break;
+            }       
         }
     }
 }

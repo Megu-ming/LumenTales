@@ -33,6 +33,34 @@ public class ItemDT : ScriptableObject
         return null;
     }
 
+    protected ItemData[] PickItem(int val)
+    {
+        int sum = 0;
+        foreach (var item in items)
+        {
+            sum += item.weight;
+        }
+
+        ItemData[] newItems = new ItemData[items.Count];
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            var rnd = Random.Range(0, sum);
+            var item = items[i];
+            if (item.weight > rnd) 
+                newItems[i] = item.item;
+            else 
+            { 
+                newItems[i] = null;
+                sum -= item.weight;
+            }
+        }
+
+        return newItems;
+    }
+
+
+
     public void ItemDrop(Vector3 position)
     {
         var item = PickItem();
@@ -43,5 +71,16 @@ public class ItemDT : ScriptableObject
         }
         
         Instantiate(item.prefab, position, Quaternion.identity).GetComponent<Item>().Init(item);
+    }
+
+    public void ItemDropAll(Vector3 position)
+    {
+        var items = PickItem(1);
+        foreach (var item in items)
+        {
+            if(item == null) continue;
+
+            Instantiate(item.prefab, position, Quaternion.identity).GetComponent<Item>().Init(item);
+        }
     }
 }

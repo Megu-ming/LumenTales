@@ -1,3 +1,4 @@
+using Assets.Scripts.Utils;
 using UnityEngine;
 
 public class TouchingDirections : MonoBehaviour
@@ -21,7 +22,7 @@ public class TouchingDirections : MonoBehaviour
         private set 
         { 
             _isGrounded = value;
-            animator?.SetBool("IsGrounded", value);
+            animator?.SetBool(AnimationStrings.isGrounded, value);
         }
     }
 
@@ -32,7 +33,7 @@ public class TouchingDirections : MonoBehaviour
         private set
         {
             _isOnWall = value;
-            animator?.SetBool("IsOnWall", value);
+            animator?.SetBool(AnimationStrings.isOnWall, value);
         }
     }
     [SerializeField] private bool _isOnCeiling;
@@ -42,7 +43,7 @@ public class TouchingDirections : MonoBehaviour
         private set 
         {
             _isOnCeiling = value;
-            animator?.SetBool("IsOnCeiling", value);
+            animator?.SetBool(AnimationStrings.isOnCeiling, value);
         }
     }
 
