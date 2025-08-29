@@ -1,17 +1,3 @@
-public enum ItemType
-{
-    Weapon,
-    Armor,
-    Consumable
-}
-
-public enum QuestGoalType
-{
-    Kill,
-    Gather,
-    Talk
-}
-
 public static class Utils
 {
     public static float Percent(int val, int max)

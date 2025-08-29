@@ -32,7 +32,8 @@ public class FadeRemoveBehaviour : StateMachineBehaviour
             {
                 // object Pooling으로 삭제 방지
                 // Destroy(objToRemove);
-                objToRemove.transform.root.gameObject.SetActive(false);
+                EnemyController ec = objToRemove.transform.root.GetComponent<EnemyController>();
+                if (ec != null) { ec.OnDead(); }
             }
         }
     }

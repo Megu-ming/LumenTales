@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - PlayerHitBox
   - EnemyHitBox
   - GroundDetection
-  - 
-  - 
+  - Item
+  - ItemDetection
   - 
   - 
   - 
@@ -64,6 +65,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1043645373
+    locked: 0
+  - name: Item
+    uniqueID: 3725161781
     locked: 0
   m_RenderingLayers:
   - Default

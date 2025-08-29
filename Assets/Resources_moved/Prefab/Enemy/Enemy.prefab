@@ -185,8 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688c6c9944d5d4b42ab1f1239017e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  walkStopRate: 0.6
+  enemyData: {fileID: 11400000, guid: d007a7e4d8ba9d74c9fa3016d6341ecb, type: 2}
   attackZone: {fileID: 7470044588417653628}
   cliffDetectionZone: {fileID: 3728677011259859720}
   _hasTarget: 0
