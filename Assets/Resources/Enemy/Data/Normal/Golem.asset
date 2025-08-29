@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df252db530a87e4fb2b4526a78ff8cd, type: 3}
+  m_Name: Golem
+  m_EditorClassIdentifier: 
+  enemyName: Golem
+  enemyType: 2
+  damage: 10
+  knockBack: {x: 0, y: 0}
+  cooldown: 2
+  maxHp: 15
+  isInvincible: 1
+  invincibilityTime: 0.25
+  moveSpeed: 1
+  walkStopRate: 0.6
+  itemDT: {fileID: 11400000, guid: acb7b8ea2259ad24ba1d441388ce51ca, type: 2}
+  expAmount: 1
