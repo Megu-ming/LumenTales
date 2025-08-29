@@ -19,4 +19,5 @@ public class EnemyData : ScriptableObject
 
     [Header("Item Drop")]
     public ItemDT itemDT;
+    public int expAmount;
 }

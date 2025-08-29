@@ -56,7 +56,7 @@ MonoBehaviour:
   _isSprint: 0
   moveSpeed: 2
   _isFacingRight: 1
-  groundCheckOffset: {x: 0, y: -0.2}
+  groundCheckOffset: {x: 0, y: -0.25}
   groundRadius: 0.05
   groundLayers:
     serializedVersion: 2
@@ -95,6 +95,8 @@ MonoBehaviour:
   barPrefab: {fileID: 0}
   canvas: {fileID: 0}
   barHeight: 0.2
+  _damage: 20
+  knockBack: {x: 0.1, y: 0}
   _maxHealth: 500
   _health: 500
   _isAlive: 1
@@ -409,8 +411,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 10
-  knockBack: {x: 0, y: 0}
 --- !u!1 &3893595873127388149
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,8 +584,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 10
-  knockBack: {x: 0, y: 0}
 --- !u!1 &5795559674297493043
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,5 +788,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 10
-  knockBack: {x: 0, y: 0}
