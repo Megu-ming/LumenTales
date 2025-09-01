@@ -1,4 +1,3 @@
-using Assets.Scripts.Utils;
 using UnityEngine;
 
 public class TouchingDirections : MonoBehaviour
