@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using Assets.Scripts.Utils;
 using Unity.VisualScripting;
 using UnityEngine;
 
