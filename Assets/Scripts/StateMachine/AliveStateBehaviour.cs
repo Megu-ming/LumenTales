@@ -22,11 +22,12 @@ public class AliveStateBehaviour : StateMachineBehaviour
     }
     public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
     {
-        //if (isStateMachineEnter)
-        //{
-        //    sprite = animator.GetComponent<SpriteRenderer>();
-        //    sprite.color = Color.white;
-        //}
+        if (isStateMachineEnter)
+        {
+            sprite = animator.GetComponent<SpriteRenderer>();
+            startColor = sprite.color;
+            elapsedTime = 0f;
+        }
     }
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -34,7 +35,7 @@ public class AliveStateBehaviour : StateMachineBehaviour
         elapsedTime += Time.deltaTime;
 
         float a = Mathf.Clamp01(elapsedTime / fadeinDuration);
-        sprite.color = new Color(startColor.r, startColor.g, startColor.b, a);
+        sprite.color = sprite ? new Color(startColor.r, startColor.g, startColor.b, a) : startColor;
 
     }
 
