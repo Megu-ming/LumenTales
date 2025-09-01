@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Runtime.Serialization;
+using Assets.Scripts.Utils;
+using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 [RequireComponent(typeof(Rigidbody2D),typeof(TouchingDirections))]
 public class EnemyController : CreatureController
@@ -56,13 +57,6 @@ public class EnemyController : CreatureController
     }
 
     TouchingDirections touchingDirections;
-
-    [Header("ItemDrop")]
-    [SerializeField] float fanHalfAngle = 35f;   // 부채꼴 반 각도(도). 예: 35 → 좌90+35, 우90-35
-    [SerializeField] float baseSpeed = 4.5f;     // 초기 속도
-    [SerializeField] float speedJitter = 1.0f;   // 속도 랜덤(±)
-    [SerializeField] float staggerMin = 0.03f;   // 아이템 사이 지연
-    [SerializeField] float staggerMax = 0.10f;
 
     private void Awake()
     {
@@ -144,69 +138,5 @@ public class EnemyController : CreatureController
             Debug.LogError("Current Walkable direction is not set to legal valus of right or left");
         }
     }
-    #endregion
-
-    #region ItemDropFunction
-    protected void DropItems(List<ItemData> items)
-    {
-        StartCoroutine(DropRoutine(items, transform.position));
-    }
-
-    private IEnumerator DropRoutine(List<ItemData> items, Vector3 position)
-    {
-        int count = items.Count;
-        if(count == 0) yield break;
-
-        for (int i = 0; i < count; i++)
-        {
-            var data = items[i];
-
-            float angleDeg = GetAngleForIndex(i, count);
-
-            float spd = baseSpeed + Random.Range(-speedJitter, speedJitter);
-            Vector2 v0 = AngleToVelocity(angleDeg, spd);
-
-            var go = Instantiate(data.prefab, position, Quaternion.identity);
-            var item = go.GetComponent<Item>();
-            item?.Init(data);
-
-            var rb = go.GetComponent<Rigidbody2D>();
-            var col = go.GetComponent<Collider2D>();
-            if (rb)
-            {
-                rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-                rb.linearVelocity = v0;
-            }
-
-            float wait = Random.Range(staggerMin, staggerMax);
-            if (wait > 0f) yield return new WaitForSeconds(wait);
-            else yield return null;
-        }
-
-    }
-
-    private float GetAngleForIndex(int index, int count)
-    {
-        if (count <= 1) return 90f;
-
-        float leftDeg = 90f + fanHalfAngle;
-        float rightDeg = 90f - fanHalfAngle;
-
-        if (count == 2)
-        {
-            return (index == 0) ? leftDeg : rightDeg; // 왼쪽부터 순서대로
-        }
-
-        // 3개 이상: 균등 분배 (0 → left, count-1 → right)
-        float t = (float)index / (count - 1);
-        return Mathf.Lerp(leftDeg, rightDeg, t);
-    }
-
-    private Vector2 AngleToVelocity(float angleDeg, float speed)
-    {
-        float rad = angleDeg * Mathf.Deg2Rad;
-        return new Vector2(Mathf.Cos(rad) * speed, Mathf.Sin(rad) * speed);
-    }
-
     #endregion
 }

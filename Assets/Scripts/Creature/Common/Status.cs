@@ -1,3 +1,5 @@
+using System;
+using Assets.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -141,6 +143,6 @@ public class Status : MonoBehaviour
         Health = MaxHealth;
         IsAlive = true;
         transform.root.gameObject.SetActive(true);
-        hpBarInstance?.SetActive(true);
+        hpBarInstance.SetActive(true);
     }
 }
