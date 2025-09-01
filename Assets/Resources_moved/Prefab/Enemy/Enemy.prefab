@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 1937265425853730964}
   - component: {fileID: 1919090645221738621}
   - component: {fileID: 961586681756457868}
+  - component: {fileID: 2760971240585091158}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -289,11 +290,31 @@ MonoBehaviour:
   barPrefab: {fileID: 3817013291082002495, guid: 51617cc5ae3e477409ccf6c68d81f7bd, type: 3}
   canvas: {fileID: 0}
   barHeight: 0.2
+  _damage: 0
+  knockBack: {x: 0, y: 0}
   _maxHealth: 15
   _health: 15
   _isAlive: 1
   isInvincible: 0
   invincibilityTime: 0
+--- !u!114 &2760971240585091158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4750482188371169509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a4e75215e000b4fa0648854beadd3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataTable: {fileID: 11400000, guid: acb7b8ea2259ad24ba1d441388ce51ca, type: 2}
+  fanHalfAngle: 15
+  baseSpeed: 2
+  staggerInterval: 0.06
+  gravityScale: 1.5
+  itemMaterial: {fileID: 6200000, guid: 7c495fe0d23ccd8449b438123f4dce4a, type: 2}
 --- !u!1 &5786434029583975151
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,8 +501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd6b3ca619f19441bfde60fabf872c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 10
-  knockBack: {x: 0, y: 0}
 --- !u!1 &9089647982171885644
 GameObject:
   m_ObjectHideFlags: 0

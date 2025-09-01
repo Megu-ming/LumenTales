@@ -18,7 +18,6 @@ public class EnemyData : ScriptableObject
     public float moveSpeed;
     public float walkStopRate;
 
-    [Header("Item Drop")]
-    public ItemDT itemDT;
+    [Header("Exp")]
     public int expAmount;
 }

@@ -64,6 +64,7 @@ public class EnemyController : CreatureController
         animator = GetComponentInChildren<Animator>();
         status = GetComponent<Status>();
         touchingDirections = GetComponent<TouchingDirections>();
+        itemDropHelper = GetComponent<ItemDropHelper>();
 
         Init();
     }
@@ -102,7 +103,6 @@ public class EnemyController : CreatureController
             status.Health = enemyData.maxHp;
             status.Damage = enemyData.damage;
             status.knockBack = enemyData.knockBack;
-
         }
         else
         {
@@ -117,8 +117,7 @@ public class EnemyController : CreatureController
 
     public void OnDead()
     {
-        gameObject.SetActive(false);
-        enemyData.itemDT.ItemDropAll(transform.position);
+        itemDropHelper.DropItem(transform.position, () => { gameObject.SetActive(false); });
     }
 
     #region AIFunction
