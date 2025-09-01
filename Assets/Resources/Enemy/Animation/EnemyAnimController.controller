@@ -151,8 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3704f7d1ad456647bb8695e961d8a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStateEnter: 1
-  isStateMachineEnter: 1
 --- !u!1109 &-4694367054917022235
 AnimatorTransition:
   m_ObjectHideFlags: 1
