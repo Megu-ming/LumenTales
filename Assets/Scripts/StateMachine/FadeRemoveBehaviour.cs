@@ -7,7 +7,8 @@ public class FadeRemoveBehaviour : StateMachineBehaviour
     SpriteRenderer sprite;
     GameObject objToRemove;
     Color startColor;
-
+    bool checkOnDead = false;
+    
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -28,12 +29,12 @@ public class FadeRemoveBehaviour : StateMachineBehaviour
 
         if (elapsedTime > fadeTime)
         {
-            if (objToRemove != null)
+            if (objToRemove != null && !checkOnDead)
             {
                 // object Pooling으로 삭제 방지
                 // Destroy(objToRemove);
                 EnemyController ec = objToRemove.transform.root.GetComponent<EnemyController>();
-                if (ec != null) { ec.OnDead(); }
+                if (ec != null) { ec.OnDead(); checkOnDead = true; }
             }
         }
     }

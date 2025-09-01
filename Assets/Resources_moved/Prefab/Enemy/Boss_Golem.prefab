@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 1937265425853730964}
   - component: {fileID: 1919090645221738621}
   - component: {fileID: 961586681756457868}
+  - component: {fileID: 2067108314137141686}
   m_Layer: 6
   m_Name: Boss_Golem
   m_TagString: Untagged
@@ -296,6 +297,24 @@ MonoBehaviour:
   _isAlive: 1
   isInvincible: 0
   invincibilityTime: 0
+--- !u!114 &2067108314137141686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4750482188371169509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a4e75215e000b4fa0648854beadd3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataTable: {fileID: 11400000, guid: 3effffe93f7e1534bb0b256b8d5648d5, type: 2}
+  fanHalfAngle: 15
+  baseSpeed: 2
+  staggerInterval: 0.06
+  gravityScale: 1.5
+  itemMaterial: {fileID: 6200000, guid: 7c495fe0d23ccd8449b438123f4dce4a, type: 2}
 --- !u!1 &5786434029583975151
 GameObject:
   m_ObjectHideFlags: 0

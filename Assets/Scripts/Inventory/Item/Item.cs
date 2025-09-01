@@ -22,7 +22,7 @@ public class Item : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocityX, popForce);
+        //rb.linearVelocity = new Vector2(rb.linearVelocityX, popForce);
     }
 
     public void Init(ItemData inData)

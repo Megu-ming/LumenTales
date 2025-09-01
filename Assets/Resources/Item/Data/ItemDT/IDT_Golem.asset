@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
   - item: {fileID: 0}
-    weight: 50
+    weight: 30
   - item: {fileID: 11400000, guid: 94542f4add1fbb543bf0bb8febefad64, type: 2}
     weight: 50
+  - item: {fileID: 11400000, guid: 77b001e50dda2924f9198ee71a3e749b, type: 2}
+    weight: 70
+  weightMax: 100
