@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class AliveStateBehaviour : StateMachineBehaviour
 {
-    public bool isStateEnter;
-    public bool isStateMachineEnter;
     public float fadeinDuration = 0.5f;
     private float elapsedTime = 0f;
     Color startColor;
@@ -13,7 +11,8 @@ public class AliveStateBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (isStateEnter)
+        
+        if (animator.GetBool(AnimationStrings.isAlive))
         {
             sprite = animator.GetComponent<SpriteRenderer>();
             startColor = sprite.color;
@@ -22,7 +21,7 @@ public class AliveStateBehaviour : StateMachineBehaviour
     }
     public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
     {
-        if (isStateMachineEnter)
+        if (animator.GetBool(AnimationStrings.isAlive))
         {
             sprite = animator.GetComponent<SpriteRenderer>();
             startColor = sprite.color;
@@ -39,9 +38,5 @@ public class AliveStateBehaviour : StateMachineBehaviour
 
     }
 
-    //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-        
-    //}
+
 }
