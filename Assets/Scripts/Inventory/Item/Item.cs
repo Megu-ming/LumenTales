@@ -7,11 +7,13 @@ public class Item : MonoBehaviour
     public ItemData itemData;
     private ItemType itemType;
 
+    public string ItemName { get { return gameObject.name; } set { gameObject.name = value; } }
     [SerializeField] private int price;
     [SerializeField] private string description;
 
     Rigidbody2D rb;
     SpriteRenderer sprite;
+    public Sprite Sprite { get { return sprite.sprite; } set { sprite.sprite = value; } }
 
     [SerializeField] private float suckSpeed = 12f;     // 플레이어로 끌려가는 속도
     [SerializeField] private float arriveDistance = 0.25f; // 이 거리 이하로 오면 수집 완료
@@ -36,14 +38,14 @@ public class Item : MonoBehaviour
             switch(itemType)
             {
                 case ItemType.Gold:
-                    gameObject.name = itemData.itemName;
-                    sprite.sprite = itemData.icon;
+                    ItemName = itemData.itemName;
+                    Sprite = itemData.icon;
                     price = Random.Range(itemData.minGoldPrice, itemData.maxGoldPrice + 1);
                     description = itemData.description;
                     break;
                 default:
-                    gameObject.name = itemData.itemName;
-                    sprite.sprite = itemData.icon;
+                    ItemName = itemData.itemName;
+                    Sprite  = itemData.icon;
                     price = itemData.price;
                     description = itemData.description;
                     break;

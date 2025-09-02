@@ -10,7 +10,6 @@ public class UIInventory : MonoBehaviour
     [SerializeField] UIInvectoryDescription itemDescription;
 
     List<UIInventoryItem> itemList = new List<UIInventoryItem>();
-
     private void Awake()
     {
         Hide();
@@ -29,6 +28,36 @@ public class UIInventory : MonoBehaviour
             newItem.OnItemDroppedOn += HandleSwap;
             newItem.OnRightMouseBtnClicked += HandleShowItemActions;
         }
+    }
+
+    public bool IntoInventory(Item item, GameObject owner)
+    {
+        if (owner == null) return false;
+        if (itemList == null) return false;
+
+        // 아이템을 가지고 있는 지 찾기
+        foreach(var uiItem in itemList)
+        {
+            if (uiItem.IsEmpty)
+                continue;
+            else
+            {
+                uiItem.SetData(item.Sprite, 1);
+                return true;
+            }
+        }
+
+        // 맨 앞에 새로 얻은 아이템 두기
+        foreach (var uiItem in itemList)
+        {
+            if(uiItem.IsEmpty)
+            {
+                uiItem.SetData(item.Sprite, 1);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void HandleItemSelection(UIInventoryItem item)

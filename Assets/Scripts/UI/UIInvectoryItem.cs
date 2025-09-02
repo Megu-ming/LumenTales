@@ -7,7 +7,11 @@ using UnityEngine.UI;
 public class UIInventoryItem : MonoBehaviour
 {
     [SerializeField] Image itemImage;
+    public Sprite ItemSprite { get { return itemImage.sprite; } }
+
     [SerializeField] TMP_Text quantityText;
+    public TMP_Text QuantityText { get {return quantityText;} }
+    public int quantity = 0;
 
     [SerializeField] Image borderImage;
 
@@ -16,6 +20,7 @@ public class UIInventoryItem : MonoBehaviour
         OnRightMouseBtnClicked;
 
     private bool empty = true;
+    public bool IsEmpty { get { return empty; } }
 
     public void Awake()
     {
@@ -38,7 +43,7 @@ public class UIInventoryItem : MonoBehaviour
     {
         itemImage.gameObject.SetActive(true);
         itemImage.sprite = sprite;
-        quantityText.text = quantity.ToString();
+        quantityText.text = (this.quantity + quantity).ToString();
         empty = false;
     }
 

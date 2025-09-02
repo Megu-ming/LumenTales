@@ -1,12 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
-    [Header("InventorySetting")]
+    [Header("InventoryUISetting")]
     [SerializeField] UIInventory inventoryUI;
     [SerializeField] int inventorySize = 10;
 
-    [SerializeField] Item item;
+    private Dictionary<string, int> items = new Dictionary<string, int>();
+    public Dictionary<string, int> Items { get { return items; } }
+
 
     private void Start()
     {
@@ -18,12 +21,15 @@ public class InventoryController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        item = collision.gameObject.GetComponent<Item>();
+        Item item = collision.gameObject.GetComponent<Item>();
         if (item!=null)
         {
-            // 아이템 획득 로직 구현
-            Debug.Log("Item Collected: " + item.name);
-            item.CollectItem(transform);
+            // 가방이 꽉 찼다면 false로 아이템을 수집하지 않음
+            if(inventoryUI.IntoInventory(item, gameObject)) 
+            {
+                
+                item.CollectItem(transform);
+            }
         }
     }
 
