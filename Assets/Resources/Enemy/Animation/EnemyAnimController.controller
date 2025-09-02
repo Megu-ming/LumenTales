@@ -49,7 +49,10 @@ AnimatorTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: HasTarget
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 532560680476210602}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -151,8 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3704f7d1ad456647bb8695e961d8a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStateEnter: 1
-  isStateMachineEnter: 1
   fadeinDuration: 0.5
 --- !u!1109 &-4694367054917022235
 AnimatorTransition:
@@ -220,12 +221,12 @@ AnimatorStateMachine:
   - {fileID: -7635405500988609315}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 532560680476210602}
-    second:
-    - {fileID: -4694367054917022235}
   - first: {fileID: 1997057786823111007}
     second:
     - {fileID: -7663188812884023452}
+  - first: {fileID: 532560680476210602}
+    second:
+    - {fileID: -4694367054917022235}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 620, y: 120, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -603,7 +604,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsAlive
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6694972164903620972}
   m_Solo: 0
