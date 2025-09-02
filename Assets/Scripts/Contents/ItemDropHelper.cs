@@ -73,7 +73,7 @@ public class ItemDropHelper : MonoBehaviour
 
             // 5) 연출용 지연(겹쳐 보이는 것 방지 + 타닥 느낌)
             if (staggerInterval > 0f) yield return new WaitForSeconds(staggerInterval);
-            else yield return null; // 최소 한 프레임 벌리기만 원하면 이 줄만 두세요.
+            else yield return null;
         }
 
         onComplete?.Invoke();

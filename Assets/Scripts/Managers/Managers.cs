@@ -7,6 +7,9 @@ public class Managers : MonoBehaviour
     static bool init = false;
 
     #region Contents
+    GameManager game = new GameManager();
+
+    public static GameManager Game { get { return Instance?.game; } }
     #endregion
 
     #region Core

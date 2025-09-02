@@ -8,9 +8,9 @@ public class Inventory : MonoBehaviour
         item = collision.gameObject.GetComponent<Item>();
         if (item!=null)
         {
-            // ¾ÆÀÌÅÛ È¹µæ ·ÎÁ÷ ±¸Çö
+            // ì•„ì´í…œ íšë“ ë¡œì§ êµ¬í˜„
             Debug.Log("Item Collected: " + item.name);
-            //Destroy(item.gameObject, 1f);
+            item.CollectItem(transform);
         }
     }
 }
