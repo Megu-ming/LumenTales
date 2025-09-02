@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.AddressableAssets;
 using Object = UnityEngine.Object;
 
-public class ResourceManager : MonoBehaviour
+public class ResourceManager
 {
     Dictionary<string, Object> resources = new Dictionary<string, Object>();
 

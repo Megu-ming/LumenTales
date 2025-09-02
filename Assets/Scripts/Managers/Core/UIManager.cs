@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public Canvas gameCanvas;
     public GameObject damageTextPrefab;
     public GameObject healthTextPrefab;
     public float textHeight;
-    public Canvas gameCanvas;
 
     private void Awake()
     {

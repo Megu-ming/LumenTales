@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.4, y: -1.58, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5831180401160371925}
   - {fileID: 8643868269333289423}
@@ -95,7 +95,7 @@ MonoBehaviour:
   barPrefab: {fileID: 0}
   canvas: {fileID: 0}
   barHeight: 0.2
-  _damage: 20
+  _damage: 1500
   knockBack: {x: 0.1, y: 0}
   _maxHealth: 500
   _health: 500
@@ -232,7 +232,19 @@ MonoBehaviour:
     m_ActionId: 852140f2-7766-474d-8707-702459ba45f3
     m_ActionName: 'Player/Interact[/Keyboard/e]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6780688367894138312}
+        m_TargetAssemblyTypeName: InventoryController, Assembly-CSharp
+        m_MethodName: OnInventoryToggle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 27c5f898-bc57-4ee1-8800-db469aca5fe3
     m_ActionName: 'Player/Crouch[/Keyboard/c]'
   - m_PersistentCalls:
@@ -492,6 +504,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c7b6d6c41d86d4781b9e49168ce477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryUI: {fileID: 0}
+  inventorySize: 20
   item: {fileID: 0}
 --- !u!1 &4277144329417345487
 GameObject:
