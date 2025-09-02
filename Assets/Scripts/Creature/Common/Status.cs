@@ -76,7 +76,7 @@ public class Status : MonoBehaviour
 
         if (barPrefab != null)
         {
-            canvas = FindAnyObjectByType<Canvas>();
+            canvas = FindFirstObjectByType<Canvas>();
 
             hpBarInstance = Instantiate(barPrefab, canvas.transform);
             hpBar = hpBarInstance.GetComponent<RectTransform>();
