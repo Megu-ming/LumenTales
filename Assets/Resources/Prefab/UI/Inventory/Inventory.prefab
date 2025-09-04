@@ -467,9 +467,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca59a320bfe976498d1de46db4f8903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 7589465340715453603, guid: c1fd285d1ed5d2f45a92fd35cd1e94d0, type: 3}
+  horizontalSlotCount: 5
+  verticalSlotCount: 6
+  slotPrefab: {fileID: 7589465340715453603, guid: c1fd285d1ed5d2f45a92fd35cd1e94d0, type: 3}
   contentPanel: {fileID: 1165007849334175238}
-  itemDB: []
 --- !u!223 &427777572282439470
 Canvas:
   m_ObjectHideFlags: 0

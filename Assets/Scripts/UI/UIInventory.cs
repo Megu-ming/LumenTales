@@ -1,139 +1,77 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 
 public class UIInventory : MonoBehaviour
 {
-    [SerializeField] UIInventoryItem itemPrefab;
-    [SerializeField] RectTransform contentPanel;
-    //[SerializeField] UIInvectoryDescription itemDescription;
+    [Header("Options")]
+    [SerializeField, Range(0,10)] int horizontalSlotCount = 5;  // 슬롯 가로 개수
+    [SerializeField, Range(0,10)] int verticalSlotCount = 6;    // 슬롯 세로 개수
 
-    // ItemSlotPool
-    List<UIInventoryItem> itemSlotPool = new List<UIInventoryItem>();
+    [SerializeField] UIInventoryItem slotPrefab;    // 아이템 슬롯 프리팹
+    [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
 
-    // 데이터 소스
-    Dictionary<string, int> playerItems;
-    [SerializeField] List<ItemData> itemDB;
+    InventoryController inventory;
 
-    // mapping slot<>item
-    private readonly Dictionary<string, UIInventoryItem> itemSlotMap = new Dictionary<string, UIInventoryItem>();
+    [SerializeField] List<UIInventoryItem> slotUIList;
+
+    public void Show() => gameObject.SetActive(true);
+    public void Hide() => gameObject.SetActive(false);
 
     private void Awake()
     {
-        Hide();
-        //itemDescription.ResetDescription();
+        InitSlot();
     }
 
-    public void InitializeInventoryUI(int inventorysize)
+    private void InitSlot()
     {
-        EnsureSlotCount(inventorysize);
-    }
+        slotUIList = new List<UIInventoryItem>(horizontalSlotCount * verticalSlotCount);
 
-    //public void SetDataSource(Dictionary<string, int> playerItemDict, Dictionary<string, ItemData> itemDatabase)
-    //{
-    //    playerItems = playerItemDict;
-    //    itemDB = itemDatabase;
-    //    RefreshUI();
-    //}
-
-    //public void RefreshUI()
-    //{
-    //    if(playerItems == null || itemDB == null)
-    //    {
-    //        Debug.LogError("PlayerItems or ItemDB is not assigned in UIInventory.");
-    //        return;
-    //    }
-
-    //    // 보유 아이템 목록 작성
-    //    var entries = new List<(string id, ItemData data, int count)>();
-    //    foreach (var kvp in playerItems)
-    //    {
-    //        if(kvp.Value <= 0) continue;
-    //        if(!itemDB.TryGetValue(kvp.Key, out var data) || data == null)
-    //        {
-    //            Debug.LogWarning($"Item ID {kvp.Key} not found in ItemDB.");
-    //            continue;
-    //        }
-    //        entries.Add((kvp.Key, data, kvp.Value));
-    //    }
-
-    //    // 정렬(원하면)
-    //    // TODO
-
-    //    itemSlotMap.Clear();
-
-    //    for(int i = 0; i < itemSlotPool.Count; i++)
-    //    {
-    //        var slot = itemSlotPool[i];
-
-    //        if (i < entries.Count)
-    //        {
-    //            var entry = entries[i];
-                
-    //            slot.SetData(entry.data.icon, entry.count);
-    //            slot.gameObject.SetActive(true);
-    //            itemSlotMap[slot] = entry.id;
-    //        }
-    //        else
-    //        {
-    //            //slot.Clear
-    //            //slot.gameObject.SetActive(false);
-    //        }
-    //    }
-
-    //    if(itemDescription != null)
-    //        itemDescription.ResetDescription();
-    //}
-
-    private void EnsureSlotCount(int need)
-    {
-        while(itemSlotPool.Count<need)
+        for(int j=0;j < verticalSlotCount; j++)
         {
-            var newItem = Instantiate(itemPrefab, contentPanel);
-            itemSlotPool.Add(newItem);
+            for (int i = 0; i < horizontalSlotCount; i++)
+            {
+                int slotIndex = (horizontalSlotCount * j) + i;
 
-            newItem.OnItemClicked += HandleItemSelection;
-            newItem.OnItemBeginDrag += HandleBeginDrag;
-            newItem.OnItemEndDrag += HandleEndDrag;
-            newItem.OnItemDroppedOn += HandleSwap;
-            newItem.OnRightMouseBtnClicked += HandleShowItemActions;
+                var slot = Instantiate(slotPrefab, contentPanel);
+                slot.gameObject.SetActive(true);
+                slot.name = $"Slot[{slotIndex}]";
+                slot.SetSlotIndex(slotIndex);
+                slotUIList.Add(slot);
+            }
         }
     }
 
-    private void HandleItemSelection(UIInventoryItem item)
+    public void SetInventoryReference(InventoryController inventory)
     {
-        Debug.Log(item.name);
+        this.inventory = inventory;
     }
 
-    private void HandleBeginDrag(UIInventoryItem item)
+    public void SetItemIcon(int index, Sprite icon)
     {
-        
+        slotUIList[index].SetItem(icon);
     }
 
-    private void HandleEndDrag(UIInventoryItem item)
+    public void SetItemAmountText(int index, int amount)
     {
-        
+        slotUIList[index].SetItemAmount(amount);
     }
 
-    private void HandleSwap(UIInventoryItem item)
+    public void HideItemAmountText(int index)
     {
-        
+        slotUIList[index].SetItemAmount(1);
     }
 
-    private void HandleShowItemActions(UIInventoryItem item)
+    public void RemoveItem(int index)
     {
-        
+        slotUIList[index].RemoveItem();
     }
 
-    public void Show()
+    public void SetAccessibleSlotRange(int accessibleSlotCount)
     {
-        gameObject.SetActive(true);
-        //itemDescription.ResetDescription();
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        for (int i = 0; i < slotUIList.Count; i++)
+        {
+            slotUIList[i].SetSlotAccessibleState(i < accessibleSlotCount);
+        }
     }
 }

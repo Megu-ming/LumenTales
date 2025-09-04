@@ -1,20 +1,18 @@
-using NUnit.Framework;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewItem", menuName = "Data/Item")]
-public class ItemData : ScriptableObject
+public abstract class ItemData : ScriptableObject
 {
-    public string itemName;
-    public ItemType itemType;
-    public Sprite icon;
-    public Transform prefab;
+    public string ItemName => itemName;
+    public Sprite Icon => icon;
+    public string Tooltip => tooltip;
+    public Transform Prefab => prefab;
 
-    public int goldAmount;
-
-    [Header("GoldPrice")]
-    public int minGoldPrice;
-    public int maxGoldPrice;
-
+    [SerializeField] private string itemName;
+    [SerializeField] private ItemType itemType;
+    [SerializeField] private Sprite icon;
+    [SerializeField] private Transform prefab;
     [Multiline]
-    public string description;
+    [SerializeField] private string tooltip;
+
+    public abstract Item CreateItem();
 }

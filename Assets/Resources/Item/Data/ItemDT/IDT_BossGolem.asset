@@ -12,11 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3bdf24ae08c934db0f94d15af24ef5, type: 3}
   m_Name: IDT_BossGolem
   m_EditorClassIdentifier: 
-  items:
-  - item: {fileID: 0}
-    weight: 0
-  - item: {fileID: 11400000, guid: 94542f4add1fbb543bf0bb8febefad64, type: 2}
-    weight: 95
-  - item: {fileID: 11400000, guid: 77b001e50dda2924f9198ee71a3e749b, type: 2}
-    weight: 100
+  items: []
   weightMax: 100

@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 0}
-  price: 0
-  description: 
-  popForce: 2
+  suckSpeed: 12
+  arriveDistance: 0.25
+  fadeTime: 0.15
+  absortableTime: 0.5

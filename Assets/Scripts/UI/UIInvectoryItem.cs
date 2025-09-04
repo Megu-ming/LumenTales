@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,77 +8,131 @@ using UnityEngine.UI;
 public class UIInventoryItem : MonoBehaviour
 {
     [SerializeField] Image itemImage;
-    public Sprite ItemSprite { get { return itemImage.sprite; } }
 
     [SerializeField] TMP_Text quantityText;
-    public TMP_Text QuantityText { get {return quantityText;} }
-    public int quantity = 0;
 
     [SerializeField] Image borderImage;
 
-    public event Action<UIInventoryItem> OnItemClicked, 
-        OnItemDroppedOn, OnItemBeginDrag, OnItemEndDrag, 
-        OnRightMouseBtnClicked;
+    private UIInventory inventoryUI;
+    public int Index { get; private set; }
+    public bool HasItem => itemImage.sprite != null;
+    public bool IsAccessible => isAccessibleSlot && isAccessibleItem;
+    public RectTransform SlotRect => slotRect;
+    public RectTransform IconRect => iconRect;
 
-    private bool empty = true;
-    public bool IsEmpty { get { return empty; } }
+    private RectTransform slotRect;
+    private RectTransform iconRect;
+
+    private GameObject iconGo;
+    private GameObject textGo;
+
+    private Image slotImage;
+
+    private bool isAccessibleSlot = true; // 슬롯 접근가능 여부
+    private bool isAccessibleItem = true; // 아이템 접근가능 여부
+
+    /// <summary> 비활성화된 슬롯의 색상 </summary>
+    private static readonly Color InAccessibleSlotColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
+    /// <summary> 비활성화된 아이콘 색상 </summary>
+    private static readonly Color InAccessibleIconColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+
+    private void ShowIcon() => iconGo.SetActive(true);
+    private void HideIcon() => iconGo.SetActive(false);
+
+    private void ShowText() => textGo.SetActive(true);
+    private void HideText() => textGo.SetActive(false);
+
+    public void SetSlotIndex(int index) => Index = index;
 
     public void Awake()
     {
-        ResetData();
-        Deselect();
+        InitComponent();
     }
 
-    public void ResetData()
+    private void InitComponent()
     {
-        itemImage.gameObject.SetActive(false);
-        empty = true;
+        inventoryUI = GetComponentInParent<UIInventory>();
+
+        slotRect = GetComponent<RectTransform>();
+        iconRect = itemImage.GetComponent<RectTransform>();
+        iconGo = itemImage.gameObject;
+        textGo = quantityText.gameObject;
+        slotImage = GetComponent<Image>();
     }
 
-    public void Deselect()
+    public void SetSlotAccessibleState(bool value)
     {
-        borderImage.enabled = false;
+        if (isAccessibleSlot == value) return;
+
+        if(value)
+        {
+            slotImage.color = Color.black;
+        }
+        else 
+        {
+            slotImage.color = InAccessibleSlotColor;
+            HideIcon();
+            HideText();
+        }
+
+        isAccessibleSlot = value;
     }
 
-    public void SetData(Sprite sprite, int quantity)
+    public void SetItemAccessibleState(bool value)
     {
-        itemImage.gameObject.SetActive(true);
-        itemImage.sprite = sprite;
-        quantityText.text = (this.quantity + quantity).ToString();
-        empty = false;
-    }
+        if(isAccessibleItem == value) return;
 
-    public void Select()
-    {
-        borderImage.enabled = true;
-    }
-
-    public void OnBegindDrag()
-    {
-        if (empty)
-            return;
-        OnItemBeginDrag?.Invoke(this);
-    }
-
-    public void OnDrop()
-    {
-        OnItemDroppedOn?.Invoke(this);
-    }
-
-    public void OnEndDrag()
-    {
-        OnItemEndDrag?.Invoke(this);
-    }
-
-    public void OnPointerClick(BaseEventData data)
-    {
-        if (empty)
-            return;
-        PointerEventData pointerData = (PointerEventData)data;
-        if(pointerData.button == PointerEventData.InputButton.Right)
-            OnRightMouseBtnClicked?.Invoke(this);
+        if (value)
+        {
+            itemImage.color = Color.white;
+            quantityText.color = Color.white;
+        }
         else
-            OnItemClicked?.Invoke(this);
+        {
+            itemImage.color = InAccessibleIconColor;
+            quantityText.color = InAccessibleIconColor;
+        }
 
+        isAccessibleItem = value;
+    }
+
+    public void SwapOrMoveIcon(UIInventoryItem other)
+    {
+        if(other == null) return;
+        if(other == this) return;
+        if(!this.IsAccessible) return;
+        if (!other.IsAccessible) return;
+
+        var temp = itemImage.sprite;
+
+        if (other.HasItem) SetItem(other.itemImage.sprite);
+        else RemoveItem();
+
+        other.SetItem(temp);
+    }
+
+    public void SetItem(Sprite itemSprite)
+    {
+        if (itemSprite != null)
+        {
+            itemImage.sprite = itemSprite;
+            ShowIcon();
+        }
+        else RemoveItem();
+    }
+
+    public void RemoveItem()
+    {
+        itemImage.sprite = null;
+        HideIcon();
+        HideText();
+    }
+
+    public void SetItemAmount(int amount)
+    {
+        if(HasItem&&amount>1) ShowText();
+        else HideText();
+
+        quantityText.text = amount.ToString();
     }
 }

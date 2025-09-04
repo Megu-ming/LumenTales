@@ -44,7 +44,7 @@ public class ItemDropHelper : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var data = items[i];
-            if (data == null || data.prefab == null) continue;
+            if (data == null || data.Prefab == null) continue;
 
             // 각도 계산
             float angleDeg = GetAngleForIndex(i, count);
@@ -53,11 +53,10 @@ public class ItemDropHelper : MonoBehaviour
             float spd = baseSpeed;
             Vector2 v0 = AngleToVelocity(angleDeg, spd);
 
-            Debug.Log($"[Drop] i={i}/{count}, angle={angleDeg:F1}°, v0={v0}");
-
             // 3) 생성 + 초기화
-            var go = Instantiate(data.prefab, origin, Quaternion.identity);
-            go.GetComponent<Item>()?.Init(data);
+            var go = Instantiate(data.Prefab, origin, Quaternion.identity);
+            go.TryGetComponent<Item>(out Item it);
+            if (it != null) it.itemData = data;
 
             // 4) 물리 세팅(있을 때만)
             if (go.TryGetComponent(out Rigidbody2D rb))
