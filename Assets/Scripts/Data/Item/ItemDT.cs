@@ -8,18 +8,18 @@ public class ItemDT : ScriptableObject
     public class Items
     {
         public ItemData item;
-        [Min(0)] public int weight; // È®·ü ±âÁØ°ª (0~weightMax)
+        [Min(0)] public int weight; // í™•ë¥  ê¸°ì¤€ê°’ (0~weightMax)
     }
 
     [Header("Drop Table")]
     public List<Items> items = new List<Items>();
 
-    [Tooltip("È®·ü ½ºÄÉÀÏ. 100=ÆÛ¼¾Æ®, 1000=ÆÛ¹Ğ, 10000=º£ÀÌ½Ã½ºÆ÷ÀÎÆ® µî")]
+    [Tooltip("í™•ë¥  ìŠ¤ì¼€ì¼. 100=í¼ì„¼íŠ¸, 1000=í¼ë°€, 10000=ë² ì´ì‹œìŠ¤í¬ì¸íŠ¸ ë“±")]
     [SerializeField] private int weightMax = 100; // 100 = %
 
     /// <summary>
-    /// °¢ ¾ÆÀÌÅÛÀ» µ¶¸³ÀûÀ¸·Î roll ÇØ¼­ µå¶ø ¸ñ·ÏÀ» ¹İÈ¯.
-    /// ¿î¿¡ µû¶ó 0°³~¸ğµç ¾ÆÀÌÅÛ±îÁö ³ª¿Ã ¼ö ÀÖÀ½.
+    /// ê° ì•„ì´í…œì„ ë…ë¦½ì ìœ¼ë¡œ roll í•´ì„œ ë“œë ëª©ë¡ì„ ë°˜í™˜.
+    /// ìš´ì— ë”°ë¼ 0ê°œ~ëª¨ë“  ì•„ì´í…œê¹Œì§€ ë‚˜ì˜¬ ìˆ˜ ìˆìŒ.
     /// </summary>
     public List<ItemData> PickDropsIndependent()
     {
@@ -32,7 +32,7 @@ public class ItemDT : ScriptableObject
 
             int clamped = Mathf.Clamp(e.weight, 0, weightMax);
 
-            // Random.value(0~1) ´ë½Å Á¤¼ö ¹üÀ§·Î ¸íÈ®ÇÏ°Ô ºñ±³
+            // Random.value(0~1) ëŒ€ì‹  ì •ìˆ˜ ë²”ìœ„ë¡œ ëª…í™•í•˜ê²Œ ë¹„êµ
             int roll = Random.Range(0, weightMax);
             if (roll < clamped)
             {
@@ -42,7 +42,7 @@ public class ItemDT : ScriptableObject
         return result;
     }
 
-    // (¼±ÅÃ) ÇÏ³ª¸¸ '·ê·¿'À¸·Î »Ì°í ½ÍÀ» ¶§ À¯Æ¿
+    // (ì„ íƒ) í•˜ë‚˜ë§Œ 'ë£°ë ›'ìœ¼ë¡œ ë½‘ê³  ì‹¶ì„ ë•Œ ìœ í‹¸
     public ItemData PickOneWeighted()
     {
         int sum = 0;
@@ -59,7 +59,7 @@ public class ItemDT : ScriptableObject
         return null;
     }
 
-    // (¼±ÅÃ) Áßº¹ ¾øÀÌ N°³¸¦ '·ê·¿'À¸·Î »Ì°í ½ÍÀ» ¶§
+    // (ì„ íƒ) ì¤‘ë³µ ì—†ì´ Nê°œë¥¼ 'ë£°ë ›'ìœ¼ë¡œ ë½‘ê³  ì‹¶ì„ ë•Œ
     public List<ItemData> PickNWeightedNoRepeat(int n)
     {
         var pool = new List<Items>(items);
@@ -80,7 +80,7 @@ public class ItemDT : ScriptableObject
                 if (rnd < e.weight)
                 {
                     picked.Add(e.item);
-                    pool.RemoveAt(i); // Áßº¹ ¹æÁö
+                    pool.RemoveAt(i); // ì¤‘ë³µ ë°©ì§€
                     break;
                 }
                 rnd -= e.weight;

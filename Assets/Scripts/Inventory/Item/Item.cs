@@ -8,7 +8,7 @@ public class Item : MonoBehaviour
     private ItemType itemType;
 
     public string ItemName { get { return gameObject.name; } set { gameObject.name = value; } }
-    [SerializeField] private int price;
+    [SerializeField] private int goldAmount;
     [SerializeField] private string description;
 
     Rigidbody2D rb;
@@ -40,13 +40,13 @@ public class Item : MonoBehaviour
                 case ItemType.Gold:
                     ItemName = itemData.itemName;
                     Sprite = itemData.icon;
-                    price = Random.Range(itemData.minGoldPrice, itemData.maxGoldPrice + 1);
+                    goldAmount = Random.Range(itemData.minGoldPrice, itemData.maxGoldPrice + 1);
                     description = itemData.description;
                     break;
                 default:
                     ItemName = itemData.itemName;
                     Sprite  = itemData.icon;
-                    price = itemData.price;
+                    goldAmount = itemData.goldAmount;
                     description = itemData.description;
                     break;
             }       
@@ -86,6 +86,30 @@ public class Item : MonoBehaviour
         }
 
         // TODO : Add to Inventory
+        InventoryController ic = player.GetComponent<InventoryController>();
+        if (ic != null) 
+        {
+            switch (itemType)
+            {
+                case ItemType.Gold:
+                    ic.GoldAmount += goldAmount;
+                    break;
+                case ItemType.Other:
+                    if (ic.Items.TryGetValue(ItemName, out int current))
+                    {
+                        ic.Items[ItemName] = current + 1;
+                        Debug.Log($"{ItemName}을 {current + 1}개 가지고있습니다");
+                    }
+                    else
+                    {
+                        ic.Items[ItemName] = 1;
+                        Debug.Log($"{ItemName}을 처음 획득했습니다");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
         // fadeout
         if (sprite != null)

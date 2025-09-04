@@ -9,7 +9,7 @@ public class ItemData : ScriptableObject
     public Sprite icon;
     public Transform prefab;
 
-    public int price;
+    public int goldAmount;
 
     [Header("GoldPrice")]
     public int minGoldPrice;
