@@ -17,6 +17,15 @@ public class CountableItem : Item
         SetAmount(1);
     }
 
+
+    public override void  SetItemData(ItemData data)
+    {
+        base.SetItemData(data);
+
+        CountableData = (CountableItemData)data;
+        SetAmount(1);
+    }
+
     public void SetAmount(int amount)
     {
         Amount = Mathf.Clamp(amount, 0, MaxAmount);

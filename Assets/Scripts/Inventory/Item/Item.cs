@@ -17,10 +17,19 @@ public class Item : MonoBehaviour
 
     public Item(ItemData data) => itemData = data;
 
-private void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    public virtual void SetItemData(ItemData data)
+    {
+        if (data == null) return;
+
+        itemData = data;
+        gameObject.name = itemData.name;
+        sprite.sprite = itemData.Icon;
     }
 
     public void CollectItem(Transform player)

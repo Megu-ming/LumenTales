@@ -47,6 +47,8 @@ public class UIInventoryItem : MonoBehaviour
     public void Awake()
     {
         InitComponent();
+        HideIcon();
+        HideText();
     }
 
     private void InitComponent()

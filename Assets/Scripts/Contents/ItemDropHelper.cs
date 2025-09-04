@@ -56,7 +56,7 @@ public class ItemDropHelper : MonoBehaviour
             // 3) 생성 + 초기화
             var go = Instantiate(data.Prefab, origin, Quaternion.identity);
             go.TryGetComponent<Item>(out Item it);
-            if (it != null) it.itemData = data;
+            if (it != null) it.SetItemData(data);
 
             // 4) 물리 세팅(있을 때만)
             if (go.TryGetComponent(out Rigidbody2D rb))

@@ -17,4 +17,8 @@ MonoBehaviour:
     weight: 30
   - item: {fileID: 11400000, guid: 2c59a121c2fb9f94ea05557c1148b174, type: 2}
     weight: 70
+  - item: {fileID: 11400000, guid: 2722c1dab782e004191ce84d6b03c8c6, type: 2}
+    weight: 70
+  - item: {fileID: 11400000, guid: 9f00be407ff635543811c941d04346b4, type: 2}
+    weight: 70
   weightMax: 100

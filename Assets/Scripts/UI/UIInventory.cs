@@ -21,6 +21,7 @@ public class UIInventory : MonoBehaviour
     private void Awake()
     {
         InitSlot();
+        Hide();
     }
 
     private void InitSlot()
