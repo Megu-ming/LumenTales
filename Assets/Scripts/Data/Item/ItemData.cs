@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class ItemData : ScriptableObject
+public class ItemData : ScriptableObject
 {
     public string ItemName => itemName;
     public Sprite Icon => icon;
@@ -14,5 +14,14 @@ public abstract class ItemData : ScriptableObject
     [Multiline]
     [SerializeField] private string tooltip;
 
-    public abstract Item CreateItem();
+    public virtual bool IsStackable => false;
+    public virtual Item CreateItem(int amount = 1)
+    {
+        return new SimpleItem(this);
+    }
+}
+
+public class SimpleItem : Item
+{
+    public SimpleItem(ItemData itemData) : base(itemData) { }
 }

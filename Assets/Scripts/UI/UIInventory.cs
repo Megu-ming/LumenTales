@@ -60,11 +60,13 @@ public class UIInventory : MonoBehaviour
 
     public void HideItemAmountText(int index)
     {
+        if (slotUIList.Count == 0 || !slotUIList[index].HasItem) return;
         slotUIList[index].SetItemAmount(1);
     }
 
     public void RemoveItem(int index)
     {
+        if (slotUIList.Count == 0 || !slotUIList[index].HasItem) return;
         slotUIList[index].RemoveItem();
     }
 

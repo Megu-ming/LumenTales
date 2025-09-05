@@ -8,22 +8,13 @@ public class CountableItem : Item
     public int Amount { get; private set; }
 
     public int MaxAmount => CountableData.MaxAmount;
-    public bool IsMax => Amount >= CountableData.MaxAmount;
+    public bool IsMax => Amount >= CountableData?.MaxAmount;
     public bool IsEmpty => Amount <= 0;
 
     public CountableItem(CountableItemData data, int amount = 1) : base(data)
     {
         CountableData = data;
-        SetAmount(1);
-    }
-
-
-    public override void  SetItemData(ItemData data)
-    {
-        base.SetItemData(data);
-
-        CountableData = (CountableItemData)data;
-        SetAmount(1);
+        SetAmount(amount);
     }
 
     public void SetAmount(int amount)
@@ -31,11 +22,23 @@ public class CountableItem : Item
         Amount = Mathf.Clamp(amount, 0, MaxAmount);
     }
 
-    public int AddAmountAndGetExcess(int amount)
+    public int AddAmount(int add)
     {
-        int nextAmount = Amount + amount;
-        SetAmount(nextAmount);
+        int before = Amount;
+        Amount = Mathf.Clamp(Amount + add, 0, MaxAmount);
+        return Amount - before;
+    }
 
-        return (nextAmount > MaxAmount) ? (nextAmount - MaxAmount) : 0;
+    public int MergeUpToMax(int addAmount)
+    {
+        int space = CountableData.MaxAmount - Amount;
+        int put = UnityEngine.Mathf.Clamp(addAmount, 0, space);
+        Amount += put;
+        return addAmount - put;
+    }
+
+    public bool CanMerge(CountableItem other)
+    {
+        return other != null && other.CountableData == this.CountableData;
     }
 }
