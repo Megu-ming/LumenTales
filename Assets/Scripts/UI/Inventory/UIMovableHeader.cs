@@ -25,4 +25,8 @@ public class UIMovableHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
         Vector2 diff = eventData.position - moveBegin;
         target.position = beginPos + diff;
     }
+
+    public void OnClickBtn() => target.gameObject.SetActive(false);
+
+
 }

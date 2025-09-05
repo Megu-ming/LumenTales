@@ -58,7 +58,7 @@ public class UIInventoryItem : MonoBehaviour
         slotRect = GetComponent<RectTransform>();
         iconRect = itemImage.GetComponent<RectTransform>();
         iconGo = itemImage.gameObject;
-        textGo = quantityText.gameObject;
+        textGo = quantityText.gameObject.transform.parent.gameObject;
         slotImage = GetComponent<Image>();
     }
 

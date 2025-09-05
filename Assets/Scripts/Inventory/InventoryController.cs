@@ -96,6 +96,49 @@ public class InventoryController : MonoBehaviour
         }
     }
 
+    public void Remove(int index)
+    {
+        if (!IsValidIndex(index)) return;
+
+        items[index] = null;
+        inventoryUI.RemoveItem(index);
+    }
+
+    public void Swap(int indexA, int indexB)
+    {
+        if (!IsValidIndex(indexA) || !IsValidIndex(indexB)) return;
+
+        Item itemA = items[indexA];
+        Item itemB = items[indexB];
+
+        // 셀 수 있고 동일한 아이템이면 A -> B로 개수 합치기
+        if(itemA != null && itemB != null && 
+            itemA.itemData == itemB.itemData && 
+            itemA is CountableItem ciA && itemB is CountableItem ciB)
+        {
+            int maxAmount = ciB.MaxAmount;
+            int sum = ciA.Amount + ciB.Amount;
+
+            if(sum<=maxAmount)
+            {
+                ciA.SetAmount(0);
+                ciB.SetAmount(sum);
+            }
+            else 
+            {
+                ciA.SetAmount(sum - maxAmount);
+                ciB.SetAmount(maxAmount);
+            }
+        }
+        else
+        {
+            items[indexA] = itemB;
+            items[indexB] = itemA;
+        }
+
+        UpdateSlot(indexA); UpdateSlot(indexB);
+    }
+
     public void OnInventoryToggle()
     {
         if (inventoryUI.gameObject.activeSelf)
@@ -152,10 +195,7 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    private bool IsValidIndex(int index)
-    {
-        return index >= 0 && index < Capacity;
-    }
+    private bool IsValidIndex(int index) => index >= 0 && index < Capacity;
 
     private int FindEmptySlotIndex()
     {

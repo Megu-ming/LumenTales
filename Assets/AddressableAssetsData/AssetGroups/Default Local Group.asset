@@ -14,16 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: 509b1f49b6117b6489d286c1b302b766
-  m_SerializeEntries:
-  - m_GUID: d3c87a704a597964c982986d465d715c
-    m_Address: Player.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 559e5032a26678442aeea7d641a4b20e, type: 2}
   m_SchemaSet:
     m_Schemas:
     - {fileID: 11400000, guid: 6a831cd4e229ca149b61f8ec23877c2d, type: 2}
     - {fileID: 11400000, guid: c651f21a588563845af9973e26852919, type: 2}
+  m_FolderEntryCache: []
+  <FlaggedDuringContentUpdateRestriction>k__BackingField: 0
+  m_CurrentHash:
+    'bytes[0]': 86
+    'bytes[1]': 135
+    'bytes[2]': 248
+    'bytes[3]': 43
+    'bytes[4]': 220
+    'bytes[5]': 33
+    'bytes[6]': 104
+    'bytes[7]': 31
+    'bytes[8]': 145
+    'bytes[9]': 199
+    'bytes[10]': 50
+    'bytes[11]': 238
+    'bytes[12]': 48
+    'bytes[13]': 187
+    'bytes[14]': 31
+    'bytes[15]': 238

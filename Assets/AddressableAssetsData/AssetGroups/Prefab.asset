@@ -14,16 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Prefab
   m_GUID: d0b18c43bdf783545acea15be8c88464
-  m_SerializeEntries:
-  - m_GUID: 967abeca170200340894a736771f7ab0
-    m_Address: Enemy.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 559e5032a26678442aeea7d641a4b20e, type: 2}
   m_SchemaSet:
     m_Schemas:
     - {fileID: 11400000, guid: e9cdda8b86e59864384a3c6ce7bf758e, type: 2}
     - {fileID: 11400000, guid: a89d8609486681147b2b76ed81d265a0, type: 2}
+  m_FolderEntryCache: []
+  <FlaggedDuringContentUpdateRestriction>k__BackingField: 0
+  m_CurrentHash:
+    'bytes[0]': 128
+    'bytes[1]': 220
+    'bytes[2]': 235
+    'bytes[3]': 125
+    'bytes[4]': 39
+    'bytes[5]': 216
+    'bytes[6]': 244
+    'bytes[7]': 191
+    'bytes[8]': 41
+    'bytes[9]': 128
+    'bytes[10]': 129
+    'bytes[11]': 68
+    'bytes[12]': 182
+    'bytes[13]': 31
+    'bytes[14]': 145
+    'bytes[15]': 214
