@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 5817043982086609620}
   - component: {fileID: 1888407268385570395}
   - component: {fileID: 5012210769140850556}
+  - component: {fileID: 5030127021440521177}
   m_Layer: 15
   m_Name: HeaderArea
   m_TagString: Untagged
@@ -252,6 +253,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5030127021440521177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6253810585389496229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec5451cc53548d2409787665e9a4b409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7837462811553259138
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,6 +484,7 @@ MonoBehaviour:
   verticalSlotCount: 6
   slotPrefab: {fileID: 7589465340715453603, guid: c1fd285d1ed5d2f45a92fd35cd1e94d0, type: 3}
   contentPanel: {fileID: 1165007849334175238}
+  slotUIList: []
 --- !u!223 &427777572282439470
 Canvas:
   m_ObjectHideFlags: 0
