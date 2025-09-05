@@ -25,22 +25,21 @@ public class UIInventoryItem : MonoBehaviour
 
     private GameObject iconGo;
     private GameObject textGo;
+    private GameObject highLightGo;
 
     private Image slotImage;
 
     private bool isAccessibleSlot = true; // 슬롯 접근가능 여부
     private bool isAccessibleItem = true; // 아이템 접근가능 여부
 
-    /// <summary> 비활성화된 슬롯의 색상 </summary>
-    private static readonly Color InAccessibleSlotColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
-    /// <summary> 비활성화된 아이콘 색상 </summary>
-    private static readonly Color InAccessibleIconColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-
     private void ShowIcon() => iconGo.SetActive(true);
     private void HideIcon() => iconGo.SetActive(false);
 
     private void ShowText() => textGo.SetActive(true);
     private void HideText() => textGo.SetActive(false);
+
+    private void ShowHighLight() => highLightGo.SetActive(true);
+    private void HideHighLight() => highLightGo.SetActive(false);
 
     public void SetSlotIndex(int index) => Index = index;
 
@@ -49,6 +48,7 @@ public class UIInventoryItem : MonoBehaviour
         InitComponent();
         HideIcon();
         HideText();
+        HideHighLight();
     }
 
     private void InitComponent()
@@ -59,6 +59,7 @@ public class UIInventoryItem : MonoBehaviour
         iconRect = itemImage.GetComponent<RectTransform>();
         iconGo = itemImage.gameObject;
         textGo = quantityText.gameObject.transform.parent.gameObject;
+        highLightGo = borderImage.gameObject;
         slotImage = GetComponent<Image>();
     }
 
@@ -72,7 +73,6 @@ public class UIInventoryItem : MonoBehaviour
         }
         else 
         {
-            slotImage.color = InAccessibleSlotColor;
             HideIcon();
             HideText();
         }
@@ -88,11 +88,6 @@ public class UIInventoryItem : MonoBehaviour
         {
             itemImage.color = Color.white;
             quantityText.color = Color.white;
-        }
-        else
-        {
-            itemImage.color = InAccessibleIconColor;
-            quantityText.color = InAccessibleIconColor;
         }
 
         isAccessibleItem = value;

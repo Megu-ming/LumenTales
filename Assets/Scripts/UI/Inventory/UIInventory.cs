@@ -114,7 +114,7 @@ public class UIInventory : MonoBehaviour
     }
 
     /// <summary> 레이캐스트하여 얻은 첫 번째 UI에서 컴포넌트 찾아 리턴 </summary>
-    private T RaycastAndGetFirstComponent<T>() where T : Component
+    private T RaycastAndGetComponent<T>() where T : Component
     {
         rrList.Clear();
 
@@ -123,7 +123,14 @@ public class UIInventory : MonoBehaviour
         if (rrList.Count == 0)
             return null;
 
-        return rrList[0].gameObject.GetComponent<T>();
+        foreach (var rr in rrList)
+        {
+            var result = rr.gameObject.GetComponent<T>();
+            if (result != null)
+                return result;
+        }
+
+        return null;
     }
 
     private void OnPointerEnterAndExit()
@@ -132,7 +139,7 @@ public class UIInventory : MonoBehaviour
         var prevSlot = pointerOverSlot;
 
         // 현재 프레임의 슬롯
-        var curSlot = pointerOverSlot = RaycastAndGetFirstComponent<UIInventoryItem>();
+        var curSlot = pointerOverSlot = RaycastAndGetComponent<UIInventoryItem>();
 
         if(prevSlot == null)
         {
@@ -167,9 +174,9 @@ public class UIInventory : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0)) // 좌클릭
         {
-            beginDragSlot = RaycastAndGetFirstComponent<UIInventoryItem>();
+            beginDragSlot = RaycastAndGetComponent<UIInventoryItem>();
 
-            if(beginDragSlot!=null&&beginDragSlot.HasItem&&beginDragSlot.IsAccessible)
+            if(beginDragSlot != null && beginDragSlot.HasItem && beginDragSlot.IsAccessible)
             {
                 beginDragIconTr = beginDragSlot.IconRect;
                 beginDragIconPoint = beginDragIconTr.position;
@@ -212,7 +219,7 @@ public class UIInventory : MonoBehaviour
 
     private void EndDrag()
     {
-        var endDragSlot = RaycastAndGetFirstComponent<UIInventoryItem>();
+        var endDragSlot = RaycastAndGetComponent<UIInventoryItem>();
 
         if(endDragSlot != null &&endDragSlot.IsAccessible)
         {
