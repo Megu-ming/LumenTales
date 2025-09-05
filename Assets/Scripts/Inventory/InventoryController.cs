@@ -8,12 +8,12 @@ public class InventoryController : MonoBehaviour
     [SerializeField] UIInventory inventoryUI;
 
     public int Capacity { get; private set; }
-    [SerializeField, Range(10, 30)] int initialCapacity = 10;
+    [SerializeField, Range(10, 30)] int initialCapacity = 30;
     [SerializeField, Range(0, 30)] int maxInventorySize = 30;
 
 
     // 실제 아이템 데이터
-    [SerializeField] private Item[] items;
+    private Item[] items;
 
     private void Awake()
     {

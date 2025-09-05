@@ -205,7 +205,7 @@ public class UIInventory : MonoBehaviour
     {
         if(Input.GetMouseButtonUp(0))
         {
-            if(beginDragSlot!=null)
+            if(beginDragSlot != null && beginDragIconTr != null)
             {
                 beginDragIconTr.position = beginDragIconPoint;
                 beginDragSlot.transform.SetSiblingIndex(beginDragSlotIndex);
@@ -246,6 +246,7 @@ public class UIInventory : MonoBehaviour
 
         // 버리기 구현
 
+
         // 드래그 시작 슬롯으로 복귀
     }
 
@@ -263,7 +264,5 @@ public class UIInventory : MonoBehaviour
         if (indexA == indexB) return;
 
         string itemName = $"{inventory.GetItemName(indexA)} x{amount}";
-
-
     }
 }

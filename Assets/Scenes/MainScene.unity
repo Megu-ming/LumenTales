@@ -7059,6 +7059,10 @@ PrefabInstance:
       propertyPath: inventoryUI
       value: 
       objectReference: {fileID: 1531763328}
+    - target: {fileID: 6780688367894138312, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: initialCapacity
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
