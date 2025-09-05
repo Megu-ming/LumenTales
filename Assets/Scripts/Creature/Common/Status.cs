@@ -9,7 +9,7 @@ public class Status : MonoBehaviour
     public RectTransform hpBar;
     public GameObject barPrefab;
     protected GameObject hpBarInstance;
-    public Canvas canvas;
+    public GameObject canvas;
     public float barHeight;
 
     [Header("상태")]
@@ -76,7 +76,7 @@ public class Status : MonoBehaviour
 
         if (barPrefab != null)
         {
-            canvas = FindAnyObjectByType<Canvas>();
+            canvas = GameObject.Find("BackCanvas");
 
             hpBarInstance = Instantiate(barPrefab, canvas.transform);
             hpBar = hpBarInstance.GetComponent<RectTransform>();

@@ -7,22 +7,22 @@ public class Managers : MonoBehaviour
     static bool init = false;
 
     #region Contents
-    GameManager game = new GameManager();
+    GameManager _game = new GameManager();
+    ObjectManager _object = new ObjectManager();
 
-    public static GameManager Game { get { return Instance?.game; } }
+    public static GameManager Game { get { return Instance?._game; } }
+    public static ObjectManager Object { get { return Instance?._object; } }
     #endregion
 
     #region Core
-    DataManager data = new DataManager();
-    ResourceManager resource = new ResourceManager();
-    SceneManagerEx scene = new SceneManagerEx();
-    SoundManager sound = new SoundManager();
-    UIManager ui = new UIManager();
-    public static DataManager Data { get { return Instance?.data; } }
-    public static ResourceManager Resource { get { return Instance?.resource; } }
-    public static SceneManagerEx Scene { get { return Instance?.scene; } }
-    public static SoundManager Sound { get { return Instance?.sound; } }
-    public static UIManager UI { get { return Instance?.ui; } }
+    DataManager _data = new DataManager();
+    SceneManagerEx _scene = new SceneManagerEx();
+    SoundManager _sound = new SoundManager();
+    UIManager _ui = new UIManager();
+    public static DataManager Data { get { return Instance?._data; } }
+    public static SceneManagerEx Scene { get { return Instance?._scene; } }
+    public static SoundManager Sound { get { return Instance?._sound; } }
+    public static UIManager UI { get { return Instance?._ui; } }
 
     #endregion
 
