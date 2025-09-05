@@ -8,9 +8,7 @@ using UnityEngine.UI;
 public class UIInventory : MonoBehaviour
 {
     [Header("Options")]
-    [SerializeField, Range(0,10)] int horizontalSlotCount = 5;  // 슬롯 가로 개수
-    [SerializeField, Range(0,10)] int verticalSlotCount = 6;    // 슬롯 세로 개수
-
+    [SerializeField] int inventoryCapacity;
     [SerializeField] UIInventoryItem slotPrefab;    // 아이템 슬롯 프리팹
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
 
@@ -57,24 +55,22 @@ public class UIInventory : MonoBehaviour
         ped = new PointerEventData(EventSystem.current);
         rrList = new List<RaycastResult>(10);
 
+        inventoryCapacity = inventory.Capacity;
         // ToolTip UI
 
     }
 
     private void InitSlot()
     {
-        for(int j=0;j < verticalSlotCount; j++)
+        for (int i = 0; i < inventoryCapacity; i++)
         {
-            for (int i = 0; i < horizontalSlotCount; i++)
-            {
-                int slotIndex = (horizontalSlotCount * j) + i;
+            int slotIndex = i;
 
-                var slot = Instantiate(slotPrefab, contentPanel);
-                slot.gameObject.SetActive(true);
-                slot.name = $"Slot[{slotIndex}]";
-                slot.SetSlotIndex(slotIndex);
-                slotUIList.Add(slot);
-            }
+            var slot = Instantiate(slotPrefab, contentPanel);
+            slot.gameObject.SetActive(true);
+            slot.name = $"Slot[{slotIndex}]";
+            slot.SetSlotIndex(slotIndex);
+            slotUIList.Add(slot);
         }
     }
 
@@ -221,7 +217,7 @@ public class UIInventory : MonoBehaviour
     {
         var endDragSlot = RaycastAndGetComponent<UIInventoryItem>();
 
-        if(endDragSlot != null &&endDragSlot.IsAccessible)
+        if(endDragSlot != null && endDragSlot.IsAccessible)
         {
             bool isSeparatable =
                    (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftShift)) &&
@@ -243,9 +239,11 @@ public class UIInventory : MonoBehaviour
 
             return;
         }
-
         // 버리기 구현
+        else if(RaycastAndGetComponent<UIInventory>())
+        {
 
+        }
 
         // 드래그 시작 슬롯으로 복귀
     }
