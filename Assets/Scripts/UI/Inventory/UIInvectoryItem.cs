@@ -32,11 +32,10 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private bool isAccessibleSlot = true; // 슬롯 접근가능 여부
     private bool isAccessibleItem = true; // 아이템 접근가능 여부
 
-    private void ShowIcon() => iconGo.SetActive(true);
-    private void HideIcon() => iconGo.SetActive(false);
-
-    private void ShowText() => textGo.SetActive(true);
-    private void HideText() => textGo.SetActive(false);
+    public void ShowIcon() => iconGo.SetActive(true);
+    public void HideIcon() => iconGo.SetActive(false);
+    public void ShowText() => textGo.SetActive(true);
+    public void HideText() => textGo.SetActive(false);
 
     private void ShowHighLight() => highLightGo.SetActive(true);
     private void HideHighLight() => highLightGo.SetActive(false);

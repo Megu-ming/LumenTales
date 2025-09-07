@@ -141,6 +141,7 @@ public class UIInventory : MonoBehaviour,
                 beginDragCursorPoint = Input.mousePosition;
 
                 SetSlotIconInvisible(beginDragSlot, false);
+                beginDragSlot.HideText();
 
                 SetDummyFromSlot(beginDragSlot, beginDragSlot.IconRect);
                 SetDummyPosition(beginDragIconPoint);
@@ -176,7 +177,8 @@ public class UIInventory : MonoBehaviour,
                 EndDrag();
 
                 SetSlotIconInvisible(beginDragSlot, true);
-                if(ImageDummy) { ImageDummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
+                beginDragSlot.ShowText();
+                if (ImageDummy) { ImageDummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
                 //beginDragIconTr.position = beginDragIconPoint;
                 //beginDragSlot.transform.SetSiblingIndex(beginDragSlotIndex);
 
