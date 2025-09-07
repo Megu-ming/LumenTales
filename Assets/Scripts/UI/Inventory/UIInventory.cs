@@ -10,10 +10,11 @@ public class UIInventory : MonoBehaviour,
     IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [Header("Options")]
-    [SerializeField] int inventoryCapacity;
+    [SerializeField, ReadOnly] int inventoryCapacity;
     [SerializeField] UIInventoryItem slotPrefab;    // 아이템 슬롯 프리팹
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
     [SerializeField] GameObject ImageDummy;        // 드래그 중인 아이템 아이콘
+    [SerializeField] 
 
     InventoryController inventory;
 
