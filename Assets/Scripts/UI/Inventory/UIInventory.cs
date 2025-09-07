@@ -4,13 +4,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.PointerEventData;
 
-public class UIInventory : MonoBehaviour
+public class UIInventory : MonoBehaviour, 
+    IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [Header("Options")]
     [SerializeField] int inventoryCapacity;
     [SerializeField] UIInventoryItem slotPrefab;    // 아이템 슬롯 프리팹
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
+    [SerializeField] GameObject ImageDummy;        // 드래그 중인 아이템 아이콘
 
     InventoryController inventory;
 
@@ -19,7 +22,6 @@ public class UIInventory : MonoBehaviour
     private PointerEventData ped;
     private List<RaycastResult> rrList;
 
-    private UIInventoryItem pointerOverSlot;    // 현재 포인터가 위치한 슬롯
     private UIInventoryItem beginDragSlot;      // 드래그를 시작한 슬롯
     private Transform beginDragIconTr;          // 해당 슬롯의 아이콘 트랜스폼
 
@@ -40,11 +42,6 @@ public class UIInventory : MonoBehaviour
     private void Update()
     {
         ped.position = Input.mousePosition;
-
-        OnPointerEnterAndExit();
-        OnPointerDown();
-        OnPointerDrag();
-        OnPointerUp();
     }
 
     private void Init()
@@ -129,83 +126,58 @@ public class UIInventory : MonoBehaviour
         return null;
     }
 
-    private void OnPointerEnterAndExit()
+    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        // 전 프레임의 슬롯
-        var prevSlot = pointerOverSlot;
-
-        // 현재 프레임의 슬롯
-        var curSlot = pointerOverSlot = RaycastAndGetComponent<UIInventoryItem>();
-
-        if(prevSlot == null)
-        {
-            if (curSlot != null)
-                OnCurrentEnter();
-        }
-        else
-        {
-            if (curSlot == null)
-                OnPrevExit();
-            else if(prevSlot!=curSlot)
-            {
-                OnPrevExit();
-                OnCurrentEnter();
-            }
-        }
-
-        void OnCurrentEnter()
-        {
-            // 보더 이미지 활성화
-            //if (_showHighlight)
-            //    curSlot.Highlight(true);
-        }
-        void OnPrevExit()
-        {
-            // 보더 이미지 비활성화
-            // prevSlot.Highlight(false);
-        }
-    }
-
-    private void OnPointerDown()
-    {
-        if(Input.GetMouseButtonDown(0)) // 좌클릭
+        if(eventData.button == InputButton.Left) // 좌클릭
         {
             beginDragSlot = RaycastAndGetComponent<UIInventoryItem>();
 
             if(beginDragSlot != null && beginDragSlot.HasItem && beginDragSlot.IsAccessible)
             {
+                beginDragSlotIndex = beginDragSlot.Index;
                 beginDragIconTr = beginDragSlot.IconRect;
                 beginDragIconPoint = beginDragIconTr.position;
                 beginDragCursorPoint = Input.mousePosition;
 
-                beginDragSlotIndex = beginDragSlot.Index;
-                // 아이콘을 최상위로
-                beginDragIconTr.SetAsLastSibling();
+                SetSlotIconInvisible(beginDragSlot, false);
+
+                SetDummyFromSlot(beginDragSlot, beginDragSlot.IconRect);
+                SetDummyPosition(beginDragIconPoint);
             }
         }
         // 우클릭 : 아이템 사용
-    }
-
-    private void OnPointerDrag()
-    {
-        if (beginDragSlot == null) return;
-
-        if (Input.GetMouseButton(0))
+        else if(eventData.button == InputButton.Right)
         {
-            if(beginDragIconTr)
-                beginDragIconTr.position = beginDragIconPoint + (Input.mousePosition - beginDragCursorPoint);
+            // TODO : 아이템 사용
         }
     }
 
-    private void OnPointerUp()
+    void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        if(Input.GetMouseButtonUp(0))
+        if (beginDragSlot == null) return;
+
+        if (eventData.button == InputButton.Left)
+        {
+            if (beginDragIconTr)
+            {
+                Vector3 pos = beginDragIconPoint + (Input.mousePosition - beginDragCursorPoint);
+                SetDummyPosition(pos);
+            }
+        }
+    }
+
+    void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
+    {
+        if(eventData.button == InputButton.Left)
         {
             if(beginDragSlot != null && beginDragIconTr != null)
             {
-                beginDragIconTr.position = beginDragIconPoint;
-                beginDragSlot.transform.SetSiblingIndex(beginDragSlotIndex);
                 EndDrag();
+
+                SetSlotIconInvisible(beginDragSlot, true);
+                if(ImageDummy) { ImageDummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
+                //beginDragIconTr.position = beginDragIconPoint;
+                //beginDragSlot.transform.SetSiblingIndex(beginDragSlotIndex);
 
                 beginDragSlot = null;
                 beginDragIconTr = null;
@@ -262,5 +234,28 @@ public class UIInventory : MonoBehaviour
         if (indexA == indexB) return;
 
         string itemName = $"{inventory.GetItemName(indexA)} x{amount}";
+    }
+
+    private void SetSlotIconInvisible(UIInventoryItem slot, bool visible)
+    {
+        if(slot?.itemImage != null)
+            slot.itemImage.enabled = visible;
+    }
+
+    private void SetDummyFromSlot(UIInventoryItem slot, RectTransform rt)
+    {
+        var icon = slot?.itemImage;
+        var dummy = ImageDummy?.GetComponent<Image>();
+        dummy.sprite = icon?.sprite;
+        var dummyRt = ImageDummy?.GetComponent<RectTransform>();
+        dummyRt = rt;
+
+        dummy.enabled = true;
+    }
+
+    private void SetDummyPosition(Vector3 pos)
+    {
+        if (ImageDummy != null)
+            ImageDummy.transform.position = pos;
     }
 }

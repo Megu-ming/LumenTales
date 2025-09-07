@@ -615,4 +615,5 @@ MonoBehaviour:
   inventoryCapacity: 0
   slotPrefab: {fileID: 7589465340715453603, guid: c1fd285d1ed5d2f45a92fd35cd1e94d0, type: 3}
   contentPanel: {fileID: 1165007849334175238}
+  ImageDummy: {fileID: 0}
   slotUIList: []

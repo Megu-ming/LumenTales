@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIInventoryItem : MonoBehaviour
+public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] Image itemImage;
+    public Image itemImage;
 
     [SerializeField] TMP_Text quantityText;
 
@@ -131,5 +131,21 @@ public class UIInventoryItem : MonoBehaviour
         else HideText();
 
         quantityText.text = amount.ToString();
+    }
+
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        //if (!HasItem) return;
+        if (!IsAccessible) return;
+        ShowHighLight();
+        //inventoryUI.ShowItemTooltip(Index, transform as RectTransform);
+    }
+
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        //if (!HasItem) return;
+        if (!IsAccessible) return;
+        HideHighLight();
+        //inventoryUI.HideItemTooltip();
     }
 }
