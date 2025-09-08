@@ -7072,7 +7072,7 @@ PrefabInstance:
       objectReference: {fileID: 1531763328}
     - target: {fileID: 6780688367894138312, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: initialCapacity
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8171,6 +8171,14 @@ PrefabInstance:
       propertyPath: ImageDummy
       value: 
       objectReference: {fileID: 252973266}
+    - target: {fileID: 5809806093151594674, guid: 0c86538808e9f32438290bc01301239c, type: 3}
+      propertyPath: imageDummy
+      value: 
+      objectReference: {fileID: 252973266}
+    - target: {fileID: 5809806093151594674, guid: 0c86538808e9f32438290bc01301239c, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 6129715416068939442, guid: ef3e01fd193803440bd9d37827e6716d, type: 3}
     - target: {fileID: 5817043982086609620, guid: 0c86538808e9f32438290bc01301239c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

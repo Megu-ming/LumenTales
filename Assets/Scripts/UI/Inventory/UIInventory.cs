@@ -7,18 +7,19 @@ using UnityEngine.UI;
 using static UnityEngine.EventSystems.PointerEventData;
 
 public class UIInventory : MonoBehaviour, 
-    IPointerDownHandler, IPointerUpHandler, IDragHandler
+    IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerMoveHandler
 {
     [Header("Options")]
     [SerializeField, ReadOnly] int inventoryCapacity;
     [SerializeField] UIInventoryItem slotPrefab;    // 아이템 슬롯 프리팹
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
-    [SerializeField] GameObject ImageDummy;        // 드래그 중인 아이템 아이콘
-    [SerializeField] 
+    [SerializeField] GameObject imageDummy;        // 드래그 중인 아이템 아이콘
+    [SerializeField] GameObject tooltipPrefab;      // 툴팁 프리팹
 
     InventoryController inventory;
 
-    [SerializeField] List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
+    List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
+    private UIItemTooltip tooltip;
     private GraphicRaycaster gr;
     private PointerEventData ped;
     private List<RaycastResult> rrList;
@@ -28,7 +29,6 @@ public class UIInventory : MonoBehaviour,
 
     private Vector3 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
     private Vector3 beginDragCursorPoint;       // 드래그 시작시 커서 위치
-    private int beginDragSlotIndex;          // 드래그 시작시 슬롯 인덱스
 
     public void Show() => gameObject.SetActive(true);
     public void Hide() => gameObject.SetActive(false);
@@ -55,7 +55,9 @@ public class UIInventory : MonoBehaviour,
 
         inventoryCapacity = inventory.Capacity;
         // ToolTip UI
-
+        tooltip = Instantiate(tooltipPrefab).GetComponent<UIItemTooltip>();
+        tooltip.transform.SetParent(transform.parent);
+        tooltip.gameObject.SetActive(false);
     }
 
     private void InitSlot()
@@ -82,32 +84,13 @@ public class UIInventory : MonoBehaviour,
         slotUIList[index].SetItem(icon);
     }
 
-    public void SetItemAmountText(int index, int amount)
-    {
-        slotUIList[index].SetItemAmount(amount);
-    }
-
-    public void HideItemAmountText(int index)
-    {
-        if (slotUIList.Count == 0 || !slotUIList[index].HasItem) return;
-        slotUIList[index].SetItemAmount(1);
-    }
-
     public void RemoveItem(int index)
     {
         if (slotUIList.Count == 0 || !slotUIList[index].HasItem) return;
         slotUIList[index].RemoveItem();
     }
 
-    public void SetAccessibleSlotRange(int accessibleSlotCount)
-    {
-        for (int i = 0; i < slotUIList.Count; i++)
-        {
-            slotUIList[i].SetSlotAccessibleState(i < accessibleSlotCount);
-        }
-    }
-
-    /// <summary> 레이캐스트하여 얻은 첫 번째 UI에서 컴포넌트 찾아 리턴 </summary>
+    /// <summary> 레이캐스트하여 얻은 UI에서 컴포넌트 찾아 리턴 </summary>
     private T RaycastAndGetComponent<T>() where T : Component
     {
         rrList.Clear();
@@ -127,6 +110,25 @@ public class UIInventory : MonoBehaviour,
         return null;
     }
 
+    void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
+    {
+        // ToolTip UI
+        UIInventoryItem slot = RaycastAndGetComponent<UIInventoryItem>();
+        if (slot && slot.HasItem)
+        {
+            int index = slot.Index;
+            var data = inventory.GetItemData(index);
+            tooltip.SetupTooltip(data.ItemName, "others", data.Tooltip);
+            tooltip.gameObject.SetActive(true);
+            tooltip.transform.position = eventData.position;
+            Debug.Log("PointerMove");
+        }
+        else
+        {
+            tooltip.gameObject.SetActive(false);
+        }
+    }
+
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
         if(eventData.button == InputButton.Left) // 좌클릭
@@ -135,13 +137,11 @@ public class UIInventory : MonoBehaviour,
 
             if(beginDragSlot != null && beginDragSlot.HasItem && beginDragSlot.IsAccessible)
             {
-                beginDragSlotIndex = beginDragSlot.Index;
                 beginDragIconTr = beginDragSlot.IconRect;
                 beginDragIconPoint = beginDragIconTr.position;
                 beginDragCursorPoint = Input.mousePosition;
 
                 SetSlotIconInvisible(beginDragSlot, false);
-                beginDragSlot.HideText();
 
                 SetDummyFromSlot(beginDragSlot, beginDragSlot.IconRect);
                 SetDummyPosition(beginDragIconPoint);
@@ -177,8 +177,7 @@ public class UIInventory : MonoBehaviour,
                 EndDrag();
 
                 SetSlotIconInvisible(beginDragSlot, true);
-                beginDragSlot.ShowText();
-                if (ImageDummy) { ImageDummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
+                if (imageDummy) { imageDummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
                 //beginDragIconTr.position = beginDragIconPoint;
                 //beginDragSlot.transform.SetSiblingIndex(beginDragSlotIndex);
 
@@ -248,9 +247,9 @@ public class UIInventory : MonoBehaviour,
     private void SetDummyFromSlot(UIInventoryItem slot, RectTransform rt)
     {
         var icon = slot?.itemImage;
-        var dummy = ImageDummy?.GetComponent<Image>();
+        var dummy = imageDummy?.GetComponent<Image>();
         dummy.sprite = icon?.sprite;
-        var dummyRt = ImageDummy?.GetComponent<RectTransform>();
+        var dummyRt = imageDummy?.GetComponent<RectTransform>();
         dummyRt = rt;
 
         dummy.enabled = true;
@@ -258,7 +257,7 @@ public class UIInventory : MonoBehaviour,
 
     private void SetDummyPosition(Vector3 pos)
     {
-        if (ImageDummy != null)
-            ImageDummy.transform.position = pos;
+        if (imageDummy != null)
+            imageDummy.transform.position = pos;
     }
 }

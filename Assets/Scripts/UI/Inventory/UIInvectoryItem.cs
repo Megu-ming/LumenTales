@@ -8,9 +8,6 @@ using UnityEngine.UI;
 public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Image itemImage;
-
-    [SerializeField] TMP_Text quantityText;
-
     [SerializeField] Image borderImage;
 
     private UIInventory inventoryUI;
@@ -24,7 +21,6 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private RectTransform iconRect;
 
     private GameObject iconGo;
-    private GameObject textGo;
     private GameObject highLightGo;
 
     private Image slotImage;
@@ -34,8 +30,6 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void ShowIcon() => iconGo.SetActive(true);
     public void HideIcon() => iconGo.SetActive(false);
-    public void ShowText() => textGo.SetActive(true);
-    public void HideText() => textGo.SetActive(false);
 
     private void ShowHighLight() => highLightGo.SetActive(true);
     private void HideHighLight() => highLightGo.SetActive(false);
@@ -46,7 +40,6 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         InitComponent();
         HideIcon();
-        HideText();
         HideHighLight();
     }
 
@@ -57,39 +50,8 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         slotRect = GetComponent<RectTransform>();
         iconRect = itemImage.GetComponent<RectTransform>();
         iconGo = itemImage.gameObject;
-        textGo = quantityText.gameObject.transform.parent.gameObject;
         highLightGo = borderImage.gameObject;
         slotImage = GetComponent<Image>();
-    }
-
-    public void SetSlotAccessibleState(bool value)
-    {
-        if (isAccessibleSlot == value) return;
-
-        if(value)
-        {
-            slotImage.color = Color.black;
-        }
-        else 
-        {
-            HideIcon();
-            HideText();
-        }
-
-        isAccessibleSlot = value;
-    }
-
-    public void SetItemAccessibleState(bool value)
-    {
-        if(isAccessibleItem == value) return;
-
-        if (value)
-        {
-            itemImage.color = Color.white;
-            quantityText.color = Color.white;
-        }
-
-        isAccessibleItem = value;
     }
 
     public void SwapOrMoveIcon(UIInventoryItem other)
@@ -121,21 +83,12 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         itemImage.sprite = null;
         HideIcon();
-        HideText();
-    }
-
-    public void SetItemAmount(int amount)
-    {
-        if(HasItem&&amount>1) ShowText();
-        else HideText();
-
-        quantityText.text = amount.ToString();
     }
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
         //if (!HasItem) return;
-        if (!IsAccessible) return;
+        if (!IsAccessible && !HasItem) return;
         ShowHighLight();
         //inventoryUI.ShowItemTooltip(Index, transform as RectTransform);
     }

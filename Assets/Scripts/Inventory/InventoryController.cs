@@ -11,7 +11,6 @@ public class InventoryController : MonoBehaviour
     [SerializeField, Range(10, 30)] int initialCapacity = 30;
     [SerializeField, Range(0, 30)] int maxInventorySize = 30;
 
-
     // 실제 아이템 데이터
     private Item[] items;
 
@@ -116,19 +115,7 @@ public class InventoryController : MonoBehaviour
             itemA.itemData == itemB.itemData && 
             itemA is CountableItem ciA && itemB is CountableItem ciB)
         {
-            int maxAmount = ciB.MaxAmount;
-            int sum = ciA.Amount + ciB.Amount;
-
-            if(sum<=maxAmount)
-            {
-                ciA.SetAmount(0);
-                ciB.SetAmount(sum);
-            }
-            else 
-            {
-                ciA.SetAmount(sum - maxAmount);
-                ciB.SetAmount(maxAmount);
-            }
+            
         }
         else
         {
@@ -169,16 +156,12 @@ public class InventoryController : MonoBehaviour
                     items[index] = null;
                     RemoveIcon();
                 }
-                // 1-1-2. 수량 텍스트 표시
-                else
-                {
-                    inventoryUI.SetItemAmountText(index, ci.Amount);
-                }
+                
             }
             // 1-2. 셀 수 없는 아이템인 경우 수량 텍스트 제거
             else
             {
-                inventoryUI.HideItemAmountText(index);
+                
             }
         }
         // 2. 빈 슬롯인 경우 : 아이콘 제거
@@ -191,7 +174,6 @@ public class InventoryController : MonoBehaviour
         void RemoveIcon()
         {
             inventoryUI.RemoveItem(index);
-            inventoryUI.HideItemAmountText(index); // 수량 텍스트 숨기기
         }
     }
 
