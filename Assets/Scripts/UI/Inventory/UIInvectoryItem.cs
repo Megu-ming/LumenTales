@@ -90,7 +90,6 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         //if (!HasItem) return;
         if (!IsAccessible && !HasItem) return;
         ShowHighLight();
-        //inventoryUI.ShowItemTooltip(Index, transform as RectTransform);
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
@@ -98,6 +97,5 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         //if (!HasItem) return;
         if (!IsAccessible) return;
         HideHighLight();
-        //inventoryUI.HideItemTooltip();
     }
 }
