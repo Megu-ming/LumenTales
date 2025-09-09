@@ -8,13 +8,11 @@ public class UIItemTooltip : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TextMeshProUGUI atkText;
     [SerializeField] TextMeshProUGUI atkValueText;
-    [SerializeField] TextMeshProUGUI typeText;
     [SerializeField] TextMeshProUGUI descriptionText;
 
     public void SetupTooltip(string name, string type, string des, int atk = 0)
     {
         nameText.text = name;
-        typeText.text = type;
         descriptionText.text = des;
 
         if (atk == 0)

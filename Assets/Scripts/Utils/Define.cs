@@ -1,14 +1,5 @@
 ﻿public enum WalkableDirection { Right, Left };
 
-public enum ItemType
-{
-    Weapon,
-    Armor,
-    Consumable,
-    Gold,
-    Other
-}
-
 public enum QuestGoalType
 {
     Kill,
@@ -22,4 +13,13 @@ public enum EnemyType
     Object,
     Normal,
     Boss
+}
+
+public enum EquipmentSlotType
+{
+    Head,
+    Chest,
+    Legs,
+    Gloves,
+    Boots,
 }

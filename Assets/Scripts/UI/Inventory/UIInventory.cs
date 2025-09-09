@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +16,7 @@ public class UIInventory : MonoBehaviour,
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
     [SerializeField] GameObject imageDummy;        // 드래그 중인 아이템 아이콘
     [SerializeField] GameObject tooltipPrefab;      // 툴팁 프리팹
+    [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
     InventoryController inventory;
 
@@ -35,14 +37,17 @@ public class UIInventory : MonoBehaviour,
 
     private void Awake()
     {
-        Init();
-        InitSlot();
         Hide();
     }
 
     private void Update()
     {
-        ped.position = Input.mousePosition;
+        if(ped != null) ped.position = Input.mousePosition;
+    }
+
+    private void OnDestroy()
+    {
+        if (inventory != null) inventory.OnGoldChanged -= UpdateGoldText;
     }
 
     private void Init()
@@ -77,6 +82,15 @@ public class UIInventory : MonoBehaviour,
     public void SetInventoryReference(InventoryController inventory)
     {
         this.inventory = inventory;
+        Init();
+        InitSlot();
+        UpdateGoldText(inventory.Gold);
+        inventory.OnGoldChanged += UpdateGoldText;
+    }
+
+    private void UpdateGoldText(int gold)
+    {
+        if (goldText != null) goldText.text = gold.ToString();
     }
 
     public void SetItemIcon(int index, Sprite icon)
@@ -121,7 +135,6 @@ public class UIInventory : MonoBehaviour,
             tooltip.SetupTooltip(data.ItemName, "others", data.Tooltip);
             tooltip.gameObject.SetActive(true);
             tooltip.transform.position = eventData.position;
-            Debug.Log("PointerMove");
         }
         else
         {

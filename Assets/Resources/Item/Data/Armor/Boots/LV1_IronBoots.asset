@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10aa05b7b0ae1a6469d2d97bbbeea8ba, type: 3}
-  m_Name: TestItem2
+  m_Script: {fileID: 11500000, guid: 95fc6a6bddfdae649963f8b637620a24, type: 3}
+  m_Name: LV1_IronBoots
   m_EditorClassIdentifier: 
-  itemName: Gold
-  icon: {fileID: 1507263637300183655, guid: 031344c00cca4474e8e1ae7c94de79eb, type: 3}
+  itemName: Iron boots
+  icon: {fileID: -537388429866779568, guid: ecbb56fef5785454db885b6fa197a8d4, type: 3}
   prefab: {fileID: 5703064305491636780, guid: 1f0435bf836b7f3409514ef3e7ae8aef, type: 3}
-  tooltip: Time is Gold
-  maxAmount: 99
+  tooltip: These are old iron shoes.
+  slot: 4
+  defenseValue: 5

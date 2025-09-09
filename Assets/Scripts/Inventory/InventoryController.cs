@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
@@ -14,12 +14,19 @@ public class InventoryController : MonoBehaviour
     // 실제 아이템 데이터
     private Item[] items;
 
+    public int Gold { get; private set; }
+    public event Action<int> OnGoldChanged;
+
+    private readonly Dictionary<EquipmentSlotType, EquipmentItem> equipped = new();
+
     private void Awake()
     {
         items = new Item[maxInventorySize];
         Capacity = initialCapacity;
+
         if (inventoryUI != null) inventoryUI.SetInventoryReference(this);
         RefreshAllSlots();
+        RaiseGoldChanged();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,8 +36,7 @@ public class InventoryController : MonoBehaviour
 
         int remainder = Add(world.itemData, world.amount);
 
-        if(remainder<=0)
-            world.CollectItem(transform);
+        if(remainder<=0) world.CollectItem(transform);
         else world.amount = remainder;
     }
 
@@ -46,13 +52,34 @@ public class InventoryController : MonoBehaviour
         if (!IsCountableItem(index)) return 0;
         return ((CountableItem)items[index]).Amount;
     }
+
+    public void AddGold(int amount)
+    {
+        if (amount <= 0) return;
+        Gold += amount;
+        RaiseGoldChanged();
+    }
+
+    public bool SpendGold(int amount)
+    {
+        if (amount <= 0) return true;
+        if (amount > Gold) return false;
+        Gold -= amount;
+        RaiseGoldChanged();
+        return true;
+    }
     #endregion
 
     public int Add(ItemData itemData, int amount = 1)
     {
         if (itemData == null || amount <= 0) return 0;
+        if(itemData is GoldData gd)
+        {
+            AddGold(gd.amount);
+            return 0;
+        }
 
-        if(itemData.IsStackable)
+        if (itemData.IsStackable)
         {
             // 같은 스택에 병합 먼저
             int remain = amount;
@@ -111,11 +138,11 @@ public class InventoryController : MonoBehaviour
         Item itemB = items[indexB];
 
         // 셀 수 있고 동일한 아이템이면 A -> B로 개수 합치기
-        if(itemA != null && itemB != null && 
-            itemA.itemData == itemB.itemData && 
-            itemA is CountableItem ciA && itemB is CountableItem ciB)
+        if (itemA is CountableItem ca && itemB is CountableItem cb && ca.CanMerge(cb))
         {
-            
+            int remain = cb.MergeUpToMax(ca.Amount);
+            ca.SetAmount(remain);
+            if (ca.IsEmpty) items[indexA] = null;
         }
         else
         {
@@ -124,6 +151,50 @@ public class InventoryController : MonoBehaviour
         }
 
         UpdateSlot(indexA); UpdateSlot(indexB);
+    }
+
+    public void UseAt(int index)
+    {
+        if(!IsValidIndex(index) || items[index] == null) return;
+
+        if (items[index] is ConsumableItem con)
+        {
+            bool used = con.Use(this);
+            if (used)
+            {
+                if(con.IsEmpty) items[index] = null;
+                UpdateSlot(index);
+            }
+        }
+        else if (items[index] is EquipmentItem eq)
+        {
+            ToggleEquip(index, eq);
+        }
+    }
+
+    private void ToggleEquip(int index, EquipmentItem eq)
+    {
+        var slot = eq.ArmorData.slot;
+
+        // 이미 같은 슬롯에 장비가 있으면 인벤토리로 반환(빈칸 필요)
+        if (equipped.TryGetValue(slot, out var current))
+        {
+            int empty = FindEmptySlotIndex();
+            if (empty == -1)
+            {
+                Debug.LogWarning("No empty slot to unequip current armor.");
+                return;
+            }
+            items[empty] = current;
+            UpdateSlot(empty);
+        }
+
+        // 현재 슬롯의 장비를 장착 목록으로 이동
+        equipped[slot] = eq;
+        items[index] = null;
+        UpdateSlot(index);
+
+        Debug.Log($"Equipped {eq.itemData.ItemName} to {slot}");
     }
 
     public void OnInventoryToggle()
@@ -193,5 +264,7 @@ public class InventoryController : MonoBehaviour
         if(!inventoryUI) return;
         for (int i = 0; i < Capacity; i++) UpdateSlot(i);
     }
+
+    private void RaiseGoldChanged() => OnGoldChanged?.Invoke(Gold);
     #endregion
 }

@@ -8,7 +8,6 @@ public class ItemData : ScriptableObject
     public Transform Prefab => prefab;
 
     [SerializeField] private string itemName;
-    [SerializeField] private ItemType itemType;
     [SerializeField] private Sprite icon;
     [SerializeField] private Transform prefab;
     [Multiline]
