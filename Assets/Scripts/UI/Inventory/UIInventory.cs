@@ -33,7 +33,11 @@ public class UIInventory : MonoBehaviour,
     private Vector3 beginDragCursorPoint;       // 드래그 시작시 커서 위치
 
     public void Show() => gameObject.SetActive(true);
-    public void Hide() => gameObject.SetActive(false);
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+        tooltip?.gameObject.SetActive(false);
+    }
 
     private void Awake()
     {
@@ -132,7 +136,7 @@ public class UIInventory : MonoBehaviour,
         {
             int index = slot.Index;
             var data = inventory.GetItemData(index);
-            tooltip.SetupTooltip(data.ItemName, "others", data.Tooltip);
+            tooltip.SetupTooltip(data.ItemName, data.Tooltip, data.Price);
             tooltip.gameObject.SetActive(true);
             tooltip.transform.position = eventData.position;
         }

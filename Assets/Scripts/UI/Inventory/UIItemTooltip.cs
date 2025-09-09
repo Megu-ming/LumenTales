@@ -9,8 +9,9 @@ public class UIItemTooltip : MonoBehaviour
     [SerializeField] TextMeshProUGUI atkText;
     [SerializeField] TextMeshProUGUI atkValueText;
     [SerializeField] TextMeshProUGUI descriptionText;
+    [SerializeField] TextMeshProUGUI priceValueText;
 
-    public void SetupTooltip(string name, string type, string des, int atk = 0)
+    public void SetupTooltip(string name, string des, int price, int atk = 0)
     {
         nameText.text = name;
         descriptionText.text = des;
@@ -26,5 +27,7 @@ public class UIItemTooltip : MonoBehaviour
             atkValueText.gameObject.SetActive(true);
             atkValueText.text = atk.ToString();
         }
+
+        priceValueText.text = price.ToString();
     }
 }
