@@ -24,11 +24,13 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: d317af0805b9cdd4d9e8ba58eb265ac4, type: 2}
     weight: 10
   - item: {fileID: 11400000, guid: dcccc5c3c943bb049a48aed0f4d94bcd, type: 2}
-    weight: 10
+    weight: 2
   - item: {fileID: 11400000, guid: dcb36f51265cee34a9e118f7ef7c5e5c, type: 2}
-    weight: 10
+    weight: 2
   - item: {fileID: 11400000, guid: 4c91150c9ae2ea4479915ed7a92e48d3, type: 2}
-    weight: 10
+    weight: 2
   - item: {fileID: 11400000, guid: e1b306bcfb80acd43b14b6072674dacd, type: 2}
-    weight: 10
+    weight: 2
+  - item: {fileID: 11400000, guid: abdc9287c0b74124791fdc9a1540477c, type: 2}
+    weight: 50
   weightMax: 100
