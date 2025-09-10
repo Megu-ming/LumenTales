@@ -287,7 +287,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -7042,6 +7042,46 @@ PrefabInstance:
     - target: {fileID: 910687419780863520, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 912304346}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1531763328}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnToggleEquipment
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnInventoryToggle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIEquipment, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIInventory, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.x

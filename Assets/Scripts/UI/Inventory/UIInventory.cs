@@ -54,33 +54,10 @@ public class UIInventory : MonoBehaviour,
         if (inventory != null) inventory.OnGoldChanged -= UpdateGoldText;
     }
 
-    private void Init()
+    public void OnInventoryToggle()
     {
-        TryGetComponent(out gr);
-        if (gr == null)
-            gr = gameObject.AddComponent<GraphicRaycaster>();
-        ped = new PointerEventData(EventSystem.current);
-        rrList = new List<RaycastResult>(10);
-
-        inventoryCapacity = inventory.Capacity;
-        // ToolTip UI
-        tooltip = Instantiate(tooltipPrefab).GetComponent<UIItemTooltip>();
-        tooltip.transform.SetParent(transform.parent);
-        tooltip.gameObject.SetActive(false);
-    }
-
-    private void InitSlot()
-    {
-        for (int i = 0; i < inventoryCapacity; i++)
-        {
-            int slotIndex = i;
-
-            var slot = Instantiate(slotPrefab, contentPanel);
-            slot.gameObject.SetActive(true);
-            slot.name = $"Slot[{slotIndex}]";
-            slot.SetSlotIndex(slotIndex);
-            slotUIList.Add(slot);
-        }
+        if (gameObject.activeSelf) Hide();
+        else Show(); 
     }
 
     public void SetInventoryReference(InventoryController inventory)
@@ -90,11 +67,6 @@ public class UIInventory : MonoBehaviour,
         InitSlot();
         UpdateGoldText(inventory.Gold);
         inventory.OnGoldChanged += UpdateGoldText;
-    }
-
-    private void UpdateGoldText(int gold)
-    {
-        if (goldText != null) goldText.text = gold.ToString();
     }
 
     public void SetItemIcon(int index, Sprite icon)
@@ -108,26 +80,8 @@ public class UIInventory : MonoBehaviour,
         slotUIList[index].RemoveItem();
     }
 
-    /// <summary> 레이캐스트하여 얻은 UI에서 컴포넌트 찾아 리턴 </summary>
-    private T RaycastAndGetComponent<T>() where T : Component
-    {
-        rrList.Clear();
 
-        gr.Raycast(ped, rrList);
-
-        if (rrList.Count == 0)
-            return null;
-
-        foreach (var rr in rrList)
-        {
-            var result = rr.gameObject.GetComponent<T>();
-            if (result != null)
-                return result;
-        }
-
-        return null;
-    }
-
+    #region Event System Handlers
     void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
     {
         // ToolTip UI
@@ -208,6 +162,37 @@ public class UIInventory : MonoBehaviour,
             }
         }
     }
+    #endregion
+
+    #region Private Methods
+    private void Init()
+    {
+        TryGetComponent(out gr);
+        if (gr == null)
+            gr = gameObject.AddComponent<GraphicRaycaster>();
+        ped = new PointerEventData(EventSystem.current);
+        rrList = new List<RaycastResult>(10);
+
+        inventoryCapacity = inventory.Capacity;
+        // ToolTip UI
+        tooltip = Instantiate(tooltipPrefab).GetComponent<UIItemTooltip>();
+        tooltip.transform.SetParent(transform.parent);
+        tooltip.gameObject.SetActive(false);
+    }
+
+    private void InitSlot()
+    {
+        for (int i = 0; i < inventoryCapacity; i++)
+        {
+            int slotIndex = i;
+
+            var slot = Instantiate(slotPrefab, contentPanel);
+            slot.gameObject.SetActive(true);
+            slot.name = $"Slot[{slotIndex}]";
+            slot.SetSlotIndex(slotIndex);
+            slotUIList.Add(slot);
+        }
+    }
 
     private void EndDrag()
     {
@@ -244,6 +229,26 @@ public class UIInventory : MonoBehaviour,
         // 드래그 시작 슬롯으로 복귀
     }
 
+    /// <summary> 레이캐스트하여 얻은 UI에서 컴포넌트 찾아 리턴 </summary>
+    private T RaycastAndGetComponent<T>() where T : Component
+    {
+        rrList.Clear();
+
+        gr.Raycast(ped, rrList);
+
+        if (rrList.Count == 0)
+            return null;
+
+        foreach (var rr in rrList)
+        {
+            var result = rr.gameObject.GetComponent<T>();
+            if (result != null)
+                return result;
+        }
+
+        return null;
+    }
+
     private void TrySwapItems(UIInventoryItem from,  UIInventoryItem to)
     {
         if (from == to)
@@ -260,9 +265,14 @@ public class UIInventory : MonoBehaviour,
         string itemName = $"{inventory.GetItemName(indexA)} x{amount}";
     }
 
+    private void UpdateGoldText(int gold)
+    {
+        if (goldText != null) goldText.text = gold.ToString();
+    }
+
     private void SetSlotIconInvisible(UIInventoryItem slot, bool visible)
     {
-        if(slot?.itemImage != null)
+        if (slot?.itemImage != null)
             slot.itemImage.enabled = visible;
     }
 
@@ -282,4 +292,5 @@ public class UIInventory : MonoBehaviour,
         if (imageDummy != null)
             imageDummy.transform.position = pos;
     }
+#endregion
 }

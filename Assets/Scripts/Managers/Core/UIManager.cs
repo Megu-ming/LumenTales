@@ -8,11 +8,6 @@ public class UIManager : MonoBehaviour
     public GameObject healthTextPrefab;
     public float textHeight;
 
-    private void Awake()
-    {
-        gameCanvas = FindAnyObjectByType<Canvas>();
-    }
-
     private void OnEnable()
     {
         CharacterEvents.characterDamaged += CharacterTookDamage;

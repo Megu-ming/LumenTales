@@ -50,7 +50,7 @@ public class InventoryController : MonoBehaviour
         else world.amount = remainder;
     }
 
-    #region public API
+    #region Public Methods
     public bool HasItem(int index) => IsValidIndex(index) && items[index] != null;
     public bool IsCountableItem(int index) => HasItem(index) && items[index] is CountableItem;
 
@@ -80,7 +80,6 @@ public class InventoryController : MonoBehaviour
         RaiseGoldChanged();
         return true;
     }
-    #endregion
 
     public int Add(ItemData itemData, int amount = 1)
     {
@@ -183,7 +182,9 @@ public class InventoryController : MonoBehaviour
             ToggleEquip(index, eq);
         }
     }
+    #endregion
 
+    #region Private Function
     private void ToggleEquip(int index, EquipmentItem eq)
     {
         var slot = eq.EquipmentData.slot;
@@ -209,16 +210,7 @@ public class InventoryController : MonoBehaviour
 
         Debug.Log($"Equipped {eq.itemData.ItemName} to {slot}");
     }
-
-    public void OnInventoryToggle()
-    {
-        if (inventoryUI.gameObject.activeSelf)
-        { inventoryUI.Hide(); }
-        else
-        { inventoryUI.Show(); }
-    }
-
-    #region Private Function
+    
     private void UpdateSlot(int index)
     {
         if (!inventoryUI || !IsValidIndex(index)) return;
