@@ -168,6 +168,11 @@ public class UIInventory : MonoBehaviour,
         else if(eventData.button == InputButton.Right)
         {
             // TODO : 아이템 사용
+            var slot = RaycastAndGetComponent<UIInventoryItem>();
+            if(slot!=null&&slot.HasItem && slot.IsAccessible)
+            {
+                inventory.UseAt(slot.Index);
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Armor", menuName = "Inventory/Items/Armor")]
-public class ArmorItemData : ItemData
+public class EquipmentItemData : ItemData
 {
     public EquipmentSlotType slot;
     public int defenseValue = 5;

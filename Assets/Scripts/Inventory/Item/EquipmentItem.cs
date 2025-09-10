@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class EquipmentItem : Item
 {
-    public ArmorItemData ArmorData { get;private set; }
+    public EquipmentItemData EquipmentData { get;private set; }
 
-    public EquipmentItem(ArmorItemData data) : base(data)
+    public EquipmentItem(EquipmentItemData data) : base(data)
     {
-        ArmorData = data;
+        EquipmentData = data;
     }
 }

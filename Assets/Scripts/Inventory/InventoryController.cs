@@ -6,6 +6,7 @@ public class InventoryController : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] UIInventory inventoryUI;
+    [SerializeField] UIEquipment equipmentUI;
 
     public int Capacity { get; private set; }
     [SerializeField, Range(10, 30)] int initialCapacity = 30;
@@ -14,10 +15,13 @@ public class InventoryController : MonoBehaviour
     // 실제 아이템 데이터
     private Item[] items;
 
+    // 장비 슬롯
+    private readonly Dictionary<EquipmentSlotType, EquipmentItem> equipped = new();
+    public event Action<EquipmentSlotType, EquipmentItem> OnEquippedChanged;
+
     public int Gold { get; private set; }
     public event Action<int> OnGoldChanged;
 
-    private readonly Dictionary<EquipmentSlotType, EquipmentItem> equipped = new();
 
     private void Awake()
     {
@@ -25,8 +29,14 @@ public class InventoryController : MonoBehaviour
         Capacity = initialCapacity;
 
         if (inventoryUI != null) inventoryUI.SetInventoryReference(this);
+        if (equipmentUI != null) equipmentUI.Init(this);
+
         RefreshAllSlots();
-        RaiseGoldChanged();
+    }
+
+    private void OnDestroy()
+    {
+        if (equipmentUI != null) equipmentUI.Dispose(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -52,6 +62,8 @@ public class InventoryController : MonoBehaviour
         if (!IsCountableItem(index)) return 0;
         return ((CountableItem)items[index]).Amount;
     }
+
+    public IReadOnlyDictionary<EquipmentSlotType, EquipmentItem> GetEquippedItems() => equipped;
 
     public void AddGold(int amount)
     {
@@ -174,7 +186,7 @@ public class InventoryController : MonoBehaviour
 
     private void ToggleEquip(int index, EquipmentItem eq)
     {
-        var slot = eq.ArmorData.slot;
+        var slot = eq.EquipmentData.slot;
 
         // 이미 같은 슬롯에 장비가 있으면 인벤토리로 반환(빈칸 필요)
         if (equipped.TryGetValue(slot, out var current))
@@ -193,6 +205,7 @@ public class InventoryController : MonoBehaviour
         equipped[slot] = eq;
         items[index] = null;
         UpdateSlot(index);
+        OnEquippedChanged?.Invoke(slot, eq);
 
         Debug.Log($"Equipped {eq.itemData.ItemName} to {slot}");
     }
@@ -200,9 +213,9 @@ public class InventoryController : MonoBehaviour
     public void OnInventoryToggle()
     {
         if (inventoryUI.gameObject.activeSelf)
-            inventoryUI.Hide();
+        { inventoryUI.Hide(); }
         else
-            inventoryUI.Show();
+        { inventoryUI.Show(); }
     }
 
     #region Private Function

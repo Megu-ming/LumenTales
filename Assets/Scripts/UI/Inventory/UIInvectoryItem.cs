@@ -43,6 +43,11 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         HideHighLight();
     }
 
+    private void OnDisable()
+    {
+        HideHighLight();
+    }
+
     private void InitComponent()
     {
         inventoryUI = GetComponentInParent<UIInventory>();

@@ -504,9 +504,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c7b6d6c41d86d4781b9e49168ce477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 0}
-  inventorySize: 20
-  item: {fileID: 0}
+  inventoryUI: {fileID: 5809806093151594674, guid: 0c86538808e9f32438290bc01301239c, type: 3}
+  equipmentUI: {fileID: 5964399095753912198, guid: cda54cfd02f761f42b126c48a9756c5f, type: 3}
+  initialCapacity: 30
+  maxInventorySize: 30
 --- !u!1 &4277144329417345487
 GameObject:
   m_ObjectHideFlags: 0
