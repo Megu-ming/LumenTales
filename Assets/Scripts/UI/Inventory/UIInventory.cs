@@ -220,11 +220,17 @@ public class UIInventory : MonoBehaviour,
 
             return;
         }
-        // 버리기 구현
-        else if(RaycastAndGetComponent<UIInventory>())
-        {
 
+        // 장비창 슬롯 위 드롭
+        var eqSlot = RaycastAndGetComponent<UIEquipmentSlot>();
+        if(eqSlot!=null) // 장비타입에 맞는 창인지도 확인해야함
+        {
+            inventory.EquipFromInventory(beginDragSlot.Index, eqSlot.slotType);
+            return;
         }
+        
+        // 버리기 구현
+        // TODO
 
         // 드래그 시작 슬롯으로 복귀
     }

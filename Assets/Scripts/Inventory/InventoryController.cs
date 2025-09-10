@@ -65,6 +65,46 @@ public class InventoryController : MonoBehaviour
 
     public IReadOnlyDictionary<EquipmentSlotType, EquipmentItem> GetEquippedItems() => equipped;
 
+    public void EquipFromInventory(int index, EquipmentSlotType tartgetType)
+    {
+        if (!IsValidIndex(index)) return;
+        if (items[index] is not EquipmentItem eq) return;
+
+        if(equipped.TryGetValue(tartgetType, out var current) && current != null)
+        {
+            int empty = FindEmptySlotIndex();
+            if (empty == -1)
+            {
+                Debug.LogWarning("No empty slot to unequip current armor.");
+                return;
+            }
+            items[empty] = current;
+            UpdateSlot(empty);
+        }
+
+        items[index] = null;
+        UpdateSlot(index);
+        equipped[tartgetType] = eq;
+        OnEquippedChanged?.Invoke(tartgetType, eq);
+    }
+
+    public void Unequip(EquipmentSlotType slot)
+    {
+        if (!equipped.TryGetValue(slot, out var current) || current == null) return;
+        
+        int empty = FindEmptySlotIndex();
+        if (empty == -1)
+        {
+            Debug.LogWarning("No empty slot to unequip current armor.");
+            return;
+        }
+
+        items[empty] = current;
+        UpdateSlot(empty);
+        equipped[slot] = null;
+        OnEquippedChanged?.Invoke(slot, null);
+    }
+
     public void AddGold(int amount)
     {
         if (amount <= 0) return;

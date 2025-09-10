@@ -7,6 +7,7 @@ public class UIEquipment : MonoBehaviour
 
     // InventoryController에서 이벤트를 받을 때 사용
     private readonly Dictionary<EquipmentSlotType, UIEquipmentSlot> map = new();
+    private InventoryController inventory;
 
     private void Show() => gameObject.SetActive(true);
     private void Hide() => gameObject.SetActive(false);
@@ -18,6 +19,8 @@ public class UIEquipment : MonoBehaviour
 
     public void Init(InventoryController inv)
     {
+        this.inventory = inv;
+
         map.Clear();
         foreach (var s in slots)
         {
@@ -53,5 +56,10 @@ public class UIEquipment : MonoBehaviour
     {
         if (gameObject.activeSelf) Hide();
         else Show();
+    }
+
+    public void RequestUnequip(EquipmentSlotType slot)
+    {
+        inventory?.Unequip(slot);
     }
 }
