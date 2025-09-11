@@ -25,16 +25,27 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     private Image slotImage;
 
-    private bool isAccessibleSlot = true; // ½½·Ô Á¢±Ù°¡´É ¿©ºÎ
-    private bool isAccessibleItem = true; // ¾ÆÀÌÅÛ Á¢±Ù°¡´É ¿©ºÎ
+    private bool isAccessibleSlot = true; // ìŠ¬ë¡¯ ì ‘ê·¼ê°€ëŠ¥ ì—¬ë¶€
+    private bool isAccessibleItem = true; // ì•„ì´í…œ ì ‘ê·¼ê°€ëŠ¥ ì—¬ë¶€
 
     public void ShowIcon() => iconGo.SetActive(true);
     public void HideIcon() => iconGo.SetActive(false);
 
-    private void ShowHighLight() => highLightGo.SetActive(true);
+    private void ShowHighLight() 
+    {
+        highLightGo.TryGetComponent<RectTransform>(out var rt);
+        if(rt!=null)
+        {
+            // íˆ´íŒ ë°–ìœ¼ë¡œ ë‚˜ê°”ìœ¼ë©´ ì•µì»¤ ë³€ê²½í•˜ê¸°
+
+            highLightGo.SetActive(true); 
+            
+
+        }
+    }
     private void HideHighLight() => highLightGo.SetActive(false);
 
-    public void SetSlotIndex(int index) => Index = index;
+    public void SetSlotIndex(int index) =>Index = index;
 
     public void Awake()
     {

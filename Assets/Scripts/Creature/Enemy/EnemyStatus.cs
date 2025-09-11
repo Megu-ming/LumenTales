@@ -26,6 +26,8 @@ public class EnemyStatus : Status
 
     protected override void Update()
     {
+        base.Update();
+
         if (barPrefab != null)
         {
             HPBar bar = hpBarInstance.GetComponent<HPBar>();

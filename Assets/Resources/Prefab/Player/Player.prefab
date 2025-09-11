@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5330670826637342837}
-  - component: {fileID: 4268916457519343671}
   - component: {fileID: 6139769252167781464}
   - component: {fileID: 3049017276102811984}
   - component: {fileID: 2386166218813518417}
+  - component: {fileID: 4268916457519343671}
   - component: {fileID: 6251467598962010301}
   m_Layer: 7
   m_Name: Player
@@ -38,32 +38,6 @@ Transform:
   - {fileID: 8643868269333289423}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4268916457519343671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 910687419780863520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb0e7169cfd3d0246b0ef14224a0503a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpForce: 7
-  sprintMul: 1.2
-  _isMoving: 0
-  _isSprint: 0
-  moveSpeed: 2
-  _isFacingRight: 1
-  groundCheckOffset: {x: 0, y: -0.25}
-  groundRadius: 0.05
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 8
-  maxJumpCount: 1
-  jumpCount: 0
-  groundResetBlock: 0.05
 --- !u!50 &6139769252167781464
 Rigidbody2D:
   serializedVersion: 5
@@ -294,6 +268,32 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &4268916457519343671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910687419780863520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb0e7169cfd3d0246b0ef14224a0503a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 7
+  sprintMul: 1.2
+  _isMoving: 0
+  _isSprint: 0
+  moveSpeed: 2
+  _isFacingRight: 1
+  groundCheckOffset: {x: 0, y: -0.25}
+  groundRadius: 0.05
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  maxJumpCount: 1
+  jumpCount: 0
+  groundResetBlock: 0.05
 --- !u!114 &6251467598962010301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,17 +322,17 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   level: 1
-  damage: 0
+  damage: 10
   knockBack: {x: 0, y: 0}
-  defense: 0
-  maxHealth: 0
+  defense: 5
+  maxHealth: 100
   health: 0
   isAlive: 0
   isInvincible: 0
   invincibilityTime: 0.25
-  strength: 0
-  agility: 0
-  luck: 0
+  strength: 5
+  agility: 5
+  luck: 5
   moveSpeed: 0
   dropRate: 0
   strAttackPerPoint: 2

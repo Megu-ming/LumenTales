@@ -99,8 +99,6 @@ public class Status : MonoBehaviour
             }
             timeSinceHit +=Time.deltaTime;
         }
-
-        
     }
 
     public virtual bool Hit(int damage, Vector2 knockback)

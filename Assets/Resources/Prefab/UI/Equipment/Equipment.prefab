@@ -351,6 +351,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712056d1f0b6ef244b57555eb6d10bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStatus: {fileID: 0}
+  levelText: {fileID: 0}
+  atkText: {fileID: 0}
+  defText: {fileID: 0}
+  hpText: {fileID: 0}
+  speedText: {fileID: 0}
+  dropText: {fileID: 0}
+  strText: {fileID: 0}
+  dexText: {fileID: 0}
+  lukText: {fileID: 0}
 --- !u!1 &4730570690416155344
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,9 +1272,29 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 3039520792956971844}
+    - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: m_text
+      value: 'CHARACTER INFO         '
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: m_fontSize
+      value: 44.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 44.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 44.75
+      objectReference: {fileID: 0}
     - target: {fileID: 4069465274122290599, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_Name
       value: HeaderArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883315942372564505, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7824712219358802914, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_Pivot.x
