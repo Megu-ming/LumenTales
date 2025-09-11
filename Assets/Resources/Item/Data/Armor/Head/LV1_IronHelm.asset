@@ -17,5 +17,6 @@ MonoBehaviour:
   prefab: {fileID: 5703064305491636780, guid: 1f0435bf836b7f3409514ef3e7ae8aef, type: 3}
   tooltip: basic iron helm
   price: 500
-  slot: 0
+  slot: 1
   defenseValue: 5
+  AttackValue: 0

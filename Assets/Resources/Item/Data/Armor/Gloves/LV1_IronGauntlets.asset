@@ -17,5 +17,6 @@ MonoBehaviour:
   prefab: {fileID: 5703064305491636780, guid: 1f0435bf836b7f3409514ef3e7ae8aef, type: 3}
   tooltip: It's an old iron gauntlets
   price: 500
-  slot: 3
+  slot: 4
   defenseValue: 5
+  AttackValue: 0
