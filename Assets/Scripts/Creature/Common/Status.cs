@@ -1,56 +1,62 @@
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Status : MonoBehaviour
 {
+    // 공용 이벤트
     public UnityEvent<int, Vector2> damageableHit;
 
-    [Header("HP바")]
-    public RectTransform hpBar;
-    public GameObject barPrefab;
-    protected GameObject hpBarInstance;
-    public GameObject canvas;
-    public float barHeight;
-
     [Header("상태")]
-    public EnemyType Type { get; set; } = EnemyType.None;
-    [SerializeField] private int _damage;
+    [SerializeField] int level = 1;
+    public int Level
+    {
+        get { return level; }
+        set { level = Mathf.Max(1, value); }
+    }
+    [SerializeField] private int damage;
     public int Damage
     {
-        get { return _damage; }
-        set { _damage = value; }
+        get { return damage; }
+        set { damage = value; }
     }
     public Vector2 knockBack = Vector2.zero;
-    [SerializeField] private int _maxHealth;
+    [SerializeField] private int defense;
+    public int Defense
+    {
+        get { return defense; }
+        set { defense = value; }
+    }
+    [SerializeField] private int maxHealth;
     public int MaxHealth
     {
-        get { return _maxHealth; }
+        get { return maxHealth; }
         set
         {
-            _maxHealth = value;
+            maxHealth = value;
         }
     }
-    [SerializeField] private int _health;
+    [SerializeField] private int health;
     public int Health
     {
-        get { return _health; }
+        get { return health; }
         set 
         { 
-            _health = value;
-            if (_health <= 0)
+            health = value;
+            if (health <= 0)
             {
                 IsAlive = false;
-                hpBarInstance?.SetActive(false);
+                OnDied();
             }
         }
     }
-    [SerializeField] private bool _isAlive;
+    [SerializeField] private bool isAlive;
     public bool IsAlive
     {
-        get { return _isAlive; }
+        get { return isAlive; }
         set 
         { 
-            _isAlive = value;
+            isAlive = value;
             animator.SetBool(AnimationStrings.isAlive, value);
             if(value)
                 gameObject.SetActive(true);
@@ -68,28 +74,21 @@ public class Status : MonoBehaviour
     [SerializeField] private float invincibilityTime = 0.25f;
     private float timeSinceHit = 0f;
 
-    Animator animator;
+    protected Animator animator;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         animator = GetComponentInChildren<Animator>();
-
-        if (barPrefab != null)
-        {
-            canvas = GameObject.Find("BackCanvas");
-
-            hpBarInstance = Instantiate(barPrefab, canvas.transform);
-            hpBar = hpBarInstance.GetComponent<RectTransform>();
-        }
+        if (animator == null)
+            Debug.LogWarning($"{gameObject.name}의 자식 오브젝트에 Animator 컴포넌트가 없습니다.");
     }
 
-    void Start()
+    protected virtual void Start()
     {
         IsAlive = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (isInvincible)
         {
@@ -101,32 +100,20 @@ public class Status : MonoBehaviour
             timeSinceHit +=Time.deltaTime;
         }
 
-        if (barPrefab != null)
-        {
-            HPBar bar = hpBarInstance.GetComponent<HPBar>();
-            bar.curHp = Health;
-            bar.maxHp = MaxHealth;
-        }
+        
     }
 
-    private void FixedUpdate()
-    {
-        if (barPrefab != null)
-        {
-            Vector3 barPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + barHeight, 0));
-            hpBar.position = barPos;
-        }
-    }
-
-    public bool Hit(int damage, Vector2 knockback)
+    public virtual bool Hit(int damage, Vector2 knockback)
     {
         if (IsAlive && !isInvincible)
         {
-            Health -= damage; 
+            int finalDamage = Mathf.Max(0, damage - defense); // 방어력 적용
+            Health -= finalDamage; 
             isInvincible=true;
 
             animator.SetTrigger(AnimationStrings.hitTrigger);
             LockVelocity = true;
+
             damageableHit?.Invoke(damage, knockback);
             CharacterEvents.characterDamaged?.Invoke(gameObject, damage);
 
@@ -136,11 +123,11 @@ public class Status : MonoBehaviour
         return false;
     }
 
-    public void Respawn()
+    public virtual void Respawn()
     {
         Health = MaxHealth;
         IsAlive = true;
-        transform.root.gameObject.SetActive(true);
-        hpBarInstance.SetActive(true);
     }
+
+    protected virtual void OnDied() { }
 }

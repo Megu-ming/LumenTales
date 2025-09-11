@@ -61,7 +61,7 @@ public class EnemyController : CreatureController
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        status = GetComponent<Status>();
+        status = GetComponent<EnemyStatus>();
         touchingDirections = GetComponent<TouchingDirections>();
         itemDropHelper = GetComponent<ItemDropHelper>();
 
