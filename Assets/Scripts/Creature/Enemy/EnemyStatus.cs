@@ -24,7 +24,7 @@ public class EnemyStatus : Status
         }
     }
 
-    private void Update()
+    protected override void Update()
     {
         if (barPrefab != null)
         {
