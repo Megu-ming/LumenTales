@@ -18,7 +18,7 @@ public class UIInventory : MonoBehaviour,
     [SerializeField] GameObject tooltipPrefab;      // 툴팁 프리팹
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
-    InventoryController inventory;
+    [SerializeField] InventoryController inventory;
 
     List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
     private Canvas rootCanvas;
@@ -46,6 +46,19 @@ public class UIInventory : MonoBehaviour,
         Hide();
     }
 
+    private void Start()
+    {
+        if (inventory == null) return;
+        Init();
+        InitSlot();
+        UpdateGoldText(inventory.Gold);
+        inventory.OnGoldChanged += UpdateGoldText;
+        inventory.OnSlotUpdated += HandleSlotUpdated;
+
+        for(int i = 0; i < inventory.Capacity; i++)
+            HandleSlotUpdated(i, inventory.GetItemData(i));
+    }
+
     private void Update()
     {
         if(ped != null) ped.position = Input.mousePosition;
@@ -53,22 +66,17 @@ public class UIInventory : MonoBehaviour,
 
     private void OnDestroy()
     {
-        if (inventory != null) inventory.OnGoldChanged -= UpdateGoldText;
+        if (inventory != null)
+        { 
+            inventory.OnGoldChanged -= UpdateGoldText;
+            inventory.OnSlotUpdated -= HandleSlotUpdated;
+        }
     }
 
     public void OnInventoryToggle()
     {
         if (gameObject.activeSelf) Hide();
         else Show(); 
-    }
-
-    public void SetInventoryReference(InventoryController inventory)
-    {
-        this.inventory = inventory;
-        Init();
-        InitSlot();
-        UpdateGoldText(inventory.Gold);
-        inventory.OnGoldChanged += UpdateGoldText;
     }
 
     public void SetItemIcon(int index, Sprite icon)
@@ -82,6 +90,11 @@ public class UIInventory : MonoBehaviour,
         slotUIList[index].RemoveItem();
     }
 
+    private void HandleSlotUpdated(int index, ItemData data)
+    {
+        if (data != null) SetItemIcon(index, data.Icon);
+        else RemoveItem(index);
+    }
 
     #region Event System Handlers
     void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
@@ -98,13 +111,8 @@ public class UIInventory : MonoBehaviour,
             // 먼저 마우스 위치에 놓기
             tooltip.transform.position = eventData.position;
 
-            // 화면 좌표 → 캔버스 로컬 좌표로 변환
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvasRt, eventData.position, rootCanvas.worldCamera, out Vector2 localPoint);
-
-            // pivot 계산
-            float pivotX = (localPoint.x + tooltipRt.sizeDelta.x > canvasRt.rect.width * 0.5f) ? 1f : 0f;
-            float pivotY = (localPoint.y - tooltipRt.sizeDelta.y < -canvasRt.rect.height * 0.5f) ? 0f : 1f;
+            float pivotX = tooltipRt.anchoredPosition.x + tooltipRt.sizeDelta.x > canvasRt.sizeDelta.x ? 1f : 0f; // anchor 11
+            float pivotY = tooltipRt.anchoredPosition.y - tooltipRt.sizeDelta.y > canvasRt.sizeDelta.y ? 0f : 1f; // anchor 00
 
             tooltipRt.pivot = new Vector2(pivotX, pivotY);
 
@@ -193,6 +201,7 @@ public class UIInventory : MonoBehaviour,
         // ToolTip UI
         tooltip = Instantiate(tooltipPrefab).GetComponent<UIItemTooltip>();
         tooltip.transform.SetParent(transform.parent);
+        tooltip.transform.localScale = new Vector3(1, 1, 1);
         tooltip.gameObject.SetActive(false);
     }
 
