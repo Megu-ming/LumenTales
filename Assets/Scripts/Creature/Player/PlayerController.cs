@@ -85,6 +85,7 @@ public class PlayerController : CreatureController
 
     private Vector2 moveInput;
     private bool isGrounded;
+    PlayerStatus status;
     public bool IsGrounded 
     { 
         get { return isGrounded; }
@@ -95,7 +96,7 @@ public class PlayerController : CreatureController
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        status = GetComponent<Status>();
+        status = GetComponent<PlayerStatus>();
         rb.freezeRotation = true;
     }
 

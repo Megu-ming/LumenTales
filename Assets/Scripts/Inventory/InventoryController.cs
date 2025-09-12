@@ -1,25 +1,38 @@
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
-    [Header("UI")]
-    [SerializeField] UIInventory inventoryUI;
-
     public int Capacity { get; private set; }
     [SerializeField, Range(10, 30)] int initialCapacity = 30;
     [SerializeField, Range(0, 30)] int maxInventorySize = 30;
 
-
     // 실제 아이템 데이터
     private Item[] items;
+
+    // 장비 슬롯
+    private readonly Dictionary<EquipmentSlotType, EquipmentItem> equipped = new();
+    public event Action<EquipmentSlotType, EquipmentItem> OnEquippedChanged;
+
+    public int Gold { get; private set; }
+    public event Action<int> OnGoldChanged;
+
+    [SerializeField] PlayerStatus playerStatus;
+
+    [SerializeField] private int baseAttack = 10;
+    [SerializeField] private int baseDefense = 0;
+    [SerializeField] private int baseMaxHP = 100;
+    [SerializeField] private float baseMoveSpd = 5.0f;
+    [SerializeField] private float baseDropRate = 0.05f; // 5%
+
+    public event Action<int, ItemData> OnSlotUpdated;
 
     private void Awake()
     {
         items = new Item[maxInventorySize];
         Capacity = initialCapacity;
-        if (inventoryUI != null) inventoryUI.SetInventoryReference(this);
+
         RefreshAllSlots();
     }
 
@@ -30,12 +43,11 @@ public class InventoryController : MonoBehaviour
 
         int remainder = Add(world.itemData, world.amount);
 
-        if(remainder<=0)
-            world.CollectItem(transform);
+        if(remainder<=0) world.CollectItem(transform);
         else world.amount = remainder;
     }
 
-    #region public API
+    #region Public Methods
     public bool HasItem(int index) => IsValidIndex(index) && items[index] != null;
     public bool IsCountableItem(int index) => HasItem(index) && items[index] is CountableItem;
 
@@ -47,13 +59,75 @@ public class InventoryController : MonoBehaviour
         if (!IsCountableItem(index)) return 0;
         return ((CountableItem)items[index]).Amount;
     }
-    #endregion
+
+    public IReadOnlyDictionary<EquipmentSlotType, EquipmentItem> GetEquippedItems() => equipped;
+
+    public void EquipFromInventory(int index, EquipmentSlotType tartgetType)
+    {
+        if (!IsValidIndex(index)) return;
+        if (items[index] is not EquipmentItem eq) return;
+
+        if(equipped.TryGetValue(tartgetType, out var current) && current != null)
+        {
+            int empty = FindEmptySlotIndex();
+            if (empty == -1)
+            {
+                Debug.LogWarning("No empty slot to unequip current armor.");
+                return;
+            }
+            items[empty] = current;
+            UpdateSlot(empty);
+        }
+
+        items[index] = null;
+        UpdateSlot(index);
+        equipped[tartgetType] = eq;
+        OnEquippedChanged?.Invoke(tartgetType, eq);
+    }
+
+    public void Unequip(EquipmentSlotType slot)
+    {
+        if (!equipped.TryGetValue(slot, out var current) || current == null) return;
+        
+        int empty = FindEmptySlotIndex();
+        if (empty == -1)
+        {
+            Debug.LogWarning("No empty slot to unequip current armor.");
+            return;
+        }
+
+        items[empty] = current;
+        UpdateSlot(empty);
+        equipped[slot] = null;
+        OnEquippedChanged?.Invoke(slot, null);
+    }
+
+    public void AddGold(int amount)
+    {
+        if (amount <= 0) return;
+        Gold += amount;
+        RaiseGoldChanged();
+    }
+
+    public bool SpendGold(int amount)
+    {
+        if (amount <= 0) return true;
+        if (amount > Gold) return false;
+        Gold -= amount;
+        RaiseGoldChanged();
+        return true;
+    }
 
     public int Add(ItemData itemData, int amount = 1)
     {
         if (itemData == null || amount <= 0) return 0;
+        if(itemData is GoldData gd)
+        {
+            AddGold(gd.amount);
+            return 0;
+        }
 
-        if(itemData.IsStackable)
+        if (itemData.IsStackable)
         {
             // 같은 스택에 병합 먼저
             int remain = amount;
@@ -99,9 +173,8 @@ public class InventoryController : MonoBehaviour
     public void Remove(int index)
     {
         if (!IsValidIndex(index)) return;
-
         items[index] = null;
-        inventoryUI.RemoveItem(index);
+        UpdateSlot(index);
     }
 
     public void Swap(int indexA, int indexB)
@@ -112,23 +185,11 @@ public class InventoryController : MonoBehaviour
         Item itemB = items[indexB];
 
         // 셀 수 있고 동일한 아이템이면 A -> B로 개수 합치기
-        if(itemA != null && itemB != null && 
-            itemA.itemData == itemB.itemData && 
-            itemA is CountableItem ciA && itemB is CountableItem ciB)
+        if (itemA is CountableItem ca && itemB is CountableItem cb && ca.CanMerge(cb))
         {
-            int maxAmount = ciB.MaxAmount;
-            int sum = ciA.Amount + ciB.Amount;
-
-            if(sum<=maxAmount)
-            {
-                ciA.SetAmount(0);
-                ciB.SetAmount(sum);
-            }
-            else 
-            {
-                ciA.SetAmount(sum - maxAmount);
-                ciB.SetAmount(maxAmount);
-            }
+            int remain = cb.MergeUpToMax(ca.Amount);
+            ca.SetAmount(remain);
+            if (ca.IsEmpty) items[indexA] = null;
         }
         else
         {
@@ -139,60 +200,91 @@ public class InventoryController : MonoBehaviour
         UpdateSlot(indexA); UpdateSlot(indexB);
     }
 
-    public void OnInventoryToggle()
+    public void UseAt(int index)
     {
-        if (inventoryUI.gameObject.activeSelf)
-            inventoryUI.Hide();
-        else
-            inventoryUI.Show();
+        if(!IsValidIndex(index) || items[index] == null) return;
+
+        if (items[index] is ConsumableItem con)
+        {
+            bool used = con.Use(this);
+            if (used)
+            {
+                if(con.IsEmpty) items[index] = null;
+                UpdateSlot(index);
+            }
+        }
+        else if (items[index] is EquipmentItem eq)
+        {
+            ToggleEquip(index, eq);
+        }
     }
+    #endregion
 
     #region Private Function
+    /// <summary>
+    /// 장비 변경이 있을 때마다 호출해서 능력치를 재계산하고 적용한다.
+    /// </summary>
+    private void RecalculateStatsAndApply()
+    {
+        int atk = baseAttack;
+        int def = baseDefense;
+        int hp = baseMaxHP;
+        float spd = baseMoveSpd;
+        float drp = baseDropRate;
+
+        foreach (var kv in equipped)
+        {
+            var eq = kv.Value;
+            if (eq == null) continue;
+            var data = (EquipmentItemData)eq.itemData;
+            atk += data.AttackValue;
+            def += data.defenseValue;
+            // 필요하면 장비에 이동속도/HP/드랍률 옵션 필드를 추가해서 같이 합산
+        }
+
+        // 능력치(힘/민첩/행운) 스케일을 포함해 최종치로 굳힌다.
+        playerStatus.ApplyFinalStats(atk, def, hp, spd, drp);
+    }
+
+    private void ToggleEquip(int index, EquipmentItem eq)
+    {
+        var slot = eq.EquipmentData.slot;
+
+        // 이미 같은 슬롯에 장비가 있으면 인벤토리로 반환(빈칸 필요)
+        if (equipped.TryGetValue(slot, out var current))
+        {
+            int empty = FindEmptySlotIndex();
+            if (empty == -1)
+            {
+                Debug.LogWarning("No empty slot to unequip current armor.");
+                return;
+            }
+            items[empty] = current;
+            UpdateSlot(empty);
+        }
+
+        // 현재 슬롯의 장비를 장착 목록으로 이동
+        equipped[slot] = eq;
+        items[index] = null;
+        UpdateSlot(index);
+        OnEquippedChanged?.Invoke(slot, eq);
+
+        Debug.Log($"Equipped {eq.itemData.ItemName} to {slot}");
+    }
+    
     private void UpdateSlot(int index)
     {
-        if (!inventoryUI || !IsValidIndex(index)) return;
+        if (!IsValidIndex(index)) return;
 
         Item item = items[index];
 
-        // 1. 아이템이 슬롯에 존재하는 경우
-        if (item != null)
+        if(item is CountableItem ci && ci.IsEmpty)
         {
-            // 아이콘 등록
-            inventoryUI.SetItemIcon(index, item.itemData.Icon);
-
-            // 1-1. 셀 수 있는 아이템
-            if (item is CountableItem ci)
-            {
-                // 1-1-1. 수량이 0인 경우, 아이템 제거
-                if (ci.IsEmpty)
-                {
-                    items[index] = null;
-                    RemoveIcon();
-                }
-                // 1-1-2. 수량 텍스트 표시
-                else
-                {
-                    inventoryUI.SetItemAmountText(index, ci.Amount);
-                }
-            }
-            // 1-2. 셀 수 없는 아이템인 경우 수량 텍스트 제거
-            else
-            {
-                inventoryUI.HideItemAmountText(index);
-            }
-        }
-        // 2. 빈 슬롯인 경우 : 아이콘 제거
-        else
-        {
-            RemoveIcon();
+            items[index] = null;
+            item = null;
         }
 
-        // 로컬 : 아이콘 제거하기
-        void RemoveIcon()
-        {
-            inventoryUI.RemoveItem(index);
-            inventoryUI.HideItemAmountText(index); // 수량 텍스트 숨기기
-        }
+        OnSlotUpdated?.Invoke(index, item?.itemData);
     }
 
     private bool IsValidIndex(int index) => index >= 0 && index < Capacity;
@@ -208,8 +300,9 @@ public class InventoryController : MonoBehaviour
 
     private void RefreshAllSlots()
     {
-        if(!inventoryUI) return;
         for (int i = 0; i < Capacity; i++) UpdateSlot(i);
     }
+
+    private void RaiseGoldChanged() => OnGoldChanged?.Invoke(Gold);
     #endregion
 }

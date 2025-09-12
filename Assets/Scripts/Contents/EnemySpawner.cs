@@ -61,7 +61,7 @@ public class EnemySpawner : MonoBehaviour
         if(!enemyInstance.activeSelf)
         {
             enemyInstance.transform.position = transform.position;
-            Status status = enemyInstance.GetComponent<Status>();
+            EnemyStatus status = enemyInstance.GetComponent<EnemyStatus>();
             status.Respawn();
 
             return;

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TestItem1
   m_EditorClassIdentifier: 
   itemName: TestItem1
-  itemType: 4
   icon: {fileID: 2408121172463253794, guid: 031344c00cca4474e8e1ae7c94de79eb, type: 3}
   prefab: {fileID: 5703064305491636780, guid: 1f0435bf836b7f3409514ef3e7ae8aef, type: 3}
-  tooltip: 
+  tooltip: test item 1 description
+  price: 10
   maxAmount: 99

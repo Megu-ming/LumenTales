@@ -1,52 +1,194 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.PointerEventData;
 
-public class UIInventory : MonoBehaviour
+public class UIInventory : MonoBehaviour, 
+    IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerMoveHandler
 {
     [Header("Options")]
-    [SerializeField] int inventoryCapacity;
-    [SerializeField] UIInventoryItem slotPrefab;    // æ∆¿Ã≈€ ΩΩ∑‘ «¡∏Æ∆’
-    [SerializeField] RectTransform contentPanel;    // Ω∫≈©∑—∫‰¿« Content
+    [SerializeField, ReadOnly] int inventoryCapacity;
+    [SerializeField] UIInventoryItem slotPrefab;    // ÏïÑÏù¥ÌÖú Ïä¨Î°Ø ÌîÑÎ¶¨Ìåπ
+    [SerializeField] RectTransform contentPanel;    // Ïä§ÌÅ¨Î°§Î∑∞Ïùò Content
+    [SerializeField] GameObject imageDummy;        // ÎìúÎûòÍ∑∏ Ï§ëÏù∏ ÏïÑÏù¥ÌÖú ÏïÑÏù¥ÏΩò
+    [SerializeField] GameObject tooltipPrefab;      // Ìà¥ÌåÅ ÌîÑÎ¶¨Ìåπ
+    [SerializeField] TextMeshProUGUI goldText;      // Í≥®Îìú ÌÖçÏä§Ìä∏
 
-    InventoryController inventory;
+    [SerializeField] InventoryController inventory;
 
-    [SerializeField] List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
+    List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
+    private Canvas rootCanvas;
+    private UIItemTooltip tooltip;
     private GraphicRaycaster gr;
     private PointerEventData ped;
     private List<RaycastResult> rrList;
 
-    private UIInventoryItem pointerOverSlot;    // «ˆ¿Á ∆˜¿Œ≈Õ∞° ¿ßƒ°«— ΩΩ∑‘
-    private UIInventoryItem beginDragSlot;      // µÂ∑°±◊∏¶ Ω√¿€«— ΩΩ∑‘
-    private Transform beginDragIconTr;          // «ÿ¥Á ΩΩ∑‘¿« æ∆¿Ãƒ‹ ∆Æ∑£Ω∫∆˚
+    private UIInventoryItem beginDragSlot;      // ÎìúÎûòÍ∑∏Î•º ÏãúÏûëÌïú Ïä¨Î°Ø
+    private Transform beginDragIconTr;          // Ìï¥Îãπ Ïä¨Î°ØÏùò ÏïÑÏù¥ÏΩò Ìä∏ÎûúÏä§Ìèº
 
-    private Vector3 beginDragIconPoint;         // µÂ∑°±◊ Ω√¿€Ω√ æ∆¿Ãƒ‹ ¿ßƒ°
-    private Vector3 beginDragCursorPoint;       // µÂ∑°±◊ Ω√¿€Ω√ ƒøº≠ ¿ßƒ°
-    private int beginDragSlotIndex;          // µÂ∑°±◊ Ω√¿€Ω√ ΩΩ∑‘ ¿Œµ¶Ω∫
+    private Vector3 beginDragIconPoint;         // ÎìúÎûòÍ∑∏ ÏãúÏûëÏãú ÏïÑÏù¥ÏΩò ÏúÑÏπò
+    private Vector3 beginDragCursorPoint;       // ÎìúÎûòÍ∑∏ ÏãúÏûëÏãú Ïª§ÏÑú ÏúÑÏπò
 
     public void Show() => gameObject.SetActive(true);
-    public void Hide() => gameObject.SetActive(false);
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+        tooltip?.gameObject.SetActive(false);
+    }
 
     private void Awake()
     {
+        rootCanvas = gameObject.transform.parent.GetComponent<Canvas>();
+        Hide();
+    }
+
+    private void Start()
+    {
+        if (inventory == null) return;
         Init();
         InitSlot();
-        Hide();
+        UpdateGoldText(inventory.Gold);
+        inventory.OnGoldChanged += UpdateGoldText;
+        inventory.OnSlotUpdated += HandleSlotUpdated;
+
+        for(int i = 0; i < inventory.Capacity; i++)
+            HandleSlotUpdated(i, inventory.GetItemData(i));
     }
 
     private void Update()
     {
-        ped.position = Input.mousePosition;
-
-        OnPointerEnterAndExit();
-        OnPointerDown();
-        OnPointerDrag();
-        OnPointerUp();
+        if(ped != null) ped.position = Input.mousePosition;
     }
 
+    private void OnDestroy()
+    {
+        if (inventory != null)
+        { 
+            inventory.OnGoldChanged -= UpdateGoldText;
+            inventory.OnSlotUpdated -= HandleSlotUpdated;
+        }
+    }
+
+    public void OnInventoryToggle()
+    {
+        if (gameObject.activeSelf) Hide();
+        else Show(); 
+    }
+
+    public void SetItemIcon(int index, Sprite icon)
+    {
+        slotUIList[index].SetItem(icon);
+    }
+
+    public void RemoveItem(int index)
+    {
+        if (slotUIList.Count == 0 || !slotUIList[index].HasItem) return;
+        slotUIList[index].RemoveItem();
+    }
+
+    private void HandleSlotUpdated(int index, ItemData data)
+    {
+        if (data != null) SetItemIcon(index, data.Icon);
+        else RemoveItem(index);
+    }
+
+    #region Event System Handlers
+    void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
+    {
+        // ToolTip UI
+        UIInventoryItem slot = RaycastAndGetComponent<UIInventoryItem>();
+        if (slot && slot.HasItem)
+        {
+            int index = slot.Index;
+            var data = inventory.GetItemData(index);
+            tooltip.SetupTooltip(data.ItemName, data.Tooltip, data.Price);
+            tooltip.TryGetComponent<RectTransform>(out RectTransform tooltipRt);
+            rootCanvas.TryGetComponent<RectTransform>(out RectTransform canvasRt);
+            // Î®ºÏ†Ä ÎßàÏö∞Ïä§ ÏúÑÏπòÏóê ÎÜìÍ∏∞
+            tooltip.transform.position = eventData.position;
+
+            float pivotX = tooltipRt.anchoredPosition.x + tooltipRt.sizeDelta.x > canvasRt.sizeDelta.x ? 1f : 0f; // anchor 11
+            float pivotY = tooltipRt.anchoredPosition.y - tooltipRt.sizeDelta.y > canvasRt.sizeDelta.y ? 0f : 1f; // anchor 00
+
+            tooltipRt.pivot = new Vector2(pivotX, pivotY);
+
+            tooltip.gameObject.SetActive(true);
+        }
+        else
+        {
+            tooltip.gameObject.SetActive(false);
+        }
+    }
+
+    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+    {
+        if(eventData.button == InputButton.Left) // Ï¢åÌÅ¥Î¶≠
+        {
+            beginDragSlot = RaycastAndGetComponent<UIInventoryItem>();
+
+            if(beginDragSlot != null && beginDragSlot.HasItem && beginDragSlot.IsAccessible)
+            {
+                beginDragIconTr = beginDragSlot.IconRect;
+                beginDragIconPoint = beginDragIconTr.position;
+                beginDragCursorPoint = Input.mousePosition;
+
+                SetSlotIconInvisible(beginDragSlot, false);
+
+                SetDummyFromSlot(beginDragSlot, beginDragSlot.IconRect);
+                SetDummyPosition(beginDragIconPoint);
+            }
+        }
+        // Ïö∞ÌÅ¥Î¶≠ : ÏïÑÏù¥ÌÖú ÏÇ¨Ïö©
+        else if(eventData.button == InputButton.Right)
+        {
+            // TODO : ÏïÑÏù¥ÌÖú ÏÇ¨Ïö©
+            var slot = RaycastAndGetComponent<UIInventoryItem>();
+            if(slot!=null&&slot.HasItem && slot.IsAccessible)
+            {
+                inventory.UseAt(slot.Index);
+            }
+        }
+    }
+
+    void IDragHandler.OnDrag(PointerEventData eventData)
+    {
+        if (beginDragSlot == null) return;
+
+        if (eventData.button == InputButton.Left)
+        {
+            if (beginDragIconTr)
+            {
+                Vector3 pos = beginDragIconPoint + (Input.mousePosition - beginDragCursorPoint);
+                SetDummyPosition(pos);
+            }
+        }
+    }
+
+    void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
+    {
+        if(eventData.button == InputButton.Left)
+        {
+            if(beginDragSlot != null && beginDragIconTr != null)
+            {
+                EndDrag();
+
+                SetSlotIconInvisible(beginDragSlot, true);
+                if (imageDummy) { imageDummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
+                //beginDragIconTr.position = beginDragIconPoint;
+                //beginDragSlot.transform.SetSiblingIndex(beginDragSlotIndex);
+
+                beginDragSlot = null;
+                beginDragIconTr = null;
+            }
+        }
+    }
+    #endregion
+
+    #region Private Methods
     private void Init()
     {
         TryGetComponent(out gr);
@@ -57,7 +199,10 @@ public class UIInventory : MonoBehaviour
 
         inventoryCapacity = inventory.Capacity;
         // ToolTip UI
-
+        tooltip = Instantiate(tooltipPrefab).GetComponent<UIItemTooltip>();
+        tooltip.transform.SetParent(transform.parent);
+        tooltip.transform.localScale = new Vector3(1, 1, 1);
+        tooltip.gameObject.SetActive(false);
     }
 
     private void InitSlot()
@@ -74,42 +219,48 @@ public class UIInventory : MonoBehaviour
         }
     }
 
-    public void SetInventoryReference(InventoryController inventory)
+    private void EndDrag()
     {
-        this.inventory = inventory;
-    }
+        var endDragSlot = RaycastAndGetComponent<UIInventoryItem>();
 
-    public void SetItemIcon(int index, Sprite icon)
-    {
-        slotUIList[index].SetItem(icon);
-    }
-
-    public void SetItemAmountText(int index, int amount)
-    {
-        slotUIList[index].SetItemAmount(amount);
-    }
-
-    public void HideItemAmountText(int index)
-    {
-        if (slotUIList.Count == 0 || !slotUIList[index].HasItem) return;
-        slotUIList[index].SetItemAmount(1);
-    }
-
-    public void RemoveItem(int index)
-    {
-        if (slotUIList.Count == 0 || !slotUIList[index].HasItem) return;
-        slotUIList[index].RemoveItem();
-    }
-
-    public void SetAccessibleSlotRange(int accessibleSlotCount)
-    {
-        for (int i = 0; i < slotUIList.Count; i++)
+        if(endDragSlot != null && endDragSlot.IsAccessible)
         {
-            slotUIList[i].SetSlotAccessibleState(i < accessibleSlotCount);
+            bool isSeparatable =
+                   (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftShift)) &&
+                   (inventory.IsCountableItem(beginDragSlot.Index) && !inventory.HasItem(endDragSlot.Index));
+
+            bool isSeparation = false;
+            int currentAmount = 0;
+
+            // ÌòÑÏû¨ Í∞úÏàò ÌôïÏù∏
+            if(isSeparatable)
+            {
+                currentAmount = inventory.GetCurrentAmount(beginDragSlot.Index);
+                if (currentAmount > 1) isSeparation = true;
+            }
+
+            if (isSeparation)
+                TrySeparateAmount(beginDragSlot.Index, endDragSlot.Index, currentAmount);
+            else TrySwapItems(beginDragSlot, endDragSlot);
+
+            return;
         }
+
+        // Ïû•ÎπÑÏ∞Ω Ïä¨Î°Ø ÏúÑ ÎìúÎ°≠
+        var eqSlot = RaycastAndGetComponent<UIEquipmentSlot>();
+        if(eqSlot!=null) // Ïû•ÎπÑÌÉÄÏûÖÏóê ÎßûÎäî Ï∞ΩÏù∏ÏßÄÎèÑ ÌôïÏù∏Ìï¥ÏïºÌï®
+        {
+            inventory.EquipFromInventory(beginDragSlot.Index, eqSlot.slotType);
+            return;
+        }
+        
+        // Î≤ÑÎ¶¨Í∏∞ Íµ¨ÌòÑ
+        // TODO
+
+        // ÎìúÎûòÍ∑∏ ÏãúÏûë Ïä¨Î°ØÏúºÎ°ú Î≥µÍ∑Ä
     }
 
-    /// <summary> ∑π¿Ãƒ≥Ω∫∆Æ«œø© æÚ¿∫ √π π¯¬∞ UIø°º≠ ƒƒ∆˜≥Õ∆Æ √£æ∆ ∏Æ≈œ </summary>
+    /// <summary> Î†àÏù¥Ï∫êÏä§Ìä∏ÌïòÏó¨ ÏñªÏùÄ UIÏóêÏÑú Ïª¥Ìè¨ÎÑåÌä∏ Ï∞æÏïÑ Î¶¨ÌÑ¥ </summary>
     private T RaycastAndGetComponent<T>() where T : Component
     {
         rrList.Clear();
@@ -129,125 +280,6 @@ public class UIInventory : MonoBehaviour
         return null;
     }
 
-    private void OnPointerEnterAndExit()
-    {
-        // ¿¸ «¡∑π¿”¿« ΩΩ∑‘
-        var prevSlot = pointerOverSlot;
-
-        // «ˆ¿Á «¡∑π¿”¿« ΩΩ∑‘
-        var curSlot = pointerOverSlot = RaycastAndGetComponent<UIInventoryItem>();
-
-        if(prevSlot == null)
-        {
-            if (curSlot != null)
-                OnCurrentEnter();
-        }
-        else
-        {
-            if (curSlot == null)
-                OnPrevExit();
-            else if(prevSlot!=curSlot)
-            {
-                OnPrevExit();
-                OnCurrentEnter();
-            }
-        }
-
-        void OnCurrentEnter()
-        {
-            // ∫∏¥ı ¿ÃπÃ¡ˆ »∞º∫»≠
-            //if (_showHighlight)
-            //    curSlot.Highlight(true);
-        }
-        void OnPrevExit()
-        {
-            // ∫∏¥ı ¿ÃπÃ¡ˆ ∫Ò»∞º∫»≠
-            // prevSlot.Highlight(false);
-        }
-    }
-
-    private void OnPointerDown()
-    {
-        if(Input.GetMouseButtonDown(0)) // ¡¬≈¨∏Ø
-        {
-            beginDragSlot = RaycastAndGetComponent<UIInventoryItem>();
-
-            if(beginDragSlot != null && beginDragSlot.HasItem && beginDragSlot.IsAccessible)
-            {
-                beginDragIconTr = beginDragSlot.IconRect;
-                beginDragIconPoint = beginDragIconTr.position;
-                beginDragCursorPoint = Input.mousePosition;
-
-                beginDragSlotIndex = beginDragSlot.Index;
-                // æ∆¿Ãƒ‹¿ª √÷ªÛ¿ß∑Œ
-                beginDragIconTr.SetAsLastSibling();
-            }
-        }
-        // øÏ≈¨∏Ø : æ∆¿Ã≈€ ªÁøÎ
-    }
-
-    private void OnPointerDrag()
-    {
-        if (beginDragSlot == null) return;
-
-        if (Input.GetMouseButton(0))
-        {
-            if(beginDragIconTr)
-                beginDragIconTr.position = beginDragIconPoint + (Input.mousePosition - beginDragCursorPoint);
-        }
-    }
-
-    private void OnPointerUp()
-    {
-        if(Input.GetMouseButtonUp(0))
-        {
-            if(beginDragSlot != null && beginDragIconTr != null)
-            {
-                beginDragIconTr.position = beginDragIconPoint;
-                beginDragSlot.transform.SetSiblingIndex(beginDragSlotIndex);
-                EndDrag();
-
-                beginDragSlot = null;
-                beginDragIconTr = null;
-            }
-        }
-    }
-
-    private void EndDrag()
-    {
-        var endDragSlot = RaycastAndGetComponent<UIInventoryItem>();
-
-        if(endDragSlot != null && endDragSlot.IsAccessible)
-        {
-            bool isSeparatable =
-                   (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftShift)) &&
-                   (inventory.IsCountableItem(beginDragSlot.Index) && !inventory.HasItem(endDragSlot.Index));
-
-            bool isSeparation = false;
-            int currentAmount = 0;
-
-            // «ˆ¿Á ∞≥ºˆ »Æ¿Œ
-            if(isSeparatable)
-            {
-                currentAmount = inventory.GetCurrentAmount(beginDragSlot.Index);
-                if (currentAmount > 1) isSeparation = true;
-            }
-
-            if (isSeparation)
-                TrySeparateAmount(beginDragSlot.Index, endDragSlot.Index, currentAmount);
-            else TrySwapItems(beginDragSlot, endDragSlot);
-
-            return;
-        }
-        // πˆ∏Æ±‚ ±∏«ˆ
-        else if(RaycastAndGetComponent<UIInventory>())
-        {
-
-        }
-
-        // µÂ∑°±◊ Ω√¿€ ΩΩ∑‘¿∏∑Œ ∫π±Õ
-    }
-
     private void TrySwapItems(UIInventoryItem from,  UIInventoryItem to)
     {
         if (from == to)
@@ -263,4 +295,33 @@ public class UIInventory : MonoBehaviour
 
         string itemName = $"{inventory.GetItemName(indexA)} x{amount}";
     }
+
+    private void UpdateGoldText(int gold)
+    {
+        if (goldText != null) goldText.text = gold.ToString();
+    }
+
+    private void SetSlotIconInvisible(UIInventoryItem slot, bool visible)
+    {
+        if (slot?.itemImage != null)
+            slot.itemImage.enabled = visible;
+    }
+
+    private void SetDummyFromSlot(UIInventoryItem slot, RectTransform rt)
+    {
+        var icon = slot?.itemImage;
+        var dummy = imageDummy?.GetComponent<Image>();
+        dummy.sprite = icon?.sprite;
+        var dummyRt = imageDummy?.GetComponent<RectTransform>();
+        dummyRt = rt;
+
+        dummy.enabled = true;
+    }
+
+    private void SetDummyPosition(Vector3 pos)
+    {
+        if (imageDummy != null)
+            imageDummy.transform.position = pos;
+    }
+#endregion
 }

@@ -5,12 +5,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIInventoryItem : MonoBehaviour
+public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] Image itemImage;
-
-    [SerializeField] TMP_Text quantityText;
-
+    public Image itemImage;
     [SerializeField] Image borderImage;
 
     private UIInventory inventoryUI;
@@ -24,30 +21,30 @@ public class UIInventoryItem : MonoBehaviour
     private RectTransform iconRect;
 
     private GameObject iconGo;
-    private GameObject textGo;
     private GameObject highLightGo;
 
     private Image slotImage;
 
-    private bool isAccessibleSlot = true; // ½½·Ô Á¢±Ù°¡´É ¿©ºÎ
-    private bool isAccessibleItem = true; // ¾ÆÀÌÅÛ Á¢±Ù°¡´É ¿©ºÎ
+    private bool isAccessibleSlot = true; // ìŠ¬ë¡¯ ì ‘ê·¼ê°€ëŠ¥ ì—¬ë¶€
+    private bool isAccessibleItem = true; // ì•„ì´í…œ ì ‘ê·¼ê°€ëŠ¥ ì—¬ë¶€
 
-    private void ShowIcon() => iconGo.SetActive(true);
-    private void HideIcon() => iconGo.SetActive(false);
-
-    private void ShowText() => textGo.SetActive(true);
-    private void HideText() => textGo.SetActive(false);
+    public void ShowIcon() => iconGo.SetActive(true);
+    public void HideIcon() => iconGo.SetActive(false);
 
     private void ShowHighLight() => highLightGo.SetActive(true);
     private void HideHighLight() => highLightGo.SetActive(false);
 
-    public void SetSlotIndex(int index) => Index = index;
+    public void SetSlotIndex(int index) =>Index = index;
 
     public void Awake()
     {
         InitComponent();
         HideIcon();
-        HideText();
+        HideHighLight();
+    }
+
+    private void OnDisable()
+    {
         HideHighLight();
     }
 
@@ -58,39 +55,8 @@ public class UIInventoryItem : MonoBehaviour
         slotRect = GetComponent<RectTransform>();
         iconRect = itemImage.GetComponent<RectTransform>();
         iconGo = itemImage.gameObject;
-        textGo = quantityText.gameObject.transform.parent.gameObject;
         highLightGo = borderImage.gameObject;
         slotImage = GetComponent<Image>();
-    }
-
-    public void SetSlotAccessibleState(bool value)
-    {
-        if (isAccessibleSlot == value) return;
-
-        if(value)
-        {
-            slotImage.color = Color.black;
-        }
-        else 
-        {
-            HideIcon();
-            HideText();
-        }
-
-        isAccessibleSlot = value;
-    }
-
-    public void SetItemAccessibleState(bool value)
-    {
-        if(isAccessibleItem == value) return;
-
-        if (value)
-        {
-            itemImage.color = Color.white;
-            quantityText.color = Color.white;
-        }
-
-        isAccessibleItem = value;
     }
 
     public void SwapOrMoveIcon(UIInventoryItem other)
@@ -122,14 +88,19 @@ public class UIInventoryItem : MonoBehaviour
     {
         itemImage.sprite = null;
         HideIcon();
-        HideText();
     }
 
-    public void SetItemAmount(int amount)
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        if(HasItem&&amount>1) ShowText();
-        else HideText();
+        //if (!HasItem) return;
+        if (!IsAccessible && !HasItem) return;
+        ShowHighLight();
+    }
 
-        quantityText.text = amount.ToString();
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        //if (!HasItem) return;
+        if (!IsAccessible) return;
+        HideHighLight();
     }
 }
