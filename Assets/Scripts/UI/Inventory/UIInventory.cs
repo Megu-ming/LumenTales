@@ -18,7 +18,7 @@ public class UIInventory : MonoBehaviour,
     [SerializeField] GameObject tooltipPrefab;      // 툴팁 프리팹
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
-    InventoryController inventory;
+    [SerializeField] InventoryController inventory;
 
     List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
     private Canvas rootCanvas;
@@ -46,6 +46,19 @@ public class UIInventory : MonoBehaviour,
         Hide();
     }
 
+    private void Start()
+    {
+        if (inventory == null) return;
+        Init();
+        InitSlot();
+        UpdateGoldText(inventory.Gold);
+        inventory.OnGoldChanged += UpdateGoldText;
+        inventory.OnSlotUpdated += HandleSlotUpdated;
+
+        for (int i = 0; i < inventory.Capacity; i++)
+            HandleSlotUpdated(i, inventory.GetItemData(i));
+    }
+
     private void Update()
     {
         if(ped != null) ped.position = Input.mousePosition;
@@ -53,22 +66,17 @@ public class UIInventory : MonoBehaviour,
 
     private void OnDestroy()
     {
-        if (inventory != null) inventory.OnGoldChanged -= UpdateGoldText;
+        if (inventory != null)
+        {
+            inventory.OnGoldChanged -= UpdateGoldText;
+            inventory.OnSlotUpdated -= HandleSlotUpdated;
+        }
     }
 
     public void OnInventoryToggle()
     {
         if (gameObject.activeSelf) Hide();
         else Show(); 
-    }
-
-    public void SetInventoryReference(InventoryController inventory)
-    {
-        this.inventory = inventory;
-        Init();
-        InitSlot();
-        UpdateGoldText(inventory.Gold);
-        inventory.OnGoldChanged += UpdateGoldText;
     }
 
     public void SetItemIcon(int index, Sprite icon)
@@ -80,6 +88,12 @@ public class UIInventory : MonoBehaviour,
     {
         if (slotUIList.Count == 0 || !slotUIList[index].HasItem) return;
         slotUIList[index].RemoveItem();
+    }
+
+    private void HandleSlotUpdated(int index, ItemData data)
+    {
+        if (data != null) SetItemIcon(index, data.Icon);
+        else RemoveItem(index);
     }
 
 

@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
-    [Header("UI")]
-    [SerializeField] UIInventory inventoryUI;
-    [SerializeField] UIEquipment equipmentUI;
-
     public int Capacity { get; private set; }
     [SerializeField, Range(10, 30)] int initialCapacity = 30;
     [SerializeField, Range(0, 30)] int maxInventorySize = 30;
@@ -30,20 +26,14 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private float baseMoveSpd = 5.0f;
     [SerializeField] private float baseDropRate = 0.05f; // 5%
 
+    public event Action<int, ItemData> OnSlotUpdated;
+
     private void Awake()
     {
         items = new Item[maxInventorySize];
         Capacity = initialCapacity;
 
-        if (inventoryUI != null) inventoryUI.SetInventoryReference(this);
-        if (equipmentUI != null) equipmentUI.Init(this);
-
         RefreshAllSlots();
-    }
-
-    private void OnDestroy()
-    {
-        if (equipmentUI != null) equipmentUI.Dispose(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -183,9 +173,8 @@ public class InventoryController : MonoBehaviour
     public void Remove(int index)
     {
         if (!IsValidIndex(index)) return;
-
         items[index] = null;
-        inventoryUI.RemoveItem(index);
+        UpdateSlot(index);
     }
 
     public void Swap(int indexA, int indexB)
@@ -285,44 +274,16 @@ public class InventoryController : MonoBehaviour
     
     private void UpdateSlot(int index)
     {
-        if (!inventoryUI || !IsValidIndex(index)) return;
+        if (!IsValidIndex(index)) return;
 
         Item item = items[index];
-
-        // 1. 아이템이 슬롯에 존재하는 경우
-        if (item != null)
+        if (item is CountableItem ci && ci.IsEmpty)
         {
-            // 아이콘 등록
-            inventoryUI.SetItemIcon(index, item.itemData.Icon);
-
-            // 1-1. 셀 수 있는 아이템
-            if (item is CountableItem ci)
-            {
-                // 1-1-1. 수량이 0인 경우, 아이템 제거
-                if (ci.IsEmpty)
-                {
-                    items[index] = null;
-                    RemoveIcon();
-                }
-                
-            }
-            // 1-2. 셀 수 없는 아이템인 경우 수량 텍스트 제거
-            else
-            {
-                
-            }
-        }
-        // 2. 빈 슬롯인 경우 : 아이콘 제거
-        else
-        {
-            RemoveIcon();
+            items[index] = null;
+            item = null;
         }
 
-        // 로컬 : 아이콘 제거하기
-        void RemoveIcon()
-        {
-            inventoryUI.RemoveItem(index);
-        }
+        OnSlotUpdated?.Invoke(index, item?.itemData);
     }
 
     private bool IsValidIndex(int index) => index >= 0 && index < Capacity;
@@ -338,7 +299,6 @@ public class InventoryController : MonoBehaviour
 
     private void RefreshAllSlots()
     {
-        if(!inventoryUI) return;
         for (int i = 0; i < Capacity; i++) UpdateSlot(i);
     }
 

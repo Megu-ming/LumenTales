@@ -5,9 +5,9 @@ public class UIEquipment : MonoBehaviour
 {
     [SerializeField] UIEquipmentSlot[] slots;
 
-    // InventoryController에서 이벤트를 받을 때 사용
+    [SerializeField] InventoryController inventory;
+
     private readonly Dictionary<EquipmentSlotType, UIEquipmentSlot> map = new();
-    private InventoryController inventory;
 
     private void Show() => gameObject.SetActive(true);
     private void Hide() => gameObject.SetActive(false);
@@ -17,9 +17,9 @@ public class UIEquipment : MonoBehaviour
         Hide();
     }
 
-    public void Init(InventoryController inv)
+    private void Start()
     {
-        this.inventory = inv;
+        if (inventory == null) return;
 
         map.Clear();
         foreach (var s in slots)
@@ -29,19 +29,17 @@ public class UIEquipment : MonoBehaviour
             s.Clear();
         }
 
-        // 장착 변경 이벤트 구독
-        inv.OnEquippedChanged += HandleEquippedChanged;
+        inventory.OnEquippedChanged += HandleEquippedChanged;
 
-        // 초기 동기화(선택): inv.GetEquippedSnapshot()이 있다면 전체 반영
-        foreach (var kv in inv.GetEquippedItems())
+        foreach (var kv in inventory.GetEquippedItems())
         {
             if (map.TryGetValue(kv.Key, out var ui)) ui.SetIcon(kv.Value.itemData.Icon);
         }
     }
 
-    public void Dispose(InventoryController inv)
+    private void OnDestroy()
     {
-        if (inv != null) inv.OnEquippedChanged -= HandleEquippedChanged;
+        if (inventory != null) inventory.OnEquippedChanged -= HandleEquippedChanged;
     }
 
     private void HandleEquippedChanged(EquipmentSlotType slot, EquipmentItem itemOrNull)
