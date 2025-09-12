@@ -12,11 +12,11 @@ public class UIInventory : MonoBehaviour,
 {
     [Header("Options")]
     [SerializeField, ReadOnly] int inventoryCapacity;
-    [SerializeField] UIInventoryItem slotPrefab;    // ¾ÆÀÌÅÛ ½½·Ô ÇÁ¸®ÆÕ
-    [SerializeField] RectTransform contentPanel;    // ½ºÅ©·ÑºäÀÇ Content
-    [SerializeField] GameObject imageDummy;        // µå·¡±× ÁßÀÎ ¾ÆÀÌÅÛ ¾ÆÀÌÄÜ
-    [SerializeField] GameObject tooltipPrefab;      // ÅøÆÁ ÇÁ¸®ÆÕ
-    [SerializeField] TextMeshProUGUI goldText;      // °ñµå ÅØ½ºÆ®
+    [SerializeField] UIInventoryItem slotPrefab;    // ì•„ì´í…œ ìŠ¬ë¡¯ í”„ë¦¬íŒ¹
+    [SerializeField] RectTransform contentPanel;    // ìŠ¤í¬ë¡¤ë·°ì˜ Content
+    [SerializeField] GameObject imageDummy;        // ë“œë˜ê·¸ ì¤‘ì¸ ì•„ì´í…œ ì•„ì´ì½˜
+    [SerializeField] GameObject tooltipPrefab;      // íˆ´íŒ í”„ë¦¬íŒ¹
+    [SerializeField] TextMeshProUGUI goldText;      // ê³¨ë“œ í…ìŠ¤íŠ¸
 
     InventoryController inventory;
 
@@ -27,11 +27,11 @@ public class UIInventory : MonoBehaviour,
     private PointerEventData ped;
     private List<RaycastResult> rrList;
 
-    private UIInventoryItem beginDragSlot;      // µå·¡±×¸¦ ½ÃÀÛÇÑ ½½·Ô
-    private Transform beginDragIconTr;          // ÇØ´ç ½½·ÔÀÇ ¾ÆÀÌÄÜ Æ®·£½ºÆû
+    private UIInventoryItem beginDragSlot;      // ë“œë˜ê·¸ë¥¼ ì‹œì‘í•œ ìŠ¬ë¡¯
+    private Transform beginDragIconTr;          // í•´ë‹¹ ìŠ¬ë¡¯ì˜ ì•„ì´ì½˜ íŠ¸ëœìŠ¤í¼
 
-    private Vector3 beginDragIconPoint;         // µå·¡±× ½ÃÀÛ½Ã ¾ÆÀÌÄÜ À§Ä¡
-    private Vector3 beginDragCursorPoint;       // µå·¡±× ½ÃÀÛ½Ã Ä¿¼­ À§Ä¡
+    private Vector3 beginDragIconPoint;         // ë“œë˜ê·¸ ì‹œì‘ì‹œ ì•„ì´ì½˜ ìœ„ì¹˜
+    private Vector3 beginDragCursorPoint;       // ë“œë˜ê·¸ ì‹œì‘ì‹œ ì»¤ì„œ ìœ„ì¹˜
 
     public void Show() => gameObject.SetActive(true);
     public void Hide()
@@ -95,13 +95,18 @@ public class UIInventory : MonoBehaviour,
             tooltip.SetupTooltip(data.ItemName, data.Tooltip, data.Price);
             tooltip.TryGetComponent<RectTransform>(out RectTransform tooltipRt);
             rootCanvas.TryGetComponent<RectTransform>(out RectTransform canvasRt);
-            bool isTooltipOut = tooltipRt.anchoredPosition.x + tooltipRt.sizeDelta.x > canvasRt.sizeDelta.x;
-            
-            if(isTooltipOut)
-                tooltipRt.pivot = new Vector2(1, 1);
-            else
-                tooltipRt.pivot = new Vector2(0, 1);
+            // ë¨¼ì € ë§ˆìš°ìŠ¤ ìœ„ì¹˜ì— ë†“ê¸°
             tooltip.transform.position = eventData.position;
+
+            // í™”ë©´ ì¢Œí‘œ â†’ ìº”ë²„ìŠ¤ ë¡œì»¬ ì¢Œí‘œë¡œ ë³€í™˜
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvasRt, eventData.position, rootCanvas.worldCamera, out Vector2 localPoint);
+
+            // pivot ê³„ì‚°
+            float pivotX = (localPoint.x + tooltipRt.sizeDelta.x > canvasRt.rect.width * 0.5f) ? 1f : 0f;
+            float pivotY = (localPoint.y - tooltipRt.sizeDelta.y < -canvasRt.rect.height * 0.5f) ? 0f : 1f;
+
+            tooltipRt.pivot = new Vector2(pivotX, pivotY);
 
             tooltip.gameObject.SetActive(true);
         }
@@ -113,7 +118,7 @@ public class UIInventory : MonoBehaviour,
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        if(eventData.button == InputButton.Left) // ÁÂÅ¬¸¯
+        if(eventData.button == InputButton.Left) // ì¢Œí´ë¦­
         {
             beginDragSlot = RaycastAndGetComponent<UIInventoryItem>();
 
@@ -129,10 +134,10 @@ public class UIInventory : MonoBehaviour,
                 SetDummyPosition(beginDragIconPoint);
             }
         }
-        // ¿ìÅ¬¸¯ : ¾ÆÀÌÅÛ »ç¿ë
+        // ìš°í´ë¦­ : ì•„ì´í…œ ì‚¬ìš©
         else if(eventData.button == InputButton.Right)
         {
-            // TODO : ¾ÆÀÌÅÛ »ç¿ë
+            // TODO : ì•„ì´í…œ ì‚¬ìš©
             var slot = RaycastAndGetComponent<UIInventoryItem>();
             if(slot!=null&&slot.HasItem && slot.IsAccessible)
             {
@@ -218,7 +223,7 @@ public class UIInventory : MonoBehaviour,
             bool isSeparation = false;
             int currentAmount = 0;
 
-            // ÇöÀç °³¼ö È®ÀÎ
+            // í˜„ì¬ ê°œìˆ˜ í™•ì¸
             if(isSeparatable)
             {
                 currentAmount = inventory.GetCurrentAmount(beginDragSlot.Index);
@@ -232,21 +237,21 @@ public class UIInventory : MonoBehaviour,
             return;
         }
 
-        // ÀåºñÃ¢ ½½·Ô À§ µå·Ó
+        // ì¥ë¹„ì°½ ìŠ¬ë¡¯ ìœ„ ë“œë¡­
         var eqSlot = RaycastAndGetComponent<UIEquipmentSlot>();
-        if(eqSlot!=null) // ÀåºñÅ¸ÀÔ¿¡ ¸Â´Â Ã¢ÀÎÁöµµ È®ÀÎÇØ¾ßÇÔ
+        if(eqSlot!=null) // ì¥ë¹„íƒ€ì…ì— ë§ëŠ” ì°½ì¸ì§€ë„ í™•ì¸í•´ì•¼í•¨
         {
             inventory.EquipFromInventory(beginDragSlot.Index, eqSlot.slotType);
             return;
         }
         
-        // ¹ö¸®±â ±¸Çö
+        // ë²„ë¦¬ê¸° êµ¬í˜„
         // TODO
 
-        // µå·¡±× ½ÃÀÛ ½½·ÔÀ¸·Î º¹±Í
+        // ë“œë˜ê·¸ ì‹œì‘ ìŠ¬ë¡¯ìœ¼ë¡œ ë³µê·€
     }
 
-    /// <summary> ·¹ÀÌÄ³½ºÆ®ÇÏ¿© ¾òÀº UI¿¡¼­ ÄÄÆ÷³ÍÆ® Ã£¾Æ ¸®ÅÏ </summary>
+    /// <summary> ë ˆì´ìºìŠ¤íŠ¸í•˜ì—¬ ì–»ì€ UIì—ì„œ ì»´í¬ë„ŒíŠ¸ ì°¾ì•„ ë¦¬í„´ </summary>
     private T RaycastAndGetComponent<T>() where T : Component
     {
         rrList.Clear();
