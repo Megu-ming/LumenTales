@@ -21,6 +21,7 @@ public class UIInventory : MonoBehaviour,
     InventoryController inventory;
 
     List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
+    private Canvas rootCanvas;
     private UIItemTooltip tooltip;
     private GraphicRaycaster gr;
     private PointerEventData ped;
@@ -41,6 +42,7 @@ public class UIInventory : MonoBehaviour,
 
     private void Awake()
     {
+        rootCanvas = gameObject.transform.parent.GetComponent<Canvas>();
         Hide();
     }
 
@@ -91,8 +93,17 @@ public class UIInventory : MonoBehaviour,
             int index = slot.Index;
             var data = inventory.GetItemData(index);
             tooltip.SetupTooltip(data.ItemName, data.Tooltip, data.Price);
-            tooltip.gameObject.SetActive(true);
+            tooltip.TryGetComponent<RectTransform>(out RectTransform tooltipRt);
+            rootCanvas.TryGetComponent<RectTransform>(out RectTransform canvasRt);
+            bool isTooltipOut = tooltipRt.anchoredPosition.x + tooltipRt.sizeDelta.x > canvasRt.sizeDelta.x;
+            
+            if(isTooltipOut)
+                tooltipRt.pivot = new Vector2(1, 1);
+            else
+                tooltipRt.pivot = new Vector2(0, 1);
             tooltip.transform.position = eventData.position;
+
+            tooltip.gameObject.SetActive(true);
         }
         else
         {

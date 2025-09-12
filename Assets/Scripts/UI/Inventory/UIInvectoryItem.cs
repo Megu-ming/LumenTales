@@ -31,18 +31,7 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void ShowIcon() => iconGo.SetActive(true);
     public void HideIcon() => iconGo.SetActive(false);
 
-    private void ShowHighLight() 
-    {
-        highLightGo.TryGetComponent<RectTransform>(out var rt);
-        if(rt!=null)
-        {
-            // 툴팁 밖으로 나갔으면 앵커 변경하기
-
-            highLightGo.SetActive(true); 
-            
-
-        }
-    }
+    private void ShowHighLight() => highLightGo.SetActive(true);
     private void HideHighLight() => highLightGo.SetActive(false);
 
     public void SetSlotIndex(int index) =>Index = index;

@@ -18,9 +18,8 @@ MonoBehaviour:
   knockBack: {x: 0, y: 0}
   cooldown: 2
   maxHp: 15
-  isInvincible: 1
-  invincibilityTime: 0.25
+  isInvincible: 0
+  invincibilityTime: 0
   moveSpeed: 1
   walkStopRate: 0.6
-  itemDT: {fileID: 11400000, guid: acb7b8ea2259ad24ba1d441388ce51ca, type: 2}
   expAmount: 1
