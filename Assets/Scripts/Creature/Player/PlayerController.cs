@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -168,6 +169,7 @@ public class PlayerController : CreatureController
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (context.performed)
         {
             // 공격 로직 구현
