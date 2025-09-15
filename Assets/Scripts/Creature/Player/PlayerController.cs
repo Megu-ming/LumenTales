@@ -169,7 +169,7 @@ public class PlayerController : CreatureController
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (EventSystem.current.IsPointerOverGameObject()) return;
+        if (EventSystem.current!= null && EventSystem.current.IsPointerOverGameObject()) return;
         if (context.performed)
         {
             // 공격 로직 구현

@@ -116,8 +116,8 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerMove
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        //if (!HasItem) return;
         if (!IsAccessible) return;
+        TooltipService.I?.Hide();
         HideHighLight();
     }
 }
