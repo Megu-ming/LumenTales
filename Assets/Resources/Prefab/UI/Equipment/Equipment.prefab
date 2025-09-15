@@ -721,6 +721,8 @@ GameObject:
   - component: {fileID: 5964399095753912198}
   - component: {fileID: 674529155792148182}
   - component: {fileID: 4444251404492282971}
+  - component: {fileID: 6300500944778947282}
+  - component: {fileID: 8251517767837653762}
   m_Layer: 5
   m_Name: Equipment
   m_TagString: Untagged
@@ -805,6 +807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 229f0971308852146b25818ecda83749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closeOnEsc: 1
   slots:
   - {fileID: 8170886261065346247}
   - {fileID: 8205874192852816689}
@@ -812,6 +815,7 @@ MonoBehaviour:
   - {fileID: 4657424054500592662}
   - {fileID: 8619175054520234220}
   - {fileID: 8800468118857452792}
+  inventory: {fileID: 0}
 --- !u!114 &674529155792148182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,6 +856,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!223 &6300500944778947282
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6104374164706897903}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!225 &8251517767837653762
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6104374164706897903}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6156453792235754091
 GameObject:
   m_ObjectHideFlags: 0

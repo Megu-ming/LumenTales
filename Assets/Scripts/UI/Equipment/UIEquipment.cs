@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UIEquipment : MonoBehaviour
+public class UIEquipment : UIBase
 {
     [SerializeField] UIEquipmentSlot[] slots;
 
@@ -9,12 +9,9 @@ public class UIEquipment : MonoBehaviour
     
     private readonly Dictionary<EquipmentSlotType, UIEquipmentSlot> map = new();
 
-    private void Show() => gameObject.SetActive(true);
-    private void Hide() => gameObject.SetActive(false);
-
-    private void Awake()
+    protected override void Awake()
     {
-        Hide();
+        base.Awake();
     }
 
     private void Start()
@@ -42,6 +39,13 @@ public class UIEquipment : MonoBehaviour
         if(inventory != null) inventory.OnEquippedChanged -= HandleEquippedChanged;
     }
 
+    protected override void OnOpen()
+    {
+    }
+    protected override void OnClose()
+    {
+    }
+
     private void HandleEquippedChanged(EquipmentSlotType slot, EquipmentItem itemOrNull)
     {
         if (!map.TryGetValue(slot, out var ui)) return;
@@ -52,8 +56,7 @@ public class UIEquipment : MonoBehaviour
 
     public void OnToggleEquipment()
     {
-        if (gameObject.activeSelf) Hide();
-        else Show();
+        Toggle();
     }
 
     public void RequestUnequip(EquipmentSlotType slot)

@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEngine.EventSystems.PointerEventData;
 
-public class UIInventory : MonoBehaviour, 
+public class UIInventory : UIBase, 
     IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerMoveHandler
 {
     [Header("Options")]
@@ -33,17 +31,10 @@ public class UIInventory : MonoBehaviour,
     private Vector3 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
     private Vector3 beginDragCursorPoint;       // 드래그 시작시 커서 위치
 
-    public void Show() => gameObject.SetActive(true);
-    public void Hide()
+    protected override void Awake()
     {
-        gameObject.SetActive(false);
-        tooltip?.gameObject.SetActive(false);
-    }
-
-    private void Awake()
-    {
-        rootCanvas = gameObject.transform.parent.GetComponent<Canvas>();
-        Hide();
+        base.Awake();
+        rootCanvas = GetComponentInParent<Canvas>();
     }
 
     private void Start()
@@ -73,10 +64,18 @@ public class UIInventory : MonoBehaviour,
         }
     }
 
+    protected override void OnOpen()
+    {
+    }
+
+    protected override void OnClose()
+    {
+        tooltip?.gameObject.SetActive(false);
+    }
+
     public void OnInventoryToggle()
     {
-        if (gameObject.activeSelf) Hide();
-        else Show(); 
+        Toggle();
     }
 
     public void SetItemIcon(int index, Sprite icon)
@@ -152,12 +151,14 @@ public class UIInventory : MonoBehaviour,
                 inventory.UseAt(slot.Index);
             }
         }
+
+        UIStackManager.Instance.BringToFront(this);
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
         if (beginDragSlot == null) return;
-
+        UIStackManager.Instance.BringToFront(this);
         if (eventData.button == InputButton.Left)
         {
             if (beginDragIconTr)
@@ -321,7 +322,10 @@ public class UIInventory : MonoBehaviour,
     private void SetDummyPosition(Vector3 pos)
     {
         if (imageDummy != null)
+        { 
             imageDummy.transform.position = pos;
+            imageDummy.transform.SetAsLastSibling();
+        }
     }
 #endregion
 }

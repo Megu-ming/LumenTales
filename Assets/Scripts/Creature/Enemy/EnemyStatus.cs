@@ -17,7 +17,7 @@ public class EnemyStatus : Status
 
         if (barPrefab != null)
         {
-            canvas = GameObject.Find("BackCanvas");
+            canvas = GameObject.Find("GameHUD");
 
             hpBarInstance = Instantiate(barPrefab, canvas.transform);
             hpBar = hpBarInstance.GetComponent<RectTransform>();
