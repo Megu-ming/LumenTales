@@ -167,14 +167,9 @@ public class PlayerController : CreatureController
             IsSprint = false;
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnAttack()
     {
-        if (EventSystem.current!= null && EventSystem.current.IsPointerOverGameObject()) return;
-        if (context.performed)
-        {
-            // 공격 로직 구현
-            animator.SetTrigger(AnimationStrings.attack);
-        }
+        animator.SetTrigger(AnimationStrings.attack);
     }
 
     public void OnHit(int damage, Vector2 knockback)
