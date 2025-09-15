@@ -13,14 +13,12 @@ public class UIInventory : UIBase,
     [SerializeField] UIInventoryItem slotPrefab;    // 아이템 슬롯 프리팹
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
     [SerializeField] GameObject imageDummy;        // 드래그 중인 아이템 아이콘
-    [SerializeField] GameObject tooltipPrefab;      // 툴팁 프리팹
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
     [SerializeField] InventoryController inventory;
 
     List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
     private Canvas rootCanvas;
-    private UIItemTooltip tooltip;
     private GraphicRaycaster gr;
     private PointerEventData ped;
     private List<RaycastResult> rrList;
@@ -70,7 +68,6 @@ public class UIInventory : UIBase,
 
     protected override void OnClose()
     {
-        tooltip?.gameObject.SetActive(false);
     }
 
     public void OnInventoryToggle()
@@ -104,22 +101,22 @@ public class UIInventory : UIBase,
         {
             int index = slot.Index;
             var data = inventory.GetItemData(index);
-            tooltip.SetupTooltip(data.ItemName, data.Tooltip, data.Price);
-            tooltip.TryGetComponent<RectTransform>(out RectTransform tooltipRt);
-            rootCanvas.TryGetComponent<RectTransform>(out RectTransform canvasRt);
-            // 먼저 마우스 위치에 놓기
-            tooltip.transform.position = eventData.position;
 
-            float pivotX = tooltipRt.anchoredPosition.x + tooltipRt.sizeDelta.x > canvasRt.sizeDelta.x ? 1f : 0f; // anchor 11
-            float pivotY = tooltipRt.anchoredPosition.y - tooltipRt.sizeDelta.y > canvasRt.sizeDelta.y ? 0f : 1f; // anchor 00
+            if(data is EquipmentItemData eqData)
+            {
+                int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
+                TooltipService.I?.Show
+                    (data.ItemName, data.Tooltip, data.Price, eventData.position, eqVal, !eqData.isArmor, eqData.isArmor);
 
-            tooltipRt.pivot = new Vector2(pivotX, pivotY);
+            }
+            else
+                TooltipService.I?.Show(data.ItemName, data.Tooltip, data.Price, eventData.position);
+            // 공격력, 방어력 수치 계산 필요
 
-            tooltip.gameObject.SetActive(true);
         }
         else
         {
-            tooltip.gameObject.SetActive(false);
+            TooltipService.I?.Hide();
         }
     }
 
@@ -199,11 +196,6 @@ public class UIInventory : UIBase,
         rrList = new List<RaycastResult>(10);
 
         inventoryCapacity = inventory.Capacity;
-        // ToolTip UI
-        tooltip = Instantiate(tooltipPrefab).GetComponent<UIItemTooltip>();
-        tooltip.transform.SetParent(transform.parent);
-        tooltip.transform.localScale = new Vector3(1, 1, 1);
-        tooltip.gameObject.SetActive(false);
     }
 
     private void InitSlot()

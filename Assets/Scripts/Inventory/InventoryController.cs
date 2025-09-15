@@ -237,7 +237,7 @@ public class InventoryController : MonoBehaviour
             var eq = kv.Value;
             if (eq == null) continue;
             var data = (EquipmentItemData)eq.itemData;
-            atk += data.AttackValue;
+            atk += data.attackValue;
             def += data.defenseValue;
             // 필요하면 장비에 이동속도/HP/드랍률 옵션 필드를 추가해서 같이 합산
         }

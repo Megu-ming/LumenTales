@@ -11,21 +11,29 @@ public class UIItemTooltip : MonoBehaviour
     [SerializeField] TextMeshProUGUI descriptionText;
     [SerializeField] TextMeshProUGUI priceValueText;
 
-    public void SetupTooltip(string name, string des, int price, int atk = 0)
+    public void SetupTooltip(string name, string des, int price, int eqVal =0, bool isAtkVal = false, bool isDefVal = false)
     {
         nameText.text = name;
         descriptionText.text = des;
 
-        if (atk == 0)
+        if (!isAtkVal&&!isDefVal)
         {
             atkText.gameObject.SetActive(false);
             atkValueText.gameObject.SetActive(false);
         }
-        else
+        else if(isDefVal)
         {
             atkText.gameObject.SetActive(true);
+            atkText.text = "DEF";
             atkValueText.gameObject.SetActive(true);
-            atkValueText.text = atk.ToString();
+            atkValueText.text = eqVal.ToString();
+        }
+        else if (isAtkVal)
+        {
+            atkText.gameObject.SetActive(true);
+            atkText.text = "ATK";
+            atkValueText.gameObject.SetActive(true);
+            atkValueText.text = eqVal.ToString();
         }
 
         priceValueText.text = price.ToString();

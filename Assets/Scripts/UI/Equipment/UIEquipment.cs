@@ -63,4 +63,13 @@ public class UIEquipment : UIBase
     {
         inventory?.Unequip(slot);
     }
+
+    public bool TryGetEquipped(EquipmentSlotType slot, out EquipmentItem item)
+    {
+        item = null;
+        if (inventory == null) return false;
+        var equipped = inventory.GetEquippedItems();
+        if (!equipped.TryGetValue(slot, out item)) return false;
+        return item != null;
+    }
 }
