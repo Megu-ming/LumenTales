@@ -18,6 +18,9 @@ public class UIMovableHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         beginPos = target.position;
         moveBegin = eventData.position;
+
+        if (target && target.gameObject.TryGetComponent<UIBase>(out UIBase ui))
+            UIStackManager.Instance.BringToFront(ui);
     }
 
     public void OnDrag(PointerEventData eventData)

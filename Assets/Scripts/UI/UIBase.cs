@@ -22,6 +22,11 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler
         HideImmediate();
     }
 
+    protected virtual void OnDisable()
+    {
+        TooltipService.I?.Hide();
+    }
+
     public void Open()
     {
         if(isOpen) { UIStackManager.Instance.BringToFront(this); OnFocus(); return; }
