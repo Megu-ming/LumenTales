@@ -39,7 +39,7 @@ public class TooltipService : MonoBehaviour
         tooltip.transform.position = screenPos;
 
         float pivotX = tooltipRect.anchoredPosition.x + tooltipRect.sizeDelta.x > canvasRect.sizeDelta.x ? 1f : 0f; // anchor 11
-        float pivotY = tooltipRect.anchoredPosition.y - tooltipRect.sizeDelta.y > canvasRect.sizeDelta.y ? 0f : 1f; // anchor 00
+        float pivotY = tooltipRect.anchoredPosition.y - tooltipRect.sizeDelta.y < -canvasRect.sizeDelta.y ? 0f : 1f; // anchor 00
 
         tooltipRect.pivot = new Vector2(pivotX, pivotY);
 
