@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using static UnityEngine.EventSystems.PointerEventData;
 
 public class UIInventory : UIBase, 
-    IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerMoveHandler
+    IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [Header("Options")]
     [SerializeField, ReadOnly] int inventoryCapacity;
@@ -15,10 +15,9 @@ public class UIInventory : UIBase,
     [SerializeField] GameObject imageDummy;        // 드래그 중인 아이템 아이콘
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
-    [SerializeField] InventoryController inventory;
+    [HideInInspector] public InventoryController inventory;
 
     List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
-    private Canvas rootCanvas;
     private GraphicRaycaster gr;
     private PointerEventData ped;
     private List<RaycastResult> rrList;
@@ -32,7 +31,6 @@ public class UIInventory : UIBase,
     protected override void Awake()
     {
         base.Awake();
-        rootCanvas = GetComponentInParent<Canvas>();
     }
 
     private void Start()
@@ -93,34 +91,7 @@ public class UIInventory : UIBase,
     }
 
     #region Event System Handlers
-    void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
-    {
-        // ToolTip UI
-        UIInventoryItem slot = RaycastAndGetComponent<UIInventoryItem>();
-        if (slot && slot.HasItem)
-        {
-            int index = slot.Index;
-            var data = inventory.GetItemData(index);
-
-            if(data is EquipmentItemData eqData)
-            {
-                int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
-                TooltipService.I?.Show
-                    (data.ItemName, data.Tooltip, data.Price, eventData.position, eqVal, !eqData.isArmor, eqData.isArmor);
-
-            }
-            else
-                TooltipService.I?.Show(data.ItemName, data.Tooltip, data.Price, eventData.position);
-            // 공격력, 방어력 수치 계산 필요
-
-        }
-        else
-        {
-            TooltipService.I?.Hide();
-        }
-    }
-
-    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
         if(eventData.button == InputButton.Left) // 좌클릭
         {
@@ -176,8 +147,6 @@ public class UIInventory : UIBase,
 
                 SetSlotIconInvisible(beginDragSlot, true);
                 if (imageDummy) { imageDummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
-                //beginDragIconTr.position = beginDragIconPoint;
-                //beginDragSlot.transform.SetSiblingIndex(beginDragSlotIndex);
 
                 beginDragSlot = null;
                 beginDragIconTr = null;

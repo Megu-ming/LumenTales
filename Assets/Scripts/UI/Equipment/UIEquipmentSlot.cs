@@ -1,17 +1,29 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIEquipmentSlot : MonoBehaviour, 
-    IPointerClickHandler, IPointerMoveHandler, IPointerExitHandler
+    IPointerEnterHandler,IPointerClickHandler, IPointerMoveHandler, IPointerExitHandler
 {
     UIEquipment eqUI => GetComponentInParent<UIEquipment>();
     public EquipmentSlotType slotType;
     [SerializeField] Image iconImage;
+    [SerializeField] Image borderImage;
+
+    private GameObject highLightGo;
+    private void ShowHighLight() => highLightGo.SetActive(true);
+    private void HideHighLight() => highLightGo.SetActive(false);
 
     private void Awake()
     {
-        iconImage = GetComponent<Image>();
+        highLightGo = borderImage.gameObject;
+        HideHighLight();
+    }
+
+    void OnDisable()
+    {
+        HideHighLight();
     }
 
     public bool HasItem => iconImage != null && iconImage.sprite != null;
@@ -24,6 +36,11 @@ public class UIEquipmentSlot : MonoBehaviour,
     }
 
     public void Clear() => SetIcon(null);
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ShowHighLight();
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -44,6 +61,7 @@ public class UIEquipmentSlot : MonoBehaviour,
     public void OnPointerExit(PointerEventData eventData)
     {
         TooltipService.I?.Hide();
+        HideHighLight();
     }
 
     void TryShowTooltip(Vector2 screenPos)

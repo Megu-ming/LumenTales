@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler
 {
     public Image itemImage;
     [SerializeField] Image borderImage;
@@ -95,6 +95,23 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         //if (!HasItem) return;
         if (!IsAccessible && !HasItem) return;
         ShowHighLight();
+    }
+
+    void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
+    {
+        // ToolTip UI
+        if (TooltipService.I == null) return;
+        if (!HasItem) { TooltipService.I?.Hide(); return; }
+        if (inventoryUI == null) { TooltipService.I?.Hide(); return; }
+        var data = inventoryUI.inventory.GetItemData(Index);
+        if (data is EquipmentItemData eqData)
+        {
+            int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
+            TooltipService.I?.Show
+                (data.ItemName, data.Tooltip, data.Price, eventData.position, eqVal, !eqData.isArmor, eqData.isArmor);
+        }
+        else
+            TooltipService.I?.Show(data.ItemName, data.Tooltip, data.Price, eventData.position);
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)

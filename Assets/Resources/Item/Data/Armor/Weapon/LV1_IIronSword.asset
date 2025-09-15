@@ -19,4 +19,5 @@ MonoBehaviour:
   price: 100
   slot: 0
   defenseValue: 0
-  AttackValue: 10
+  attackValue: 10
+  isArmor: 0
