@@ -1,3 +1,8 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 public static class Utils
 {
     public static float Percent(int val, int max)

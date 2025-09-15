@@ -218,9 +218,91 @@ public class InventoryController : MonoBehaviour
             ToggleEquip(index, eq);
         }
     }
+
+    public bool TryTransfer(SlotAddress from, SlotAddress to)
+    {
+        // 같은 곳이면 무시
+        if (from.owner == to.owner)
+        {
+            if (from.owner == SlotOwner.Inventory && from.invIndex == to.invIndex) return false;
+            if (from.owner == SlotOwner.Equipment && from.equipSlot == to.equipSlot) return false;
+        }
+
+        // 인벤토리 ↔ 인벤토리
+        if (from.owner == SlotOwner.Inventory && to.owner == SlotOwner.Inventory)
+            return SwapInventory(from.invIndex, to.invIndex);
+
+        // 인벤토리 → 장비 (장착)
+        if (from.owner == SlotOwner.Inventory && to.owner == SlotOwner.Equipment)
+            return EquipFromInventorySafe(from.invIndex, to.equipSlot);
+
+        // 장비 → 인벤토리 (해제)
+        if (from.owner == SlotOwner.Equipment && to.owner == SlotOwner.Inventory)
+            return UnequipToInventory(from.equipSlot, to.invIndex);
+
+        return false;
+    }
     #endregion
 
     #region Private Function
+    private bool SwapInventory(int a, int b)
+    {
+        if (!IsValidIndex(a) || !IsValidIndex(b)) return false;
+        Swap(a, b); // 기존 메서드 사용 (동일 Countable이면 병합 처리 포함)
+        return true;
+    }
+
+    public bool EquipFromInventorySafe(int invIndex, EquipmentSlotType targetSlot)
+    {
+        if (!IsValidIndex(invIndex)) return false;
+        if (items[invIndex] is not EquipmentItem eq) return false;
+
+        // 타입 일치 검증 (UI에서도 1차 검증하지만, 모델 레벨에서 재검증)
+        if (eq.EquipmentData.slot != targetSlot) return false;
+
+        // 타겟 슬롯에 이미 있으면 인벤토리 빈칸으로 이동
+        if (equipped.TryGetValue(targetSlot, out var current) && current != null)
+        {
+            int empty = FindEmptySlotIndex();
+            if (empty == -1) return false; // 빈칸 없으면 실패
+            items[empty] = current;
+            UpdateSlot(empty);
+        }
+
+        // 장착
+        items[invIndex] = null;
+        UpdateSlot(invIndex);
+        equipped[targetSlot] = eq;
+        OnEquippedChanged?.Invoke(targetSlot, eq);
+        return true;
+    }
+
+    public bool UnequipToInventory(EquipmentSlotType fromSlot, int targetInvIndex)
+    {
+        if (!equipped.TryGetValue(fromSlot, out var src) || src == null) return false;
+        if (!IsValidIndex(targetInvIndex)) return false;
+
+        // 타겟칸이 비었으면 이동
+        if (items[targetInvIndex] == null)
+        {
+            items[targetInvIndex] = src;
+            UpdateSlot(targetInvIndex);
+            equipped[fromSlot] = null;
+            OnEquippedChanged?.Invoke(fromSlot, null);
+            return true;
+        }
+
+        // 타겟칸이 차있으면 스왑 (프로젝트 정책에 따라 거부도 가능)
+        var dst = items[targetInvIndex];
+        items[targetInvIndex] = src;
+        UpdateSlot(targetInvIndex);
+        equipped[fromSlot] = dst as EquipmentItem; // 장비만 올 수 있음, 아니면 실패 처리해도 됨
+
+        // 만약 dst가 장비가 아닐 수 있다면 → 거부하고 원복 로직으로 바꾸세요.
+        OnEquippedChanged?.Invoke(fromSlot, equipped[fromSlot]);
+        return true;
+    }
+
     /// <summary>
     /// 장비 변경이 있을 때마다 호출해서 능력치를 재계산하고 적용한다.
     /// </summary>

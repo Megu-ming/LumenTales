@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIEquipment : UIBase
 {
     [SerializeField] UIEquipmentSlot[] slots;
+    [SerializeField] public InventoryController inventory;
 
-    [SerializeField] InventoryController inventory;
-    
     private readonly Dictionary<EquipmentSlotType, UIEquipmentSlot> map = new();
 
     protected override void Awake()
@@ -23,6 +24,7 @@ public class UIEquipment : UIBase
         {
             if(s == null) continue;
             map[s.slotType] = s;
+            s.SetInventoryController(inventory);
             s.Clear();
         }
 

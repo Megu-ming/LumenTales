@@ -90,8 +90,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c295f3015c9e64e905cbe7e874ae75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImage: {fileID: 7520513117488681441}
+  iconImage: {fileID: 7520513117488681441}
+  inventory: {fileID: 0}
   borderImage: {fileID: 1955114973328080650}
+  index: 0
 --- !u!1 &5337252934617758010
 GameObject:
   m_ObjectHideFlags: 0
