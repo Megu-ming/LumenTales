@@ -6,6 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D),typeof(TouchingDirections))]
 public class EnemyController : CreatureController
 {
+    protected EnemyStatus status;
+    protected ItemDropHelper itemDropHelper;
+
     [SerializeField]
     private EnemyData enemyData;
 
@@ -61,7 +64,7 @@ public class EnemyController : CreatureController
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        status = GetComponent<Status>();
+        status = GetComponent<EnemyStatus>();
         touchingDirections = GetComponent<TouchingDirections>();
         itemDropHelper = GetComponent<ItemDropHelper>();
 

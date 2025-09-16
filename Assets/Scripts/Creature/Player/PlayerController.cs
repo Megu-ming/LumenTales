@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -85,6 +86,7 @@ public class PlayerController : CreatureController
 
     private Vector2 moveInput;
     private bool isGrounded;
+    PlayerStatus status;
     public bool IsGrounded 
     { 
         get { return isGrounded; }
@@ -95,7 +97,7 @@ public class PlayerController : CreatureController
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        status = GetComponent<Status>();
+        status = GetComponent<PlayerStatus>();
         rb.freezeRotation = true;
     }
 
@@ -165,13 +167,9 @@ public class PlayerController : CreatureController
             IsSprint = false;
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnAttack()
     {
-        if (context.performed)
-        {
-            // 공격 로직 구현
-            animator.SetTrigger(AnimationStrings.attack);
-        }
+        animator.SetTrigger(AnimationStrings.attack);
     }
 
     public void OnHit(int damage, Vector2 knockback)
