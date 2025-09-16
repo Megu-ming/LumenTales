@@ -92,7 +92,6 @@ public class UIInventory : UIBase
         if (data != null)
         { 
             SetItemIcon(index, data.Icon); 
-
         }
         else RemoveItem(index);
     }

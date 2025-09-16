@@ -294,6 +294,8 @@ public class InventoryController : MonoBehaviour
         OnSlotUpdated?.Invoke(index, item?.itemData);
         if (item is CountableItem countableItem)
             OnSlotTextUpdated?.Invoke(index, countableItem.Amount);
+        if(item is EquipmentItem eqItem)
+            OnSlotTextUpdated?.Invoke(index, 1);
     }
 
     private bool IsValidIndex(int index) => index >= 0 && index < Capacity;
