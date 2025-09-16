@@ -230,6 +230,9 @@ public class UIInventory : UIBase,
         gr.Raycast(ped, rrList);
 
         if (rrList.Count == 0)
+            EventSystem.current.RaycastAll(ped, rrList);
+
+        if (rrList.Count == 0)
             return null;
 
         foreach (var rr in rrList)

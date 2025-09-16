@@ -79,10 +79,13 @@ public class InventoryController : MonoBehaviour
             UpdateSlot(empty);
         }
 
-        items[index] = null;
-        UpdateSlot(index);
-        equipped[tartgetType] = eq;
-        OnEquippedChanged?.Invoke(tartgetType, eq);
+        if(tartgetType == eq.EquipmentData.slot)
+        {
+            items[index] = null;
+            UpdateSlot(index);
+            equipped[tartgetType] = eq;
+            OnEquippedChanged?.Invoke(tartgetType, eq);
+        }
     }
 
     public void Unequip(EquipmentSlotType slot)
