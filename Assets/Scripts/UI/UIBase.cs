@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Canvas)), RequireComponent(typeof(GraphicRaycaster))]
-public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler
+public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     [Header("UI Base Option")]
     public bool closeOnEsc = true;
@@ -82,6 +82,7 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler
         gameObject.SetActive(false);
     }
 
-    public void OnPointerDown(PointerEventData e) => UIStackManager.Instance.BringToFront(this);
-    public void OnDrag(PointerEventData e) => UIStackManager.Instance.BringToFront(this);
+    public virtual void OnPointerDown(PointerEventData e) => UIStackManager.Instance.BringToFront(this);
+    public virtual void OnDrag(PointerEventData e) { }
+    public virtual void OnPointerUp(PointerEventData e) => UIStackManager.Instance.BringToFront(this);
 }

@@ -8,8 +8,12 @@ public class UIEquipmentSlot : MonoBehaviour,
 {
     UIEquipment eqUI => GetComponentInParent<UIEquipment>();
     public EquipmentSlotType slotType;
-    [SerializeField] Image iconImage;
+    
+    public Image iconImage;
     [SerializeField] Image borderImage;
+
+    public RectTransform IconRect => iconImage?.GetComponent<RectTransform>();
+    public Sprite CurrentIcon => iconImage?.sprite;
 
     private GameObject highLightGo;
     private void ShowHighLight() => highLightGo.SetActive(true);

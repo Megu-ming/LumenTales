@@ -88,15 +88,18 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    public void Unequip(EquipmentSlotType slot)
+    public void Unequip(EquipmentSlotType slot, int index = -1)
     {
         if (!equipped.TryGetValue(slot, out var current) || current == null) return;
-        
-        int empty = FindEmptySlotIndex();
-        if (empty == -1)
+        int empty = index;
+        if(empty == -1)
         {
-            Debug.LogWarning("No empty slot to unequip current armor.");
-            return;
+            empty = FindEmptySlotIndex();
+            if (empty == -1)
+            {
+                Debug.LogWarning("No empty slot to unequip current armor.");
+                return;
+            }
         }
 
         items[empty] = current;

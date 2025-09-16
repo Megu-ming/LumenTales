@@ -4,25 +4,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEngine.EventSystems.PointerEventData;
+using static Utils;
 
-public class UIInventory : UIBase, 
-    IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class UIInventory : UIBase
 {
     [Header("Options")]
     [SerializeField, ReadOnly] int inventoryCapacity;
-    [SerializeField] UIInventoryItem slotPrefab;    // 아이템 슬롯 프리팹
+    [SerializeField] UIInventorySlot slotPrefab;    // 아이템 슬롯 프리팹
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
     [SerializeField] GameObject imageDummy;        // 드래그 중인 아이템 아이콘
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
     [HideInInspector] public InventoryController inventory;
 
-    List<UIInventoryItem> slotUIList = new List<UIInventoryItem>();
-    private GraphicRaycaster gr;
+    List<UIInventorySlot> slotUIList = new List<UIInventorySlot>();
     private PointerEventData ped;
     private List<RaycastResult> rrList;
 
-    private UIInventoryItem beginDragSlot;      // 드래그를 시작한 슬롯
+    private UIInventorySlot beginDragSlot;      // 드래그를 시작한 슬롯
     private Transform beginDragIconTr;          // 해당 슬롯의 아이콘 트랜스폼
 
     private Vector3 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
@@ -91,11 +90,12 @@ public class UIInventory : UIBase,
     }
 
     #region Event System Handlers
-     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+    public override void OnPointerDown(PointerEventData eventData)
     {
-        if(eventData.button == InputButton.Left) // 좌클릭
+        base.OnPointerDown(eventData);
+        if (eventData.button == InputButton.Left) // 좌클릭
         {
-            beginDragSlot = RaycastAndGetComponent<UIInventoryItem>();
+            beginDragSlot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
 
             if(beginDragSlot != null && beginDragSlot.HasItem && beginDragSlot.IsAccessible)
             {
@@ -113,18 +113,17 @@ public class UIInventory : UIBase,
         else if(eventData.button == InputButton.Right)
         {
             // TODO : 아이템 사용
-            var slot = RaycastAndGetComponent<UIInventoryItem>();
+            var slot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
             if(slot!=null&&slot.HasItem && slot.IsAccessible)
             {
                 inventory.UseAt(slot.Index);
             }
         }
-
-        UIStackManager.Instance.BringToFront(this);
     }
 
-    void IDragHandler.OnDrag(PointerEventData eventData)
+    public override void OnDrag(PointerEventData eventData)
     {
+        base.OnDrag(eventData);
         if (beginDragSlot == null) return;
         UIStackManager.Instance.BringToFront(this);
         if (eventData.button == InputButton.Left)
@@ -137,9 +136,10 @@ public class UIInventory : UIBase,
         }
     }
 
-    void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
+    public override void OnPointerUp(PointerEventData eventData)
     {
-        if(eventData.button == InputButton.Left)
+        base.OnPointerUp(eventData);
+        if (eventData.button == InputButton.Left)
         {
             if(beginDragSlot != null && beginDragIconTr != null)
             {
@@ -158,9 +158,6 @@ public class UIInventory : UIBase,
     #region Private Methods
     private void Init()
     {
-        TryGetComponent(out gr);
-        if (gr == null)
-            gr = gameObject.AddComponent<GraphicRaycaster>();
         ped = new PointerEventData(EventSystem.current);
         rrList = new List<RaycastResult>(10);
 
@@ -183,7 +180,7 @@ public class UIInventory : UIBase,
 
     private void EndDrag()
     {
-        var endDragSlot = RaycastAndGetComponent<UIInventoryItem>();
+        var endDragSlot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
 
         if(endDragSlot != null && endDragSlot.IsAccessible)
         {
@@ -209,7 +206,7 @@ public class UIInventory : UIBase,
         }
 
         // 장비창 슬롯 위 드롭
-        var eqSlot = RaycastAndGetComponent<UIEquipmentSlot>();
+        var eqSlot = RaycastAndGetComponent<UIEquipmentSlot>(rrList, ped);
         if(eqSlot!=null) // 장비타입에 맞는 창인지도 확인해야함
         {
             inventory.EquipFromInventory(beginDragSlot.Index, eqSlot.slotType);
@@ -222,30 +219,7 @@ public class UIInventory : UIBase,
         // 드래그 시작 슬롯으로 복귀
     }
 
-    /// <summary> 레이캐스트하여 얻은 UI에서 컴포넌트 찾아 리턴 </summary>
-    private T RaycastAndGetComponent<T>() where T : Component
-    {
-        rrList.Clear();
-
-        gr.Raycast(ped, rrList);
-
-        if (rrList.Count == 0)
-            EventSystem.current.RaycastAll(ped, rrList);
-
-        if (rrList.Count == 0)
-            return null;
-
-        foreach (var rr in rrList)
-        {
-            var result = rr.gameObject.GetComponent<T>();
-            if (result != null)
-                return result;
-        }
-
-        return null;
-    }
-
-    private void TrySwapItems(UIInventoryItem from,  UIInventoryItem to)
+    private void TrySwapItems(UIInventorySlot from,  UIInventorySlot to)
     {
         if (from == to)
             return;
@@ -266,13 +240,13 @@ public class UIInventory : UIBase,
         if (goldText != null) goldText.text = gold.ToString();
     }
 
-    private void SetSlotIconInvisible(UIInventoryItem slot, bool visible)
+    private void SetSlotIconInvisible(UIInventorySlot slot, bool visible)
     {
         if (slot?.itemImage != null)
             slot.itemImage.enabled = visible;
     }
 
-    private void SetDummyFromSlot(UIInventoryItem slot, RectTransform rt)
+    private void SetDummyFromSlot(UIInventorySlot slot, RectTransform rt)
     {
         var icon = slot?.itemImage;
         var dummy = imageDummy?.GetComponent<Image>();

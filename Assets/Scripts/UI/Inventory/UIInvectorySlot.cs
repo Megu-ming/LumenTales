@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler
+public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler
 {
     public Image itemImage;
     [SerializeField] Image borderImage;
@@ -59,7 +59,7 @@ public class UIInventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerMove
         slotImage = GetComponent<Image>();
     }
 
-    public void SwapOrMoveIcon(UIInventoryItem other)
+    public void SwapOrMoveIcon(UIInventorySlot other)
     {
         if(other == null) return;
         if(other == this) return;
