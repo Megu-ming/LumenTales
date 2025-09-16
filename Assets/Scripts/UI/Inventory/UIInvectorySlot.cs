@@ -29,6 +29,12 @@ public class UIInventorySlot : UISlotBase,
         HideHighLight();
     }
 
+    void OnDisable()
+    {
+        TooltipService.I?.Hide();
+        HideHighLight();
+    }
+
     public void SetSlotIndex(int index) => this.index = index;
 
     private void ShowHighLight() => highLightGo.SetActive(true);

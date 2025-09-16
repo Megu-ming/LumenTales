@@ -36,6 +36,12 @@ public class UIEquipmentSlot : UISlotBase,
         HideHighLight();
     }
 
+    void OnDisable()
+    {
+        TooltipService.I?.Hide();
+        HideHighLight();
+    }
+
     public void SetIcon(Sprite icon)
     {
         if (iconImage == null) return;
