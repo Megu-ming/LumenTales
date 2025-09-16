@@ -5,7 +5,7 @@ public class CountableItem : Item
 {
     public CountableItemData CountableData { get;private set; }
 
-    public int Amount { get; private set; }
+    public int Amount { get; set; }
 
     public int MaxAmount => CountableData.MaxAmount;
     public bool IsMax => Amount >= CountableData?.MaxAmount;

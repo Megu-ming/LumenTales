@@ -27,6 +27,7 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private float baseDropRate = 0.05f; // 5%
 
     public event Action<int, ItemData> OnSlotUpdated;
+    public event Action<int, int> OnSlotTextUpdated;
 
     private void Awake()
     {
@@ -278,7 +279,7 @@ public class InventoryController : MonoBehaviour
         Debug.Log($"Equipped {eq.itemData.ItemName} to {slot}");
     }
     
-    private void UpdateSlot(int index)
+    private void UpdateSlot(int index, int amount = 1)
     {
         if (!IsValidIndex(index)) return;
 
@@ -291,6 +292,8 @@ public class InventoryController : MonoBehaviour
         }
 
         OnSlotUpdated?.Invoke(index, item?.itemData);
+        if (item is CountableItem countableItem)
+            OnSlotTextUpdated?.Invoke(index, countableItem.Amount);
     }
 
     private bool IsValidIndex(int index) => index >= 0 && index < Capacity;
@@ -310,5 +313,10 @@ public class InventoryController : MonoBehaviour
     }
 
     private void RaiseGoldChanged() => OnGoldChanged?.Invoke(Gold);
+
+    private void RaiseAmount(CountableItem ci, int amount =1)
+    {
+        ci.Amount += amount;
+    }
     #endregion
 }
