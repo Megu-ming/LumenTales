@@ -25,6 +25,7 @@ public class GameManager
             UnityEngine.Debug.Log($"Player Level :{playerStatus.Level}");
             statusPoint += 5;
             playerStatus.CurrentExp -= playerStatus.MaxExp;
+            playerStatus.MaxExp *= 2;
             CharacterEvents.infoUIRefresh?.Invoke();
         }
     }

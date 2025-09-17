@@ -55,7 +55,7 @@ public class UICharacterInfo : MonoBehaviour
     {
         if (playerStatus == null) return;
         if (levelText)  levelText.text = $"{playerStatus.Level}";
-        if (atkText)    atkText.text = $"{playerStatus.FinalAtkDamage}";
+        if (atkText)    atkText.text = $"{(int)playerStatus.FinalAtkDamage}";
         if (defText)    defText.text = $"{playerStatus.BaseDefense}";
         if (hpText)     hpText.text = $"{playerStatus.BaseMaxHealth}";
         if (speedText)  speedText.text = $"{playerStatus.MoveSpeed:F1}";
