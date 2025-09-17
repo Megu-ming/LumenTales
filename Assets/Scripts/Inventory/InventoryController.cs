@@ -20,12 +20,6 @@ public class InventoryController : MonoBehaviour
 
     [SerializeField] PlayerStatus playerStatus;
 
-    [SerializeField] private int baseAttack = 10;
-    [SerializeField] private int baseDefense = 0;
-    [SerializeField] private int baseMaxHP = 100;
-    [SerializeField] private float baseMoveSpd = 5.0f;
-    [SerializeField] private float baseDropRate = 0.05f; // 5%
-
     public event Action<int, ItemData> OnSlotUpdated;
     public event Action<int, int> OnSlotTextUpdated;
 
@@ -85,6 +79,7 @@ public class InventoryController : MonoBehaviour
             items[index] = null;
             UpdateSlot(index);
             equipped[tartgetType] = eq;
+            playerStatus.AddArmorAddedStat(eq.EquipmentData);
             OnEquippedChanged?.Invoke(tartgetType, eq);
         }
     }
@@ -106,6 +101,7 @@ public class InventoryController : MonoBehaviour
         items[empty] = current;
         UpdateSlot(empty);
         equipped[slot] = null;
+        playerStatus.RemoveArmorAddedStat(current.EquipmentData);
         OnEquippedChanged?.Invoke(slot, null);
     }
 
@@ -223,37 +219,11 @@ public class InventoryController : MonoBehaviour
         else if (items[index] is EquipmentItem eq)
         {
             ToggleEquip(index, eq);
-            RecalculateStatsAndApply();
         }
     }
     #endregion
 
     #region Private Function
-    /// <summary>
-    /// 장비 변경이 있을 때마다 호출해서 능력치를 재계산하고 적용한다.
-    /// </summary>
-    private void RecalculateStatsAndApply()
-    {
-        int atk = baseAttack;
-        int def = baseDefense;
-        int hp = baseMaxHP;
-        float spd = baseMoveSpd;
-        float drp = baseDropRate;
-
-        foreach (var kv in equipped)
-        {
-            var eq = kv.Value;
-            if (eq == null) continue;
-            var data = (EquipmentItemData)eq.itemData;
-            atk += data.attackValue;
-            def += data.defenseValue;
-            // 필요하면 장비에 이동속도/HP/드랍률 옵션 필드를 추가해서 같이 합산
-        }
-
-        // 능력치(힘/민첩/행운) 스케일을 포함해 최종치로 굳힌다.
-        playerStatus.ApplyFinalStats(atk, def, hp, spd, drp);
-    }
-
     private void ToggleEquip(int index, EquipmentItem eq)
     {
         var slot = eq.EquipmentData.slot;
@@ -268,6 +238,9 @@ public class InventoryController : MonoBehaviour
                 return;
             }
             items[empty] = current;
+
+            // armoradded스탯에서 current의 스탯만큼 제거
+            playerStatus.RemoveArmorAddedStat(current.EquipmentData);
             UpdateSlot(empty);
         }
 
@@ -276,7 +249,8 @@ public class InventoryController : MonoBehaviour
         items[index] = null;
         UpdateSlot(index);
         OnEquippedChanged?.Invoke(slot, eq);
-
+        // armoradded스탯에 eq의 스탯만큼 추가
+        playerStatus.AddArmorAddedStat(eq.EquipmentData);
         Debug.Log($"Equipped {eq.itemData.ItemName} to {slot}");
     }
     

@@ -30,8 +30,7 @@ public class PlayerController : CreatureController
             animator.SetBool(AnimationStrings.sprint, value);
         }
     }
-
-    [SerializeField] private float moveSpeed = 2f;            
+     
     public float CurrentSpeed
     {
         get
@@ -40,8 +39,8 @@ public class PlayerController : CreatureController
             {
                 if (IsMoving)
                 {
-                    if (IsSprint) return moveSpeed * sprintMul;
-                    else return moveSpeed;
+                    if (IsSprint) return GameManager.Instance.GetStatus().MoveSpeed * sprintMul;
+                    else return GameManager.Instance.GetStatus().MoveSpeed;
                 }
                 else return 0;
             }

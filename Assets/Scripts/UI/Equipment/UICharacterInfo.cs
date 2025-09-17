@@ -16,19 +16,20 @@ public class UICharacterInfo : MonoBehaviour
         }
         Refresh();
 
-        GameManager.Instance.expChanged += Refresh;
+        CharacterEvents.infoUIRefresh += Refresh;
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.expChanged -= Refresh;
+
+        CharacterEvents.infoUIRefresh -= Refresh;
     }
 
-    public void OnAtkButton()
+    public void OnStrButton()
     {
         if (playerStatus == null) return;
         if(GameManager.Instance.GetStatusPoint() <= 0) return;
-        playerStatus.Strength++;
+        playerStatus.SpAddedStr++;
         GameManager.Instance.UseStatusPoint();
         Refresh();
     }
@@ -36,7 +37,7 @@ public class UICharacterInfo : MonoBehaviour
     {
         if (playerStatus == null) return;
         if (GameManager.Instance.GetStatusPoint() <= 0) return;
-        playerStatus.Agility++;
+        playerStatus.SpAddedAgi++;
         GameManager.Instance.UseStatusPoint();
         Refresh();
     }
@@ -45,7 +46,7 @@ public class UICharacterInfo : MonoBehaviour
     {
         if (playerStatus == null) return;
         if (GameManager.Instance.GetStatusPoint() <= 0) return;
-        playerStatus.Luck++;
+        playerStatus.SpAddedLuk++;
         GameManager.Instance.UseStatusPoint();
         Refresh();
     }
@@ -53,16 +54,16 @@ public class UICharacterInfo : MonoBehaviour
     public void Refresh()
     {
         if (playerStatus == null) return;
-        if (levelText) levelText.text = $"{playerStatus.Level}";
-        if (atkText) atkText.text = $"{playerStatus.Attack}";
-        if(defText) defText.text = $"{playerStatus.Defense}";
-        if (hpText) hpText.text = $"{playerStatus.MaxHealth}";
-        if (speedText) speedText.text = $"{playerStatus.MoveSpeed:F1}";
-        if (dropText) dropText.text = $"{playerStatus.DropRate:P1}";
+        if (levelText)  levelText.text = $"{playerStatus.Level}";
+        if (atkText)    atkText.text = $"{playerStatus.FinalAtkDamage}";
+        if (defText)    defText.text = $"{playerStatus.BaseDefense}";
+        if (hpText)     hpText.text = $"{playerStatus.BaseMaxHealth}";
+        if (speedText)  speedText.text = $"{playerStatus.MoveSpeed:F1}";
+        if (dropText)   dropText.text = $"{playerStatus.DropRate:P1}";
 
-        if (strText) strText.text = $"{playerStatus.Strength}";
-        if (dexText) dexText.text = $"{playerStatus.Agility}";
-        if (lukText) lukText.text = $"{playerStatus.Luck}";
+        if (strText)    strText.text = $"{playerStatus.Strength}";
+        if (dexText)    dexText.text = $"{playerStatus.Agility}";
+        if (lukText)    lukText.text = $"{playerStatus.Luck}";
 
         if (spText) spText.text = $"{GameManager.Instance.GetStatusPoint()}";
     }

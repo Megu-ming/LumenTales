@@ -5,8 +5,8 @@ public class HPBar : MonoBehaviour
 {
     public GameObject hpBar;
 
-    public int curHp;
-    public int maxHp;
+    public float curHp;
+    public float maxHp;
     public Image hpImg;
 
     private void Awake()

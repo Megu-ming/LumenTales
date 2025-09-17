@@ -6,8 +6,6 @@ public class GameManager
     public PlayerStatus GetStatus() => playerStatus;
     public PlayerStatus SetStatus(PlayerStatus status) => playerStatus = status;
 
-    public System.Action expChanged;
-
     int statusPoint = 0;
     public int GetStatusPoint() => statusPoint;
     public bool UseStatusPoint() 
@@ -27,7 +25,7 @@ public class GameManager
             UnityEngine.Debug.Log($"Player Level :{playerStatus.Level}");
             statusPoint += 5;
             playerStatus.CurrentExp -= playerStatus.MaxExp;
-            expChanged?.Invoke();
+            CharacterEvents.infoUIRefresh?.Invoke();
         }
     }
 }

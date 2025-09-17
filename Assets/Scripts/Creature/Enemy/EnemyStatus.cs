@@ -34,7 +34,7 @@ public class EnemyStatus : Status
         {
             HPBar bar = hpBarInstance.GetComponent<HPBar>();
             bar.curHp = CurrentHealth;
-            bar.maxHp = MaxHealth;
+            bar.maxHp = BaseMaxHealth;
         }
     }
 

@@ -68,7 +68,7 @@ public class UIEquipment : UIBase
         if (!map.TryGetValue(slot, out var ui)) return;
         
         if(itemOrNull == null) ui.SetIcon(null);
-        else ui.SetIcon(itemOrNull.itemData.Icon);
+        else ui.SetIcon(itemOrNull.itemData?.Icon);
     }
 
     public void OnToggleEquipment() => Toggle();
