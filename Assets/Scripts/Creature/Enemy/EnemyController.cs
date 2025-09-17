@@ -101,10 +101,11 @@ public class EnemyController : CreatureController
             moveSpeed = enemyData.moveSpeed;
             walkStopRate = enemyData.walkStopRate;
             status.Type = enemyData.enemyType;
-            status.MaxHealth = enemyData.maxHp;
-            status.Health = enemyData.maxHp;
-            status.Damage = enemyData.damage;
+            status.BaseMaxHealth = enemyData.maxHp;
+            status.CurrentHealth = enemyData.maxHp;
+            status.BaseAtkDamage = enemyData.damage;
             status.knockBack = enemyData.knockBack;
+            status.expAmount = enemyData.expAmount;
         }
         else
         {

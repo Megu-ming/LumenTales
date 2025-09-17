@@ -6,7 +6,11 @@ public class Attack : MonoBehaviour
     {
         Status otherStatus = collision.GetComponentInParent<Status>();
         Status myStatus = GetComponentInParent<Status>();
-        int damage = myStatus.Damage;
+        float damage = myStatus.BaseAtkDamage;
+        if(myStatus is PlayerStatus playerStatus)
+        {
+            damage = playerStatus.FinalAtkDamage;
+        }
         Vector2 knockBack = myStatus.knockBack;
 
         if (otherStatus != null)

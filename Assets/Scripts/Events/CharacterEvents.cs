@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Events;
-
 
 public class CharacterEvents
 {
-    public static Action<GameObject, int> characterDamaged;
-    public static Action<GameObject, int> characterHealed;
+    public static Action<GameObject, float> characterDamaged;
+    public static Action<GameObject, float> characterHealed;
+
+    public static Action infoUIRefresh;
 }

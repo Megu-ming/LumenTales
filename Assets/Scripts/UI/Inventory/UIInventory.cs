@@ -15,7 +15,7 @@ public class UIInventory : UIBase
     [SerializeField] GameObject imageDummy;        // 드래그 중인 아이템 아이콘
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
-    [HideInInspector] public InventoryController inventory;
+    public InventoryController inventory;
 
     List<UIInventorySlot> slotUIList = new List<UIInventorySlot>();
     private PointerEventData ped;
@@ -40,6 +40,7 @@ public class UIInventory : UIBase
         UpdateGoldText(inventory.Gold);
         inventory.OnGoldChanged += UpdateGoldText;
         inventory.OnSlotUpdated += HandleSlotUpdated;
+        inventory.OnSlotTextUpdated += HandleSlotTextUpdated;
 
         for(int i = 0; i < inventory.Capacity; i++)
             HandleSlotUpdated(i, inventory.GetItemData(i));
@@ -56,6 +57,7 @@ public class UIInventory : UIBase
         { 
             inventory.OnGoldChanged -= UpdateGoldText;
             inventory.OnSlotUpdated -= HandleSlotUpdated;
+            inventory.OnSlotTextUpdated -= HandleSlotTextUpdated;
         }
     }
 
@@ -67,14 +69,16 @@ public class UIInventory : UIBase
     {
     }
 
-    public void OnInventoryToggle()
-    {
-        Toggle();
-    }
+    public void OnInventoryToggle() => Toggle();
 
     public void SetItemIcon(int index, Sprite icon)
     {
         slotUIList[index].SetItem(icon);
+    }
+
+    public void SetItemAmount(int index, int amount)
+    {
+        slotUIList[index].SetAmount(amount);
     }
 
     public void RemoveItem(int index)
@@ -85,8 +89,16 @@ public class UIInventory : UIBase
 
     private void HandleSlotUpdated(int index, ItemData data)
     {
-        if (data != null) SetItemIcon(index, data.Icon);
+        if (data != null)
+        { 
+            SetItemIcon(index, data.Icon); 
+        }
         else RemoveItem(index);
+    }
+
+    private void HandleSlotTextUpdated(int index, int amount)
+    {
+        SetItemAmount(index, amount);
     }
 
     #region Event System Handlers
@@ -97,7 +109,7 @@ public class UIInventory : UIBase
         {
             beginDragSlot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
 
-            if(beginDragSlot != null && beginDragSlot.HasItem && beginDragSlot.IsAccessible)
+            if(beginDragSlot != null && beginDragSlot.HasItem)
             {
                 beginDragIconTr = beginDragSlot.IconRect;
                 beginDragIconPoint = beginDragIconTr.position;
@@ -114,7 +126,7 @@ public class UIInventory : UIBase
         {
             // TODO : 아이템 사용
             var slot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
-            if(slot!=null&&slot.HasItem && slot.IsAccessible)
+            if(slot!=null&&slot.HasItem)
             {
                 inventory.UseAt(slot.Index);
             }
@@ -182,7 +194,7 @@ public class UIInventory : UIBase
     {
         var endDragSlot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
 
-        if(endDragSlot != null && endDragSlot.IsAccessible)
+        if(endDragSlot != null)
         {
             bool isSeparatable =
                    (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftShift)) &&

@@ -1,61 +1,131 @@
+using System;
+using System.Data;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStatus : Status
 {
-    [Header("ÇÃ·¹ÀÌ¾î ´É·ÂÄ¡")]
-    [SerializeField] private int strength = 0;  // Èû
-    [SerializeField] private int agility = 0;  // ¹ÎÃ¸
-    [SerializeField] private int luck = 0; // Çà¿î
-    public int Strength { get => strength; set { strength = Mathf.Max(0, value); } }
-    public int Agility { get => agility; set { agility = Mathf.Max(0, value); } }
-    public int Luck { get => luck; set { luck = Mathf.Max(0, value); } }
+    [Header("í”Œë ˆì´ì–´ ê¸°ë³¸ ëŠ¥ë ¥ì¹˜")]
+    [SerializeField] private int currentExp = 0;        // ê²½í—˜ì¹˜
+    [SerializeField] private int maxExp = 10;           // ìš”êµ¬ ê²½í—˜ì¹˜
+    [SerializeField] private float baseStrength = 5;      // í˜
+    [SerializeField] private float baseAgility = 5;       // ë¯¼ì²©
+    [SerializeField] private float baseLuck = 5;          // í–‰ìš´
+
+    [Header("ì¥ë¹„ ëŠ¥ë ¥ì¹˜")]
+    [SerializeField] private float armorAddedAtk = 0;   // ì¥ë¹„ë¡œ ì¶”ê°€ëœ ê³µê²©ë ¥
+    public float ArmorAddedAtk { get => armorAddedAtk; set => armorAddedAtk = value; }
+    [SerializeField] private float armorAddedDef = 0;   // ì¥ë¹„ë¡œ ì¶”ê°€ëœ ë°©ì–´ë ¥
+    public float ArmorAddedDef { get => armorAddedDef; set => armorAddedDef = value; }
+    [SerializeField] private float armorAddedStr = 0;   // ì¥ë¹„ë¡œ ì¶”ê°€ëœ í˜
+    public float ArmorAddedStr { get => armorAddedStr; set => armorAddedStr = value; }
+    [SerializeField] private float armorAddedAgi = 0;   // ì¥ë¹„ë¡œ ì¶”ê°€ëœ ë¯¼ì²©
+    public float ArmorAddedAgi { get => armorAddedAgi; set => armorAddedAgi = value; }
+    [SerializeField] private float armorAddedLuk = 0;   // ì¥ë¹„ë¡œ ì¶”ê°€ëœ í–‰ìš´
+    public float ArmorAddedLuk { get => armorAddedLuk; set => armorAddedLuk = value; }
+
+    [Header("íˆ¬ì í¬ì¸íŠ¸ ëŠ¥ë ¥ì¹˜")]
+    [SerializeField] private float spAddedStr = 0;      // ìŠ¤íƒ¯í¬ì¸íŠ¸ë¡œ ì¶”ê°€ëœ í˜
+    public float SpAddedStr { get => spAddedStr; set => spAddedStr = value; }
+    [SerializeField] private float spAddedAgi = 0;      // ìŠ¤íƒ¯í¬ì¸íŠ¸ë¡œ ì¶”ê°€ëœ ë¯¼ì²©
+    public float SpAddedAgi { get => spAddedAgi; set => spAddedAgi = value; }
+    [SerializeField] private float spAddedLuk = 0;      // ìŠ¤íƒ¯í¬ì¸íŠ¸ë¡œ ì¶”ê°€ëœ í–‰ìš´
+    public float SpAddedLuk { get => spAddedLuk; set => spAddedLuk = value; }
+
+    public int CurrentExp { get => currentExp; set { currentExp = Mathf.Clamp(value, 0, MaxExp); OnExpChanged(); } }
+    public int MaxExp { get => maxExp; set { maxExp = Mathf.Max(1, value); } }
+
+    public float FinalAtkDamage         // ìµœì¢… ê³µê²©ë ¥ = ê¸°ë³¸ê³µê²©ë ¥ + ì¥ë¹„ê³µê²©ë ¥ + í˜ìŠ¤ì¼€ì¼ + ë¯¼ì²©ìŠ¤ì¼€ì¼
+    { 
+        get 
+        {
+            float strToAtk = Strength * strAttackPerPoint;
+            float agiToAtk = Agility * agiAttackPerPoint;
+
+            return BaseAtkDamage + armorAddedAtk + strToAtk + agiToAtk;
+        }
+        set 
+        { 
+            float strToAtk = Strength * strAttackPerPoint;
+            float agiToAtk = Agility * agiAttackPerPoint;
+
+            finalAtkDamage = BaseAtkDamage + armorAddedAtk + strToAtk + agiToAtk; 
+        } 
+    }                                                         
+    private float finalAtkDamage;
+    
+    public float Strength               // ìµœì¢… í˜
+    { 
+        get => baseStrength + ArmorAddedStr + SpAddedStr;
+        private set => finalStrength = baseStrength + ArmorAddedStr + SpAddedStr;
+    }  
+    private float finalStrength;
+    public float Agility                // ìµœì¢… ë¯¼ì²©
+    { 
+        get => baseAgility + ArmorAddedAgi + SpAddedAgi;
+        private set => finalAgility = baseAgility + ArmorAddedAgi + SpAddedAgi; 
+    }     
+    private float finalAgility;
+    public float Luck                    // ìµœì¢… í–‰ìš´
+    { 
+        get => baseLuck + ArmorAddedLuk + SpAddedLuk;
+        private set => finalLuck = baseLuck + ArmorAddedLuk + SpAddedLuk; 
+    }             
+    private float finalLuck;
 
     [Header("Derived")]
-    [SerializeField] private float moveSpeed; // ÃÖÁ¾ ÀÌµ¿ ¼Óµµ
-    [SerializeField] private float dropRate;  // ÃÖÁ¾ µå¶ø·ü
-    public float MoveSpeed { get => moveSpeed; private set => moveSpeed = value; }
+    [SerializeField] private float moveSpeed; // ìµœì¢… ì´ë™ ì†ë„
+    [SerializeField] private float dropRate;  // ìµœì¢… ë“œëë¥ 
+    public float MoveSpeed { get => moveSpeed; private set => moveSpeed *= agiMovePerPoint; }
     public float DropRate { get => dropRate; private set => dropRate = value; }
 
     [Header("Attribute Scaling")]
-    [SerializeField] private int strAttackPerPoint = 2;     // Èû 1 = °ø°İ·Â +2
-    [SerializeField] private int strHpPerPoint = 10;    // Èû 1 = ÃÖ´ëHP +10
-    [SerializeField] private int agiAttackPerPoint = 1;     // ¹ÎÃ¸ 1 = °ø°İ·Â +1
-    [SerializeField] private float agiMovePerPoint = 0.05f; // ¹ÎÃ¸ 1 = ÀÌµ¿¼Óµµ +0.05
-    [SerializeField] private float lukMovePerPoint = 0.02f; // Çà¿î 1 = ÀÌµ¿¼Óµµ +0.02
-    [SerializeField] private float lukDropPerPoint = 0.01f; // Çà¿î 1 = µå¶ø·ü +1%
+    [SerializeField] private float  strAttackPerPoint   = 0.25f;   // í˜ 4 = ê³µê²©ë ¥ +1
+    [SerializeField] private float  strHpPerPoint       = 10;      // í˜ 1 = ìµœëŒ€HP +10
+    [SerializeField] private float  agiAttackPerPoint   = 0.125f;  // ë¯¼ì²© 8 = ê³µê²©ë ¥ +1
+    [SerializeField] private float  agiMovePerPoint     = 0.05f;   // ë¯¼ì²© 1 = ì´ë™ì†ë„ +0.05
+    [SerializeField] private float  lukMovePerPoint     = 0.02f;   // í–‰ìš´ 1 = ì´ë™ì†ë„ +0.02
+    [SerializeField] private float  lukDropPerPoint     = 0.01f;   // í–‰ìš´ 1 = ë“œëë¥  +1%
 
-
-    /// <summary>
-    /// Àåºñ/±âº»Ä¡ + ´É·ÂÄ¡ ½ºÄÉÀÏ¸µÀ» Àû¿ëÇØ "ÃÖÁ¾ ½ºÅÈ"À» °»½ÅÇÑ´Ù.
-    /// - baseAtk/Def/HP/Move/Drop: Àåºñ ¹× ±âÃÊ°ªÀÇ ÇÕ
-    /// </summary>
-    public void ApplyFinalStats(int baseAtk, int baseDef, int baseHP, float baseMove, float baseDrop)
+    protected override void Awake()
     {
-        // ¨ç ´É·ÂÄ¡ ½ºÄÉÀÏ °è»ê
-        int addAtkFromStr = Strength * strAttackPerPoint;
-        int addHpFromStr = Strength * strHpPerPoint;
-
-        int addAtkFromAgi = Agility * agiAttackPerPoint;
-        float addSpdFromAgi = Agility * agiMovePerPoint;
-
-        float addSpdFromLuk = Luck * lukMovePerPoint;
-        float addDropFromLuk = Luck * lukDropPerPoint;
-
-        // ¨è ÃÖÁ¾ ÇÕ¼º
-        Damage = baseAtk + addAtkFromStr + addAtkFromAgi;  // ÃÖÁ¾ °ø°İ·Â
-        Defense = baseDef;                                   // ¹æ¾î·Â(ÇÊ¿ä ½Ã Str/Agi ¹İ¿µ °¡´É)
-        MaxHealth = baseHP + addHpFromStr;                    // ÃÖÁ¾ ÃÖ´ëHP
-
-        MoveSpeed = Mathf.Max(0f, baseMove + addSpdFromAgi + addSpdFromLuk);
-        DropRate = Mathf.Clamp01(baseDrop + addDropFromLuk);
-
-        // ÇöÀç Ã¼·ÂÀÌ ÃÖ´ëÄ¡¸¦ ³ÑÁö ¾Ê°Ô(¼±ÅÃ)
-        Health = Mathf.Min(Health, MaxHealth);
+        base.Awake();
+        CurrentHealth = BaseMaxHealth;
     }
 
-    // »ç¸Á Ã³¸®
+    // ì‚¬ë§ ì²˜ë¦¬
     protected override void OnDied()
     {
         base.OnDied();
+    }
+
+    // ì„ì‹œ ê²½í—˜ì¹˜ë°”
+    [SerializeField] Slider expSlider;
+    public void OnExpChanged()
+    {
+        float expRatio = (float)CurrentExp / MaxExp;
+        expSlider.value = expRatio;
+    }
+
+    public void AddArmorAddedStat(EquipmentItemData data)
+    {
+        armorAddedAtk += data.attackValue;
+        armorAddedDef += data.defenseValue;
+        armorAddedStr += data.strength;
+        armorAddedAgi += data.agility;
+        armorAddedLuk += data.luck;
+
+        CharacterEvents.infoUIRefresh?.Invoke();
+    }
+
+    public void RemoveArmorAddedStat(EquipmentItemData data)
+    {
+        armorAddedAtk -= data.attackValue;
+        armorAddedDef -= data.defenseValue;
+        armorAddedStr -= data.strength;
+        armorAddedAgi -= data.agility;
+        armorAddedLuk -= data.luck;
+
+        CharacterEvents.infoUIRefresh?.Invoke();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class Status : MonoBehaviour
 {
     // 공용 이벤트
-    public UnityEvent<int, Vector2> damageableHit;
+    public UnityEvent<float, Vector2> damageableHit;
 
     [Header("상태")]
     [SerializeField] int level = 1;
@@ -14,36 +14,36 @@ public class Status : MonoBehaviour
         get { return level; }
         set { level = Mathf.Max(1, value); }
     }
-    [SerializeField] private int damage;
-    public int Damage
+    [SerializeField] private float baseAtkDamage;
+    public float BaseAtkDamage
     {
-        get { return damage; }
-        set { damage = value; }
+        get { return baseAtkDamage; }
+        set { baseAtkDamage = value; }
     }
     public Vector2 knockBack = Vector2.zero;
-    [SerializeField] private int defense;
-    public int Defense
+    [SerializeField] private float baseDefence;
+    public float BaseDefense
     {
-        get { return defense; }
-        set { defense = value; }
+        get { return baseDefence; }
+        set { baseDefence = value; }
     }
-    [SerializeField] private int maxHealth;
-    public int MaxHealth
+    [SerializeField] private float baseMaxHealth;
+    public float BaseMaxHealth
     {
-        get { return maxHealth; }
+        get { return baseMaxHealth; }
         set
         {
-            maxHealth = value;
+            baseMaxHealth = value;
         }
     }
-    [SerializeField] private int health;
-    public int Health
+    [SerializeField] private float currentHealth;
+    public float CurrentHealth
     {
-        get { return health; }
+        get { return currentHealth; }
         set 
-        { 
-            health = value;
-            if (health <= 0)
+        {
+            currentHealth = Mathf.Clamp(value, 0, BaseMaxHealth);
+            if (currentHealth == 0)
             {
                 IsAlive = false;
                 OnDied();
@@ -101,12 +101,12 @@ public class Status : MonoBehaviour
         }
     }
 
-    public virtual bool Hit(int damage, Vector2 knockback)
+    public virtual bool Hit(float damage, Vector2 knockback)
     {
         if (IsAlive && !isInvincible)
         {
-            int finalDamage = Mathf.Max(0, damage - defense); // 방어력 적용
-            Health -= finalDamage; 
+            float finalDamage = Mathf.Max(0, damage); // 방어력 적용
+            CurrentHealth -= finalDamage; 
             isInvincible=true;
 
             animator.SetTrigger(AnimationStrings.hitTrigger);
@@ -123,7 +123,7 @@ public class Status : MonoBehaviour
 
     public virtual void Respawn()
     {
-        Health = MaxHealth;
+        CurrentHealth = BaseMaxHealth;
         IsAlive = true;
     }
 

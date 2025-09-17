@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -144,15 +144,11 @@ MonoBehaviour:
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
-    m_ActionName: 'Player/Look[/Mouse/delta]'
-  - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4268916457519343671}
-        m_TargetAssemblyTypeName: PlayerController2D, Assembly-CSharp
-        m_MethodName: OnAttack
-        m_Mode: 0
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIEquipment, Assembly-CSharp
+        m_MethodName: OnToggleEquipment
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -161,6 +157,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
+    m_ActionName: 'Player/Look[/Mouse/delta]'
+  - m_PersistentCalls:
+      m_Calls: []
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
@@ -169,8 +169,8 @@ MonoBehaviour:
     m_ActionName: 'Player/Interact[/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6780688367894138312}
-        m_TargetAssemblyTypeName: InventoryController, Assembly-CSharp
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
         m_MethodName: OnInventoryToggle
         m_Mode: 1
         m_Arguments:
@@ -325,11 +325,13 @@ MonoBehaviour:
   damage: 10
   knockBack: {x: 0, y: 0}
   defense: 5
-  maxHealth: 100
-  health: 0
+  maxHealth: 500
+  currentHealth: 0
   isAlive: 0
   isInvincible: 0
   invincibilityTime: 0.25
+  currentExp: 0
+  maxExp: 10
   strength: 5
   agility: 5
   luck: 5
@@ -341,6 +343,7 @@ MonoBehaviour:
   agiMovePerPoint: 0.05
   lukMovePerPoint: 0.02
   lukDropPerPoint: 0.01
+  expSlider: {fileID: 0}
 --- !u!1 &1606769465347345484
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,8 +516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c7b6d6c41d86d4781b9e49168ce477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 5809806093151594674, guid: 0c86538808e9f32438290bc01301239c, type: 3}
-  equipmentUI: {fileID: 5964399095753912198, guid: cda54cfd02f761f42b126c48a9756c5f, type: 3}
   initialCapacity: 30
   maxInventorySize: 30
   playerStatus: {fileID: 0}

@@ -19,7 +19,7 @@ public static class Utils
     /// <summary> 레이캐스트하여 얻은 UI에서 컴포넌트 찾아 리턴 </summary>
     public static T RaycastAndGetComponent<T>(List<RaycastResult> rrList, PointerEventData ped) where T : Component
     {
-        rrList.Clear();
+        rrList?.Clear();
         
         EventSystem.current.RaycastAll(ped, rrList);
 

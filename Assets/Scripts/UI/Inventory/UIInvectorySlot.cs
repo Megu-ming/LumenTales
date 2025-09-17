@@ -9,11 +9,11 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
 {
     public Image itemImage;
     [SerializeField] Image borderImage;
+    [SerializeField] TextMeshProUGUI amountText;
 
     private UIInventory inventoryUI;
     public int Index { get; private set; }
     public bool HasItem => itemImage.sprite != null;
-    public bool IsAccessible => isAccessibleSlot && isAccessibleItem;
     public RectTransform SlotRect => slotRect;
     public RectTransform IconRect => iconRect;
 
@@ -22,11 +22,6 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
 
     private GameObject iconGo;
     private GameObject highLightGo;
-
-    private Image slotImage;
-
-    private bool isAccessibleSlot = true; // 슬롯 접근가능 여부
-    private bool isAccessibleItem = true; // 아이템 접근가능 여부
 
     public void ShowIcon() => iconGo.SetActive(true);
     public void HideIcon() => iconGo.SetActive(false);
@@ -56,15 +51,12 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
         iconRect = itemImage.GetComponent<RectTransform>();
         iconGo = itemImage.gameObject;
         highLightGo = borderImage.gameObject;
-        slotImage = GetComponent<Image>();
     }
 
     public void SwapOrMoveIcon(UIInventorySlot other)
     {
         if(other == null) return;
         if(other == this) return;
-        if(!this.IsAccessible) return;
-        if (!other.IsAccessible) return;
 
         var temp = itemImage.sprite;
 
@@ -84,6 +76,12 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
         else RemoveItem();
     }
 
+    public void SetAmount(int amount)
+    {
+        if (amount > 1) amountText.text = amount.ToString();
+        else amountText.text = string.Empty;
+    }
+
     public void RemoveItem()
     {
         itemImage.sprite = null;
@@ -93,7 +91,7 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
         //if (!HasItem) return;
-        if (!IsAccessible && !HasItem) return;
+        if (!HasItem) return;
         ShowHighLight();
     }
 
@@ -116,7 +114,6 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        if (!IsAccessible) return;
         TooltipService.I?.Hide();
         HideHighLight();
     }

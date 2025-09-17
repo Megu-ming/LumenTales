@@ -22,4 +22,4 @@ MonoBehaviour:
   invincibilityTime: 0
   moveSpeed: 1
   walkStopRate: 0.6
-  expAmount: 1
+  expAmount: 5

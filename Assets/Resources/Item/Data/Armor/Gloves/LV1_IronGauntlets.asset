@@ -19,4 +19,8 @@ MonoBehaviour:
   price: 500
   slot: 4
   defenseValue: 5
-  AttackValue: 0
+  attackValue: 0
+  isArmor: 1
+  strength: 0
+  agility: 0
+  luck: 3
