@@ -92,6 +92,8 @@ public class PlayerController : CreatureController
         set { animator.SetBool(AnimationStrings.isGrounded, value); }
     }
 
+    public bool canInteract = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -173,7 +175,10 @@ public class PlayerController : CreatureController
 
     public void OnInteract()
     {
-
+        if(canInteract)
+        {
+            Debug.Log("Interact On");
+        }
     }
 
     public void OnHit(int damage, Vector2 knockback)
