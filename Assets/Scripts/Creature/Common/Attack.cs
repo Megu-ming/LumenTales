@@ -6,7 +6,7 @@ public class Attack : MonoBehaviour
     {
         Status otherStatus = collision.GetComponentInParent<Status>();
         Status myStatus = GetComponentInParent<Status>();
-        int damage = myStatus.Damage;
+        int damage = myStatus.Attack;
         Vector2 knockBack = myStatus.knockBack;
 
         if (otherStatus != null)

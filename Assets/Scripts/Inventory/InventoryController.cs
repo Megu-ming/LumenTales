@@ -223,6 +223,7 @@ public class InventoryController : MonoBehaviour
         else if (items[index] is EquipmentItem eq)
         {
             ToggleEquip(index, eq);
+            RecalculateStatsAndApply();
         }
     }
     #endregion

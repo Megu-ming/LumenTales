@@ -7,6 +7,11 @@ public class EquipmentItemData : ItemData
     public int defenseValue = 5;
     public int attackValue = 0;
     public bool isArmor = true;
+
+    public int strength = 0;    // 힘
+    public int agility = 0;     // 민첩
+    public int luck = 0;        // 행운
+
     public override bool IsStackable => false;
 
     public override Item CreateItem(int amount =1)

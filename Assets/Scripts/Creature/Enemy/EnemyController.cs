@@ -102,9 +102,10 @@ public class EnemyController : CreatureController
             walkStopRate = enemyData.walkStopRate;
             status.Type = enemyData.enemyType;
             status.MaxHealth = enemyData.maxHp;
-            status.Health = enemyData.maxHp;
-            status.Damage = enemyData.damage;
+            status.CurrentHealth = enemyData.maxHp;
+            status.Attack = enemyData.damage;
             status.knockBack = enemyData.knockBack;
+            status.expAmount = enemyData.expAmount;
         }
         else
         {

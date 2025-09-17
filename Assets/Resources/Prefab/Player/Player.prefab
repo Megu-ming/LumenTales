@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2386166218813518417}
   - component: {fileID: 4268916457519343671}
   - component: {fileID: 6251467598962010301}
-  - component: {fileID: 824520866559198564}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -327,10 +326,12 @@ MonoBehaviour:
   knockBack: {x: 0, y: 0}
   defense: 5
   maxHealth: 500
-  health: 500
+  currentHealth: 0
   isAlive: 0
   isInvincible: 0
   invincibilityTime: 0.25
+  currentExp: 0
+  maxExp: 10
   strength: 5
   agility: 5
   luck: 5
@@ -342,29 +343,7 @@ MonoBehaviour:
   agiMovePerPoint: 0.05
   lukMovePerPoint: 0.02
   lukDropPerPoint: 0.01
---- !u!114 &824520866559198564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 910687419780863520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 954b9b0cf29d4954394a0287a25f759d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pi: {fileID: 2386166218813518417}
-  inputActionAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  action:
-    m_Name: Action
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 4f537138-fc6b-46d7-8132-1ff1c97fac57
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+  expSlider: {fileID: 0}
 --- !u!1 &1606769465347345484
 GameObject:
   m_ObjectHideFlags: 0

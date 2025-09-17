@@ -15,7 +15,7 @@ public class Status : MonoBehaviour
         set { level = Mathf.Max(1, value); }
     }
     [SerializeField] private int damage;
-    public int Damage
+    public int Attack
     {
         get { return damage; }
         set { damage = value; }
@@ -36,14 +36,14 @@ public class Status : MonoBehaviour
             maxHealth = value;
         }
     }
-    [SerializeField] private int health;
-    public int Health
+    [SerializeField] private int currentHealth;
+    public int CurrentHealth
     {
-        get { return health; }
+        get { return currentHealth; }
         set 
-        { 
-            health = value;
-            if (health <= 0)
+        {
+            currentHealth = Mathf.Clamp(value, 0, MaxHealth);
+            if (currentHealth == 0)
             {
                 IsAlive = false;
                 OnDied();
@@ -106,7 +106,7 @@ public class Status : MonoBehaviour
         if (IsAlive && !isInvincible)
         {
             int finalDamage = Mathf.Max(0, damage - defense); // 방어력 적용
-            Health -= finalDamage; 
+            CurrentHealth -= finalDamage; 
             isInvincible=true;
 
             animator.SetTrigger(AnimationStrings.hitTrigger);
@@ -123,7 +123,7 @@ public class Status : MonoBehaviour
 
     public virtual void Respawn()
     {
-        Health = MaxHealth;
+        CurrentHealth = MaxHealth;
         IsAlive = true;
     }
 

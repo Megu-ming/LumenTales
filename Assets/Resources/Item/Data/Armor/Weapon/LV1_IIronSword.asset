@@ -21,3 +21,6 @@ MonoBehaviour:
   defenseValue: 0
   attackValue: 10
   isArmor: 0
+  strength: 0
+  agility: 3
+  luck: 0
