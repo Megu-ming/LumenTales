@@ -171,6 +171,11 @@ public class PlayerController : CreatureController
         animator.SetTrigger(AnimationStrings.attack);
     }
 
+    public void OnInteract()
+    {
+
+    }
+
     public void OnHit(int damage, Vector2 knockback)
     {
         rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
