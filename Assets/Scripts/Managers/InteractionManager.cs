@@ -6,8 +6,6 @@ public class InteractionManager : MonoBehaviour
     public static InteractionManager I { get; private set; }
 
     [SerializeField] GameObject cam;
-    [SerializeField] GameObject interactNPC;
-    [SerializeField] UIConversation conversationUI;
 
     private float camSize;
     private Vector3 camOffset;
@@ -36,16 +34,6 @@ public class InteractionManager : MonoBehaviour
 
             result = true;
         }
-        
-        if(conversationUI && interactNPC)
-        {
-            // NPC의 대화 시작 메소드 호출
-            // conversationUI 세팅
-            conversationUI.SetName(interactNPC.name);
-            conversationUI.gameObject.SetActive(true);
-
-            result = true;
-        }
 
         return result;
     }
@@ -62,14 +50,6 @@ public class InteractionManager : MonoBehaviour
             cinePC.TargetOffset = camOffset;
         }
 
-        if(conversationUI)
-        {
-            // NPC 대화종료 메소드 호출
-            conversationUI.gameObject.SetActive(false);
-        }
-
         return false;
     }
-
-    public void SetInteractNPC(GameObject obj) => interactNPC = obj;
 }

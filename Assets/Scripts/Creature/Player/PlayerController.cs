@@ -93,9 +93,8 @@ public class PlayerController : CreatureController
         set { animator.SetBool(AnimationStrings.isGrounded, value); }
     }
 
-    private bool isConversation = false;
-
     public event Action OnInteractionEvent;
+    public bool isConversation = false;
 
     private void Awake()
     {

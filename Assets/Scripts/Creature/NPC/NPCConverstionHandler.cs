@@ -22,9 +22,16 @@ public class NPCConverstionHandler : MonoBehaviour
             ControlConversationInterface(true);
         }
 
-        // 대화 창 텍스트에 대화 저장
-        conversationUI.SetName(gameObject.name);
-        conversationUI.SetScript(data.GetConversation());
+        if(!conversationUI.isTypeEffect)
+        {
+            // 대화 창 텍스트에 대화 저장
+            conversationUI.SetName(gameObject.name);
+            conversationUI.SetScript(data.GetConversation());
+        }
+        else
+        {
+            conversationUI.ShowAllScript();
+        }
     }
 
     private void ControlConversationInterface(bool isTrue) // 대화 창 활성화/비활성화
