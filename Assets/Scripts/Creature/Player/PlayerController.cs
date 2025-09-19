@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -92,7 +93,9 @@ public class PlayerController : CreatureController
         set { animator.SetBool(AnimationStrings.isGrounded, value); }
     }
 
-    public bool canInteract = false;
+    private bool isConversation = false;
+
+    public event Action OnInteractionEvent;
 
     private void Awake()
     {
@@ -131,6 +134,7 @@ public class PlayerController : CreatureController
     #region InputFunction
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (isConversation) return;
         moveInput = context.ReadValue<Vector2>();
         if(IsAlive)
         {
@@ -149,6 +153,7 @@ public class PlayerController : CreatureController
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (isConversation) return;
         if (context.performed && jumpCount > 0 && CanMove)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
@@ -170,14 +175,15 @@ public class PlayerController : CreatureController
 
     public void OnAttack()
     {
+        if (isConversation) return;
         animator.SetTrigger(AnimationStrings.attack);
     }
 
-    public void OnInteract()
+    public void OnInteract(InputAction.CallbackContext context)
     {
-        if(canInteract)
+        if(context.started)
         {
-            Debug.Log("Interact On");
+            CallInteractEvent();
         }
     }
 
@@ -202,6 +208,9 @@ public class PlayerController : CreatureController
         }
 
     }
+
+    public void CallInteractEvent() => OnInteractionEvent?.Invoke();
+    
     #endregion
 
 #if UNITY_EDITOR
