@@ -218,7 +218,16 @@ public class PlayerController : CreatureController
     }
 
     public void CallInteractEvent() => OnInteractionEvent?.Invoke();
-    private void SetConversationsState(bool state) => isConversation = state;
+    private void SetConversationsState(bool state)
+    {
+        isConversation = state;
+        if(state)
+        {
+            moveInput = Vector2.zero;
+            IsMoving = false;
+            rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
+        }
+    }
     #endregion
 
 #if UNITY_EDITOR

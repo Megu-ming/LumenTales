@@ -5,5 +5,5 @@ public class NPCData : ScriptableObject
 {
     public string Name;
 
-    public string[] ConversationScripts;
+    public string[] conversations;
 }

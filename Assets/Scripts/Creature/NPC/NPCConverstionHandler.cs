@@ -1,57 +1,92 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPCConverstionHandler : MonoBehaviour
 {
-    [SerializeField] ConversationData data;
+    [SerializeField] NPCData data;
 
     [SerializeField] UIConversation conversationUI;
 
+    private int conversationStep = 0;
     // 스킵으로 대화가 막 넘어갔는지?
-    bool justRevealed = false;
+    private bool justRevealed = false;
 
     public static event Action<bool> OnConversationToggle;
 
     public void ConversationEvent() // 대화 이벤트
     {
+        if(data == null || data.conversations == null || data.conversations.Length == 0)
+        {
+            Debug.LogWarning("No Conversation Data");
+            return;
+        }
+
         // 대화창이 꺼져있으면 시작
         if (!conversationUI.gameObject.activeSelf)
         {
-            ControlConversationInterface(true);
-            justRevealed = false; // 새 대화 시작 시 리셋
+            StartConversation();
+            return;
         }
 
+        // 타이핑 중이면 스킵
         if(conversationUI.isTypeEffect)
         {
             conversationUI.ShowAllScript();
             justRevealed = true; // 스킵으로 대화가 넘어갔음
             return;
         }
-
+        // 방금 스킵했으면 다음 대화 진행
         if(justRevealed)
         {
             justRevealed = false;
-            if(data.ConversationComplete())
-            {
-                EndConversation();
-                return;
-            }
+            ProceedOrEnd();
+            return;
+        }
+        // 대화 진행
+        ProceedOrEnd();
+    }
+
+    private void StartConversation()
+    {
+        conversationStep = 0;
+        justRevealed = false;
+        
+        ControlConversationInterface(true);
+
+        SetLine(conversationStep);
+        conversationStep++;
+    }
+
+    private void ProceedOrEnd()
+    {
+        if(conversationStep >= data.conversations.Length)
+        {
+            EndConversation();
+            return;
         }
 
-        conversationUI.SetName(gameObject.name);
-        conversationUI.SetScript(data.GetConversation());
+        SetLine(conversationStep);
+        conversationStep++;
+    }
+
+    private void SetLine(int index)
+    {
+        string npcName = string.IsNullOrEmpty(data.Name) ? gameObject.name : data.Name;
+        conversationUI.SetName(npcName);
+        conversationUI.SetScript(data.conversations[index]);
     }
 
     private void EndConversation()
     {
         ControlConversationInterface(false);
-        conversationUI.Clear();
-        data.ResetConversation();
+        conversationStep = 0;
         justRevealed = false;
+        conversationUI.Clear();
     }
 
-    private void ControlConversationInterface(bool isTrue) // 대화 창 활성화/비활성화
+    private void ControlConversationInterface(bool isTrue)
     {
         conversationUI.gameObject.SetActive(isTrue);
         OnConversationToggle?.Invoke(isTrue);

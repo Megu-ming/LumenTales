@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TestNPC
   m_EditorClassIdentifier: 
   Name: TestNPC
-  ConversationScripts:
-  - Welcom!
-  - Nice to meet you!
+  conversations:
+  - ' Hello, warrior.'
+  - There are numerous demons in front.
+  - Please take care of yourself.
