@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -92,12 +93,24 @@ public class PlayerController : CreatureController
         set { animator.SetBool(AnimationStrings.isGrounded, value); }
     }
 
+    public event Action OnInteractionEvent;
+    public bool isConversation = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         status = GetComponent<PlayerStatus>();
         rb.freezeRotation = true;
+    }
+
+    private void OnEnable()
+    {
+        NPCConverstionHandler.OnConversationToggle += SetConversationsState;
+    }
+    private void OnDisable()
+    {
+        NPCConverstionHandler.OnConversationToggle -= SetConversationsState;
     }
 
     private void Update()
@@ -129,6 +142,7 @@ public class PlayerController : CreatureController
     #region InputFunction
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (isConversation) return;
         moveInput = context.ReadValue<Vector2>();
         if(IsAlive)
         {
@@ -147,6 +161,7 @@ public class PlayerController : CreatureController
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (isConversation) return;
         if (context.performed && jumpCount > 0 && CanMove)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
@@ -168,7 +183,16 @@ public class PlayerController : CreatureController
 
     public void OnAttack()
     {
+        if (isConversation) return;
         animator.SetTrigger(AnimationStrings.attack);
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            CallInteractEvent();
+        }
     }
 
     public void OnHit(int damage, Vector2 knockback)
@@ -191,6 +215,18 @@ public class PlayerController : CreatureController
             IsFacingRight = false;
         }
 
+    }
+
+    public void CallInteractEvent() => OnInteractionEvent?.Invoke();
+    private void SetConversationsState(bool state)
+    {
+        isConversation = state;
+        if(state)
+        {
+            moveInput = Vector2.zero;
+            IsMoving = false;
+            rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
+        }
     }
     #endregion
 

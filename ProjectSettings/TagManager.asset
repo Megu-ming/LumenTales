@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Item
+  - NPC
   layers:
   - Default
   - TransparentFX
@@ -56,6 +57,9 @@ TagManager:
     locked: 0
   - name: 5Forest
     uniqueID: 2374132003
+    locked: 0
+  - name: NPC
+    uniqueID: 4244235727
     locked: 0
   - name: TileMaps
     uniqueID: 3330951421

@@ -30,10 +30,7 @@ public class UIInventory : UIBase
     protected override void Awake()
     {
         base.Awake();
-    }
 
-    private void Start()
-    {
         if (inventory == null) return;
         Init();
         InitSlot();
@@ -42,7 +39,7 @@ public class UIInventory : UIBase
         inventory.OnSlotUpdated += HandleSlotUpdated;
         inventory.OnSlotTextUpdated += HandleSlotTextUpdated;
 
-        for(int i = 0; i < inventory.Capacity; i++)
+        for (int i = 0; i < inventory.Capacity; i++)
             HandleSlotUpdated(i, inventory.GetItemData(i));
     }
 

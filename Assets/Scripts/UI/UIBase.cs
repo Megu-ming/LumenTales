@@ -19,7 +19,6 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
         canvas.overrideSorting = true;
         if(!TryGetComponent<CanvasGroup>(out canvasGroup))
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        HideImmediate();
     }
 
     protected virtual void OnDisable()
@@ -67,14 +66,6 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
     }
 
     protected virtual void Hide()
-    {
-        canvasGroup.alpha = 0f;
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.interactable = false;
-        gameObject.SetActive(false);
-    }
-
-    void HideImmediate()
     {
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
