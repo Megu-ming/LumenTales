@@ -104,6 +104,15 @@ public class PlayerController : CreatureController
         rb.freezeRotation = true;
     }
 
+    private void OnEnable()
+    {
+        NPCConverstionHandler.OnConversationToggle += SetConversationsState;
+    }
+    private void OnDisable()
+    {
+        NPCConverstionHandler.OnConversationToggle -= SetConversationsState;
+    }
+
     private void Update()
     {
         // Ground Check
@@ -209,7 +218,7 @@ public class PlayerController : CreatureController
     }
 
     public void CallInteractEvent() => OnInteractionEvent?.Invoke();
-    
+    private void SetConversationsState(bool state) => isConversation = state;
     #endregion
 
 #if UNITY_EDITOR

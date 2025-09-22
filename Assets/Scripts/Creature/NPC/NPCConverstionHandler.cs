@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -7,41 +8,58 @@ public class NPCConverstionHandler : MonoBehaviour
 
     [SerializeField] UIConversation conversationUI;
 
-    public void ConversationEvent() // ´ëÈ­ ÀÌº¥Æ®
+    // ìŠ¤í‚µìœ¼ë¡œ ëŒ€í™”ê°€ ë§‰ ë„˜ì–´ê°”ëŠ”ì§€?
+    bool justRevealed = false;
+
+    public static event Action<bool> OnConversationToggle;
+
+    public void ConversationEvent() // ëŒ€í™” ì´ë²¤íŠ¸
     {
-        if (data.ConversationComplete()) // ´ëÈ­°¡ ³¡³µ´ÂÁö È®ÀÎ
+        // ëŒ€í™”ì°½ì´ êº¼ì ¸ìˆìœ¼ë©´ ì‹œì‘
+        if (!conversationUI.gameObject.activeSelf)
         {
-            // ³¡³µ´Ù¸é ´ëÈ­ Á¾·á ¹× ÃÊ±âÈ­
-            ControlConversationInterface(false);
-            data.ResetConversation();
+            ControlConversationInterface(true);
+            justRevealed = false; // ìƒˆ ëŒ€í™” ì‹œì‘ ì‹œ ë¦¬ì…‹
+        }
+
+        if(conversationUI.isTypeEffect)
+        {
+            conversationUI.ShowAllScript();
+            justRevealed = true; // ìŠ¤í‚µìœ¼ë¡œ ëŒ€í™”ê°€ ë„˜ì–´ê°”ìŒ
             return;
         }
 
-        if (!conversationUI.gameObject.activeSelf) // ´ëÈ­ Ã¢ÀÌ ÄÑÁ®ÀÖÁö ¾Ê´Ù¸é ´ëÈ­ ½ÃÀÛ
+        if(justRevealed)
         {
-            ControlConversationInterface(true);
+            justRevealed = false;
+            if(data.ConversationComplete())
+            {
+                EndConversation();
+                return;
+            }
         }
 
-        if(!conversationUI.isTypeEffect)
-        {
-            // ´ëÈ­ Ã¢ ÅØ½ºÆ®¿¡ ´ëÈ­ ÀúÀå
-            conversationUI.SetName(gameObject.name);
-            conversationUI.SetScript(data.GetConversation());
-        }
-        else
-        {
-            conversationUI.ShowAllScript();
-        }
+        conversationUI.SetName(gameObject.name);
+        conversationUI.SetScript(data.GetConversation());
     }
 
-    private void ControlConversationInterface(bool isTrue) // ´ëÈ­ Ã¢ È°¼ºÈ­/ºñÈ°¼ºÈ­
+    private void EndConversation()
+    {
+        ControlConversationInterface(false);
+        conversationUI.Clear();
+        data.ResetConversation();
+        justRevealed = false;
+    }
+
+    private void ControlConversationInterface(bool isTrue) // ëŒ€í™” ì°½ í™œì„±í™”/ë¹„í™œì„±í™”
     {
         conversationUI.gameObject.SetActive(isTrue);
+        OnConversationToggle?.Invoke(isTrue);
     }
 
-    // ´ëÈ­ ½ÃÀÛ ¸Ş¼Òµå
+    // ëŒ€í™” ì‹œì‘ ë©”ì†Œë“œ
     // TODO
 
-    // ´ëÈ­ Á¾·á ¸Ş¼Òµå
+    // ëŒ€í™” ì¢…ë£Œ ë©”ì†Œë“œ
     // TODO
 }

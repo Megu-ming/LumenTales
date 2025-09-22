@@ -19,6 +19,8 @@ public class UIConversation : MonoBehaviour
     public void SetScript(string script)
     {
         cacheScript = script;
+        // 새로운 줄 시작 전에 텍스트를 비워서 깜빡임 방지
+        conversationScript.text = string.Empty;
         StartCoroutine(TypeTextEffect(script));
     }
 
@@ -27,6 +29,15 @@ public class UIConversation : MonoBehaviour
         StopAllCoroutines();
         isTypeEffect = false;
         conversationScript.text = cacheScript;
+    }
+
+    public void Clear()
+    {
+        StopAllCoroutines();
+        isTypeEffect = false;
+        cacheScript = null;
+        if(conversationScript != null)
+            conversationScript.text = string.Empty;
     }
 
     IEnumerator TypeTextEffect(string script)
