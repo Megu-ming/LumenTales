@@ -1,9 +1,9 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class MainScene : MonoBehaviour
+public class BattleScene : MonoBehaviour
 {
-    public static MainScene I {  get; private set; }
+    public static BattleScene I {  get; private set; }
 
     [SerializeField] CinemachineCamera cam;
     [SerializeField] Transform spawnPos;
