@@ -1,17 +1,12 @@
-using Unity.Cinemachine;
 using UnityEngine;
 
-public class BattleScene : SceneBase
+public class TownScene : SceneBase
 {
-    
-
-    
-
     protected override void Awake()
     {
         base.Awake();
 
-        sceneType = SceneType.Battle;
+        sceneType = SceneType.Town;
     }
 
     protected override void Start()

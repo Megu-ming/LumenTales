@@ -1,13 +1,44 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class SceneBase : MonoBehaviour
 {
-    public SceneType sceneType;
+    protected SceneType sceneType;
 
     int statusPoint;
     public int StatusPoint
     {
         get => statusPoint;
+    }
+
+    [SerializeField] CinemachineCamera cam;
+    [SerializeField] Transform spawnPos;
+    [SerializeField] Texture2D cursorTexture;
+
+    public GameObject Player;
+
+    protected virtual void Awake()
+    {
+        sceneType = SceneType.None;
+
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.SetCursor(cursorTexture, new Vector2(), CursorMode.Auto);
+
+        cam.Target.TrackingTarget = Player.transform;
+        Player.transform.position = spawnPos.position;
+    }
+
+    protected virtual void Start()
+    {
+        DataManager.Instance.LoadGameData();
+
+        GameManager.Instance.Player = Player;
+    }
+
+    protected virtual void OnApplicationQuit()
+    {
+        DataManager.Instance.SaveGameData();
+        Debug.Log("Save Complete");
     }
 
     public bool UseStatusPoint()

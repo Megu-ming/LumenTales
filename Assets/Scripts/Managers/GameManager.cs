@@ -1,20 +1,19 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     static GameObject container;
 
     static GameManager instance;
-    public static GameManager Instance 
-    { 
+    public static GameManager Instance
+    {
         get
         {
-            if(!instance)
+            if (!instance)
             {
                 container = new GameObject();
                 container.name = "GameManager";
-                container.AddComponent<GameManager>();
+                instance = container.AddComponent<GameManager>();
 
                 DontDestroyOnLoad(container);
             }
@@ -41,6 +40,7 @@ public class GameManager : MonoBehaviour
     public GameObject Player
     {
         get => playerInstance;
+        set => playerInstance = value;
     }
     [SerializeField] GameObject UIRootPrefab;
 
@@ -48,13 +48,12 @@ public class GameManager : MonoBehaviour
 
     public void Init()
     {
-        playerInstance = Instantiate(playerPrefab);
+        if(!Player) playerInstance = Instantiate(playerPrefab);
     }
 
     private void Awake()
     {
-        playerPrefab = Resources.Load<GameObject>("Prefab/Player/Player.prefab");
-        UIRootPrefab = Resources.Load<GameObject>("Prefab/UI/UIRoot.prefab");
+        
     }
 
     private void OnApplicationQuit()
