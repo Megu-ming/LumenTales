@@ -16,13 +16,19 @@ public class MainScene : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.SetCursor(cursorTexture, new Vector2(), CursorMode.Auto);
         cam.Target.TrackingTarget = Player.transform;
-
-        Player.TryGetComponent<PlayerStatus>(out PlayerStatus ps);
-        GameManager.Instance.SetStatus(ps);
     }
 
     private void Start()
     {
+        DataManager.Instance.LoadGameData();
+
+        Player.TryGetComponent<PlayerStatus>(out PlayerStatus ps);
+        GameManager.Instance.SetStatus(ps);
         Player.transform.position = spawnPos.position;
+    }
+
+    private void OnApplicationQuit()
+    {
+        DataManager.Instance.SaveGameData();
     }
 }

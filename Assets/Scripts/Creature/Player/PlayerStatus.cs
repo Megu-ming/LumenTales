@@ -128,4 +128,36 @@ public class PlayerStatus : Status
 
         CharacterEvents.infoUIRefresh?.Invoke();
     }
+
+    public void LoadStatus()
+    {
+        var data = DataManager.Instance.data;
+        if(data == null)
+        {
+            Debug.Log("플레이어 데이터 불러오기 실패");
+            return;
+        }
+
+        currentExp = data.currentExp;
+        maxExp = data.maxExp;
+        spAddedStr = data.spAddedStr;
+        spAddedAgi = data.spAddedAgi;
+        spAddedLuk = data.spAddedLuk;
+    }
+
+    public void SaveStatus()
+    {
+        var data = DataManager.Instance.data;
+        if (data == null)
+        {
+            Debug.Log("데이터 저장 불가");
+            return;
+        }
+
+        data.currentExp = currentExp;
+        data.maxExp = maxExp;
+        data.spAddedStr = spAddedStr;
+        data.spAddedAgi = spAddedAgi;
+        data.spAddedLuk = spAddedLuk;
+    }
 }

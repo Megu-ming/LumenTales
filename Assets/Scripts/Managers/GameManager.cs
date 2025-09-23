@@ -1,10 +1,16 @@
-public class GameManager
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; } = new GameManager();
 
     PlayerStatus playerStatus { get; set; }
     public PlayerStatus GetStatus() => playerStatus;
-    public PlayerStatus SetStatus(PlayerStatus status) => playerStatus = status;
+    public void SetStatus(PlayerStatus status)
+    {
+        playerStatus = status;
+        playerStatus.LoadStatus();
+    }
 
     int statusPoint = 0;
     public int GetStatusPoint() => statusPoint;
@@ -12,6 +18,11 @@ public class GameManager
     {
         if (statusPoint > 0) { --statusPoint; return true; }
         else return false;
+    }
+
+    private void OnApplicationQuit()
+    {
+        playerStatus.SaveStatus();
     }
 
     public void AddExp(int exp)
