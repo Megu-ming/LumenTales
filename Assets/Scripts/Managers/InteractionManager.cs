@@ -17,7 +17,7 @@ public class InteractionManager : MonoBehaviour
         I = this;
     }
 
-    public bool ConversationStart()
+    public bool ZoomIn()
     {
         bool result = false;
         cam.TryGetComponent<CinemachineCamera>(out CinemachineCamera cineCam);
@@ -38,7 +38,7 @@ public class InteractionManager : MonoBehaviour
         return result;
     }
 
-    public bool ConversationEnd()
+    public bool ZoomOut()
     {
         cam.TryGetComponent<CinemachineCamera>(out CinemachineCamera cineCam);
         cam.TryGetComponent<CinemachinePositionComposer>(out CinemachinePositionComposer cinePC);

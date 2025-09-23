@@ -52,9 +52,11 @@ public class NPCConverstionHandler : MonoBehaviour
     {
         conversationStep = 0;
         justRevealed = false;
-        
-        ControlConversationInterface(true);
 
+        // 카메라 줌인
+        InteractionManager.I.ZoomIn();
+
+        ControlConversationInterface(true);
         SetLine(conversationStep);
         conversationStep++;
     }
@@ -80,6 +82,8 @@ public class NPCConverstionHandler : MonoBehaviour
 
     private void EndConversation()
     {
+        // 카메라 줌아웃
+        InteractionManager.I.ZoomOut();
         ControlConversationInterface(false);
         conversationStep = 0;
         justRevealed = false;
