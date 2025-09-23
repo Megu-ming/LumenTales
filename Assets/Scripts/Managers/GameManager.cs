@@ -1,43 +1,64 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; } = new GameManager();
+    static GameObject container;
 
-    PlayerStatus playerStatus { get; set; }
-    public PlayerStatus GetStatus() => playerStatus;
-    public void SetStatus(PlayerStatus status)
-    {
-        playerStatus = status;
-        playerStatus.LoadStatus();
+    static GameManager instance;
+    public static GameManager Instance 
+    { 
+        get
+        {
+            if(!instance)
+            {
+                container = new GameObject();
+                container.name = "GameManager";
+                container.AddComponent<GameManager>();
+
+                DontDestroyOnLoad(container);
+            }
+            return instance;
+        }
     }
 
-    int statusPoint = 0;
-    public int GetStatusPoint() => statusPoint;
-    public bool UseStatusPoint() 
+    SceneBase currentScene;
+    public SceneBase CurrentScene
     {
-        if (statusPoint > 0) { --statusPoint; return true; }
-        else return false;
+        get
+        {
+            if(!currentScene)
+            {
+                currentScene = FindAnyObjectByType<SceneBase>();
+            }
+            return currentScene;
+        }
+
+    }
+
+    [SerializeField] GameObject playerPrefab;
+    GameObject playerInstance;
+    public GameObject Player
+    {
+        get => playerInstance;
+    }
+    [SerializeField] GameObject UIRootPrefab;
+
+    public PlayerStatus GetStatus() => Player.GetComponent<PlayerStatus>();
+
+    public void Init()
+    {
+        playerInstance = Instantiate(playerPrefab);
+    }
+
+    private void Awake()
+    {
+        playerPrefab = Resources.Load<GameObject>("Prefab/Player/Player.prefab");
+        UIRootPrefab = Resources.Load<GameObject>("Prefab/UI/UIRoot.prefab");
     }
 
     private void OnApplicationQuit()
     {
-        playerStatus.SaveStatus();
-    }
-
-    public void AddExp(int exp)
-    {
-        if(playerStatus == null) return;
-
-        playerStatus.CurrentExp += exp;
-        if(playerStatus.CurrentExp >= playerStatus.MaxExp)
-        {
-            playerStatus.Level++;
-            UnityEngine.Debug.Log($"Player Level :{playerStatus.Level}");
-            statusPoint += 5;
-            playerStatus.CurrentExp -= playerStatus.MaxExp;
-            playerStatus.MaxExp *= 2;
-            CharacterEvents.infoUIRefresh?.Invoke();
-        }
+        // 데이터 저장
     }
 }

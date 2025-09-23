@@ -59,6 +59,6 @@ public class EnemyStatus : Status
         base.OnDied();
         if (hpBarInstance != null)
             hpBarInstance.SetActive(false);
-        GameManager.Instance.AddExp(expAmount);
+        GameManager.Instance.CurrentScene.AddExp(expAmount);
     }
 }

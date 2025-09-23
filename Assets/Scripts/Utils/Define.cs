@@ -24,3 +24,11 @@ public enum EquipmentSlotType
     Gloves,
     Boots,
 }
+
+public enum SceneType
+{
+    Menu,
+    Town,
+    Battle,
+    Boss
+}

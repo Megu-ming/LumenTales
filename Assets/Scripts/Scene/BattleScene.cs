@@ -1,10 +1,8 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class BattleScene : MonoBehaviour
+public class BattleScene : SceneBase
 {
-    public static BattleScene I {  get; private set; }
-
     [SerializeField] CinemachineCamera cam;
     [SerializeField] Transform spawnPos;
     [SerializeField] Texture2D cursorTexture;
@@ -13,6 +11,8 @@ public class BattleScene : MonoBehaviour
 
     private void Awake()
     {
+        sceneType = SceneType.Battle;
+
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.SetCursor(cursorTexture, new Vector2(), CursorMode.Auto);
         cam.Target.TrackingTarget = Player.transform;
@@ -22,13 +22,12 @@ public class BattleScene : MonoBehaviour
     {
         DataManager.Instance.LoadGameData();
 
-        Player.TryGetComponent<PlayerStatus>(out PlayerStatus ps);
-        GameManager.Instance.SetStatus(ps);
         Player.transform.position = spawnPos.position;
     }
 
-    private void OnApplicationQuit()
+    private void OnDisable()
     {
         DataManager.Instance.SaveGameData();
+        Debug.Log("Save Complete");
     }
 }

@@ -40,8 +40,8 @@ public class PlayerController : CreatureController
             {
                 if (IsMoving)
                 {
-                    if (IsSprint) return GameManager.Instance.GetStatus().MoveSpeed * sprintMul;
-                    else return GameManager.Instance.GetStatus().MoveSpeed;
+                    if (IsSprint) return gameObject.GetComponent<PlayerStatus>().MoveSpeed * sprintMul;
+                    else return gameObject.GetComponent<PlayerStatus>().MoveSpeed;
                 }
                 else return 0;
             }
