@@ -12,7 +12,7 @@ public class UICharacterInfo : MonoBehaviour
     {
         if(playerStatus == null)
         {
-            playerStatus = GameManager.Instance.GetStatus();
+            playerStatus = GameManager.instance.GetStatus();
         }
         Refresh();
 
@@ -27,26 +27,26 @@ public class UICharacterInfo : MonoBehaviour
     public void OnStrButton()
     {
         if (playerStatus == null) return;
-        if(GameManager.Instance.CurrentScene.StatusPoint <= 0) return;
+        if(GameManager.instance.CurrentScene.StatusPoint <= 0) return;
         playerStatus.SpAddedStr++;
-        GameManager.Instance.CurrentScene.UseStatusPoint();
+        GameManager.instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
     public void OnDexButton()
     {
         if (playerStatus == null) return;
-        if (GameManager.Instance.CurrentScene.StatusPoint <= 0) return;
+        if (GameManager.instance.CurrentScene.StatusPoint <= 0) return;
         playerStatus.SpAddedAgi++;
-        GameManager.Instance.CurrentScene.UseStatusPoint();
+        GameManager.instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
 
     public void OnLuckButton()
     {
         if (playerStatus == null) return;
-        if (GameManager.Instance.CurrentScene.StatusPoint <= 0) return;
+        if (GameManager.instance.CurrentScene.StatusPoint <= 0) return;
         playerStatus.SpAddedLuk++;
-        GameManager.Instance.CurrentScene.UseStatusPoint();
+        GameManager.instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
 
@@ -64,6 +64,6 @@ public class UICharacterInfo : MonoBehaviour
         if (dexText)    dexText.text = $"{playerStatus.Agility}";
         if (lukText)    lukText.text = $"{playerStatus.Luck}";
 
-        if (spText) spText.text = $"{GameManager.Instance.CurrentScene.StatusPoint}";
+        if (spText) spText.text = $"{GameManager.instance.CurrentScene.StatusPoint}";
     }
 }

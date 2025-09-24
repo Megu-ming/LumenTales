@@ -24,20 +24,23 @@ public class SceneBase : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.SetCursor(cursorTexture, new Vector2(), CursorMode.Auto);
 
-        cam.Target.TrackingTarget = Player.transform;
-        Player.transform.position = spawnPos.position;
+        if(Player != null && cam != null)
+        {
+            cam.Target.TrackingTarget = Player.transform;
+            Player.transform.position = spawnPos.position;
+        }
     }
 
     protected virtual void Start()
     {
-        DataManager.Instance.LoadGameData();
+        //DataManager.instance.LoadGameData();
 
-        GameManager.Instance.Player = Player;
+        GameManager.instance.Player = Player;
     }
 
     protected virtual void OnApplicationQuit()
     {
-        DataManager.Instance.SaveGameData();
+        DataManager.instance.SaveGameData();
         Debug.Log("Save Complete");
     }
 
@@ -49,7 +52,7 @@ public class SceneBase : MonoBehaviour
 
     public void AddExp(int exp)
     {
-        GameManager.Instance.Player.TryGetComponent<PlayerStatus>(out var status);
+        GameManager.instance.Player.TryGetComponent<PlayerStatus>(out var status);
         if(status != null)
         {
             status.CurrentExp += exp;

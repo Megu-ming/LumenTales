@@ -4,29 +4,17 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    static GameObject container;
-
-    static DataManager instance;
-    public static DataManager Instance
-    {
-        get
-        {
-            if(!instance)
-            {
-                container = new GameObject();
-                container.name = "DataManager";
-                instance = container.AddComponent<DataManager>();
-
-                DontDestroyOnLoad(container);
-            }
-            return instance;
-        }
-    }
+    public static DataManager instance;
 
     string gameDataFileName = "LumenTalesData.json";
 
     // 저장용 클래스
     public GameData data = new GameData();
+
+    private void Awake()
+    {
+        InitSingleton();
+    }
 
     public void LoadGameData()
     {
@@ -46,6 +34,13 @@ public class DataManager : MonoBehaviour
         string filePath = Application.persistentDataPath + "/" + gameDataFileName;
 
         File.WriteAllText(filePath, toJsonData);
+    }
+
+    private void InitSingleton()
+    {
+        if (!instance) instance = this;
+        else if (instance != this) Destroy(instance.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 }
 

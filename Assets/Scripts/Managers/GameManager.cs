@@ -2,24 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    static GameObject container;
-
-    static GameManager instance;
-    public static GameManager Instance
-    {
-        get
-        {
-            if (!instance)
-            {
-                container = new GameObject();
-                container.name = "GameManager";
-                instance = container.AddComponent<GameManager>();
-
-                DontDestroyOnLoad(container);
-            }
-            return instance;
-        }
-    }
+    public static GameManager instance;
 
     SceneBase currentScene;
     public SceneBase CurrentScene
@@ -46,18 +29,16 @@ public class GameManager : MonoBehaviour
 
     public PlayerStatus GetStatus() => Player.GetComponent<PlayerStatus>();
 
-    public void Init()
-    {
-        if(!Player) playerInstance = Instantiate(playerPrefab);
-    }
 
     private void Awake()
     {
-        
+        InitSingleton();
     }
 
-    private void OnApplicationQuit()
+    private void InitSingleton()
     {
-        // 데이터 저장
+        if (!instance) instance = this;
+        else if (instance != this) Destroy(instance.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 }

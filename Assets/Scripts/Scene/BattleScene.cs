@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class BattleScene : SceneBase
 {
-    
-
-    
-
     protected override void Awake()
     {
         base.Awake();
