@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class MenuScene : SceneBase
 {
+    [SerializeField] GameObject slotPanel;
+    [SerializeField] GameObject[] slots;
+
     protected override void Awake()
     {
         base.Awake();
@@ -15,7 +18,7 @@ public class MenuScene : SceneBase
 
     public void OnClickNewGame()
     {
-        SceneManager.LoadScene(1);
+        slotPanel.SetActive(true);
     }
 
     public void OnClickContinue()
@@ -35,5 +38,17 @@ public class MenuScene : SceneBase
 #else
         Application.Quit();                     // 빌드 시 종료
 #endif
+    }
+
+    public void OnClickSlot(int slot)
+    {
+        // 해당 슬롯의 데이터가 비었으면 새로 시작
+
+        // 데이터가 있으면 데이터 얻어와서 바로 시작
+    }
+
+    public void OnClickBack()
+    {
+        slotPanel.SetActive(false);
     }
 }

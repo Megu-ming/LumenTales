@@ -40,7 +40,7 @@ public class SceneBase : MonoBehaviour
 
     protected virtual void OnApplicationQuit()
     {
-        DataManager.instance.SaveGameData();
+        DataManager.instance?.SaveGameData();
         Debug.Log("Save Complete");
     }
 

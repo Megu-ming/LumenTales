@@ -195,7 +195,7 @@ public class PlayerController : CreatureController
         }
     }
 
-    public void OnHit(int damage, Vector2 knockback)
+    public void OnHit(float damage, Vector2 knockback)
     {
         rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
     }

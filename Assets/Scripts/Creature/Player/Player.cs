@@ -3,14 +3,11 @@ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
-#if CINEMACHINE
-using Cinemachine;
-#endif
 
 public class Player : MonoBehaviour
 {
     // ─── Singleton ──────────────────────────────────────────────────────────────
-    public static Player Instance { get; private set; }
+    public static Player instance { get; private set; }
 
     // ─── Cached Components (필요한 것만 캐싱) ───────────────────────────────────
     Rigidbody2D rb;
@@ -29,9 +26,7 @@ public class Player : MonoBehaviour
     // ─── Lifecycle ──────────────────────────────────────────────────────────────
     void Awake()
     {
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        InitSingleton();
 
         // GameManager가 GameObject 레퍼런스로 접근하는 경우를 대비
         if (GameManager.instance) GameManager.instance.Player = gameObject;
@@ -40,5 +35,10 @@ public class Player : MonoBehaviour
         if (CompareTag("Untagged")) gameObject.tag = "Player";
     }
 
-    
+    private void InitSingleton()
+    {
+        if (!instance) instance = this;
+        else if (instance != this) Destroy(instance.gameObject);
+        DontDestroyOnLoad(gameObject);
+    }
 }
