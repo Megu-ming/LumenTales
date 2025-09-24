@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,23 +9,36 @@ public class MenuScene : SceneBase
     [SerializeField] GameObject slotPanel;
     [SerializeField] GameObject[] slots;
 
+    bool isFromNewGame = false;
+
     protected override void Awake()
     {
         base.Awake();
-
+        // ê¸°ë³¸ ì”¬ ì„¤ì •
         sceneType = SceneType.Menu;
-
         Cursor.lockState = CursorLockMode.None;
+        slotPanel.SetActive(false);
+
+        // ìŠ¬ë¡¯ë³„ ë°ì´í„° ë¡œë“œ
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (!DataManager.instance.LoadGameData(i))
+            {
+                var tmp = slots[i].GetComponentInChildren<TextMeshProUGUI>();
+                if (tmp != null) tmp.text = "(empty slot)";
+            }
+        }
     }
 
     public void OnClickNewGame()
     {
         slotPanel.SetActive(true);
+        isFromNewGame = true;
     }
 
     public void OnClickContinue()
     {
-
+        slotPanel.SetActive(true);
     }
 
     public void OnClickSettings()
@@ -34,21 +49,33 @@ public class MenuScene : SceneBase
     public void OnClickExit()
     {
 #if UNITY_EDITOR
-        EditorApplication.isPlaying = false;    // ¿¡µğÅÍ¿¡¼­ Á¾·á
+        EditorApplication.isPlaying = false;    // ì—ë””í„°ì—ì„œ ì¢…ë£Œ
 #else
-        Application.Quit();                     // ºôµå ½Ã Á¾·á
+        Application.Quit();                     // ë¹Œë“œ ì‹œ ì¢…ë£Œ
 #endif
     }
 
     public void OnClickSlot(int slot)
     {
-        // ÇØ´ç ½½·ÔÀÇ µ¥ÀÌÅÍ°¡ ºñ¾úÀ¸¸é »õ·Î ½ÃÀÛ
+        // newGameì„ ëˆŒëŸ¬ì„œ ë“¤ì–´ì˜¨ ìƒíƒœ
+        if(isFromNewGame)
+        {
+            // í•´ë‹¹ ìŠ¬ë¡¯ì˜ ë°ì´í„°ê°€ ë¹„ì—ˆìœ¼ë©´ ìƒˆë¡œ ì‹œì‘
+            GameManager.instance.StartGame(slot);
+            // ë°ì´í„°ê°€ ìˆìœ¼ë©´ ë°ì´í„° ë®ì–´ì”Œìš¸ê±°ëƒê³  ë¬¼ì–´ë³´ê¸°
+        }
+        else // continueë¥¼ ëˆŒë €ì„ ë•Œ ë“¤ì–´ì˜¨ ìƒíƒœ
+        {
+            // í•´ë‹¹ ìŠ¬ë¡¯ì´ ë¹„ì—ˆìœ¼ë©´ ë¬´ì‹œ
 
-        // µ¥ÀÌÅÍ°¡ ÀÖÀ¸¸é µ¥ÀÌÅÍ ¾ò¾î¿Í¼­ ¹Ù·Î ½ÃÀÛ
+            // ë°ì´í„°ê°€ ìˆìœ¼ë©´ ë°ì´í„° ê°€ì ¸ì™€ì„œ ì‹œì‘
+            GameManager.instance.StartGame(slot);
+        }
     }
 
     public void OnClickBack()
     {
         slotPanel.SetActive(false);
+        isFromNewGame = false;
     }
 }

@@ -15,7 +15,7 @@ public class SceneBase : MonoBehaviour
     [SerializeField] Transform spawnPos;
     [SerializeField] Texture2D cursorTexture;
 
-    public GameObject Player;
+    public GameObject player;
 
     protected virtual void Awake()
     {
@@ -23,25 +23,15 @@ public class SceneBase : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.SetCursor(cursorTexture, new Vector2(), CursorMode.Auto);
-
-        if(Player != null && cam != null)
-        {
-            cam.Target.TrackingTarget = Player.transform;
-            Player.transform.position = spawnPos.position;
-        }
     }
 
     protected virtual void Start()
     {
-        //DataManager.instance.LoadGameData();
-
-        GameManager.instance.Player = Player;
-    }
-
-    protected virtual void OnApplicationQuit()
-    {
-        DataManager.instance?.SaveGameData();
-        Debug.Log("Save Complete");
+        if (player != null && cam != null)
+        {
+            cam.Target.TrackingTarget = player.transform;
+            player.transform.position = spawnPos.position;
+        }
     }
 
     public bool UseStatusPoint()
@@ -52,7 +42,7 @@ public class SceneBase : MonoBehaviour
 
     public void AddExp(int exp)
     {
-        GameManager.instance.Player.TryGetComponent<PlayerStatus>(out var status);
+        var status = Player.instance.Status;
         if(status != null)
         {
             status.CurrentExp += exp;

@@ -14,9 +14,4 @@ public class BattleScene : SceneBase
     {
         base.Start();
     }
-
-    protected override void OnApplicationQuit()
-    {
-        base.OnApplicationQuit();
-    }
 }

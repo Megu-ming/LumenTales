@@ -12,7 +12,7 @@ public class UICharacterInfo : MonoBehaviour
     {
         if(playerStatus == null)
         {
-            playerStatus = GameManager.instance.GetStatus();
+            playerStatus = Player.instance.Status;
         }
         Refresh();
 
@@ -56,7 +56,7 @@ public class UICharacterInfo : MonoBehaviour
         if (levelText)  levelText.text = $"{playerStatus.Level}";
         if (atkText)    atkText.text = $"{(int)playerStatus.FinalAtkDamage}";
         if (defText)    defText.text = $"{playerStatus.BaseDefense}";
-        if (hpText)     hpText.text = $"{playerStatus.BaseMaxHealth}";
+        if (hpText)     hpText.text = $"{playerStatus.FinalMaxHealth}";
         if (speedText)  speedText.text = $"{playerStatus.MoveSpeed:F1}";
         if (dropText)   dropText.text = $"{playerStatus.DropRate:P1}";
 

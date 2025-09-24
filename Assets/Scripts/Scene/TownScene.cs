@@ -7,15 +7,12 @@ public class TownScene : SceneBase
         base.Awake();
 
         sceneType = SceneType.Town;
+
+        GameManager.instance.CurrentScene = this;
     }
 
     protected override void Start()
     {
         base.Start();
-    }
-
-    protected override void OnApplicationQuit()
-    {
-        base.OnApplicationQuit();
     }
 }

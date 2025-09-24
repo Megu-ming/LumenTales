@@ -10,9 +10,8 @@ public class Player : MonoBehaviour
     public static Player instance { get; private set; }
 
     // ─── Cached Components (필요한 것만 캐싱) ───────────────────────────────────
-    Rigidbody2D rb;
-    Animator animator;
-    PlayerStatus status;
+    public PlayerStatus Status { get; private set; }
+    public PlayerController PlayerController { get; private set; }
 
 #if ENABLE_INPUT_SYSTEM
     [Header("Optional")]
@@ -27,9 +26,8 @@ public class Player : MonoBehaviour
     void Awake()
     {
         InitSingleton();
-
-        // GameManager가 GameObject 레퍼런스로 접근하는 경우를 대비
-        if (GameManager.instance) GameManager.instance.Player = gameObject;
+        Status = GetComponent<PlayerStatus>();
+        PlayerController = GetComponent<PlayerController>();
 
         // 태그 보정(트리거/포털 인식용)
         if (CompareTag("Untagged")) gameObject.tag = "Player";

@@ -73,6 +73,12 @@ public class PlayerStatus : Status
     }             
     private float finalLuck;
 
+    public float FinalMaxHealth
+    {
+        get => BaseMaxHealth + (SpAddedStr + ArmorAddedStr) * strHpPerPoint;
+    }
+    private float finalMaxHealth;
+
     [Header("Derived")]
     [SerializeField] private float moveSpeed; // 최종 이동 속도
     [SerializeField] private float dropRate;  // 최종 드랍률
@@ -90,7 +96,7 @@ public class PlayerStatus : Status
     protected override void Awake()
     {
         base.Awake();
-        CurrentHealth = BaseMaxHealth;
+        CurrentHealth = FinalMaxHealth;
     }
 
     // 사망 처리
