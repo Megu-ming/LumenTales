@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class PlayerDetectionTrigger : MonoBehaviour
 {
-    [SerializeField] PlayerController pc;
+    [ReadOnly, SerializeField] PlayerController pc;
     [SerializeField] NPCConverstionHandler npcCH;
     [SerializeField] Portal portal;
     [SerializeField] GameObject interactPanel;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Player")) return;
-        
+        if (!collision.TryGetComponent<PlayerController>(out pc)) return;
+
         interactPanel.SetActive(true);
         if (npcCH != null)
             pc.OnInteractionEvent += npcCH.ConversationEvent;
@@ -20,12 +20,12 @@ public class PlayerDetectionTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Player")) return;
+        if (!collision.TryGetComponent<PlayerController>(out pc)) return;
 
-        if(interactPanel) interactPanel.SetActive(false);
+        if (interactPanel) interactPanel.SetActive(false);
         if (npcCH != null)
             pc.OnInteractionEvent -= npcCH.ConversationEvent;
         if (portal != null)
-            pc.OnInteractionEvent += portal.OnInteraction;
+            pc.OnInteractionEvent -= portal.OnInteraction;
     }
 }
