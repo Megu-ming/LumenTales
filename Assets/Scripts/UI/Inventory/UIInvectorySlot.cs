@@ -90,8 +90,6 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        //if (!HasItem) return;
-        if (!HasItem) return;
         ShowHighLight();
     }
 

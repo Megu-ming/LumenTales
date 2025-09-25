@@ -16,8 +16,6 @@ public class GameManager : MonoBehaviour
             }
             return currentScene;
         }
-        set 
-        { }
     }
 
     private void Awake()
@@ -25,16 +23,9 @@ public class GameManager : MonoBehaviour
         InitSingleton();
     }
 
-    public void StartGame(int slot)
+    public void LoadScene(SceneType type)
     {
-        // 해당 슬롯의 데이터 가져오기 (있건 없건)
-        
-        // 있으면 그냥 데이터 넣어서 시작
-        // ex) 플레이어 생성, 저장 데이터 주입, 
-
-        
-        // 없으면 튜토리얼 시작
-        
+        SceneManager.LoadScene((int)type);
     }
 
     private void InitSingleton()

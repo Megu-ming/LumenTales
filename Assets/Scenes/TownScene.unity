@@ -6959,7 +6959,6 @@ MonoBehaviour:
   cam: {fileID: 907981959}
   spawnPos: {fileID: 1292227143}
   cursorTexture: {fileID: 2800000, guid: d448f9e2fe2815e428d7456ee30e7d43, type: 3}
-  player: {fileID: 1197468069}
 --- !u!4 &1063164253
 Transform:
   m_ObjectHideFlags: 0
@@ -7031,17 +7030,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 907981957}
---- !u!1 &1197468069 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 910687419780863520, guid: d3c87a704a597964c982986d465d715c, type: 3}
-  m_PrefabInstance: {fileID: 64026378}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1197468071 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6251467598962010301, guid: d3c87a704a597964c982986d465d715c, type: 3}
   m_PrefabInstance: {fileID: 64026378}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197468069}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d17722f51fc6a24e859817613f425d9, type: 3}
@@ -7052,7 +7046,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4268916457519343671, guid: d3c87a704a597964c982986d465d715c, type: 3}
   m_PrefabInstance: {fileID: 64026378}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197468069}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb0e7169cfd3d0246b0ef14224a0503a, type: 3}
@@ -7153,7 +7147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b2e79d70c317a46a5fb48bf252e55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: BattleScene
+  nextScene: 2
 --- !u!61 &1274187081
 BoxCollider2D:
   m_ObjectHideFlags: 0

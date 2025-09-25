@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
@@ -237,11 +239,13 @@ public class InventoryController : MonoBehaviour
                 Debug.LogWarning("No empty slot to unequip current armor.");
                 return;
             }
-            items[empty] = current;
-
-            // armoradded스탯에서 current의 스탯만큼 제거
-            playerStatus.RemoveArmorAddedStat(current.EquipmentData);
-            UpdateSlot(empty);
+            if (current != null)
+            {
+                items[empty] = current;
+                // armoradded스탯에서 current의 스탯만큼 제거
+                playerStatus.RemoveArmorAddedStat(current.EquipmentData);
+                UpdateSlot(empty);
+            }
         }
 
         // 현재 슬롯의 장비를 장착 목록으로 이동

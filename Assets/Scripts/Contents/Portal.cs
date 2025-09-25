@@ -3,10 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
-    [SerializeField] string nextScene;
+    [SerializeField] SceneType nextScene;
     
     public void OnInteraction()
     {
-        SceneManager.LoadScene(nextScene);
+        GameManager.instance.LoadScene(nextScene);
     }
 }

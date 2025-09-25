@@ -11,16 +11,14 @@ public class TooltipService : MonoBehaviour
     UIItemTooltip tooltip;
     RectTransform tooltipRect;
     RectTransform canvasRect;
-    Camera uiCam;
 
     private void Awake()
     {
         if (I && I != this) { Destroy(gameObject); return; }
         I = this;
 
-        if(!rootCanvas) rootCanvas = GetComponentInParent<Canvas>();
-        canvasRect = rootCanvas.GetComponent<RectTransform>();
-        uiCam = rootCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : rootCanvas.worldCamera;
+        if (!rootCanvas) UIRoot.instance.gameObject.TryGetComponent<Canvas>(out rootCanvas);
+        canvasRect = rootCanvas?.GetComponent<RectTransform>();
 
         if(!tooltip&&tooltipPrefab)
         {

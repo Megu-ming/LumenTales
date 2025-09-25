@@ -18,8 +18,6 @@ public class SceneBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        sceneType = SceneType.None;
-
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.SetCursor(cursorTexture, new Vector2(), CursorMode.Auto);
     }

@@ -7,8 +7,6 @@ public class TownScene : SceneBase
         base.Awake();
 
         sceneType = SceneType.Town;
-
-        GameManager.instance.CurrentScene = this;
     }
 
     protected override void Start()

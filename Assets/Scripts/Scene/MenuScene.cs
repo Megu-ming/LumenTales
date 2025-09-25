@@ -126,14 +126,21 @@ public class MenuScene : SceneBase
             if (meta.exists)
             {
                 // 덮어쓰기 모달 출력
-                
-            }    
-            else DataManager.instance.NewGameAtSlot(slot);
+
+            }
+            else
+            { 
+                DataManager.instance.NewGameAtSlot(slot);
+                GameManager.instance.LoadScene(SceneType.Town);
+            }
         }
         else
         {
             if (meta.exists)
+            {
                 DataManager.instance.ContinueAtSlot(slot);
+                GameManager.instance.LoadScene(SceneType.Town);
+            }
             else
             {
                 // 빈 슬롯을 눌렀으니 슬롯 진동 효과나 뭐 그런거?

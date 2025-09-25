@@ -22,5 +22,5 @@ MonoBehaviour:
   attackValue: 0
   isArmor: 1
   strength: 0
-  agility: 0
-  luck: 0
+  agility: 1
+  luck: 1
