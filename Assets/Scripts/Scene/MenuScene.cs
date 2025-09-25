@@ -3,11 +3,25 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuScene : SceneBase
 {
+    [Header("Panels")]
+    [SerializeField] GameObject mainMenuPanel;
     [SerializeField] GameObject slotPanel;
-    [SerializeField] GameObject[] slots;
+
+
+    [Header("Main Buttons")]
+    [SerializeField] Button newGameBtn;
+    [SerializeField] Button continueBtn;
+    [SerializeField] Button settingsBtn;
+
+    [SerializeField] Button backBtn;
+
+    [Header("Slots (0~4)")]
+    [SerializeField] Button[]   slots;
+    [SerializeField] TMP_Text[] slotTitleLines;
 
     bool isFromNewGame = false;
 
@@ -18,27 +32,66 @@ public class MenuScene : SceneBase
         sceneType = SceneType.Menu;
         Cursor.lockState = CursorLockMode.None;
         slotPanel.SetActive(false);
+    }
 
-        // 슬롯별 데이터 로드
-        for (int i = 0; i < slots.Length; i++)
+    private void OnEnable()
+    {
+        if(DataManager.instance)
+            DataManager.instance.OnSlotsChanged += RefreshSlotsIfOpen;
+    }
+
+    private void OnDisable()
+    {
+        if(DataManager.instance)
+            DataManager.instance.OnSlotsChanged -= RefreshSlotsIfOpen;
+    }
+
+    void RefreshSlotsIfOpen()
+    {
+        // 슬롯 패널이 열려있으면 갱신(메인 패널일 때는 생략 가능)
+        if (slotPanel && slotPanel.activeSelf) RefreshSlots();
+        else RefreshTitlesOnly(); // 메인에서도 라벨만 최신화하고 싶다면 호출
+    }
+
+    void RefreshSlots()
+    {
+        if (slotPanel == null) return;
+        var metas = DataManager.instance.GetSlotMetas();
+        for(int i=0; i< metas.Length; i++)
         {
-            if (!DataManager.instance.LoadGameData(i))
+            var meta = metas[i];
+
+            if (slotTitleLines[i].text!=null)
             {
-                var tmp = slots[i].GetComponentInChildren<TextMeshProUGUI>();
-                if (tmp != null) tmp.text = "(empty slot)";
+                slotTitleLines[i].text = meta.exists
+                    ? $"{meta.TitleLine}" : "(Empty Slot)";
             }
         }
     }
 
+    void RefreshTitlesOnly()
+    {
+        if (slotTitleLines == null) return;
+        var metas = DataManager.instance.GetSlotMetas();
+        for (int i = 0; i < slotTitleLines.Length && i < metas.Length; i++)
+        {
+            if (slotTitleLines[i] != null)
+                slotTitleLines[i].text = metas[i].exists
+                    ? $"{metas[i].TitleLine}" : "(Empty Slot)";
+        }
+    }
+
+    #region 클릭 이벤트
     public void OnClickNewGame()
     {
-        slotPanel.SetActive(true);
         isFromNewGame = true;
+        OpenSlotPanel();
     }
 
     public void OnClickContinue()
     {
-        slotPanel.SetActive(true);
+        isFromNewGame = false;
+        OpenSlotPanel();
     }
 
     public void OnClickSettings()
@@ -55,27 +108,44 @@ public class MenuScene : SceneBase
 #endif
     }
 
-    public void OnClickSlot(int slot)
-    {
-        // newGame을 눌러서 들어온 상태
-        if(isFromNewGame)
-        {
-            // 해당 슬롯의 데이터가 비었으면 새로 시작
-            GameManager.instance.StartGame(slot);
-            // 데이터가 있으면 데이터 덮어씌울거냐고 물어보기
-        }
-        else // continue를 눌렀을 때 들어온 상태
-        {
-            // 해당 슬롯이 비었으면 무시
-
-            // 데이터가 있으면 데이터 가져와서 시작
-            GameManager.instance.StartGame(slot);
-        }
-    }
-
     public void OnClickBack()
     {
         slotPanel.SetActive(false);
         isFromNewGame = false;
     }
+
+    public void OnClickSlot(int slot)
+    {
+        var metas = DataManager.instance.GetSlotMetas();
+        if (slot < 0 || slot >= metas.Length) return;
+
+        var meta = metas[slot];
+
+        if (isFromNewGame)
+        {
+            if (meta.exists)
+            {
+                // 덮어쓰기 모달 출력
+                
+            }    
+            else DataManager.instance.NewGameAtSlot(slot);
+        }
+        else
+        {
+            if (meta.exists)
+                DataManager.instance.ContinueAtSlot(slot);
+            else
+            {
+                // 빈 슬롯을 눌렀으니 슬롯 진동 효과나 뭐 그런거?
+            }
+        }
+    }
+
+    void OpenSlotPanel()
+    {
+        if (!slotPanel) return;
+        slotPanel.SetActive(true);
+        RefreshSlots();
+    }
+    #endregion
 }

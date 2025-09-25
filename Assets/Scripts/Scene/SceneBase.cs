@@ -11,6 +11,7 @@ public class SceneBase : MonoBehaviour
         get => statusPoint;
     }
 
+    [Header("SceneBase Option")]
     [SerializeField] CinemachineCamera cam;
     [SerializeField] Transform spawnPos;
     [SerializeField] Texture2D cursorTexture;
