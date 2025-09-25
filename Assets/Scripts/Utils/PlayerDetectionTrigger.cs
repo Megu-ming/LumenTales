@@ -4,6 +4,7 @@ public class PlayerDetectionTrigger : MonoBehaviour
 {
     [SerializeField] PlayerController pc;
     [SerializeField] NPCConverstionHandler npcCH;
+    [SerializeField] Portal portal;
     [SerializeField] GameObject interactPanel;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -11,14 +12,20 @@ public class PlayerDetectionTrigger : MonoBehaviour
         if (!collision.CompareTag("Player")) return;
         
         interactPanel.SetActive(true);
-        pc.OnInteractionEvent += npcCH.ConversationEvent;
+        if (npcCH != null)
+            pc.OnInteractionEvent += npcCH.ConversationEvent;
+        if (portal != null)
+            pc.OnInteractionEvent += portal.OnInteraction;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
 
-        interactPanel.SetActive(false);
-        pc.OnInteractionEvent -= npcCH.ConversationEvent;
+        if(interactPanel) interactPanel.SetActive(false);
+        if (npcCH != null)
+            pc.OnInteractionEvent -= npcCH.ConversationEvent;
+        if (portal != null)
+            pc.OnInteractionEvent += portal.OnInteraction;
     }
 }

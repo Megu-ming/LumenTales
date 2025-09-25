@@ -8,10 +8,13 @@ public class BattleScene : SceneBase
         base.Awake();
 
         sceneType = SceneType.Battle;
+
+        GameManager.instance.CurrentScene = this;
     }
 
     protected override void Start()
     {
         base.Start();
+
     }
 }

@@ -16,8 +16,6 @@ public class SceneBase : MonoBehaviour
     [SerializeField] Transform spawnPos;
     [SerializeField] Texture2D cursorTexture;
 
-    public GameObject player;
-
     protected virtual void Awake()
     {
         sceneType = SceneType.None;
@@ -28,6 +26,7 @@ public class SceneBase : MonoBehaviour
 
     protected virtual void Start()
     {
+        var player = Player.instance?.gameObject;
         if (player != null && cam != null)
         {
             cam.Target.TrackingTarget = player.transform;
