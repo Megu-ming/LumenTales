@@ -295,9 +295,34 @@ public class InventoryController : MonoBehaviour
 
     private void RaiseGoldChanged() => OnGoldChanged?.Invoke(Gold);
 
-    private void RaiseAmount(CountableItem ci, int amount =1)
+    public List<InventoryItemEntry> GetInvenSnapshot()
     {
-        ci.Amount += amount;
+        var entry = new List<InventoryItemEntry>();
+        for(int i =0;i<Capacity;i++)
+        {
+            if (items[i] == null) continue;
+
+            var item = new InventoryItemEntry();
+            if (items[i] is CountableItem ci)
+            {
+                item.slotIndex = i;
+                item.itemName = ci.itemData.ItemName;
+                item.amount = ci.Amount;
+            }
+            else 
+            {
+                item.slotIndex = i;
+                item.itemName = items[i].itemData.ItemName;
+
+            }
+            entry.Add(item);
+        }
+        return entry;
+    }
+
+    internal List<EquippedEntry> GetEquipSnapshot()
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }
