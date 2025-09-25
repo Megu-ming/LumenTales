@@ -62,8 +62,6 @@ public class SlotMeta
 public class PlayerSummary
 {
     public int level = 1;
-    public float maxHp = 50;
-    public float currentHp = 50;
     public int currentExp = 0;
     public int maxExp = 20;
 
@@ -165,7 +163,7 @@ public class DataManager : MonoBehaviour
             exists = true,
             createdAtUnix = now,
             updatedAtUnix = now,
-            player = new PlayerSummary { level = 1, maxHp = 100, maxExp = 20 },
+            player = new PlayerSummary { level = 1, maxExp = 20 },
             inventory = new InventorySnapshot { gold = 0 },
         };
 

@@ -12,15 +12,7 @@ public class Player : MonoBehaviour
     // ─── Cached Components (필요한 것만 캐싱) ───────────────────────────────────
     public PlayerStatus Status { get; private set; }
     public PlayerController PlayerController { get; private set; }
-
-#if ENABLE_INPUT_SYSTEM
-    [Header("Optional")]
-    [SerializeField] PlayerInput playerInput;
-#endif
-
-    [Header("Optional")]
-    [Tooltip("로딩/페이드 동안 비활성화할 컨트롤 스크립트들(PlayerController 등)")]
-    [SerializeField] Behaviour[] controlScriptsToToggle;
+    public InventoryController InventoryController { get; private set; }
 
     // ─── Lifecycle ──────────────────────────────────────────────────────────────
     void Awake()
@@ -28,11 +20,41 @@ public class Player : MonoBehaviour
         InitSingleton();
         Status = GetComponent<PlayerStatus>();
         PlayerController = GetComponent<PlayerController>();
+        InventoryController = GetComponentInChildren<InventoryController>();
 
         // 태그 보정(트리거/포털 인식용)
         if (CompareTag("Untagged")) gameObject.tag = "Player";
     }
 
+    /// <summary>
+    /// 플레이어의 현재 저장가능한 수치들을 가져온다.
+    /// </summary>
+    /// <returns></returns>
+    public PlayerSummary GetPlayerSummary()
+    {
+        var summary = new PlayerSummary();
+
+        summary.level = Status.Level;
+        summary.currentExp = Status.CurrentExp;
+        summary.maxExp = Status.MaxExp;
+        summary.spAddedStr = Status.SpAddedStr;
+        summary.spAddedAgi = Status.SpAddedAgi;
+        summary.spAddedLuk = Status.SpAddedLuk;
+
+        return summary;
+    }
+
+    public InventorySnapshot GetInventorySnapshot()
+    {
+        var snapshot = new InventorySnapshot();
+        snapshot.gold = InventoryController.Gold;
+        snapshot.itemEntry = InventoryController.GetInvenSnapshot();
+        snapshot.equippedEntry = InventoryController.GetEquipSnapshot();
+
+        return snapshot;
+    }
+
+    // Singleton
     private void InitSingleton()
     {
         if (!instance) instance = this;

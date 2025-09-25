@@ -235,9 +235,21 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3576369754799086949, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 815424164945274260, guid: 92272cee607647141b603608fe0de30b, type: 3}
     - target: {fileID: 4268916457519343671, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: moveSpeed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556370154542746823, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_labelHash
+      value: 0.00028019925
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556370154542746823, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_CategoryHash
+      value: 9.365925e-16
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.x
