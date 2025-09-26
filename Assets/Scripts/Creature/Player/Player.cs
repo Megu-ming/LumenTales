@@ -1,4 +1,6 @@
 // Player.cs
+using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -7,7 +9,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     // ─── Singleton ──────────────────────────────────────────────────────────────
-    public static Player instance { get; private set; }
+    public static Player instance;
 
     // ─── Cached Components (필요한 것만 캐싱) ───────────────────────────────────
     public PlayerStatus Status { get; private set; }
@@ -24,6 +26,24 @@ public class Player : MonoBehaviour
 
         // 태그 보정(트리거/포털 인식용)
         if (CompareTag("Untagged")) gameObject.tag = "Player";
+    }
+
+    private void OnDestroy()
+    {
+        DataManager.instance.BackupCurrentSlot();
+    }
+
+    // 불러온 데이터 주입
+    public void ApplySummary(PlayerSummary ps)
+    {
+        if (ps == null) return;
+
+        Status.Level = ps.level;
+        Status.CurrentExp = ps.currentExp;
+        Status.MaxExp = ps.maxExp;
+        Status.SpAddedStr = ps.spAddedStr;
+        Status.SpAddedAgi = ps.spAddedAgi;
+        Status.SpAddedLuk = ps.spAddedLuk;
     }
 
     /// <summary>
@@ -57,8 +77,8 @@ public class Player : MonoBehaviour
     // Singleton
     private void InitSingleton()
     {
-        if (!instance) instance = this;
-        else if (instance != this) Destroy(instance.gameObject);
-        DontDestroyOnLoad(gameObject);
+        if (!instance)
+        { instance = this; DontDestroyOnLoad(gameObject); }
+        else if (instance != this) Destroy(gameObject);
     }
 }

@@ -5,6 +5,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    [SerializeField] AllItemData resolver;
+
     SceneBase currentScene;
     public SceneBase CurrentScene
     {
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
     public void LoadScene(SceneType type)
     {
         SceneManager.LoadScene((int)type);
+
+        DataManager.instance.InjectIntoCurrentPlayer(resolver);
     }
 
     private void InitSingleton()

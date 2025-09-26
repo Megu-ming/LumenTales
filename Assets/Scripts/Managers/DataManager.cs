@@ -103,7 +103,6 @@ public class DataManager : MonoBehaviour
 
     public GameData Current = new GameData();
 
-    public Func<InventorySnapshot> BuildInventorySnapshot;         // 저장용 DTO 생성
     public Action<InventorySnapshot> ApplyInventorySnapshot;       // 로드시 인벤/장비 적용
     public Action<PlayerSummary> ApplyPlayerSummary;           // 로드시 스탯 적용
 
@@ -141,6 +140,7 @@ public class DataManager : MonoBehaviour
 
     public void SaveAll() 
     {
+
         string toJsonData = JsonUtility.ToJson(Current, true);
         File.WriteAllText(FilePath, toJsonData);
         OnSlotsChanged?.Invoke();
@@ -178,7 +178,6 @@ public class DataManager : MonoBehaviour
         if(slot == null || !slot.exists) return false;
 
         Current.currentSlot = slotIndex;
-        SaveAll();
 
         return true;
     }
@@ -187,6 +186,35 @@ public class DataManager : MonoBehaviour
     {
         Current.saveSlots[slotIndex] = new SlotData();
         if (Current.currentSlot == slotIndex) Current.currentSlot = -1;
+
+        SaveAll();
+    }
+
+    public void InjectIntoCurrentPlayer(IItemResolver resolver)
+    {
+        if (Current.currentSlot < 0) return;
+        var slot = Current.saveSlots[Current.currentSlot];
+        if (slot == null || !slot.exists) return;
+        if (Player.instance == null) return;
+
+        Player.instance.ApplySummary(slot.player);
+        Player.instance.InventoryController.LoadFromSnapshot(slot.inventory, resolver);
+
+    }
+
+    public void BackupCurrentSlot()
+    {
+        if (Current.currentSlot < 0) return;
+        var slot = Current.saveSlots[Current.currentSlot];
+        if (slot == null || !slot.exists) return;
+
+        if(Player.instance!=null)
+        {
+            slot.player = Player.instance.GetPlayerSummary();
+            slot.inventory = Player.instance.GetInventorySnapshot();
+        }
+
+        slot.updatedAtUnix = DateTimeOffset.Now.ToUnixTimeSeconds();
 
         SaveAll();
     }

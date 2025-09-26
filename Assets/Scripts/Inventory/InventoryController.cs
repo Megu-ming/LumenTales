@@ -320,9 +320,71 @@ public class InventoryController : MonoBehaviour
         return entry;
     }
 
-    internal List<EquippedEntry> GetEquipSnapshot()
+    public List<EquippedEntry> GetEquipSnapshot()
     {
-        throw new NotImplementedException();
+        var entry = new List<EquippedEntry>();
+
+        foreach(var kvp in equipped)
+        {
+            if (kvp.Value == null) continue;
+
+            var item = new EquippedEntry
+            {
+                slotType = kvp.Key,
+                itemName = kvp.Value.itemData.ItemName
+            };
+
+            entry.Add(item);
+        }
+
+        return entry;
+    }
+
+    public void LoadFromSnapshot(InventorySnapshot snap, IItemResolver resolver)
+    {
+        if (snap == null || resolver == null) return;
+
+        for (int i = 0; i < Capacity; i++) items[i] = null;
+        equipped.Clear();
+
+        Gold = Mathf.Max(0, snap.gold);
+        RaiseGoldChanged();
+
+        foreach(var entry in snap.itemEntry)
+        {
+            if(entry == null) continue;
+            if (!IsValidIndex(entry.slotIndex)) continue;
+            if(!resolver.TryGetItemData(entry.itemName, out var data) || data == null) continue;
+
+            if(data.IsStackable)
+            {
+                var cid = (CountableItemData)data;
+                int amount = Mathf.Max(1, entry.amount);
+                items[entry.slotIndex] = new CountableItem(cid, Mathf.Min(amount, cid.MaxAmount));
+            }
+            else
+            {
+                items[entry.slotIndex] = data.CreateItem();
+            }
+
+            UpdateSlot(entry.slotIndex);
+        }
+
+        foreach(var eq in snap.equippedEntry)
+        {
+            if(eq == null) continue;
+            if (!resolver.TryGetItemData(eq.itemName, out var data) || data == null) continue;
+            if (data is not EquipmentItemData eqData) continue;
+            
+            var newEq = new EquipmentItem(eqData);
+
+            equipped[newEq.EquipmentData.slot] = newEq;
+
+            playerStatus.AddArmorAddedStat(eqData);
+            OnEquippedChanged?.Invoke(eqData.slot, newEq);
+        }
+
+        RefreshAllSlots();
     }
     #endregion
 }
