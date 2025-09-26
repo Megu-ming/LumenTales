@@ -4,6 +4,8 @@ using UnityEditorInternal;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.VirtualTexturing;
+using UnityEngine.SceneManagement;
 #endif
 
 public class Player : MonoBehaviour
@@ -26,11 +28,19 @@ public class Player : MonoBehaviour
 
         // 태그 보정(트리거/포털 인식용)
         if (CompareTag("Untagged")) gameObject.tag = "Player";
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void Start()
+    {
+        GameManager.instance.InjectData();
     }
 
     private void OnDestroy()
     {
         DataManager.instance.BackupCurrentSlot();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     // 불러온 데이터 주입
@@ -80,5 +90,13 @@ public class Player : MonoBehaviour
         if (!instance)
         { instance = this; DontDestroyOnLoad(gameObject); }
         else if (instance != this) Destroy(gameObject);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MenuScene")
+            gameObject.SetActive(false);
+        else
+            gameObject.SetActive(true);
     }
 }

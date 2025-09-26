@@ -16,6 +16,7 @@ public class TooltipService : MonoBehaviour
     {
         if (I && I != this) { Destroy(gameObject); return; }
         I = this;
+        DontDestroyOnLoad(gameObject);
 
         if (!rootCanvas) UIRoot.instance.gameObject.TryGetComponent<Canvas>(out rootCanvas);
         canvasRect = rootCanvas?.GetComponent<RectTransform>();

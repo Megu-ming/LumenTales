@@ -7,6 +7,9 @@ public class Portal : MonoBehaviour
     
     public void OnInteraction()
     {
+        DataManager.instance.BackupCurrentSlot();
+        DataManager.instance.SaveAll();
+
         GameManager.instance.LoadScene(nextScene);
     }
 }

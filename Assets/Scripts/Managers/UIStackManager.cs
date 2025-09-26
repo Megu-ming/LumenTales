@@ -8,6 +8,8 @@ public class UIStackManager : MonoBehaviour
     [Header("Sorting")]
     public int baseSorting = 100;
     public int step = 10;
+    [Header("UI")]
+    public GameObject Menu;
 
     readonly List<UIBase> UIStack = new();
 
@@ -20,8 +22,11 @@ public class UIStackManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            CloseTopIfAllowed();
+        if (Input.GetKeyDown(KeyCode.Escape) && !CloseTopIfAllowed())
+        {
+            ToggleMenu();
+        }
+            
     }
 
     public void Push(UIBase ui)
@@ -53,16 +58,34 @@ public class UIStackManager : MonoBehaviour
 
     public UIBase Top => UIStack.Count > 0 ? UIStack[^1] : null;
 
-    public void CloseTopIfAllowed()
+    public bool CloseTopIfAllowed()
     {
         var top = Top;
-        if (top != null && top.closeOnEsc) top.Close();
+        if (top != null && top.closeOnEsc) { top.Close(); return true; }
+        else return false;
     }
 
     void Reorder()
     {
         for (int i = 0; i < UIStack.Count; i++)
             UIStack[i].SetSortingOrder(baseSorting + (i + 1) * step);
+    }
+
+    private void ToggleMenu()
+    {
+        if (Menu != null)
+        {
+            if (Menu.activeSelf)
+            {
+                Menu.SetActive(false);
+                Time.timeScale = 1;
+            }
+            else
+            {
+                Menu.SetActive(true);
+                Time.timeScale = 0;
+            }
+        }
     }
 }
 

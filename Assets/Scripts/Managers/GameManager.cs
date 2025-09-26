@@ -28,7 +28,10 @@ public class GameManager : MonoBehaviour
     public void LoadScene(SceneType type)
     {
         SceneManager.LoadScene((int)type);
+    }
 
+    public void InjectData()
+    {
         DataManager.instance.InjectIntoCurrentPlayer(resolver);
     }
 
