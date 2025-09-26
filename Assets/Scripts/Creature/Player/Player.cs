@@ -1,12 +1,5 @@
-// Player.cs
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.SceneManagement;
-#endif
 
 public class Player : MonoBehaviour
 {
