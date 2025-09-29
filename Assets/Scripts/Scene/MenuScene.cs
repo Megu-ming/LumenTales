@@ -21,6 +21,7 @@ public class MenuScene : SceneBase
 
     [Header("Slots (0~4)")]
     [SerializeField] Button[]   slots;
+    [SerializeField] Button[]   deleteSlots;
     [SerializeField] TMP_Text[] slotTitleLines;
 
     bool isFromNewGame = false;
@@ -146,6 +147,13 @@ public class MenuScene : SceneBase
                 // 빈 슬롯을 눌렀으니 슬롯 진동 효과나 뭐 그런거?
             }
         }
+    }
+
+    public void DeleteSlotData(int slot)
+    {
+        DataManager.instance.DeleteSlot(slot);
+
+        RefreshSlots();
     }
 
     void OpenSlotPanel()

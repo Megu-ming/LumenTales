@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
         Status.SpAddedStr = ps.spAddedStr;
         Status.SpAddedAgi = ps.spAddedAgi;
         Status.SpAddedLuk = ps.spAddedLuk;
+        if(GameManager.instance.CurrentScene != null)
+            GameManager.instance.CurrentScene.StatusPoint = ps.statusPoint;
 
         Status.OnExpChanged();
     }
@@ -57,6 +59,8 @@ public class Player : MonoBehaviour
         summary.spAddedStr = Status.SpAddedStr;
         summary.spAddedAgi = Status.SpAddedAgi;
         summary.spAddedLuk = Status.SpAddedLuk;
+        if (GameManager.instance.CurrentScene != null)
+            summary.statusPoint = GameManager.instance.CurrentScene.StatusPoint;
 
         return summary;
     }

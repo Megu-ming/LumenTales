@@ -9,6 +9,7 @@ public class SceneBase : MonoBehaviour
     public int StatusPoint
     {
         get => statusPoint;
+        set => statusPoint = value;
     }
 
     [Header("SceneBase Option")]
@@ -33,12 +34,11 @@ public class SceneBase : MonoBehaviour
                 player.transform.position = spawnPos.position;
             }
         }
-        
     }
 
     public bool UseStatusPoint()
     {
-        if (statusPoint > 0) { --statusPoint; return true; }
+        if (StatusPoint > 0) { --StatusPoint; return true; }
         else return false;
     }
 

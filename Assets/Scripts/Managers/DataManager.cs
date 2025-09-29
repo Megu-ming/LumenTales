@@ -43,7 +43,7 @@ public class SlotMeta
         }
     }
 
-    public string TitleLine => exists ? $"Slot {slotIndexBased}  LV.{level}" : "(Empty Slot)";
+    public string TitleLine => exists ? $"Slot {slotIndexBased}  LV.{level}\n {DisplayTime}" : "(Empty Slot)";
 
     public static SlotMeta From(SlotData sd, int indexBased)
     {
@@ -68,6 +68,7 @@ public class PlayerSummary
     public float spAddedStr = 0;
     public float spAddedAgi = 0;
     public float spAddedLuk = 0;
+    public int statusPoint = 0;
 }
 
 [Serializable]
@@ -185,7 +186,7 @@ public class DataManager : MonoBehaviour
     public void DeleteSlot(int slotIndex)
     {
         Current.saveSlots[slotIndex] = new SlotData();
-        if (Current.currentSlot == slotIndex) Current.currentSlot = -1;
+        Current.currentSlot = -1;
 
         SaveAll();
     }
@@ -199,7 +200,6 @@ public class DataManager : MonoBehaviour
 
         Player.instance.ApplySummary(slot.player);
         Player.instance.InventoryController.LoadFromSnapshot(slot.inventory, resolver);
-
     }
 
     public void BackupCurrentSlot()
