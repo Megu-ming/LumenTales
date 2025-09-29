@@ -5,16 +5,14 @@ public class UIRoot : MonoBehaviour
 {
     public static UIRoot instance;
 
+    public IngameMenu ingameMenu;
+
     private void Awake()
     {
         InitSingleton();
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if(ingameMenu == null)
+            ingameMenu = GetComponentInChildren<IngameMenu>();
     }
 
     void InitSingleton()
@@ -22,13 +20,5 @@ public class UIRoot : MonoBehaviour
         if (!instance) instance = this;
         else if (instance != this) Destroy(instance.gameObject);
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "MenuScene")
-            gameObject.SetActive(false);
-        else
-            gameObject.SetActive(true);
     }
 }

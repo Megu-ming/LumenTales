@@ -23,26 +23,20 @@ public class UIEquipment : UIBase
     private Vector2 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
     private Vector2 beginDragCursorPoint;       // 드래그 시작시 커서 위치
 
-    protected override void Awake()
+    public void Init()
     {
-        base.Awake();
-    }
-
-    private void Start()
-    {
-        if (inventory == null) return;
-
         map.Clear();
-        foreach(var s in slots)
+        foreach (var s in slots)
         {
-            if(s == null) continue;
+            if (s == null) continue;
             map[s.slotType] = s;
             s.Clear();
         }
 
         inventory.OnEquippedChanged += HandleEquippedChanged;
+        inventory.OnEquipUIToggleRequest += Toggle;
 
-        foreach(var kv in inventory.GetEquippedItems())
+        foreach (var kv in inventory.GetEquippedItems())
         {
             if (map.TryGetValue(kv.Key, out var ui)) ui.SetIcon(kv.Value.itemData.Icon);
         }
@@ -51,9 +45,28 @@ public class UIEquipment : UIBase
         rrList = new List<RaycastResult>(16);
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    private void Start()
+    {
+        if (inventory == null) inventory = Player.instance?.InventoryController;
+        if (inventory == null) return;
+
+        Init();
+
+        gameObject.SetActive(false);
+    }
+
     private void OnDestroy()
     {
-        if(inventory != null) inventory.OnEquippedChanged -= HandleEquippedChanged;
+        if(inventory != null) 
+        {
+            inventory.OnEquippedChanged -= HandleEquippedChanged;
+            inventory.OnEquipUIToggleRequest -= Toggle;
+        }
     }
 
     protected override void OnOpen()
@@ -70,8 +83,6 @@ public class UIEquipment : UIBase
         if(itemOrNull == null) ui.SetIcon(null);
         else ui.SetIcon(itemOrNull.itemData?.Icon);
     }
-
-    public void OnToggleEquipment() => Toggle();
 
     public void RequestUnequip(EquipmentSlotType slot) => inventory?.Unequip(slot);
 

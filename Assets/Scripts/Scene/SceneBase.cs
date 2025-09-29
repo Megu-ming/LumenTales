@@ -24,12 +24,16 @@ public class SceneBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        var player = Player.instance?.gameObject;
-        if (player != null && cam != null)
+        if (Player.instance != null)
         {
-            cam.Target.TrackingTarget = player.transform;
-            player.transform.position = spawnPos.position;
+            var player = Player.instance?.gameObject;
+            if (player != null && cam != null)
+            {
+                cam.Target.TrackingTarget = player.transform;
+                player.transform.position = spawnPos.position;
+            }
         }
+        
     }
 
     public bool UseStatusPoint()

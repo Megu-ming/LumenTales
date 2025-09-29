@@ -27,20 +27,49 @@ public class UIInventory : UIBase
     private Vector3 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
     private Vector3 beginDragCursorPoint;       // 드래그 시작시 커서 위치
 
+    public void Init()
+    {
+        ped = new PointerEventData(EventSystem.current);
+        rrList = new List<RaycastResult>(10);
+
+        inventoryCapacity = inventory.Capacity;
+
+        for (int i = 0; i < inventoryCapacity; i++)
+        {
+            int slotIndex = i;
+
+            var slot = Instantiate(slotPrefab, contentPanel);
+            slot.gameObject.SetActive(true);
+            slot.name = $"Slot[{slotIndex}]";
+            slot.SetSlotIndex(slotIndex);
+            slotUIList.Add(slot);
+        }
+
+        UpdateGoldText(inventory.Gold);
+    }
+
     protected override void Awake()
     {
         base.Awake();
 
+        
+    }
+
+    private void Start()
+    {
+        if (inventory == null) inventory = Player.instance?.InventoryController;
         if (inventory == null) return;
+
         Init();
-        InitSlot();
-        UpdateGoldText(inventory.Gold);
+
         inventory.OnGoldChanged += UpdateGoldText;
         inventory.OnSlotUpdated += HandleSlotUpdated;
         inventory.OnSlotTextUpdated += HandleSlotTextUpdated;
+        inventory.OnInvenUIToggleRequest += Toggle;
 
         for (int i = 0; i < inventory.Capacity; i++)
             HandleSlotUpdated(i, inventory.GetItemData(i));
+        gameObject.SetActive(false);
     }
 
     private void Update()
@@ -55,6 +84,7 @@ public class UIInventory : UIBase
             inventory.OnGoldChanged -= UpdateGoldText;
             inventory.OnSlotUpdated -= HandleSlotUpdated;
             inventory.OnSlotTextUpdated -= HandleSlotTextUpdated;
+            inventory.OnInvenUIToggleRequest -= Toggle;
         }
     }
 
@@ -65,8 +95,6 @@ public class UIInventory : UIBase
     protected override void OnClose()
     {
     }
-
-    public void OnInventoryToggle() => Toggle();
 
     public void SetItemIcon(int index, Sprite icon)
     {
@@ -165,27 +193,7 @@ public class UIInventory : UIBase
     #endregion
 
     #region Private Methods
-    private void Init()
-    {
-        ped = new PointerEventData(EventSystem.current);
-        rrList = new List<RaycastResult>(10);
-
-        inventoryCapacity = inventory.Capacity;
-    }
-
-    private void InitSlot()
-    {
-        for (int i = 0; i < inventoryCapacity; i++)
-        {
-            int slotIndex = i;
-
-            var slot = Instantiate(slotPrefab, contentPanel);
-            slot.gameObject.SetActive(true);
-            slot.name = $"Slot[{slotIndex}]";
-            slot.SetSlotIndex(slotIndex);
-            slotUIList.Add(slot);
-        }
-    }
+    
 
     private void EndDrag()
     {

@@ -20,6 +20,16 @@ public class UIStackManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        if(Menu==null)
+        {
+            var ui = UIRoot.instance?.ingameMenu;
+            if (ui != null)
+                Menu = ui.gameObject;
+        }
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !CloseTopIfAllowed())
@@ -73,18 +83,24 @@ public class UIStackManager : MonoBehaviour
 
     private void ToggleMenu()
     {
-        if (Menu != null)
+        if(Menu==null)
         {
-            if (Menu.activeSelf)
-            {
-                Menu.SetActive(false);
-                Time.timeScale = 1;
-            }
+            var ui = UIRoot.instance?.ingameMenu;
+            if (ui != null)
+                Menu = ui.gameObject;
             else
-            {
-                Menu.SetActive(true);
-                Time.timeScale = 0;
-            }
+                return;
+        }
+
+        if (Menu.activeSelf)
+        {
+            Menu.SetActive(false);
+            Time.timeScale = 1;
+        }
+        else
+        {
+            Menu.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 }

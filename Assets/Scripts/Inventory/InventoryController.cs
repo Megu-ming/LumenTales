@@ -24,13 +24,18 @@ public class InventoryController : MonoBehaviour
 
     public event Action<int, ItemData> OnSlotUpdated;
     public event Action<int, int> OnSlotTextUpdated;
+    public event Action OnInvenUIToggleRequest;
+    public event Action OnEquipUIToggleRequest;
 
-    private void Awake()
+    private void Start()
+    {
+        RefreshAllSlots();
+    }
+
+    public void Init()
     {
         items = new Item[maxInventorySize];
         Capacity = initialCapacity;
-
-        RefreshAllSlots();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -45,6 +50,9 @@ public class InventoryController : MonoBehaviour
     }
 
     #region Public Methods
+    public void RequestToggleInvenUI() => OnInvenUIToggleRequest?.Invoke();
+    public void RequestToggleEquipUI() => OnEquipUIToggleRequest?.Invoke();
+
     public bool HasItem(int index) => IsValidIndex(index) && items[index] != null;
     public bool IsCountableItem(int index) => HasItem(index) && items[index] is CountableItem;
 

@@ -1161,11 +1161,11 @@ PrefabInstance:
       objectReference: {fileID: 5964399095753912198}
     - target: {fileID: 7785676821488876942, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnToggleEquipment
+      value: Toggle
       objectReference: {fileID: 0}
     - target: {fileID: 7785676821488876942, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UIEquipment, Assembly-CSharp
+      value: UIBase, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7824712219358802914, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_Pivot.x

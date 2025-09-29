@@ -187,6 +187,18 @@ public class PlayerController : CreatureController
         animator.SetTrigger(AnimationStrings.attack);
     }
 
+    public void OnEquipmentToggle()
+    {
+        if (isConversation) return;
+        Player.instance?.InventoryController?.RequestToggleEquipUI();
+    }
+
+    public void OnInvenUIToggle()
+    {
+        if (isConversation) return;
+        Player.instance?.InventoryController?.RequestToggleInvenUI();
+    }
+
     public void OnInteract(InputAction.CallbackContext context)
     {
         if(context.started)

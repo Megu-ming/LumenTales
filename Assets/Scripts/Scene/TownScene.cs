@@ -8,10 +8,20 @@ public class TownScene : SceneBase
         base.Awake();
 
         sceneType = SceneType.Town;
+
+        InitScene();
     }
 
     protected override void Start()
     {
         base.Start();
+
+        GameManager.instance.InjectData();
+    }
+
+    public void InitScene()
+    {
+        Player.instance?.InventoryController.Init();
+
     }
 }

@@ -115,10 +115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e809044ebc9e7114b9a06d52ef65279b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInput: {fileID: 2386166218813518417}
-  controlScriptsToToggle:
-  - {fileID: 4268916457519343671}
-  - {fileID: 2386166218813518417}
 --- !u!114 &2386166218813518417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,9 +158,9 @@ MonoBehaviour:
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UIEquipment, Assembly-CSharp
-        m_MethodName: OnToggleEquipment
+      - m_Target: {fileID: 4268916457519343671}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnEquipmentToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -185,7 +181,7 @@ MonoBehaviour:
       - m_Target: {fileID: 4268916457519343671}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnInteract
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -198,9 +194,9 @@ MonoBehaviour:
     m_ActionName: 'Player/Interact[/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
-        m_MethodName: OnInventoryToggle
+      - m_Target: {fileID: 4268916457519343671}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnInvenUIToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -303,10 +299,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   level: 1
-  baseAtkDamage: 0
+  baseAtkDamage: 10
   knockBack: {x: 0, y: 0}
-  baseDefence: 0
-  baseMaxHealth: 0
+  baseDefence: 5
+  baseMaxHealth: 50
   currentHealth: 0
   isAlive: 0
   isInvincible: 0
@@ -324,7 +320,7 @@ MonoBehaviour:
   spAddedStr: 0
   spAddedAgi: 0
   spAddedLuk: 0
-  moveSpeed: 0
+  moveSpeed: 1.5
   dropRate: 0
   strAttackPerPoint: 2
   strHpPerPoint: 10
