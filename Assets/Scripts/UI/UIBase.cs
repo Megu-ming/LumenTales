@@ -10,15 +10,12 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
     public bool closeOnEsc = true;
 
     protected Canvas canvas;
-    protected CanvasGroup canvasGroup;
     bool isOpen;
 
     protected virtual void Awake()
     {
         canvas = GetComponent<Canvas>();
         canvas.overrideSorting = true;
-        if(!TryGetComponent<CanvasGroup>(out canvasGroup))
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
     }
 
     protected virtual void OnDisable()
@@ -32,7 +29,6 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
         isOpen = true;
         gameObject.SetActive(true);
         UIStackManager.Instance.Push(this);
-        Show();
         OnOpen();
     }
 
@@ -42,7 +38,7 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
         isOpen = false;
         UIStackManager.Instance.Pop(this);
         OnClose();
-        Hide();
+        gameObject.SetActive(false);
     }
 
     public void Toggle()
@@ -57,21 +53,6 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     protected virtual void OnOpen() { }
     protected virtual void OnClose() { }
-
-    protected virtual void Show()
-    {
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.interactable = true;
-    }
-
-    protected virtual void Hide()
-    {
-        canvasGroup.alpha = 0f;
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.interactable = false;
-        gameObject.SetActive(false);
-    }
 
     public virtual void OnPointerDown(PointerEventData e) => UIStackManager.Instance.BringToFront(this);
     public virtual void OnDrag(PointerEventData e) { }
