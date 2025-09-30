@@ -3,8 +3,9 @@ using UnityEngine;
 public class PlayerDetectionTrigger : MonoBehaviour
 {
     [ReadOnly, SerializeField] PlayerController pc;
-    [SerializeField] NPCConverstionHandler npcCH;
-    [SerializeField] Portal portal;
+    NPCConverstionHandler npcCH;
+    Portal portal;
+    Store store;
     [SerializeField] GameObject interactPanel;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -12,10 +13,21 @@ public class PlayerDetectionTrigger : MonoBehaviour
         if (!collision.TryGetComponent<PlayerController>(out pc)) return;
 
         interactPanel.SetActive(true);
-        if (npcCH != null)
+        if (TryGetComponent<NPCConverstionHandler>(out npcCH))
+        {
             pc.OnInteractionEvent += npcCH.ConversationEvent;
-        if (portal != null)
+            return;
+        }
+        if (TryGetComponent<Portal>(out portal))
+        {
             pc.OnInteractionEvent += portal.OnInteraction;
+            return;
+        }
+        if(TryGetComponent<Store>(out store))
+        {
+            pc.OnInteractionEvent += store.OpenStoreUI;
+            return;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -27,5 +39,7 @@ public class PlayerDetectionTrigger : MonoBehaviour
             pc.OnInteractionEvent -= npcCH.ConversationEvent;
         if (portal != null)
             pc.OnInteractionEvent -= portal.OnInteraction;
+        if (store != null)
+            pc.OnInteractionEvent -= store.OpenStoreUI;
     }
 }

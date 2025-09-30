@@ -1,11 +1,24 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class IngameMenu : MonoBehaviour
+public class IngameMenu : UIBase
 {
+    protected override void OnOpen()
+    {
+        Time.timeScale = 0f;
+        var playerInput = Player.instance.GetComponent<PlayerInput>();
+        playerInput.SwitchCurrentActionMap("UI");
+    }
+    protected override void OnClose()
+    {
+        Time.timeScale = 1f;
+        var playerInput = Player.instance.GetComponent<PlayerInput>();
+        playerInput.SwitchCurrentActionMap("Player");
+    }
+
     public void OnClickResume()
     {
-        gameObject.SetActive(false);
-        Time.timeScale = 1;
+        Close();
     }
 
     public void OnClickOption()
@@ -17,7 +30,7 @@ public class IngameMenu : MonoBehaviour
     {
         DataManager.instance.BackupCurrentSlot();
         DataManager.instance.SaveAll();
-        Time.timeScale = 1;
+        Close();
         GameManager.instance.LoadScene(SceneType.Menu);
     }
 

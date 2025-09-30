@@ -9,7 +9,7 @@ public class UIStackManager : MonoBehaviour
     public int baseSorting = 100;
     public int step = 10;
     [Header("UI")]
-    public GameObject Menu;
+    public IngameMenu Menu;
 
     readonly List<UIBase> UIStack = new();
 
@@ -26,17 +26,16 @@ public class UIStackManager : MonoBehaviour
         {
             var ui = UIRoot.instance?.ingameMenu;
             if (ui != null)
-                Menu = ui.gameObject;
+                Menu = ui;
         }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !CloseTopIfAllowed())
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ToggleMenu();
+            CloseTopIfAllowed();
         }
-            
     }
 
     public void Push(UIBase ui)
@@ -68,11 +67,12 @@ public class UIStackManager : MonoBehaviour
 
     public UIBase Top => UIStack.Count > 0 ? UIStack[^1] : null;
 
-    public bool CloseTopIfAllowed()
+    public void CloseTopIfAllowed()
     {
         var top = Top;
-        if (top != null && top.closeOnEsc) { top.Close(); return true; }
-        else return false;
+        if (top != null && top.closeOnEsc) { top.Close(); return; }
+        if (top == null) ToggleMenu();
+
     }
 
     void Reorder()
@@ -87,20 +87,18 @@ public class UIStackManager : MonoBehaviour
         {
             var ui = UIRoot.instance?.ingameMenu;
             if (ui != null)
-                Menu = ui.gameObject;
+                Menu = ui;
             else
                 return;
         }
 
-        if (Menu.activeSelf)
+        if (Menu.gameObject.activeSelf)
         {
-            Menu.SetActive(false);
-            Time.timeScale = 1;
+            Menu.Close();
         }
         else
         {
-            Menu.SetActive(true);
-            Time.timeScale = 0;
+            Menu.Open();
         }
     }
 }
