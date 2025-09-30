@@ -9,7 +9,7 @@ public class UIRoot : MonoBehaviour
     [SerializeField] RectTransform storeParentRt;
     [SerializeField] RectTransform inventoryRT;
 
-    // Ä³½Ì¿ë 
+    // ìºì‹±ìš© 
     Transform invenOrigParent;
     int invenOrigSiblingIndex;
     bool invenDocked;
@@ -33,35 +33,33 @@ public class UIRoot : MonoBehaviour
     {
        if(invenDocked || inventoryRT == null || storeParentRt == null) return;
 
-        // Ä³½Ã(¿ø»óº¹±¸¿ë)
+        // ìºì‹œ(ì›ìƒë³µêµ¬ìš©)
         invenOrigParent = inventoryRT.parent;
         invenOrigSiblingIndex = inventoryRT.GetSiblingIndex();
 
-        // ÀÎº¥Åä¸®¸¦ ½ºÅä¾îUI¿¡ ºÙÀÌ±â
+        // ì¸ë²¤í† ë¦¬ë¥¼ ìŠ¤í† ì–´UIì— ë¶™ì´ê¸°
         inventoryRT.SetParent(storeParentRt);
 
         invenDocked = true;
 
-        // »óÁ¡ ¾ÆÀÌÅÛ µ¥ÀÌÅÍ Àü´Ş
+        // ìƒì  ì•„ì´í…œ ë°ì´í„° ì „ë‹¬
         storeParentRt.TryGetComponent<StoreUI>(out var uiStore);
         if(uiStore != null) uiStore.InitStore(data);
 
-        // »óÁ¡ UI È°¼ºÈ­
-        storeParentRt.gameObject.SetActive(true);
+        // ìƒì  UI í™œì„±í™”
         inventoryRT.gameObject.SetActive(true);
+        uiStore.Open();
     }
 
     public void DetachInvenFromStore()
     {
         if(!invenDocked || inventoryRT == null) return;
 
-        // ÀÎº¥Åä¸® ºÎ¸ğ º¯°æ
+        // ì¸ë²¤í† ë¦¬ ë¶€ëª¨ ë³€ê²½
         inventoryRT.SetParent(invenOrigParent);
         inventoryRT.SetSiblingIndex(invenOrigSiblingIndex);
         invenDocked = false;
 
-        // »óÁ¡ UI ºñÈ°¼ºÈ­
-        storeParentRt.gameObject.SetActive(false);
         inventoryRT.gameObject.SetActive(false);
     }
 }

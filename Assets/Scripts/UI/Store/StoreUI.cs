@@ -1,14 +1,31 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class StoreUI : MonoBehaviour
+public class StoreUI : UIBase
 {
     StoreDataTable currentData;
 
     [SerializeField] StoreSlotUI[] storeSlots;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         gameObject.SetActive(false);
+    }
+
+    protected override void OnOpen()
+    {
+        if (UIStackManager.Instance != null && UIStackManager.Instance.interactPanel != null)
+            UIStackManager.Instance.interactPanel.SetActive(false);
+        var playerInput = Player.instance.GetComponent<PlayerInput>();
+        playerInput.SwitchCurrentActionMap("UI");
+    }
+
+    protected override void OnClose()
+    {
+        var playerInput = Player.instance.GetComponent<PlayerInput>();
+        playerInput.SwitchCurrentActionMap("Player");
+        UIRoot.instance.DetachInvenFromStore();
     }
 
     public void InitStore(StoreDataTable data)

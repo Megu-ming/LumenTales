@@ -51,8 +51,6 @@ public class UIInventory : UIBase
     protected override void Awake()
     {
         base.Awake();
-
-        
     }
 
     private void Start()
