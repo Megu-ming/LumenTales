@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
     public GameObject healthTextPrefab;
     public float textHeight;
 
+    [SerializeField] GameObject interactPanel;
+
     private void OnEnable()
     {
         CharacterEvents.characterDamaged += CharacterTookDamage;

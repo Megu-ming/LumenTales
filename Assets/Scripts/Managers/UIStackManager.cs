@@ -10,6 +10,7 @@ public class UIStackManager : MonoBehaviour
     public int step = 10;
     [Header("UI")]
     public IngameMenu Menu;
+    public GameObject interactPanel;
 
     readonly List<UIBase> UIStack = new();
 

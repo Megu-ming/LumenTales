@@ -6,13 +6,12 @@ public class PlayerDetectionTrigger : MonoBehaviour
     NPCConverstionHandler npcCH;
     Portal portal;
     Store store;
-    [SerializeField] GameObject interactPanel;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.TryGetComponent<PlayerController>(out pc)) return;
-
-        interactPanel.SetActive(true);
+        if(UIStackManager.Instance != null && UIStackManager.Instance.interactPanel != null)
+            UIStackManager.Instance.interactPanel.SetActive(true);
         if (TryGetComponent<NPCConverstionHandler>(out npcCH))
         {
             pc.OnInteractionEvent += npcCH.ConversationEvent;
@@ -34,7 +33,8 @@ public class PlayerDetectionTrigger : MonoBehaviour
     {
         if (!collision.TryGetComponent<PlayerController>(out pc)) return;
 
-        if (interactPanel) interactPanel.SetActive(false);
+        if (UIStackManager.Instance != null && UIStackManager.Instance.interactPanel != null)
+            UIStackManager.Instance.interactPanel.SetActive(false);
         if (npcCH != null)
             pc.OnInteractionEvent -= npcCH.ConversationEvent;
         if (portal != null)
