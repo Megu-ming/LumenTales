@@ -231,6 +231,15 @@ public class InventoryController : MonoBehaviour
             ToggleEquip(index, eq);
         }
     }
+
+    public void SellItem(int index)
+    {
+        if(IsValidIndex(index) && items[index].itemData != null)
+        {
+            AddGold(items[index].itemData.Price);
+            Remove(index);
+        }
+    }
     #endregion
 
     #region Private Function

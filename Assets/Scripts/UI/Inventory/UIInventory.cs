@@ -27,6 +27,8 @@ public class UIInventory : UIBase
     private Vector3 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
     private Vector3 beginDragCursorPoint;       // 드래그 시작시 커서 위치
 
+    public bool isAttachedToStore = false;
+
     public void Init()
     {
         ped = new PointerEventData(EventSystem.current);
@@ -88,10 +90,12 @@ public class UIInventory : UIBase
 
     protected override void OnOpen()
     {
+        
     }
 
     protected override void OnClose()
     {
+        
     }
 
     public void SetItemIcon(int index, Sprite icon)
@@ -222,14 +226,19 @@ public class UIInventory : UIBase
 
         // 장비창 슬롯 위 드롭
         var eqSlot = RaycastAndGetComponent<UIEquipmentSlot>(rrList, ped);
-        if(eqSlot!=null) // 장비타입에 맞는 창인지도 확인해야함
+        if(eqSlot != null) // 장비타입에 맞는 창인지도 확인해야함
         {
             inventory.EquipFromInventory(beginDragSlot.Index, eqSlot.slotType);
             return;
         }
-        
-        // 버리기 구현
-        // TODO
+
+        // 상점 UI위 드롭하면 판매
+        var store = RaycastAndGetComponent<Store>(rrList, ped);
+        if(store != null)
+        {
+            inventory.SellItem(beginDragSlot.Index);
+            return;
+        }
 
         // 드래그 시작 슬롯으로 복귀
     }

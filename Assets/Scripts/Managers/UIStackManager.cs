@@ -73,7 +73,6 @@ public class UIStackManager : MonoBehaviour
         var top = Top;
         if (top != null && top.closeOnEsc) { top.Close(); return; }
         if (top == null) ToggleMenu();
-
     }
 
     void Reorder()
