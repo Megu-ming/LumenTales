@@ -1,3 +1,5 @@
+using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +10,11 @@ public class TownScene : SceneBase
         base.Awake();
 
         sceneType = SceneType.Town;
+
+        if(GameObject.Find("CMCam").TryGetComponent<CinemachineCamera>(out cam) && Player.instance is not null)
+        {
+            cam.Target.TrackingTarget = Player.instance.transform;
+        }
     }
 
     protected override void Start()

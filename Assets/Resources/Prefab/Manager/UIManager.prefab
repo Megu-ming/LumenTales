@@ -44,8 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff2c6b3698e16a4c95cd5789aaecd7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuCanvasPrefab: {fileID: 8329986636737566253, guid: 3f8fe5fe976ebf149ae37b7489d13b0e, type: 3}
   UIRootPrefab: {fileID: 4533651249495632695, guid: ee51e746595cd794298a6c6ad8871ed7, type: 3}
   GameHUDPrefab: {fileID: 7127955731233042555, guid: 112f9418f1747154aaf391ed9888717e, type: 3}
+  mainMenuPanelPrefab: {fileID: 3058743565986640823, guid: 092aa24e90aec7d4fae233a062bd251a, type: 3}
+  slotPanelPrefab: {fileID: 1060490730772775228, guid: 5a20bcdc695790f4ab580453a407a684, type: 3}
   pointerAreaPrefab: {fileID: 8765462299283313957, guid: 655328c611e3abc41a467bdee61ba536, type: 3}
   conversationBoxPrefab: {fileID: 8754853602647074860, guid: d3a544d9a5e06684d9bb51f7fc5441b7, type: 3}
   interactPanelPrefab: {fileID: 1217242372141417082, guid: b997d1f5b3ed6a64e9bfc58ccdcc1b4a, type: 3}
@@ -55,12 +58,17 @@ MonoBehaviour:
   damageTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
   healthTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
   textHeight: 0.2
+  warningModalPrefab: {fileID: 1306131959998460079, guid: 3e42b3851bfff554eb7b66185402216c, type: 3}
+  mainMenuCanvas: {fileID: 0}
   uiRoot: {fileID: 0}
   gameHUD: {fileID: 0}
+  mainMenuPanel: {fileID: 0}
+  slotPanel: {fileID: 0}
   pointerArea: {fileID: 0}
   conversationUI: {fileID: 0}
   interactPanel: {fileID: 0}
   ingameMenu: {fileID: 0}
   expSlider: {fileID: 0}
+  warningModal: {fileID: 0}
   baseSorting: 100
   step: 10

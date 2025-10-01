@@ -6,14 +6,20 @@ public class IngameMenu : UIBase
     protected override void OnOpen()
     {
         Time.timeScale = 0f;
-        var playerInput = Player.instance.GetComponent<PlayerInput>();
-        playerInput.SwitchCurrentActionMap("UI");
+        if (Player.instance != null)
+        {
+            var playerInput = Player.instance.GetComponent<PlayerInput>();
+            playerInput.SwitchCurrentActionMap("UI");
+        }
     }
     protected override void OnClose()
     {
         Time.timeScale = 1f;
-        var playerInput = Player.instance.GetComponent<PlayerInput>();
-        playerInput.SwitchCurrentActionMap("Player");
+        if (Player.instance != null)
+        {
+            var playerInput = Player.instance.GetComponent<PlayerInput>();
+            playerInput.SwitchCurrentActionMap("Player");
+        }
     }
 
     public void OnClickResume()

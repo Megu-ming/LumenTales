@@ -47,7 +47,7 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
         else Open(); 
     }
 
-    public void SetSortingOrder(int order) => canvas.sortingOrder = order;
+    public void SetSortingOrder(int order) { if (canvas is not null) canvas.sortingOrder = order; }
 
     public virtual void OnFocus() => transform.SetAsLastSibling();
 

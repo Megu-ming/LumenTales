@@ -8,6 +8,11 @@ public class BattleScene : SceneBase
         base.Awake();
 
         sceneType = SceneType.Battle;
+
+        if (GameObject.Find("CMCam").TryGetComponent<CinemachineCamera>(out cam) && Player.instance is not null)
+        {
+            cam.Target.TrackingTarget = Player.instance.transform;
+        }
     }
 
     protected override void Start()

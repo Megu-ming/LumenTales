@@ -141,7 +141,6 @@ public class DataManager : MonoBehaviour
 
     public void SaveAll() 
     {
-
         string toJsonData = JsonUtility.ToJson(Current, true);
         File.WriteAllText(FilePath, toJsonData);
         OnSlotsChanged?.Invoke();

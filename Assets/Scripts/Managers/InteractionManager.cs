@@ -5,7 +5,7 @@ public class InteractionManager : MonoBehaviour
 {
     public static InteractionManager I { get; private set; }
 
-    [SerializeField] GameObject cam;
+    public GameObject cam;
 
     private float camSize;
     private Vector3 camOffset;
@@ -20,6 +20,8 @@ public class InteractionManager : MonoBehaviour
 
     public bool ZoomIn()
     {
+        if (cam is null) GameObject.Find("CMCam");
+
         bool result = false;
         cam.TryGetComponent<CinemachineCamera>(out CinemachineCamera cineCam);
         cam.TryGetComponent<CinemachinePositionComposer>(out CinemachinePositionComposer cinePC);
@@ -41,6 +43,8 @@ public class InteractionManager : MonoBehaviour
 
     public bool ZoomOut()
     {
+        if (cam is null) GameObject.Find("CMCam");
+
         cam.TryGetComponent<CinemachineCamera>(out CinemachineCamera cineCam);
         cam.TryGetComponent<CinemachinePositionComposer>(out CinemachinePositionComposer cinePC);
 

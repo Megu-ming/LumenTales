@@ -13,7 +13,7 @@ public class SceneBase : MonoBehaviour
     }
 
     [Header("SceneBase Option")]
-    [SerializeField] CinemachineCamera cam;
+    [SerializeField] protected CinemachineCamera cam;   
     [SerializeField] Transform spawnPos;
     [SerializeField] Texture2D cursorTexture;
 

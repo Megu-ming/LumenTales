@@ -10,8 +10,13 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     [Header("Canvas Prefabs")]
+    [SerializeField] GameObject mainMenuCanvasPrefab;
     [SerializeField] GameObject UIRootPrefab;
     [SerializeField] GameObject GameHUDPrefab;
+
+    [Header("MenuScene UI Prefabs")]
+    [SerializeField] GameObject mainMenuPanelPrefab;
+    [SerializeField] GameObject slotPanelPrefab;
 
     [Header("UIRoot UI Prefabs")]
     [SerializeField] GameObject pointerAreaPrefab;
@@ -26,16 +31,23 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject healthTextPrefab;
     [SerializeField] float textHeight;
 
+    [Header("Modal UI Prefabs")]
+    [SerializeField] GameObject warningModalPrefab;
 
-    [Header("Canvas Instance")]
+    [Header("Canvas Instances")]
+    public Canvas mainMenuCanvas;
     public UIRoot uiRoot;
     public Canvas gameHUD;
 
+    [Header("UI Instances")]
+    public MainMenuPanelUI mainMenuPanel;
+    public SlotPanelUI slotPanel;
     public GameObject pointerArea;
     public UIConversation conversationUI;
     public GameObject interactPanel;
     public IngameMenu ingameMenu;
     public GameObject expSlider;
+    public WarningModalUI warningModal;
 
     [Header("StackUI")]
     public int baseSorting = 100;
@@ -65,6 +77,13 @@ public class UIManager : MonoBehaviour
     public void InitUI()
     {
         // Prefab 생성
+        if (GameManager.instance is not null && GameManager.instance.CurrentScene is MenuScene)
+        {
+            Instantiate(mainMenuCanvasPrefab).TryGetComponent<Canvas>(out mainMenuCanvas);
+            Instantiate(mainMenuPanelPrefab, mainMenuCanvas.transform).TryGetComponent<MainMenuPanelUI>(out mainMenuPanel);
+            Instantiate(slotPanelPrefab, mainMenuCanvas.transform).TryGetComponent<SlotPanelUI>(out slotPanel);
+            Instantiate(warningModalPrefab, mainMenuCanvas.transform).TryGetComponent<WarningModalUI>(out warningModal);
+        }
         if (uiRoot == null) Instantiate(UIRootPrefab).TryGetComponent<UIRoot>(out uiRoot);
         if (gameHUD == null) Instantiate(GameHUDPrefab).TryGetComponent<Canvas>(out gameHUD);
 

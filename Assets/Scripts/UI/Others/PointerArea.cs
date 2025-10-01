@@ -6,6 +6,7 @@ public class PointerArea : MonoBehaviour, IPointerDownHandler
 {
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        Player.instance.PlayerController.OnAttack(eventData);
+        if (Player.instance != null)
+            Player.instance.PlayerController.OnAttack(eventData);
     }
 }

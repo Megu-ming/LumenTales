@@ -12,7 +12,7 @@ public class UICharacterInfo : MonoBehaviour
     {
         if(playerStatus == null)
         {
-            playerStatus = Player.instance.Status;
+            playerStatus = Player.instance?.Status;
         }
         Refresh();
 

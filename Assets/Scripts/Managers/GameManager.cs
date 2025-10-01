@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AllItemData resolver;
 
     SceneBase currentScene;
+
     public SceneBase CurrentScene
     {
         get
