@@ -96,23 +96,22 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
     void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
     {
         // ToolTip UI
-        if (TooltipService.I == null) return;
-        if (!HasItem) { TooltipService.I?.Hide(); return; }
-        if (inventoryUI == null) { TooltipService.I?.Hide(); return; }
+        if (!HasItem) { UIManager.instance?.Hide(); return; }
+        if (inventoryUI == null) { UIManager.instance?.Hide(); return; }
         var data = inventoryUI.inventory.GetItemData(Index);
         if (data is EquipmentItemData eqData)
         {
             int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
-            TooltipService.I?.Show
+            UIManager.instance?.Show
                 (data.ItemName, data.Tooltip, data.Price, eventData.position, eqVal, !eqData.isArmor, eqData.isArmor);
         }
         else
-            TooltipService.I?.Show(data.ItemName, data.Tooltip, data.Price, eventData.position);
+            UIManager.instance?.Show(data.ItemName, data.Tooltip, data.Price, eventData.position);
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        TooltipService.I?.Hide();
+        UIManager.instance?.Hide();
         HideHighLight();
     }
 }

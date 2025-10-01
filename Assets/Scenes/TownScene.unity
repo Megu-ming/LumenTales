@@ -7497,52 +7497,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c6f11a71212ba64d898b569e22ce995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1633574934
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1633574936}
-  - component: {fileID: 1633574935}
-  m_Layer: 0
-  m_Name: TooltipService
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1633574935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633574934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90e6c801403df6141908d9140c46da3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipPrefab: {fileID: 6129715416068939442, guid: ef3e01fd193803440bd9d37827e6716d, type: 3}
-  rootCanvas: {fileID: 0}
---- !u!4 &1633574936
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633574934}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 181.50233, y: 207.35046, z: 1.713603}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1670203100
 GameObject:
   m_ObjectHideFlags: 0
@@ -7950,6 +7904,10 @@ PrefabInstance:
       propertyPath: gameCanvas
       value: 
       objectReference: {fileID: 1670203103}
+    - target: {fileID: 372443217234336205, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 6129715416068939442, guid: ef3e01fd193803440bd9d37827e6716d, type: 3}
     - target: {fileID: 5814457941707002991, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
       propertyPath: m_Name
       value: UIManager
@@ -8003,8 +7961,8 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1063164253}
   - {fileID: 6176519510382589836}
-  - {fileID: 1633574936}
   - {fileID: 1194739804}
   - {fileID: 519420032}
   - {fileID: 619394802}
@@ -8017,5 +7975,4 @@ SceneRoots:
   - {fileID: 64026378}
   - {fileID: 1552871862}
   - {fileID: 178288096}
-  - {fileID: 1063164253}
   - {fileID: 1274187084}

@@ -3,8 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class UIRoot : MonoBehaviour
 {
-    public static UIRoot instance;
-
     [SerializeField] RectTransform storeParentRt;
     [SerializeField] RectTransform inventoryRT;
 
@@ -12,18 +10,6 @@ public class UIRoot : MonoBehaviour
     Transform invenOrigParent;
     int invenOrigSiblingIndex;
     bool invenDocked;
-
-    private void Awake()
-    {
-        InitSingleton();
-    }
-
-    void InitSingleton()
-    {
-        if (!instance) instance = this;
-        else if (instance != this) Destroy(instance.gameObject);
-        DontDestroyOnLoad(gameObject);
-    }
 
     public void AttachInvenToStore(StoreDataTable data)
     {

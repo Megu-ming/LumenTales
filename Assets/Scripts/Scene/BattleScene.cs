@@ -14,5 +14,14 @@ public class BattleScene : SceneBase
     {
         base.Start();
 
+        InitScene();
+    }
+
+    public void InitScene()
+    {
+        Player.instance?.InventoryController.Init();
+        UIManager.instance.InitUI();
+
+        GameManager.instance.InjectData();
     }
 }

@@ -20,7 +20,7 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     protected virtual void OnDisable()
     {
-        TooltipService.I?.Hide();
+        UIManager.instance?.Hide();
     }
 
     public void Open()

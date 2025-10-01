@@ -32,7 +32,7 @@ public class PlayerStatus : Status
     [SerializeField] private float spAddedLuk = 0;      // 스탯포인트로 추가된 행운
     public float SpAddedLuk { get => spAddedLuk; set => spAddedLuk = value; }
 
-    public int CurrentExp { get => currentExp; set { currentExp = Mathf.Clamp(value, 0, MaxExp); OnExpChanged(); } }
+    public int CurrentExp { get => currentExp; set { currentExp = Mathf.Clamp(value, 0, MaxExp); UIManager.instance.OnExpChanged(CurrentExp, MaxExp); } }
     public int MaxExp { get => maxExp; set { maxExp = Mathf.Max(1, value); } }
 
     public float FinalAtkDamage         // 최종 공격력 = 기본공격력 + 장비공격력 + 힘스케일 + 민첩스케일
@@ -103,14 +103,6 @@ public class PlayerStatus : Status
     protected override void OnDied()
     {
         base.OnDied();
-    }
-
-    // 임시 경험치바
-    [SerializeField] Slider expSlider;
-    public void OnExpChanged()
-    {
-        float expRatio = (float)CurrentExp / MaxExp;
-        expSlider.value = expRatio;
     }
 
     public void AddArmorAddedStat(EquipmentItemData data)

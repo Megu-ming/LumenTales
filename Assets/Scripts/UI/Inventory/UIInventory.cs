@@ -233,7 +233,7 @@ public class UIInventory : UIBase
         }
 
         // 상점 UI위 드롭하면 판매
-        var store = RaycastAndGetComponent<Store>(rrList, ped);
+        var store = RaycastAndGetComponent<StoreSlotUI>(rrList, ped);
         if(store != null)
         {
             inventory.SellItem(beginDragSlot.Index);

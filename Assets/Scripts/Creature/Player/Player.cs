@@ -25,7 +25,8 @@ public class Player : MonoBehaviour
 
     private void OnDestroy()
     {
-        DataManager.instance.BackupCurrentSlot();
+        if(DataManager.instance != null)
+            DataManager.instance.BackupCurrentSlot();
     }
 
     // 불러온 데이터 주입
@@ -42,7 +43,8 @@ public class Player : MonoBehaviour
         if(GameManager.instance.CurrentScene != null)
             GameManager.instance.CurrentScene.StatusPoint = ps.statusPoint;
 
-        Status.OnExpChanged();
+        if(UIManager.instance!=null)
+            UIManager.instance.OnExpChanged(Status.CurrentExp, Status.MaxExp);
     }
 
     /// <summary>

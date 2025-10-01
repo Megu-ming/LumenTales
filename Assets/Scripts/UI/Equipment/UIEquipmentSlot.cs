@@ -56,7 +56,7 @@ public class UIEquipmentSlot : MonoBehaviour,
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        if(TooltipService.I == null) return;
+        if(UIManager.instance == null) return;
         if(!HasItem) return;
 
         TryShowTooltip(eventData.position);
@@ -64,23 +64,23 @@ public class UIEquipmentSlot : MonoBehaviour,
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        TooltipService.I?.Hide();
+        UIManager.instance?.Hide();
         HideHighLight();
     }
 
     void TryShowTooltip(Vector2 screenPos)
     {
-        if (!HasItem) { TooltipService.I?.Hide(); return; }
-        if (!eqUI) { TooltipService.I?.Hide(); return; }
-        if(!eqUI.TryGetEquipped(slotType, out var equipped)) { TooltipService.I?.Hide(); return; }
+        if (!HasItem) { UIManager.instance?.Hide(); return; }
+        if (!eqUI) { UIManager.instance?.Hide(); return; }
+        if(!eqUI.TryGetEquipped(slotType, out var equipped)) { UIManager.instance?.Hide(); return; }
 
         var data = equipped.itemData;
         if (data is EquipmentItemData eqData)
         {
             int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
-            TooltipService.I?.Show
+            UIManager.instance?.Show
                 (data.ItemName, data.Tooltip, data.Price, screenPos, eqVal, !eqData.isArmor, eqData.isArmor);
         }
-        else { TooltipService.I?.Hide(); return; }
+        else { UIManager.instance?.Hide(); return; }
     }
 }

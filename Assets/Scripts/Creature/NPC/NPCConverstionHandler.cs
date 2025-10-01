@@ -15,6 +15,12 @@ public class NPCConverstionHandler : MonoBehaviour
 
     public static event Action<bool> OnConversationToggle;
 
+    private void Start()
+    {
+        if (UIManager.instance != null && UIManager.instance.conversationUI != null)
+            conversationUI = UIManager.instance.conversationUI;
+    }
+
     public void ConversationEvent() // 대화 이벤트
     {
         if(data == null || data.conversations == null || data.conversations.Length == 0)

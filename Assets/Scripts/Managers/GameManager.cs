@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
         if(type == SceneType.Menu)
         {
             Destroy(Player.instance?.gameObject);
-            Destroy(UIRoot.instance?.gameObject);
         }
         SceneManager.LoadScene((int)type);
     }

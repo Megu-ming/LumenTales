@@ -25,7 +25,8 @@ public class StoreUI : UIBase
     {
         var playerInput = Player.instance.GetComponent<PlayerInput>();
         playerInput.SwitchCurrentActionMap("Player");
-        UIRoot.instance.DetachInvenFromStore();
+        if (UIManager.instance != null && UIManager.instance.uiRoot != null)
+            UIManager.instance.uiRoot.DetachInvenFromStore();
     }
 
     public void InitStore(StoreDataTable data)

@@ -44,17 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff2c6b3698e16a4c95cd5789aaecd7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameCanvas: {fileID: 0}
-  damageTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
-  healthTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
-  textHeight: 0.2
   UIRootPrefab: {fileID: 4533651249495632695, guid: ee51e746595cd794298a6c6ad8871ed7, type: 3}
+  GameHUDPrefab: {fileID: 7127955731233042555, guid: 112f9418f1747154aaf391ed9888717e, type: 3}
   pointerAreaPrefab: {fileID: 8765462299283313957, guid: 655328c611e3abc41a467bdee61ba536, type: 3}
+  conversationBoxPrefab: {fileID: 8754853602647074860, guid: d3a544d9a5e06684d9bb51f7fc5441b7, type: 3}
   interactPanelPrefab: {fileID: 1217242372141417082, guid: b997d1f5b3ed6a64e9bfc58ccdcc1b4a, type: 3}
   ingameMenuPrefab: {fileID: 6063705532578988288, guid: fbc91b2085e89984680994f0e13cea43, type: 3}
   expSliderPrefab: {fileID: 8754124665213882085, guid: 7bd988559fa5b634fb2452a18e30b460, type: 3}
+  tooltipPrefab: {fileID: 6129715416068939442, guid: ef3e01fd193803440bd9d37827e6716d, type: 3}
+  damageTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
+  healthTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
+  textHeight: 0.2
   uiRoot: {fileID: 0}
+  gameHUD: {fileID: 0}
   pointerArea: {fileID: 0}
+  conversationUI: {fileID: 0}
   interactPanel: {fileID: 0}
   ingameMenu: {fileID: 0}
   expSlider: {fileID: 0}

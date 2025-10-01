@@ -7,6 +7,7 @@ public class Store : MonoBehaviour
     // 상호작용 키 입력 시에 호출되는 상점 UI Open 함수
     public void OpenStoreUI()
     {
-        UIRoot.instance.AttachInvenToStore(storeDatatable);
+        if(UIManager.instance != null&&UIManager.instance.uiRoot != null)
+            UIManager.instance.uiRoot.AttachInvenToStore(storeDatatable);
     }
 }
