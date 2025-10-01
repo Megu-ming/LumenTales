@@ -181,7 +181,7 @@ public class PlayerController : CreatureController
             IsSprint = false;
     }
 
-    public void OnAttack()
+    public void OnAttack(PointerEventData data)
     {
         if (isConversation) return;
         animator.SetTrigger(AnimationStrings.attack);

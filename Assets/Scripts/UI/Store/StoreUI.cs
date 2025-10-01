@@ -15,8 +15,8 @@ public class StoreUI : UIBase
 
     protected override void OnOpen()
     {
-        if (UIStackManager.Instance != null && UIStackManager.Instance.interactPanel != null)
-            UIStackManager.Instance.interactPanel.SetActive(false);
+        if (UIManager.instance != null && UIManager.instance.interactPanel != null)
+            UIManager.instance.interactPanel.SetActive(false);
         var playerInput = Player.instance.GetComponent<PlayerInput>();
         playerInput.SwitchCurrentActionMap("UI");
     }

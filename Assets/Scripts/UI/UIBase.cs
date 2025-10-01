@@ -25,10 +25,10 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     public void Open()
     {
-        if(isOpen) { UIStackManager.Instance.BringToFront(this); OnFocus(); return; }
+        if(isOpen) { UIManager.instance.BringToFront(this); OnFocus(); return; }
         isOpen = true;
         gameObject.SetActive(true);
-        UIStackManager.Instance.Push(this);
+        UIManager.instance.Push(this);
         OnOpen();
     }
 
@@ -36,7 +36,7 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
     {
         if (!isOpen) return;
         isOpen = false;
-        UIStackManager.Instance.Pop(this);
+        UIManager.instance.Pop(this);
         OnClose();
         gameObject.SetActive(false);
     }
@@ -54,7 +54,7 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
     protected virtual void OnOpen() { }
     protected virtual void OnClose() { }
 
-    public virtual void OnPointerDown(PointerEventData e) => UIStackManager.Instance.BringToFront(this);
+    public virtual void OnPointerDown(PointerEventData e) => UIManager.instance.BringToFront(this);
     public virtual void OnDrag(PointerEventData e) { }
-    public virtual void OnPointerUp(PointerEventData e) => UIStackManager.Instance.BringToFront(this);
+    public virtual void OnPointerUp(PointerEventData e) => UIManager.instance.BringToFront(this);
 }

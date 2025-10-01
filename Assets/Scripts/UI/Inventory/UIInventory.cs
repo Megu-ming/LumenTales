@@ -164,7 +164,7 @@ public class UIInventory : UIBase
     {
         base.OnDrag(eventData);
         if (beginDragSlot == null) return;
-        UIStackManager.Instance.BringToFront(this);
+        UIManager.instance.BringToFront(this);
         if (eventData.button == InputButton.Left)
         {
             if (beginDragIconTr)

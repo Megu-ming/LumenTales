@@ -5,7 +5,6 @@ public class UIRoot : MonoBehaviour
 {
     public static UIRoot instance;
 
-    public IngameMenu ingameMenu;
     [SerializeField] RectTransform storeParentRt;
     [SerializeField] RectTransform inventoryRT;
 
@@ -17,9 +16,6 @@ public class UIRoot : MonoBehaviour
     private void Awake()
     {
         InitSingleton();
-
-        if(ingameMenu == null)
-            ingameMenu = GetComponentInChildren<IngameMenu>();
     }
 
     void InitSingleton()
@@ -50,9 +46,9 @@ public class UIRoot : MonoBehaviour
         inventoryRT.TryGetComponent<UIInventory>(out var uiInven);
         
         // 뭔가 열려 있었다면
-        if(UIStackManager.Instance!=null && UIStackManager.Instance.Top!=null)
+        if(UIManager.instance!=null && UIManager.instance.Top!=null)
         {
-            UIStackManager.Instance.CloseTopIfAllowed();
+            UIManager.instance.CloseTopIfAllowed();
         }
 
         uiStore.Open();
