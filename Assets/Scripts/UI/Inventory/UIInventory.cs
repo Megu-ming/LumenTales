@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -90,7 +91,8 @@ public class UIInventory : UIBase
 
     protected override void OnOpen()
     {
-        
+        if (inventory is not null)
+            inventory.RefreshAllSlots();
     }
 
     protected override void OnClose()

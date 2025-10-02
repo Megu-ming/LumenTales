@@ -79,7 +79,7 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
     public void SetAmount(int amount)
     {
         if (amount > 1) amountText.text = amount.ToString();
-        else amountText.text = string.Empty;
+        else amountText.text = "";
     }
 
     public void RemoveItem()

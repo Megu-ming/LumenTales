@@ -289,7 +289,11 @@ public class InventoryController : MonoBehaviour
 
         OnSlotUpdated?.Invoke(index, item?.itemData);
         if (item is CountableItem countableItem)
-            OnSlotTextUpdated?.Invoke(index, countableItem.Amount);
+        {
+            if(OnSlotTextUpdated is not null)
+                OnSlotTextUpdated?.Invoke(index, countableItem.Amount);
+            // 아직 등록안됐으면 직접 호출
+        }
         if(item is EquipmentItem eqItem)
             OnSlotTextUpdated?.Invoke(index, 1);
     }
@@ -305,7 +309,7 @@ public class InventoryController : MonoBehaviour
         return -1; // 빈 슬롯 없음
     }
 
-    private void RefreshAllSlots()
+    public void RefreshAllSlots()
     {
         for (int i = 0; i < Capacity; i++) UpdateSlot(i);
     }
@@ -383,8 +387,6 @@ public class InventoryController : MonoBehaviour
             {
                 items[entry.slotIndex] = data.CreateItem();
             }
-
-            UpdateSlot(entry.slotIndex);
         }
 
         foreach(var eq in snap.equippedEntry)
