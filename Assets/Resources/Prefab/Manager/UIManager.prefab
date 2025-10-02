@@ -55,10 +55,14 @@ MonoBehaviour:
   ingameMenuPrefab: {fileID: 6063705532578988288, guid: fbc91b2085e89984680994f0e13cea43, type: 3}
   expSliderPrefab: {fileID: 8754124665213882085, guid: 7bd988559fa5b634fb2452a18e30b460, type: 3}
   tooltipPrefab: {fileID: 6129715416068939442, guid: ef3e01fd193803440bd9d37827e6716d, type: 3}
+  storePrefab: {fileID: 2231967871071688245, guid: 0a6724d4cbe78804c92debfa41660f33, type: 3}
+  inventoryPrefab: {fileID: 8431638238036347946, guid: 0c86538808e9f32438290bc01301239c, type: 3}
+  dummyPrefab: {fileID: 403509325429966908, guid: 2f763697ea6fc164c8f0ae6676204773, type: 3}
   damageTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
   healthTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
   textHeight: 0.2
   warningModalPrefab: {fileID: 1306131959998460079, guid: 3e42b3851bfff554eb7b66185402216c, type: 3}
+  inputFieldModalPrefab: {fileID: 3166835735112269633, guid: 41b503d6a91df034fa5673d3665dd628, type: 3}
   mainMenuCanvas: {fileID: 0}
   uiRoot: {fileID: 0}
   gameHUD: {fileID: 0}
@@ -69,6 +73,10 @@ MonoBehaviour:
   interactPanel: {fileID: 0}
   ingameMenu: {fileID: 0}
   expSlider: {fileID: 0}
+  storeUI: {fileID: 0}
+  inventoryUI: {fileID: 0}
   warningModal: {fileID: 0}
+  inputFieldModal: {fileID: 0}
+  dummy: {fileID: 0}
   baseSorting: 100
   step: 10

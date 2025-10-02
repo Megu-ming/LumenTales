@@ -20,6 +20,28 @@ public class InputFieldModalUI : UIBase
         gameObject.SetActive(false);
     }
 
+    protected override void OnOpen()
+    {
+        if (UIManager.instance.storeUI.GetChoicedSlot() is not null)
+        {
+            HandleYesButton -= UIManager.instance.storeUI.GetChoicedSlot().TryBuyItem;
+            HandleYesButton += UIManager.instance.storeUI.GetChoicedSlot().TryBuyItem;
+        }
+        if (UIManager.instance.inventoryUI is not null)
+        {
+            HandleYesButton -= UIManager.instance.inventoryUI.TrySellItem;
+            HandleYesButton += UIManager.instance.inventoryUI.TrySellItem;
+        }
+    }
+
+    override protected void OnClose()
+    {
+        if (UIManager.instance.storeUI.GetChoicedSlot() is not null)
+            HandleYesButton -= UIManager.instance.storeUI.GetChoicedSlot().TryBuyItem;
+        if (UIManager.instance.inventoryUI is not null)
+            HandleYesButton -= UIManager.instance.inventoryUI.TrySellItem;
+    }
+
     void OnClickYesButton()
     {
         // 숫자입력이 잘못됐으면 아무일도 없음

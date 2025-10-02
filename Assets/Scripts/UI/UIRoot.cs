@@ -13,7 +13,11 @@ public class UIRoot : MonoBehaviour
 
     public void AttachInvenToStore(StoreDataTable data)
     {
-        if(invenDocked || inventoryRT == null || storeParentRt == null) return;
+        if (invenDocked) return;
+        if (inventoryRT == null)
+            UIManager.instance.inventoryUI.TryGetComponent<RectTransform>(out inventoryRT);
+        if(storeParentRt == null)
+            UIManager.instance.storeUI.TryGetComponent<RectTransform>(out storeParentRt);
 
         // 캐시(원상복구용)
         invenOrigParent = inventoryRT.parent;
@@ -40,9 +44,6 @@ public class UIRoot : MonoBehaviour
         uiStore.Open();
         uiInven.gameObject.SetActive(true);
         if(uiInven.inventory is not null) uiInven.inventory.RefreshAllSlots();
-        if (uiStore.TryGetComponent<Canvas>(out var storeCanvas))
-            uiInven.SetSortingOrder(storeCanvas.sortingOrder);      // 인벤토리 UI 쏘팅오더 재설정
-        
     }
 
     public void DetachInvenFromStore()

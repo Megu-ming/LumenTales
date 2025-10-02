@@ -25,6 +25,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject ingameMenuPrefab;
     [SerializeField] GameObject expSliderPrefab;
     [SerializeField] GameObject tooltipPrefab;
+    [SerializeField] GameObject storePrefab;
+    [SerializeField] GameObject inventoryPrefab;
+    [SerializeField] GameObject dummyPrefab;
 
     [Header("GameHUD UI Prefabs")]
     [SerializeField] GameObject damageTextPrefab;
@@ -48,8 +51,11 @@ public class UIManager : MonoBehaviour
     public GameObject interactPanel;
     public IngameMenu ingameMenu;
     public GameObject expSlider;
+    public StoreUI storeUI;
+    public UIInventory inventoryUI;
     public WarningModalUI warningModal;
     public InputFieldModalUI inputFieldModal;
+    public GameObject dummy;
 
     [Header("StackUI")]
     public int baseSorting = 100;
@@ -112,9 +118,22 @@ public class UIManager : MonoBehaviour
             tooltipRect = tooltip.GetComponent<RectTransform>();
             canvasRect = uiRoot.GetComponent<RectTransform>();
         }
-        if(inputFieldModal == null)
+        if (storeUI == null)
+        {
+            Instantiate(storePrefab, uiRoot.transform).TryGetComponent<StoreUI>(out storeUI);
+            storeUI.gameObject.SetActive(false);
+        }
+        if(inventoryUI == null)
+        {
+            Instantiate(inventoryPrefab, uiRoot.transform).TryGetComponent<UIInventory>(out inventoryUI);
+        }
+        if (inputFieldModal == null)
         {
             Instantiate(inputFieldModalPrefab, uiRoot.transform).TryGetComponent<InputFieldModalUI>(out inputFieldModal);
+        }
+        if(dummy == null)
+        {
+            dummy = Instantiate(dummyPrefab, uiRoot.transform);
         }
     }
 

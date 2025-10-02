@@ -7,7 +7,7 @@ public class StoreUI : UIBase
     StoreDataTable currentData;
 
     [SerializeField] StoreSlotUI[] storeSlots;
-    public StoreSlotUI choicedSlot;
+    private StoreSlotUI choicedSlot;
 
     protected override void Awake()
     {
@@ -21,6 +21,7 @@ public class StoreUI : UIBase
             UIManager.instance.interactPanel.SetActive(false);
         var playerInput = Player.instance.GetComponent<PlayerInput>();
         playerInput.SwitchCurrentActionMap("UI");
+        UIManager.instance.inventoryUI.SetSortingOrder(111);
     }
 
     protected override void OnClose()
@@ -47,8 +48,6 @@ public class StoreUI : UIBase
     public void OpenModal() 
     {
         var modal = UIManager.instance.inputFieldModal;
-        modal.HandleYesButton -= choicedSlot.TryBuyItem;
-        modal.HandleYesButton += choicedSlot.TryBuyItem;
         modal.Open(); 
     }
 

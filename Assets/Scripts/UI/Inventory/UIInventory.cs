@@ -13,7 +13,6 @@ public class UIInventory : UIBase
     [SerializeField, ReadOnly] int inventoryCapacity;
     [SerializeField] UIInventorySlot slotPrefab;    // 아이템 슬롯 프리팹
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
-    [SerializeField] GameObject imageDummy;        // 드래그 중인 아이템 아이콘
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
     public InventoryController inventory;
@@ -187,7 +186,7 @@ public class UIInventory : UIBase
                 EndDrag();
 
                 SetSlotIconInvisible(beginDragSlot, true);
-                if (imageDummy) { imageDummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
+                if (UIManager.instance.dummy) { UIManager.instance.dummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
 
                 beginDragSlot = null;
                 beginDragIconTr = null;
@@ -197,6 +196,7 @@ public class UIInventory : UIBase
     #endregion
 
     #region Private Methods
+    int sellingIndex;
     private void EndDrag()
     {
         var endDragSlot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
@@ -238,17 +238,20 @@ public class UIInventory : UIBase
         {
             // 모달 열기
             var modal = UIManager.instance.inputFieldModal;
+            if(inventory.GetItemData(beginDragSlot.Index) is CountableItemData)
+            {
+                int amount = inventory.GetCurrentAmount(beginDragSlot.Index);
+                modal.maxAmount = amount;
+            }
+            else
+            {
+                modal.maxAmount = 1;
+            }
             modal.Open();
-            // 수정해야함!
-            modal.HandleYesButton += (bool val, int amount) => { };
-            int amount = inventory.GetCurrentAmount(beginDragSlot.Index);
-            modal.maxAmount = amount;
-            
-            //inventory.SellItem(beginDragSlot.Index);
+
+            sellingIndex = beginDragSlot.Index;
             return;
         }
-
-        // 드래그 시작 슬롯으로 복귀
     }
 
     private void TrySwapItems(UIInventorySlot from,  UIInventorySlot to)
@@ -258,6 +261,12 @@ public class UIInventory : UIBase
 
         from.SwapOrMoveIcon(to);
         inventory.Swap(from.Index, to.Index);
+    }
+
+    public void TrySellItem(bool value, int amount)
+    {
+        if (value is true)
+            inventory.SellItem(sellingIndex);
     }
 
     private void TrySeparateAmount(int indexA, int indexB, int amount)
@@ -281,9 +290,9 @@ public class UIInventory : UIBase
     private void SetDummyFromSlot(UIInventorySlot slot, RectTransform rt)
     {
         var icon = slot?.itemImage;
-        var dummy = imageDummy?.GetComponent<Image>();
+        var dummy = UIManager.instance.dummy?.GetComponent<Image>();
         dummy.sprite = icon?.sprite;
-        var dummyRt = imageDummy?.GetComponent<RectTransform>();
+        var dummyRt = UIManager.instance.dummy?.GetComponent<RectTransform>();
         dummyRt = rt;
 
         dummy.enabled = true;
@@ -291,10 +300,10 @@ public class UIInventory : UIBase
 
     private void SetDummyPosition(Vector3 pos)
     {
-        if (imageDummy != null)
-        { 
-            imageDummy.transform.position = pos;
-            imageDummy.transform.SetAsLastSibling();
+        if (UIManager.instance.dummy != null)
+        {
+            UIManager.instance.dummy.transform.position = pos;
+            UIManager.instance.dummy.transform.SetAsLastSibling();
         }
     }
 #endregion

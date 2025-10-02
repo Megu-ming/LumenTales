@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 674529155792148182}
   - component: {fileID: 4444251404492282971}
   - component: {fileID: 6300500944778947282}
-  - component: {fileID: 8251517767837653762}
   - component: {fileID: 6343712221817558538}
   m_Layer: 5
   m_Name: Equipment
@@ -174,18 +173,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!225 &8251517767837653762
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6104374164706897903}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!114 &6343712221817558538
 MonoBehaviour:
   m_ObjectHideFlags: 0
