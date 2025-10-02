@@ -39,6 +39,7 @@ public class UIRoot : MonoBehaviour
 
         uiStore.Open();
         uiInven.gameObject.SetActive(true);
+        if(uiInven.inventory is not null) uiInven.inventory.RefreshAllSlots();
         if (uiStore.TryGetComponent<Canvas>(out var storeCanvas))
             uiInven.SetSortingOrder(storeCanvas.sortingOrder);      // 인벤토리 UI 쏘팅오더 재설정
         

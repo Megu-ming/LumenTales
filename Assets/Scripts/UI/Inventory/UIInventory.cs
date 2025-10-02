@@ -197,8 +197,6 @@ public class UIInventory : UIBase
     #endregion
 
     #region Private Methods
-    
-
     private void EndDrag()
     {
         var endDragSlot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
@@ -238,7 +236,15 @@ public class UIInventory : UIBase
         var store = RaycastAndGetComponent<StoreSlotUI>(rrList, ped);
         if(store != null)
         {
-            inventory.SellItem(beginDragSlot.Index);
+            // 모달 열기
+            var modal = UIManager.instance.inputFieldModal;
+            modal.Open();
+            // 수정해야함!
+            modal.HandleYesButton += (bool val, int amount) => { };
+            int amount = inventory.GetCurrentAmount(beginDragSlot.Index);
+            modal.maxAmount = amount;
+            
+            //inventory.SellItem(beginDragSlot.Index);
             return;
         }
 

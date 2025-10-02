@@ -232,11 +232,29 @@ public class InventoryController : MonoBehaviour
         }
     }
 
+    public void BuyItem(ItemData data, int amount = 1)
+    {
+        if (data.Price * amount <= Gold)
+        {
+            SpendGold(data.Price * amount);
+            Add(data, amount);
+        }
+        else Debug.Log("Not enough Gold");
+    }
+
     public void SellItem(int index)
     {
         if(IsValidIndex(index) && items[index].itemData != null)
         {
-            AddGold(items[index].itemData.Price);
+            if (items[index] is CountableItem)
+            {
+                var ci = (CountableItem)items[index];
+                var totalGold = ci.Amount * ci.itemData.Price;
+                AddGold(totalGold);
+            }
+            else
+                AddGold(items[index].itemData.Price);
+
             Remove(index);
         }
     }

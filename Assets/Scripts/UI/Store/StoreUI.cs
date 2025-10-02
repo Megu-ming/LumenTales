@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class StoreUI : UIBase
@@ -6,6 +7,7 @@ public class StoreUI : UIBase
     StoreDataTable currentData;
 
     [SerializeField] StoreSlotUI[] storeSlots;
+    public StoreSlotUI choicedSlot;
 
     protected override void Awake()
     {
@@ -33,12 +35,33 @@ public class StoreUI : UIBase
     {
         currentData = data;
 
-        for(int i=0;i<storeSlots.Length; i++)
+        for (int i = 0; i < storeSlots.Length; i++)
         {
             if (i < currentData.items.Length)
                 storeSlots[i].SetItem(currentData.items[i]);
             else
                 storeSlots[i].Clear();
         }
+    }
+
+    public void OpenModal() 
+    {
+        var modal = UIManager.instance.inputFieldModal;
+        modal.HandleYesButton -= choicedSlot.TryBuyItem;
+        modal.HandleYesButton += choicedSlot.TryBuyItem;
+        modal.Open(); 
+    }
+
+    public StoreSlotUI GetChoicedSlot() => choicedSlot;
+
+    public void ChoiceSlot(StoreSlotUI slot)
+    {
+        if (choicedSlot is not null && choicedSlot != slot)
+        {
+            var modal = UIManager.instance.inputFieldModal;
+            modal.HandleYesButton -= choicedSlot.TryBuyItem;
+            choicedSlot.borderImage.color = Color.white;
+        }
+        choicedSlot = slot;
     }
 }

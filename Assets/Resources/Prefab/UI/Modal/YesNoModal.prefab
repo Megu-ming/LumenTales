@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4014873342067726975}
   - component: {fileID: 5138139599722727424}
   m_Layer: 5
-  m_Name: WarningModal
+  m_Name: YesNoModal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

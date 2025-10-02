@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Modal UI Prefabs")]
     [SerializeField] GameObject warningModalPrefab;
+    [SerializeField] GameObject inputFieldModalPrefab;
 
     [Header("Canvas Instances")]
     public Canvas mainMenuCanvas;
@@ -48,6 +49,7 @@ public class UIManager : MonoBehaviour
     public IngameMenu ingameMenu;
     public GameObject expSlider;
     public WarningModalUI warningModal;
+    public InputFieldModalUI inputFieldModal;
 
     [Header("StackUI")]
     public int baseSorting = 100;
@@ -109,6 +111,10 @@ public class UIManager : MonoBehaviour
             Instantiate(tooltipPrefab, uiRoot.transform).TryGetComponent<UIItemTooltip>(out tooltip);
             tooltipRect = tooltip.GetComponent<RectTransform>();
             canvasRect = uiRoot.GetComponent<RectTransform>();
+        }
+        if(inputFieldModal == null)
+        {
+            Instantiate(inputFieldModalPrefab, uiRoot.transform).TryGetComponent<InputFieldModalUI>(out inputFieldModal);
         }
     }
 
