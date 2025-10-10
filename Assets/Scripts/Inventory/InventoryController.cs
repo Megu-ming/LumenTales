@@ -242,15 +242,28 @@ public class InventoryController : MonoBehaviour
         else Debug.Log("Not enough Gold");
     }
 
-    public void SellItem(int index)
+    public void SellItem(int index, int amount)
     {
         if(IsValidIndex(index) && items[index].itemData != null)
         {
             if (items[index] is CountableItem)
             {
                 var ci = (CountableItem)items[index];
-                var totalGold = ci.Amount * ci.itemData.Price;
-                AddGold(totalGold);
+                int totalGold;
+                if (amount >= ci.Amount)
+                {
+                    totalGold = ci.Amount * ci.itemData.Price;
+                    AddGold(totalGold);
+                }
+                else
+                {
+                    ci.SetAmount(ci.Amount - amount);
+                    OnSlotTextUpdated?.Invoke(index, ci.Amount);
+                    totalGold = amount * ci.itemData.Price;
+                    AddGold(totalGold);
+
+                    return;
+                }
             }
             else
                 AddGold(items[index].itemData.Price);

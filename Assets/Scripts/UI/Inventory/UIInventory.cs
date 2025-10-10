@@ -266,7 +266,7 @@ public class UIInventory : UIBase
     public void TrySellItem(bool value, int amount)
     {
         if (value is true)
-            inventory.SellItem(sellingIndex);
+            inventory.SellItem(sellingIndex, amount);
     }
 
     private void TrySeparateAmount(int indexA, int indexB, int amount)
