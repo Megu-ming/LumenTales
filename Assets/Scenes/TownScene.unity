@@ -7027,7 +7027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ad41a30d3fdfc47ad77b738a3809f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
+  cam: {fileID: 1998243565}
 --- !u!114 &1197468071 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6251467598962010301, guid: d3c87a704a597964c982986d465d715c, type: 3}

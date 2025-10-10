@@ -20,7 +20,7 @@ public class InteractionManager : MonoBehaviour
 
     public bool ZoomIn()
     {
-        if (cam is null) GameObject.Find("CMCam");
+        if (cam is null) cam = GameObject.Find("CMCam");
 
         bool result = false;
         cam.TryGetComponent<CinemachineCamera>(out CinemachineCamera cineCam);
@@ -43,7 +43,7 @@ public class InteractionManager : MonoBehaviour
 
     public bool ZoomOut()
     {
-        if (cam is null) GameObject.Find("CMCam");
+        if (cam is null) cam = GameObject.Find("CMCam");
 
         cam.TryGetComponent<CinemachineCamera>(out CinemachineCamera cineCam);
         cam.TryGetComponent<CinemachinePositionComposer>(out CinemachinePositionComposer cinePC);
