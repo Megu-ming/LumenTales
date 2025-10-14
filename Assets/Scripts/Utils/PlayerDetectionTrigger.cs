@@ -3,9 +3,6 @@ using UnityEngine;
 public class PlayerDetectionTrigger : MonoBehaviour
 {
     PlayerController pc;
-    NPCConverstionHandler npcCH;
-    Portal portal;
-    Store store;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

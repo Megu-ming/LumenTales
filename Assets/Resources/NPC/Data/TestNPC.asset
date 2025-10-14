@@ -17,3 +17,5 @@ MonoBehaviour:
   - ' Hello, warrior.'
   - There are numerous demons in front.
   - Please take care of yourself.
+  quests:
+  - {fileID: 11400000, guid: 3cb18c6ba0d215046a227f308626c8ea, type: 2}

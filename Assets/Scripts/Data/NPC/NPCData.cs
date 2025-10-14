@@ -6,4 +6,5 @@ public class NPCData : ScriptableObject
     public string Name;
 
     public string[] conversations;
+    public QuestData[] quests;
 }

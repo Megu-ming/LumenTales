@@ -23,6 +23,7 @@ public class SlotData
 
     public PlayerSummary player;        // 스테이터스 요약
     public InventorySnapshot inventory; // 인벤/장비 요약
+    public QuestSnapshot questSnapshot; // 퀘스트 요약
 }
 
 [Serializable]
@@ -79,6 +80,12 @@ public class  InventorySnapshot
     // 빈칸 저장x
     public List<InventoryItemEntry> itemEntry = new List<InventoryItemEntry>();
     public List<EquippedEntry> equippedEntry = new List<EquippedEntry>();
+}
+
+public class QuestSnapshot
+{
+    public List<Quest> inProgressQuests = new List<Quest>();
+    public List<QuestData> completedQuests = new List<QuestData>();
 }
 
 [Serializable]
@@ -196,9 +203,11 @@ public class DataManager : MonoBehaviour
         var slot = Current.saveSlots[Current.currentSlot];
         if (slot == null || !slot.exists) return;
         if (Player.instance == null) return;
+        if(GameManager.instance is null && GameManager.instance.questManager is null) return;
 
         Player.instance.ApplySummary(slot.player);
         Player.instance.InventoryController.LoadFromSnapshot(slot.inventory, resolver);
+        GameManager.instance.questManager.ApplyQuest(slot.questSnapshot);
     }
 
     public void BackupCurrentSlot()
@@ -207,10 +216,11 @@ public class DataManager : MonoBehaviour
         var slot = Current.saveSlots[Current.currentSlot];
         if (slot == null || !slot.exists) return;
 
-        if(Player.instance!=null)
+        if(Player.instance is not null && GameManager.instance is not null)
         {
             slot.player = Player.instance.GetPlayerSummary();
             slot.inventory = Player.instance.GetInventorySnapshot();
+            slot.questSnapshot = GameManager.instance.questManager.GetQuestSnapshot();
         }
 
         slot.updatedAtUnix = DateTimeOffset.Now.ToUnixTimeSeconds();

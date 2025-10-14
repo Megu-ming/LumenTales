@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +10,10 @@ public class Player : MonoBehaviour
     public PlayerStatus Status { get; private set; }
     public PlayerController PlayerController { get; private set; }
     public InventoryController InventoryController { get; private set; }
+
+    // ─── Quest ────────────────────────────────────────────────────────────────
+   
+    
 
     // ─── Lifecycle ──────────────────────────────────────────────────────────────
     void Awake()
@@ -46,6 +50,8 @@ public class Player : MonoBehaviour
         if(UIManager.instance!=null)
             UIManager.instance.OnExpChanged(Status.CurrentExp, Status.MaxExp);
     }
+
+    
 
     /// <summary>
     /// 플레이어의 현재 저장가능한 수치들을 가져온다.

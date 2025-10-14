@@ -32,3 +32,17 @@ public enum SceneType
     Battle,
     Boss
 }
+
+public enum QuestType
+{
+    Kill,       // 몬스터 처치
+    Collect,    // 아이템 수집
+}
+
+public enum QuestState
+{
+    NotStarted,         // 퀘스트 미시작
+    InProgress,         // 퀘스트 진행 중
+    ReadyToComplete,    // 퀘스트 완료 가능
+    Completed,          // 퀘스트 완료
+}

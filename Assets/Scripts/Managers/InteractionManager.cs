@@ -3,20 +3,11 @@ using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
 {
-    public static InteractionManager I { get; private set; }
-
     public GameObject cam;
 
     private float camSize;
     private Vector3 camOffset;
     float t = 5f;
-
-    private void Awake()
-    {
-        if (I && I != this) { Destroy(gameObject); return; }
-        I = this;
-        DontDestroyOnLoad(gameObject);
-    }
 
     public bool ZoomIn()
     {

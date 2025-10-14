@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
 
     SceneBase currentScene;
 
+    [Header("Quest Manager")]
+    public QuestManager questManager = new QuestManager();
+
     public SceneBase CurrentScene
     {
         get

@@ -95,11 +95,6 @@ public class NPCConverstionHandler : InteractiveObj
         conversationStep = 0;
         justRevealed = false;
 
-        // 대화 종료 시 퀘스트 할당
-        // 만약 퀘스트가 이미 할당되어있다면 패스
-        
-
-
         conversationUI.Clear();
     }
 

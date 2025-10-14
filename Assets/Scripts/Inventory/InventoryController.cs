@@ -65,6 +65,22 @@ public class InventoryController : MonoBehaviour
         return ((CountableItem)items[index]).Amount;
     }
 
+    public int GetItemCount(ItemData itemData)
+    {
+        if (itemData == null) return 0;
+        int count = 0;
+        for (int i = 0; i < Capacity; i++)
+        {
+            if (items[i] == null) continue;
+            if (items[i].itemData == itemData)
+            {
+                if (items[i] is CountableItem ci) count += ci.Amount;
+                else count += 1;
+            }
+        }
+        return count;
+    }
+
     public IReadOnlyDictionary<EquipmentSlotType, EquipmentItem> GetEquippedItems() => equipped;
 
     public void EquipFromInventory(int index, EquipmentSlotType tartgetType)
