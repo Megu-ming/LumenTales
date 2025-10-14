@@ -209,10 +209,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 910687419780863520, guid: d3c87a704a597964c982986d465d715c, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 2386166218813518417, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_ActionEvents.Array.size
       value: 8
@@ -285,21 +281,21 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 3576369754799086949, guid: d3c87a704a597964c982986d465d715c, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 815424164945274260, guid: 92272cee607647141b603608fe0de30b, type: 3}
     - target: {fileID: 4268916457519343671, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: moveSpeed
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4556370154542746823, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_labelHash
-      value: 8.658477e-34
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556370154542746823, guid: d3c87a704a597964c982986d465d715c, type: 3}
+      propertyPath: m_SpriteHash
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4556370154542746823, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_CategoryHash
-      value: 0.009161512
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -353,12 +349,8 @@ PrefabInstance:
       propertyPath: maxHealth
       value: 50
       objectReference: {fileID: 0}
-    - target: {fileID: 6780688367894138312, guid: d3c87a704a597964c982986d465d715c, type: 3}
-      propertyPath: playerStatus
-      value: 
-      objectReference: {fileID: 1197468071}
     m_RemovedComponents:
-    - {fileID: 824520866559198564, guid: d3c87a704a597964c982986d465d715c, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -7028,17 +7020,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1998243565}
---- !u!114 &1197468071 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6251467598962010301, guid: d3c87a704a597964c982986d465d715c, type: 3}
-  m_PrefabInstance: {fileID: 64026378}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d17722f51fc6a24e859817613f425d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1197468072 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4268916457519343671, guid: d3c87a704a597964c982986d465d715c, type: 3}
@@ -7132,7 +7113,7 @@ BoxCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.02, y: 0.02, z: 0.02, w: 0.03}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.3, y: 0.3}
     newSize: {x: 0.3, y: 0.3}
@@ -7459,6 +7440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8519374bb398a45853080166936a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionManager: {fileID: 1194739805}
   data: {fileID: 11400000, guid: cbf477b6e9bc1514ea44e0eccac45512, type: 2}
   conversationUI: {fileID: 0}
 --- !u!114 &1552871869
