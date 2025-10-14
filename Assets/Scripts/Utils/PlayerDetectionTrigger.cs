@@ -12,20 +12,9 @@ public class PlayerDetectionTrigger : MonoBehaviour
         if (!collision.TryGetComponent<PlayerController>(out pc)) return;
         if(UIManager.instance != null && UIManager.instance.interactPanel != null)
             UIManager.instance.interactPanel.SetActive(true);
-        if (TryGetComponent<NPCConverstionHandler>(out npcCH))
+        if (TryGetComponent<InteractiveObj>(out var obj))
         {
-            pc.OnInteractionEvent += npcCH.ConversationEvent;
-            return;
-        }
-        if (TryGetComponent<Portal>(out portal))
-        {
-            pc.OnInteractionEvent += portal.OnInteraction;
-            return;
-        }
-        if(TryGetComponent<Store>(out store))
-        {
-            pc.OnInteractionEvent += store.OpenStoreUI;
-            return;
+            pc.OnInteractionEvent += obj.OnInteraction;
         }
     }
 
@@ -35,11 +24,9 @@ public class PlayerDetectionTrigger : MonoBehaviour
 
         if (UIManager.instance != null && UIManager.instance.interactPanel != null)
             UIManager.instance.interactPanel.SetActive(false);
-        if (npcCH != null)
-            pc.OnInteractionEvent -= npcCH.ConversationEvent;
-        if (portal != null)
-            pc.OnInteractionEvent -= portal.OnInteraction;
-        if (store != null)
-            pc.OnInteractionEvent -= store.OpenStoreUI;
+        if (TryGetComponent<InteractiveObj>(out var obj))
+        {
+            pc.OnInteractionEvent -= obj.OnInteraction;
+        }
     }
 }

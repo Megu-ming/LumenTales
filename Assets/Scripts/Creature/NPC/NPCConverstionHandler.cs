@@ -3,8 +3,9 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NPCConverstionHandler : MonoBehaviour
+public class NPCConverstionHandler : InteractiveObj
 {
+    [SerializeField] InteractionManager interactionManager;
     [SerializeField] NPCData data;
 
     [SerializeField] UIConversation conversationUI;
@@ -21,7 +22,7 @@ public class NPCConverstionHandler : MonoBehaviour
             conversationUI = UIManager.instance.conversationUI;
     }
 
-    public void ConversationEvent() // 대화 이벤트
+    public override void OnInteraction() // 대화 이벤트
     {
         if(data == null || data.conversations == null || data.conversations.Length == 0)
         {
@@ -60,7 +61,7 @@ public class NPCConverstionHandler : MonoBehaviour
         justRevealed = false;
 
         // 카메라 줌인
-        InteractionManager.I.ZoomIn();
+        interactionManager.ZoomIn();
 
         ControlConversationInterface(true);
         SetLine(conversationStep);
@@ -89,10 +90,16 @@ public class NPCConverstionHandler : MonoBehaviour
     private void EndConversation()
     {
         // 카메라 줌아웃
-        InteractionManager.I.ZoomOut();
+        interactionManager.ZoomOut();
         ControlConversationInterface(false);
         conversationStep = 0;
         justRevealed = false;
+
+        // 대화 종료 시 퀘스트 할당
+        // 만약 퀘스트가 이미 할당되어있다면 패스
+        
+
+
         conversationUI.Clear();
     }
 

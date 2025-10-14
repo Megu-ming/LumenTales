@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Portal : MonoBehaviour
+public class Portal : InteractiveObj
 {
     [SerializeField] SceneType nextScene;
     
-    public void OnInteraction()
+    public override void OnInteraction()
     {
         DataManager.instance.BackupCurrentSlot();
         DataManager.instance.SaveAll();
