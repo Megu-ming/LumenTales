@@ -38,6 +38,21 @@ public enum From
     Store,
     Inventory,
 }
+// -----------Talk-----------------
+public enum NPCType
+{
+    Default = 0,
+    TestNPC = 100,  
+}
+
+public enum TalkState
+{
+    Default = 0,
+    Talk = 1,       
+    Hint = 2,
+    Quest = 3,      
+}
+// ---------------------------------
 
 public enum QuestType
 {

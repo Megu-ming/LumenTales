@@ -27,3 +27,7 @@
  NPC 만들기
 
  상점 / 퀘스트 / 플레이어 스킬
+
+
+ flag Manager 
+ dic<string, bool>

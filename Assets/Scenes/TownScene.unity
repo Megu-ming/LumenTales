@@ -221,11 +221,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.74
+      value: -16.26
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.45
+      value: -2.43
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3395,7 +3395,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.481518, y: -1.95214, z: -10}
+  m_LocalPosition: {x: -16.26, y: -1.9300001, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4030,7 +4030,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionManager: {fileID: 1194739805}
-  data: {fileID: 11400000, guid: cbf477b6e9bc1514ea44e0eccac45512, type: 2}
+  talkData: {fileID: 11400000, guid: 2ae29bb28d875cf48ba82fec10566ef1, type: 2}
+  curState: 0
   id: 0
 --- !u!114 &1552871869
 MonoBehaviour:
@@ -4386,7 +4387,7 @@ Transform:
   m_GameObject: {fileID: 1998243565}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.74, y: -1.95, z: -10}
+  m_LocalPosition: {x: -16.26, y: -1.9300001, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

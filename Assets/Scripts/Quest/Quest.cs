@@ -10,21 +10,21 @@ public class Quest
 
     public void Evaluate()
     {
-        if (currentQuestState != QuestState.InProgress) return;
+        //if (currentQuestState != QuestState.InProgress) return;
 
-        switch(questData.questType)
-        {
-            case QuestType.Kill:
-                if (currentCount >= questData.requiredKillCount && questData.requiredKillCount > 0)
-                    currentQuestState = QuestState.ReadyToComplete;
+        //switch(questData.questType)
+        //{
+        //    case QuestType.Kill:
+        //        if (currentCount >= questData.requiredKillCount && questData.requiredKillCount > 0)
+        //            currentQuestState = QuestState.ReadyToComplete;
 
-                break;
-            case QuestType.Collect:
-                int have = Player.instance.InventoryController.GetItemCount(questData.targetItem);
-                if (have >= questData.requiredItemCount && questData.requiredItemCount > 0)
-                    currentQuestState = QuestState.ReadyToComplete;
-                break;
-        }
+        //        break;
+        //    case QuestType.Collect:
+        //        int have = Player.instance.InventoryController.GetItemCount(questData.targetItem);
+        //        if (have >= questData.requiredItemCount && questData.requiredItemCount > 0)
+        //            currentQuestState = QuestState.ReadyToComplete;
+        //        break;
+        //}
     }
 
     public void Complete()

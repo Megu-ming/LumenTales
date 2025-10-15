@@ -12,7 +12,7 @@ public class QuestManager
         {
             if (quest.Value.currentQuestState != QuestState.InProgress) continue;
             if (quest.Value.questData.questType != QuestType.Kill) continue;
-            if (quest.Value.questData.targetName != enemyName) continue;
+            //if (quest.Value.questData.targetName != enemyName) continue;
 
             quest.Value.currentCount++;
             quest.Value.Evaluate();
@@ -25,7 +25,7 @@ public class QuestManager
         {
             if (quest.Value.currentQuestState != QuestState.InProgress) continue;
             if (quest.Value.questData.questType != QuestType.Collect) continue;
-            if (quest.Value.questData.targetItem != item) continue;
+            //if (quest.Value.questData.targetItem != item) continue;
             quest.Value.Evaluate();
         }
     }
