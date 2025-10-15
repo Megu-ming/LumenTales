@@ -44,7 +44,7 @@ public class SlotMeta
         }
     }
 
-    public string TitleLine => exists ? $"Slot {slotIndexBased}  LV.{level}\n {DisplayTime}" : "(Empty Slot)";
+    public string TitleLine => exists ? $"슬롯 {slotIndexBased}  레벨.{level}\n {DisplayTime}" : "(빈 슬롯)";
 
     public static SlotMeta From(SlotData sd, int indexBased)
     {
@@ -82,10 +82,11 @@ public class  InventorySnapshot
     public List<EquippedEntry> equippedEntry = new List<EquippedEntry>();
 }
 
+[Serializable]
 public class QuestSnapshot
 {
     public List<Quest> inProgressQuests = new List<Quest>();
-    public List<QuestData> completedQuests = new List<QuestData>();
+    public List<int> completedQuests = new List<int>();
 }
 
 [Serializable]
@@ -207,7 +208,7 @@ public class DataManager : MonoBehaviour
 
         Player.instance.ApplySummary(slot.player);
         Player.instance.InventoryController.LoadFromSnapshot(slot.inventory, resolver);
-        GameManager.instance.questManager.ApplyQuest(slot.questSnapshot);
+        GameManager.instance.questManager.ApplyQuest(slot.questSnapshot);   
     }
 
     public void BackupCurrentSlot()

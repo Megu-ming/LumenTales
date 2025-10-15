@@ -47,7 +47,7 @@ public class SlotPanelUI : MonoBehaviour
             if (slotTitleLines[i].text != null)
             {
                 slotTitleLines[i].text = meta.exists
-                    ? $"{meta.TitleLine}" : "(Empty Slot)";
+                    ? $"{meta.TitleLine}" : "(ºó ½½·Ô)";
             }
         }
     }
@@ -60,7 +60,7 @@ public class SlotPanelUI : MonoBehaviour
         {
             if (slotTitleLines[i] != null)
                 slotTitleLines[i].text = metas[i].exists
-                    ? $"{metas[i].TitleLine}" : "(Empty Slot)";
+                    ? $"{metas[i].TitleLine}" : "(ºó ½½·Ô)";
         }
     }
 

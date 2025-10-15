@@ -16,8 +16,6 @@ public class MenuScene : SceneBase
 
         UIManager.instance.InitUI();
 
-        UIManager.instance.uiRoot.gameObject.SetActive(false);
-
         UIManager.instance.mainMenuPanel.Init();
     }
 }

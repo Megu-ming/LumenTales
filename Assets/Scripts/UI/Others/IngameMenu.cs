@@ -27,23 +27,24 @@ public class IngameMenu : UIBase
         Close();
     }
 
-    public void OnClickOption()
-    {
-
-    }
-
     public void OnClickMainMenu()
     {
-        DataManager.instance.BackupCurrentSlot();
-        DataManager.instance.SaveAll();
+        if(DataManager.instance is not null)
+        {
+            DataManager.instance.BackupCurrentSlot();
+            DataManager.instance.SaveAll();
+        }        
         Close();
         GameManager.instance.LoadScene(SceneType.Menu);
     }
 
     public void OnClickQuitGame()
     {
-        DataManager.instance.BackupCurrentSlot();
-        DataManager.instance.SaveAll();
+        if(DataManager.instance is not null)
+        {
+            DataManager.instance.BackupCurrentSlot();
+            DataManager.instance.SaveAll();
+        }
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

@@ -6,7 +6,6 @@ public class MainMenuPanelUI : MonoBehaviour
 {
     public Button newGameBtn; 
     public Button continueBtn;
-    public Button settingsBtn;
     public Button exitBtn;
 
     SlotPanelUI slotPanel;
@@ -24,11 +23,6 @@ public class MainMenuPanelUI : MonoBehaviour
     public void OnClickContinue()
     {
         OpenSlotPanel(false);
-    }
-
-    public void OnClickSettings()
-    {
-
     }
 
     public void OnClickExit()

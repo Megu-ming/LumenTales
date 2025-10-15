@@ -48,10 +48,10 @@ public class Player : MonoBehaviour
             GameManager.instance.CurrentScene.StatusPoint = ps.statusPoint;
 
         if(UIManager.instance!=null)
+        {
             UIManager.instance.OnExpChanged(Status.CurrentExp, Status.MaxExp);
+        }
     }
-
-    
 
     /// <summary>
     /// 플레이어의 현재 저장가능한 수치들을 가져온다.

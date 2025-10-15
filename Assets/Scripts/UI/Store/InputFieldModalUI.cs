@@ -10,7 +10,7 @@ public class InputFieldModalUI : UIBase
     [SerializeField] Button noBtn;
 
     public int maxAmount;
-
+    public From owner;
     public event Action<bool, int> HandleYesButton;
 
     private void Start()
@@ -22,12 +22,12 @@ public class InputFieldModalUI : UIBase
 
     protected override void OnOpen()
     {
-        if (UIManager.instance.storeUI.GetChoicedSlot() is not null)
+        if (owner is From.Store)
         {
             HandleYesButton -= UIManager.instance.storeUI.GetChoicedSlot().TryBuyItem;
             HandleYesButton += UIManager.instance.storeUI.GetChoicedSlot().TryBuyItem;
         }
-        if (UIManager.instance.inventoryUI is not null)
+        if (owner is From.Inventory)
         {
             HandleYesButton -= UIManager.instance.inventoryUI.TrySellItem;
             HandleYesButton += UIManager.instance.inventoryUI.TrySellItem;
@@ -36,10 +36,14 @@ public class InputFieldModalUI : UIBase
 
     override protected void OnClose()
     {
-        if (UIManager.instance.storeUI.GetChoicedSlot() is not null)
+        if (owner is From.Store)
+        {
             HandleYesButton -= UIManager.instance.storeUI.GetChoicedSlot().TryBuyItem;
-        if (UIManager.instance.inventoryUI is not null)
+        }
+        if (owner is From.Inventory)
+        {
             HandleYesButton -= UIManager.instance.inventoryUI.TrySellItem;
+        }
     }
 
     void OnClickYesButton()
@@ -50,7 +54,7 @@ public class InputFieldModalUI : UIBase
         HandleYesButton?.Invoke(true, value);
         Close();
     }
-
+        
     void OnClickNoButton()
     {
         // 그냥 종료

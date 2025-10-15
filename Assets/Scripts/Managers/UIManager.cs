@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject tooltipPrefab;
     [SerializeField] GameObject storePrefab;
     [SerializeField] GameObject inventoryPrefab;
+    [SerializeField] GameObject characterInfoPrefab;
     [SerializeField] GameObject dummyPrefab;
 
     [Header("GameHUD UI Prefabs")]
@@ -53,6 +54,7 @@ public class UIManager : MonoBehaviour
     public GameObject expSlider;
     public StoreUI storeUI;
     public UIInventory inventoryUI;
+    public UIEquipment characterInfoUI;
     public WarningModalUI warningModal;
     public InputFieldModalUI inputFieldModal;
     public GameObject dummy;
@@ -91,6 +93,8 @@ public class UIManager : MonoBehaviour
             Instantiate(mainMenuPanelPrefab, mainMenuCanvas.transform).TryGetComponent<MainMenuPanelUI>(out mainMenuPanel);
             Instantiate(slotPanelPrefab, mainMenuCanvas.transform).TryGetComponent<SlotPanelUI>(out slotPanel);
             Instantiate(warningModalPrefab, mainMenuCanvas.transform).TryGetComponent<WarningModalUI>(out warningModal);
+
+            return;
         }
         if (uiRoot == null) Instantiate(UIRootPrefab).TryGetComponent<UIRoot>(out uiRoot);
         if (gameHUD == null) Instantiate(GameHUDPrefab).TryGetComponent<Canvas>(out gameHUD);
@@ -126,6 +130,10 @@ public class UIManager : MonoBehaviour
         if(inventoryUI == null)
         {
             Instantiate(inventoryPrefab, uiRoot.transform).TryGetComponent<UIInventory>(out inventoryUI);
+        }
+        if(characterInfoUI == null)
+        {
+            Instantiate(characterInfoPrefab, uiRoot.transform).TryGetComponent<UIEquipment>(out characterInfoUI);
         }
         if (inputFieldModal == null)
         {
@@ -234,7 +242,7 @@ public class UIManager : MonoBehaviour
 
         tooltip.SetupTooltip(name, desc, price, atk, isAtk, isDef);
 
-        tooltip.transform.position = screenPos;
+        tooltip.transform.position = screenPos + new Vector2(70, -70);
 
         float pivotX = tooltipRect.anchoredPosition.x + tooltipRect.sizeDelta.x > canvasRect.sizeDelta.x ? 1f : 0f; // anchor 11
         float pivotY = tooltipRect.anchoredPosition.y - tooltipRect.sizeDelta.y < -canvasRect.sizeDelta.y ? 0f : 1f; // anchor 00

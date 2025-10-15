@@ -8,9 +8,8 @@ using static Utils;
 public class UIEquipment : UIBase
 {
     [SerializeField] UIEquipmentSlot[] slots;
-    [SerializeField] InventoryController inventory;
-
-    [SerializeField] GameObject imageDummy;
+    public UICharacterInfo characterInfoUI;
+    InventoryController inventory;
     
     private readonly Dictionary<EquipmentSlotType, UIEquipmentSlot> map = new();
 
@@ -18,7 +17,6 @@ public class UIEquipment : UIBase
     private List<RaycastResult> rrList;
 
     private UIEquipmentSlot beginDragSlot;      // 드래그를 시작한 슬롯
-    private Transform beginDragIconTr;          // 해당 슬롯의 아이콘 트랜스폼
 
     private Vector2 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
     private Vector2 beginDragCursorPoint;       // 드래그 시작시 커서 위치
@@ -32,6 +30,10 @@ public class UIEquipment : UIBase
             map[s.slotType] = s;
             s.Clear();
         }
+
+        if (inventory is null) inventory = Player.instance?.InventoryController;
+        if (characterInfoUI is null) characterInfoUI = GetComponentInChildren<UICharacterInfo>();
+        if (characterInfoUI) characterInfoUI.Refresh();
 
         inventory.OnEquippedChanged += HandleEquippedChanged;
         inventory.OnEquipUIToggleRequest += Toggle;
@@ -110,13 +112,13 @@ public class UIEquipment : UIBase
             return;
         }
 
-        if(imageDummy && imageDummy.TryGetComponent<Image>(out Image img))
+        if(UIManager.instance.dummy && UIManager.instance.dummy.TryGetComponent<Image>(out Image img))
         {
             img.sprite = beginDragSlot.CurrentIcon;
             img.enabled = true;
             SetSlotIconInvisible(beginDragSlot, false);
-            imageDummy.transform.position = beginDragSlot.IconRect.position;
-            imageDummy.transform.SetAsLastSibling();
+            UIManager.instance.dummy.transform.position = beginDragSlot.IconRect.position;
+            UIManager.instance.dummy.transform.SetAsLastSibling();
         }
 
         beginDragIconPoint = beginDragSlot.IconRect.position;
@@ -129,10 +131,10 @@ public class UIEquipment : UIBase
         if (beginDragSlot == null) return;
         if (eventData.button != InputButton.Left) return;
 
-        if (imageDummy)
+        if (UIManager.instance.dummy)
         {
             Vector3 pos = beginDragIconPoint + (eventData.position - beginDragCursorPoint);
-            imageDummy.transform.position = pos;
+            UIManager.instance.dummy.transform.position = pos;
         }
     }
 
@@ -170,7 +172,7 @@ public class UIEquipment : UIBase
 
     private void EndDragCleanup()
     {
-        if (imageDummy && imageDummy.TryGetComponent<Image>(out var img))
+        if (UIManager.instance.dummy && UIManager.instance.dummy.TryGetComponent<Image>(out var img))
             img.enabled = false;
     }
 

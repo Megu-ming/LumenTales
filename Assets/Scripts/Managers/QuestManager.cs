@@ -3,20 +3,19 @@ using System.Collections.Generic;
 [System.Serializable]
 public class QuestManager
 {
-    public List<Quest> questContainer = new List<Quest>();                      // 진행중인 퀘스트
-    public List<QuestData> completedQuestContainer = new List<QuestData>();     // 완료한 퀘스트
-
+    public Dictionary<int, Quest> questContainer = new Dictionary<int, Quest>();                      // 진행중인 퀘스트
+    public List<int> completedQuestContainer = new List<int>();     // 완료한 퀘스트 (퀘스트 ID)
 
     public void NotifyEnemyKilled(string enemyName)
     {
         foreach (var quest in questContainer)
         {
-            if (quest.currentQuestState != QuestState.InProgress) continue;
-            if (quest.questData.questType != QuestType.Kill) continue;
-            if (quest.questData.targetName != enemyName) continue;
+            if (quest.Value.currentQuestState != QuestState.InProgress) continue;
+            if (quest.Value.questData.questType != QuestType.Kill) continue;
+            if (quest.Value.questData.targetName != enemyName) continue;
 
-            quest.currentCount++;
-            quest.Evaluate();
+            quest.Value.currentCount++;
+            quest.Value.Evaluate();
         }
     }
 
@@ -24,25 +23,25 @@ public class QuestManager
     {
         foreach (var quest in questContainer)
         {
-            if (quest.currentQuestState != QuestState.InProgress) continue;
-            if (quest.questData.questType != QuestType.Collect) continue;
-            if (quest.questData.targetItem != item) continue;
-            quest.Evaluate();
+            if (quest.Value.currentQuestState != QuestState.InProgress) continue;
+            if (quest.Value.questData.questType != QuestType.Collect) continue;
+            if (quest.Value.questData.targetItem != item) continue;
+            quest.Value.Evaluate();
         }
     }
 
-    public bool TryCompleteQuest(Quest target)
+    public bool TryCompleteQuest(int target)
     {
-        if (target is null) return false;
-        if (!questContainer.Contains(target)) return false;
+        if(!questContainer.ContainsKey(target)) return false;
+        if (questContainer[target] is null) return false;
 
-        if (target.currentQuestState != QuestState.ReadyToComplete) return false;
+        if (questContainer[target].currentQuestState != QuestState.ReadyToComplete) return false;
 
-        target.Complete();
-        if (target.currentQuestState == QuestState.Completed)
+        questContainer[target].Complete();
+        if (questContainer[target].currentQuestState == QuestState.Completed)
         {
             questContainer.Remove(target);
-            completedQuestContainer.Add(target.questData);
+            completedQuestContainer.Add(target);
             return true;
         }
 
@@ -52,15 +51,26 @@ public class QuestManager
     public void ApplyQuest(QuestSnapshot qs)
     {
         if (qs == null) return;
-        questContainer = new List<Quest>(qs.inProgressQuests);
-        completedQuestContainer = new List<QuestData>(qs.completedQuests);
+        foreach(var q in qs.inProgressQuests)
+        {
+            if(q.questData && questContainer.ContainsKey(q.questData.questID)) continue;
+            questContainer.Add(q.questData.questID, q);
+        }
+
+        completedQuestContainer = qs.completedQuests;
+
     }
 
     public QuestSnapshot GetQuestSnapshot()
     {
         var snapshot = new QuestSnapshot();
-        snapshot.inProgressQuests = new List<Quest>(questContainer);
-        snapshot.completedQuests = new List<QuestData>(completedQuestContainer);
+        foreach(var q in questContainer)
+        {
+            snapshot.inProgressQuests.Add(q.Value);
+        }
+
+        snapshot.completedQuests = new List<int>(completedQuestContainer);
+
 
         return snapshot;
     }

@@ -15,7 +15,7 @@ public class UIInventory : UIBase
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
-    public InventoryController inventory;
+    InventoryController inventory;
 
     List<UIInventorySlot> slotUIList = new List<UIInventorySlot>();
     private PointerEventData ped;
@@ -247,6 +247,7 @@ public class UIInventory : UIBase
             {
                 modal.maxAmount = 1;
             }
+            modal.owner = From.Inventory;
             modal.Open();
 
             sellingIndex = beginDragSlot.Index;

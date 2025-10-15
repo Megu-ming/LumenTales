@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95fc6a6bddfdae649963f8b637620a24, type: 3}
   m_Name: LV1_IronArmor
   m_EditorClassIdentifier: 
-  itemName: old iron armor
+  itemName: "\uB179\uC2A8 \uCCA0 \uAC11\uC8FC"
   icon: {fileID: 8744135167966358179, guid: ecbb56fef5785454db885b6fa197a8d4, type: 3}
   prefab: {fileID: 5703064305491636780, guid: 1f0435bf836b7f3409514ef3e7ae8aef, type: 3}
-  tooltip: It's old armor that looks like it was used by a knight.
+  tooltip: "\uC624\uB798 \uC0AC\uC6A9\uB41C \uB179\uC2A8 \uAC15\uCCA0 \uAC11\uC8FC\uC774\uB2E4."
   price: 100
   slot: 2
   defenseValue: 5

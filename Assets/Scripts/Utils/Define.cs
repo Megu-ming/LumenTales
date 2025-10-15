@@ -33,6 +33,12 @@ public enum SceneType
     Boss
 }
 
+public enum From
+{
+    Store,
+    Inventory,
+}
+
 public enum QuestType
 {
     Kill,       // 몬스터 처치

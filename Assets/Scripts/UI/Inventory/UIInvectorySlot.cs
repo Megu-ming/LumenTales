@@ -45,7 +45,7 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
 
     private void InitComponent()
     {
-        inventoryUI = GetComponentInParent<UIInventory>();
+        inventoryUI = UIManager.instance.inventoryUI;
 
         slotRect = GetComponent<RectTransform>();
         iconRect = itemImage.GetComponent<RectTransform>();
@@ -98,7 +98,7 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
         // ToolTip UI
         if (!HasItem) { UIManager.instance?.Hide(); return; }
         if (inventoryUI == null) { UIManager.instance?.Hide(); return; }
-        var data = inventoryUI.inventory.GetItemData(Index);
+        var data = Player.instance?.InventoryController.GetItemData(Index);
         if (data is EquipmentItemData eqData)
         {
             int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;

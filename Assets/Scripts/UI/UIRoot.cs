@@ -43,7 +43,7 @@ public class UIRoot : MonoBehaviour
 
         uiStore.Open();
         uiInven.gameObject.SetActive(true);
-        if(uiInven.inventory is not null) uiInven.inventory.RefreshAllSlots();
+        if(Player.instance?.InventoryController is not null) Player.instance?.InventoryController.RefreshAllSlots();
     }
 
     public void DetachInvenFromStore()

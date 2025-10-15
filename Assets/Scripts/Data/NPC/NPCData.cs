@@ -4,7 +4,8 @@ using UnityEngine;
 public class NPCData : ScriptableObject
 {
     public string Name;
+    public int id;
 
     public string[] conversations;
-    public QuestData[] quests;
+    public QuestData quest;
 }

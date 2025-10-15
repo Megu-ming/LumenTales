@@ -48,6 +48,7 @@ public class StoreUI : UIBase
     public void OpenModal() 
     {
         var modal = UIManager.instance.inputFieldModal;
+        modal.owner = From.Store;
         modal.Open(); 
     }
 

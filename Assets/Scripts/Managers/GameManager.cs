@@ -41,7 +41,8 @@ public class GameManager : MonoBehaviour
 
     public void InjectData()
     {
-        DataManager.instance.InjectIntoCurrentPlayer(resolver);
+        if(DataManager.instance)
+            DataManager.instance.InjectIntoCurrentPlayer(resolver);
     }
 
     private void InitSingleton()

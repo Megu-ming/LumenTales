@@ -8,18 +8,16 @@ public class NPCConverstionHandler : InteractiveObj
     [SerializeField] InteractionManager interactionManager;
     [SerializeField] NPCData data;
 
-    [SerializeField] UIConversation conversationUI;
-
+    public int id;
     private int conversationStep = 0;
     // 스킵으로 대화가 막 넘어갔는지?
     private bool justRevealed = false;
 
     public static event Action<bool> OnConversationToggle;
 
-    private void Start()
+    private void Awake()
     {
-        if (UIManager.instance != null && UIManager.instance.conversationUI != null)
-            conversationUI = UIManager.instance.conversationUI;
+        id = data.id;
     }
 
     public override void OnInteraction() // 대화 이벤트
@@ -31,16 +29,16 @@ public class NPCConverstionHandler : InteractiveObj
         }
 
         // 대화창이 꺼져있으면 시작
-        if (!conversationUI.gameObject.activeSelf)
+        if (!UIManager.instance.conversationUI.gameObject.activeSelf)
         {
             StartConversation();
             return;
         }
 
         // 타이핑 중이면 스킵
-        if(conversationUI.isTypeEffect)
+        if(UIManager.instance.conversationUI.isTypeEffect)
         {
-            conversationUI.ShowAllScript();
+            UIManager.instance.conversationUI.ShowAllScript();
             justRevealed = true; // 스킵으로 대화가 넘어갔음
             return;
         }
@@ -83,8 +81,8 @@ public class NPCConverstionHandler : InteractiveObj
     private void SetLine(int index)
     {
         string npcName = string.IsNullOrEmpty(data.Name) ? gameObject.name : data.Name;
-        conversationUI.SetName(npcName);
-        conversationUI.SetScript(data.conversations[index]);
+        UIManager.instance.conversationUI.SetName(npcName);
+        UIManager.instance.conversationUI.SetScript(data.conversations[index]);
     }
 
     private void EndConversation()
@@ -95,12 +93,25 @@ public class NPCConverstionHandler : InteractiveObj
         conversationStep = 0;
         justRevealed = false;
 
-        conversationUI.Clear();
+        UIManager.instance.conversationUI.Clear();
+        
+        // 퀘스트 제공
+        if(data.quest is not null && 
+            !GameManager.instance.questManager.questContainer.ContainsKey(data.quest.questID) &&
+            !GameManager.instance.questManager.completedQuestContainer.Contains(data.quest.questID))
+        {
+            data.quest.MakeQuest();
+
+            return; 
+        }
+
+        GameManager.instance.questManager.TryCompleteQuest(data.quest.questID);
+
     }
 
     private void ControlConversationInterface(bool isTrue)
     {
-        conversationUI.gameObject.SetActive(isTrue);
+        UIManager.instance.conversationUI.gameObject.SetActive(isTrue);
         OnConversationToggle?.Invoke(isTrue);
     }
 

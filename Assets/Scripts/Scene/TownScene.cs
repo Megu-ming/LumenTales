@@ -27,8 +27,8 @@ public class TownScene : SceneBase
     public void InitScene()
     {
         Player.instance?.InventoryController.Init();
-        UIManager.instance.InitUI();
+        UIManager.instance?.InitUI();
 
-        GameManager.instance.InjectData();
+        GameManager.instance?.InjectData();
     }
 }

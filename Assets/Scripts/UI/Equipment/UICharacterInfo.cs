@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class UICharacterInfo : MonoBehaviour
 {
-    [SerializeField] PlayerStatus playerStatus;
     [SerializeField] TextMeshProUGUI levelText, atkText, defText, hpText, speedText, dropText;
     [SerializeField] TextMeshProUGUI strText, dexText, lukText, spText;
 
     private void Awake()
     {
-        if(playerStatus == null)
-        {
-            playerStatus = Player.instance?.Status;
-        }
         Refresh();
 
         CharacterEvents.infoUIRefresh += Refresh;
@@ -26,32 +21,30 @@ public class UICharacterInfo : MonoBehaviour
 
     public void OnStrButton()
     {
-        if (playerStatus == null) return;
         if(GameManager.instance.CurrentScene.StatusPoint <= 0) return;
-        playerStatus.SpAddedStr++;
+        Player.instance.Status.SpAddedStr++;
         GameManager.instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
     public void OnDexButton()
     {
-        if (playerStatus == null) return;
         if (GameManager.instance.CurrentScene.StatusPoint <= 0) return;
-        playerStatus.SpAddedAgi++;
+        Player.instance.Status.SpAddedAgi++;
         GameManager.instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
 
     public void OnLuckButton()
     {
-        if (playerStatus == null) return;
         if (GameManager.instance.CurrentScene.StatusPoint <= 0) return;
-        playerStatus.SpAddedLuk++;
+        Player.instance.Status.SpAddedLuk++;
         GameManager.instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
 
     public void Refresh()
     {
+        var playerStatus = Player.instance.Status;
         if (playerStatus == null) return;
         if (levelText)  levelText.text = $"{playerStatus.Level}";
         if (atkText)    atkText.text = $"{(int)playerStatus.FinalAtkDamage}";

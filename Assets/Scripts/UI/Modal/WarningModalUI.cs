@@ -29,15 +29,15 @@ public class WarningModalUI : MonoBehaviour
         {
             case ModalType.InNewGameWarning:
                 cachedtype = ModalType.InNewGameWarning;
-                warningText.text = "The slot already exists. Would you like to overwrite it?";
+                warningText.text = "이미 저장된 슬롯입니다. 덮어씌우시겠습니까?";
                 break;
             case ModalType.InContinueWarning:
                 cachedtype = ModalType.InContinueWarning;
-                warningText.text = "The slot is empty. Would you like to start over?";
+                warningText.text = "빈 슬롯입니다. 이 슬롯에서 시작하시겠습니까?";
                 break;
             case ModalType.InDeleteWarning:
                 cachedtype = ModalType.InDeleteWarning;
-                warningText.text = "Are you sure you want to delete it?";
+                warningText.text = "정말 삭제하시겠습니까?";
                 break;
         }
 

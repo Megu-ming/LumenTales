@@ -20,8 +20,6 @@ public class InventoryController : MonoBehaviour
     public int Gold { get; private set; }
     public event Action<int> OnGoldChanged;
 
-    [SerializeField] PlayerStatus playerStatus;
-
     public event Action<int, ItemData> OnSlotUpdated;
     public event Action<int, int> OnSlotTextUpdated;
     public event Action OnInvenUIToggleRequest;
@@ -105,7 +103,7 @@ public class InventoryController : MonoBehaviour
             items[index] = null;
             UpdateSlot(index);
             equipped[tartgetType] = eq;
-            playerStatus.AddArmorAddedStat(eq.EquipmentData);
+            Player.instance.Status.AddArmorAddedStat(eq.EquipmentData);
             OnEquippedChanged?.Invoke(tartgetType, eq);
         }
     }
@@ -127,7 +125,7 @@ public class InventoryController : MonoBehaviour
         items[empty] = current;
         UpdateSlot(empty);
         equipped[slot] = null;
-        playerStatus.RemoveArmorAddedStat(current.EquipmentData);
+        Player.instance.Status.RemoveArmorAddedStat(current.EquipmentData);
         OnEquippedChanged?.Invoke(slot, null);
     }
 
@@ -307,7 +305,7 @@ public class InventoryController : MonoBehaviour
             {
                 items[empty] = current;
                 // armoradded스탯에서 current의 스탯만큼 제거
-                playerStatus.RemoveArmorAddedStat(current.EquipmentData);
+                Player.instance.Status.RemoveArmorAddedStat(current.EquipmentData);
                 UpdateSlot(empty);
             }
         }
@@ -318,7 +316,7 @@ public class InventoryController : MonoBehaviour
         UpdateSlot(index);
         OnEquippedChanged?.Invoke(slot, eq);
         // armoradded스탯에 eq의 스탯만큼 추가
-        playerStatus.AddArmorAddedStat(eq.EquipmentData);
+        Player.instance.Status.AddArmorAddedStat(eq.EquipmentData);
         Debug.Log($"Equipped {eq.itemData.ItemName} to {slot}");
     }
     
@@ -446,7 +444,7 @@ public class InventoryController : MonoBehaviour
 
             equipped[newEq.EquipmentData.slot] = newEq;
 
-            playerStatus.AddArmorAddedStat(eqData);
+            Player.instance.Status.AddArmorAddedStat(eqData);
             OnEquippedChanged?.Invoke(eqData.slot, newEq);
         }
 

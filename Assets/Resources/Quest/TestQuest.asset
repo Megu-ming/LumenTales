@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TestQuest
   m_EditorClassIdentifier: 
   questTitle: Monster extermination request
+  questID: 10
   questType: 0
   description: Please kill the golem, the troublemaker of the village.
   targetName: Golem

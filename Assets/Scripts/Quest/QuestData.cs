@@ -4,6 +4,7 @@ using UnityEngine;
 public class QuestData : ScriptableObject
 {
     public string questTitle;       // 퀘스트 제목
+    public int questID;             // 퀘스트 ID
     public QuestType questType;     // 퀘스트 종류
     [TextArea] public string description;      // 퀘스트 설명
 
@@ -26,7 +27,7 @@ public class QuestData : ScriptableObject
         Quest newQuest = new Quest();
         newQuest.questData = this;
         newQuest.currentQuestState = QuestState.InProgress;
-        GameManager.instance.questManager.questContainer.Add(newQuest);
+        GameManager.instance.questManager.questContainer.Add(questID, newQuest);
     }
 }
 

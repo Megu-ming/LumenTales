@@ -57,6 +57,7 @@ MonoBehaviour:
   tooltipPrefab: {fileID: 6129715416068939442, guid: ef3e01fd193803440bd9d37827e6716d, type: 3}
   storePrefab: {fileID: 2231967871071688245, guid: 0a6724d4cbe78804c92debfa41660f33, type: 3}
   inventoryPrefab: {fileID: 8431638238036347946, guid: 0c86538808e9f32438290bc01301239c, type: 3}
+  characterInfoPrefab: {fileID: 6104374164706897903, guid: cda54cfd02f761f42b126c48a9756c5f, type: 3}
   dummyPrefab: {fileID: 403509325429966908, guid: 2f763697ea6fc164c8f0ae6676204773, type: 3}
   damageTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
   healthTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
@@ -75,6 +76,7 @@ MonoBehaviour:
   expSlider: {fileID: 0}
   storeUI: {fileID: 0}
   inventoryUI: {fileID: 0}
+  characterInfoUI: {fileID: 0}
   warningModal: {fileID: 0}
   inputFieldModal: {fileID: 0}
   dummy: {fileID: 0}
