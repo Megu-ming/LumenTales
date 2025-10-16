@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8cfe03790e827242834ed20af84b948, type: 3}
+  m_Name: SpawnData
+  m_EditorClassIdentifier: 
+  whereToSpawn: 0000000001000000020000000300000004000000
+  spawnPoint:
+  - {x: -21.44, y: -2.23, z: -0.01772723}
+  - {x: -4.52, y: -1.98, z: -0.01772723}
+  - {x: 16.27, y: -2.66, z: -0.014996139}
+  - {x: -0.78, y: -3.7, z: -0.014996139}
+  - {x: -9.02, y: -2.33, z: -0.01772723}

@@ -1,10 +1,12 @@
 ﻿public enum WalkableDirection { Right, Left };
 
-public enum QuestGoalType
+public enum PlayerSpawnPoint
 {
-    Kill,
-    Gather,
-    Talk
+    Default,
+    TownToBattle,
+    BattleToBoss,
+    BossToBattle,
+    BattleToTown,
 }
 
 public enum EnemyType

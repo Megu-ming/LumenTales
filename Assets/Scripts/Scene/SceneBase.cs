@@ -14,7 +14,6 @@ public class SceneBase : MonoBehaviour
 
     [Header("SceneBase Option")]
     [SerializeField] protected CinemachineCamera cam;   
-    [SerializeField] Transform spawnPos;
     [SerializeField] Texture2D cursorTexture;
 
     protected virtual void Awake()
@@ -31,7 +30,7 @@ public class SceneBase : MonoBehaviour
             if (player != null && cam != null)
             {
                 cam.Target.TrackingTarget = player.transform;
-                player.transform.position = spawnPos.position;
+                player.transform.position = GameManager.instance.GetSpawnPosition();
             }
         }
     }

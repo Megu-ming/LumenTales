@@ -123,7 +123,6 @@ public class EnemyController : CreatureController
         itemDropHelper.DropItem(transform.position, () => { gameObject.SetActive(false); });
 
         // 퀘스트 관련 이벤트
-        GameManager.instance.questManager?.NotifyEnemyKilled(enemyData.enemyName);
     }
 
     #region AIFunction

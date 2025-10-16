@@ -1,4 +1,3 @@
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,11 +6,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [SerializeField] AllItemData resolver;
+    [SerializeField] SpawnData spawnData;
+    PlayerSpawnPoint currentSpawnPoint = PlayerSpawnPoint.Default;
 
     SceneBase currentScene;
-
-    [Header("Quest Manager")]
-    public QuestManager questManager = new QuestManager();
 
     public SceneBase CurrentScene
     {
@@ -28,6 +26,16 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         InitSingleton();
+    }
+
+    public void SetSpawnPoint(PlayerSpawnPoint point)
+    {
+        currentSpawnPoint = point;
+    }
+
+    public Vector3 GetSpawnPosition()
+    {
+        return spawnData.spawnPoint[(int)currentSpawnPoint];
     }
 
     public void LoadScene(SceneType type)

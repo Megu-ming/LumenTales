@@ -106,11 +106,11 @@ public class PlayerController : CreatureController
 
     private void OnEnable()
     {
-        NPCConverstionHandler.OnConversationToggle += SetConversationsState;
+        //NPCConverstionHandler.OnConversationToggle += SetConversationsState;
     }
     private void OnDisable()
     {
-        NPCConverstionHandler.OnConversationToggle -= SetConversationsState;
+        //NPCConverstionHandler.OnConversationToggle -= SetConversationsState;
     }
 
     private void Update()

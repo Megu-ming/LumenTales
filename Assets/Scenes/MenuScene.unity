@@ -258,9 +258,6 @@ MonoBehaviour:
         gold: 0
         itemEntry: []
         equippedEntry: []
-      questSnapshot:
-        inProgressQuests: []
-        completedQuests: 
     - exists: 0
       createdAtUnix: 0
       updatedAtUnix: 0
@@ -276,9 +273,6 @@ MonoBehaviour:
         gold: 0
         itemEntry: []
         equippedEntry: []
-      questSnapshot:
-        inProgressQuests: []
-        completedQuests: 
     - exists: 0
       createdAtUnix: 0
       updatedAtUnix: 0
@@ -294,9 +288,6 @@ MonoBehaviour:
         gold: 0
         itemEntry: []
         equippedEntry: []
-      questSnapshot:
-        inProgressQuests: []
-        completedQuests: 
     - exists: 0
       createdAtUnix: 0
       updatedAtUnix: 0
@@ -312,9 +303,6 @@ MonoBehaviour:
         gold: 0
         itemEntry: []
         equippedEntry: []
-      questSnapshot:
-        inProgressQuests: []
-        completedQuests: 
     - exists: 0
       createdAtUnix: 0
       updatedAtUnix: 0
@@ -330,9 +318,6 @@ MonoBehaviour:
         gold: 0
         itemEntry: []
         equippedEntry: []
-      questSnapshot:
-        inProgressQuests: []
-        completedQuests: 
 --- !u!4 &1019710691
 Transform:
   m_ObjectHideFlags: 0
@@ -378,7 +363,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  spawnPos: {fileID: 0}
   cursorTexture: {fileID: 2800000, guid: d448f9e2fe2815e428d7456ee30e7d43, type: 3}
 --- !u!4 &1257102758
 Transform:
@@ -403,10 +387,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 372443217234336205, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
-      propertyPath: characterInfoPrefab
-      value: 
-      objectReference: {fileID: 6104374164706897903, guid: cda54cfd02f761f42b126c48a9756c5f, type: 3}
     - target: {fileID: 5814457941707002991, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
       propertyPath: m_Name
       value: UIManager

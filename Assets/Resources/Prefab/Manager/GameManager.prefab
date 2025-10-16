@@ -45,5 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolver: {fileID: 11400000, guid: 4a6511df113adae439bb7d4f70c1ca46, type: 2}
-  questManager:
-    completedQuestContainer: 
+  spawnData: {fileID: 11400000, guid: abc5e39851a4cd14cadb328f5a2326ad, type: 2}
