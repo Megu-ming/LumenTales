@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SceneBase : MonoBehaviour
 {
+    [SerializeField] Transform editor_SpawnPoint;
+
     protected SceneType sceneType;
 
     int statusPoint;
@@ -30,7 +32,11 @@ public class SceneBase : MonoBehaviour
             if (player != null && cam != null)
             {
                 cam.Target.TrackingTarget = player.transform;
-                player.transform.position = GameManager.instance.GetSpawnPosition();
+                if(GameManager.instance is not null)
+                    player.transform.position = GameManager.instance.GetSpawnPosition();
+#if UNITY_EDITOR
+                player.transform.position = editor_SpawnPoint.position;
+#endif
             }
         }
     }
