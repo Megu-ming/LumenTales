@@ -19,7 +19,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject slotPanelPrefab;
 
     [Header("UIRoot UI Prefabs")]
-    [SerializeField] GameObject pointerAreaPrefab;
     [SerializeField] GameObject conversationBoxPrefab;
     [SerializeField] GameObject interactPanelPrefab;
     [SerializeField] GameObject ingameMenuPrefab;
@@ -47,7 +46,6 @@ public class UIManager : MonoBehaviour
     [Header("UI Instances")]
     public MainMenuPanelUI mainMenuPanel;
     public SlotPanelUI slotPanel;
-    public GameObject pointerArea;
     public UIConversation conversationUI;
     public GameObject interactPanel;
     public IngameMenu ingameMenu;
@@ -99,7 +97,6 @@ public class UIManager : MonoBehaviour
         if (uiRoot == null) Instantiate(UIRootPrefab).TryGetComponent<UIRoot>(out uiRoot);
         if (gameHUD == null) Instantiate(GameHUDPrefab).TryGetComponent<Canvas>(out gameHUD);
 
-        if (pointerArea == null) pointerArea = Instantiate(pointerAreaPrefab, uiRoot.transform);
         if (conversationUI == null)
         {
             Instantiate(conversationBoxPrefab, uiRoot.transform).TryGetComponent<UIConversation>(out conversationUI);

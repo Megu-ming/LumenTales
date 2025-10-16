@@ -50,8 +50,6 @@ public class UICharacterInfo : MonoBehaviour
         if (atkText)    atkText.text = $"{(int)playerStatus.FinalAtkDamage}";
         if (defText)    defText.text = $"{playerStatus.BaseDefense}";
         if (hpText)     hpText.text = $"{playerStatus.FinalMaxHealth}";
-        if (speedText)  speedText.text = $"{playerStatus.MoveSpeed:F1}";
-        if (dropText)   dropText.text = $"{playerStatus.DropRate:P1}";
 
         if (strText)    strText.text = $"{playerStatus.Strength}";
         if (dexText)    dexText.text = $"{playerStatus.Agility}";

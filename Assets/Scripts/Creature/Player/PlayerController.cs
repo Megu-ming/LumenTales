@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,13 +11,37 @@ public class PlayerController : CreatureController
     [Header("Movement")]
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float sprintMul = 1.2f;
-    [SerializeField] private bool _isMoving = false;
+    [SerializeField] private bool isMoving = false;
+    public float moveSpeed;
+    public float CurrentSpeed
+    {
+        get
+        {
+            // ✅ 대시가 최우선: CanMove=false여도 대시 속도만 적용
+            // (현재 DashSkill이 moveSpeed를 dashSpeed로 바꿔두므로 여기선 moveSpeed를 그대로 반환)
+            if (isDash) return moveSpeed;
+
+            // ⛔ 대시가 아닐 때는 CanMove/IsMoving 조건으로 제어
+            if (!CanMove) return 0f;
+            if (!IsMoving) return 0f;
+
+            // 🏃 스프린트 배수
+            return IsSprint ? moveSpeed * sprintMul : moveSpeed;
+        }
+    }
+    private bool isDash;
+    public bool IsDash
+    {
+        get { return isDash; }
+        set { isDash = value; animator.SetBool(AnimationStrings.isDash, value); }
+    }
+
     public bool IsMoving { 
         get 
-        { return _isMoving; } 
+        { return isMoving; } 
         set
         {
-            _isMoving = value;
+            isMoving = value;
             animator.SetBool(AnimationStrings.move, value);
         }
     }
@@ -29,23 +54,6 @@ public class PlayerController : CreatureController
         {
             _isSprint = value;
             animator.SetBool(AnimationStrings.sprint, value);
-        }
-    }
-     
-    public float CurrentSpeed
-    {
-        get
-        {
-            if (CanMove)
-            {
-                if (IsMoving)
-                {
-                    if (IsSprint) return gameObject.GetComponent<PlayerStatus>().MoveSpeed * sprintMul;
-                    else return gameObject.GetComponent<PlayerStatus>().MoveSpeed;
-                }
-                else return 0;
-            }
-            else return 0;
         }
     }
 
@@ -86,7 +94,7 @@ public class PlayerController : CreatureController
 
     private Vector2 moveInput;
     private bool isGrounded;
-    PlayerStatus status;
+
     public bool IsGrounded 
     { 
         get { return isGrounded; }
@@ -96,11 +104,13 @@ public class PlayerController : CreatureController
     public event Action OnInteractionEvent;
     public bool isConversation = false;
 
+    // Dash CoolTime
+    public float dashCooltime;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        status = GetComponent<PlayerStatus>();
         rb.freezeRotation = true;
     }
 
@@ -135,14 +145,44 @@ public class PlayerController : CreatureController
 
     private void FixedUpdate()
     {
-        if(!status.LockVelocity)
-            rb.linearVelocity = new Vector2(moveInput.x * CurrentSpeed, rb.linearVelocityY);
+        // 이동 잠금: 대시가 아닐 때만 잠금 적용
+        if (!CanMove && !isDash)
+        {
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocityY);
+            return;
+        }
+
+        float xVel;
+
+        if (isDash)
+        {
+            // 대시 중: 입력 무시, 바라보는 방향 × CurrentSpeed
+            xVel = (IsFacingRight ? 1f : -1f) * CurrentSpeed;
+        }
+        else
+        {
+            // 일반 이동: 입력 × CurrentSpeed (스프린트/정지/잠금은 CurrentSpeed 내부에서 처리)
+            xVel = moveInput.x * CurrentSpeed;
+        }
+
+        rb.linearVelocity = new Vector2(xVel, rb.linearVelocityY);
     }
+
 
     #region InputFunction
     public void OnMove(InputAction.CallbackContext context)
     {
         if (isConversation) return;
+
+        if (context.canceled)
+        {
+            moveInput = Vector2.zero;
+            IsMoving = false;
+            return;
+        }
+
+        if (isDash) return;
+
         moveInput = context.ReadValue<Vector2>();
         if(IsAlive)
         {
@@ -151,17 +191,14 @@ public class PlayerController : CreatureController
         }
         else IsMoving = false;
 
-        if (moveInput.x > 0)
-            moveInput.x = 1f;
-        else if (moveInput.x < 0)
-            moveInput.x = -1f;
-        else
-            moveInput.x = 0f;
+        if (moveInput.x > 0) moveInput.x = 1f;
+        else if (moveInput.x < 0) moveInput.x = -1f;
+        else moveInput.x = 0f;
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (isConversation) return;
+        if (isConversation || isDash) return;
         if (context.performed && jumpCount > 0 && CanMove)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
@@ -181,9 +218,9 @@ public class PlayerController : CreatureController
             IsSprint = false;
     }
 
-    public void OnAttack(PointerEventData data)
+    public void OnAttack(InputAction.CallbackContext context)
     {
-        if (isConversation) return;
+        if (isConversation || isDash) return;
         animator.SetTrigger(AnimationStrings.attack);
     }
 
@@ -227,6 +264,11 @@ public class PlayerController : CreatureController
             IsFacingRight = false;
         }
 
+    }
+
+    public void SetGravity(float val)
+    {
+        rb.gravityScale = val;
     }
 
     public void CallInteractEvent() => OnInteractionEvent?.Invoke();

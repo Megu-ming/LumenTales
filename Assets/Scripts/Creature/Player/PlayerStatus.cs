@@ -80,18 +80,13 @@ public class PlayerStatus : Status
     private float finalMaxHealth;
 
     [Header("Derived")]
-    [SerializeField] private float moveSpeed; // 최종 이동 속도
-    [SerializeField] private float dropRate;  // 최종 드랍률
-    public float MoveSpeed { get => moveSpeed; private set => moveSpeed *= agiMovePerPoint; }
-    public float DropRate { get => dropRate; private set => dropRate = value; }
 
     [Header("Attribute Scaling")]
-    [SerializeField] private float  strAttackPerPoint   = 0.25f;   // 힘 4 = 공격력 +1
-    [SerializeField] private float  strHpPerPoint       = 10;      // 힘 1 = 최대HP +10
-    [SerializeField] private float  agiAttackPerPoint   = 0.125f;  // 민첩 8 = 공격력 +1
-    [SerializeField] private float  agiMovePerPoint     = 0.05f;   // 민첩 1 = 이동속도 +0.05
-    [SerializeField] private float  lukMovePerPoint     = 0.02f;   // 행운 1 = 이동속도 +0.02
-    [SerializeField] private float  lukDropPerPoint     = 0.01f;   // 행운 1 = 드랍률 +1%
+    [SerializeField] private float strAttackPerPoint   = 0.25f;   // 힘 4 = 공격력 +1
+    [SerializeField] private float strHpPerPoint       = 10;      // 힘 1 = 최대HP +10
+    [SerializeField] private float agiAttackPerPoint   = 0.125f;  // 민첩 8 = 공격력 +1
+    [SerializeField] private float lukAttackPerPoint   = 0.125f;  // 행운 8 = 공격력 +1
+    [SerializeField] private float lukDefPerPoint      = 0.5f;    // 행운 2 = 방어력 +1
 
     protected override void Awake()
     {
