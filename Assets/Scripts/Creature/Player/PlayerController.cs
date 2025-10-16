@@ -101,6 +101,11 @@ public class PlayerController : CreatureController
         set { animator.SetBool(AnimationStrings.isGrounded, value); }
     }
 
+    public bool IsAttack
+    {
+        get { return animator.GetBool(AnimationStrings.isAttack); }
+    }
+
     public event Action OnInteractionEvent;
     public bool isConversation = false;
 
@@ -158,16 +163,15 @@ public class PlayerController : CreatureController
         {
             // 대시 중: 입력 무시, 바라보는 방향 × CurrentSpeed
             xVel = (IsFacingRight ? 1f : -1f) * CurrentSpeed;
+            rb.linearVelocity = new Vector2(xVel, 0);
         }
         else
         {
             // 일반 이동: 입력 × CurrentSpeed (스프린트/정지/잠금은 CurrentSpeed 내부에서 처리)
             xVel = moveInput.x * CurrentSpeed;
+            rb.linearVelocity = new Vector2(xVel, rb.linearVelocityY);
         }
-
-        rb.linearVelocity = new Vector2(xVel, rb.linearVelocityY);
     }
-
 
     #region InputFunction
     public void OnMove(InputAction.CallbackContext context)
@@ -184,7 +188,7 @@ public class PlayerController : CreatureController
         if (isDash) return;
 
         moveInput = context.ReadValue<Vector2>();
-        if(IsAlive)
+        if(IsAlive && IsAttack is false)
         {
             IsMoving = moveInput != Vector2.zero;
             SetFacingDirection(moveInput);
