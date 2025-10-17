@@ -4595,6 +4595,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 664786766065984095, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 2137645479}
+    - target: {fileID: 664786766065984095, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
       propertyPath: chaseSpeed
       value: 1.5
       objectReference: {fileID: 0}
@@ -4777,7 +4781,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageableHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2137645480}
+        m_TargetAssemblyTypeName: BossController, Assembly-CSharp
+        m_MethodName: OnHit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   level: 1
   baseAtkDamage: 0
   knockBack: {x: 0, y: 0}
@@ -4786,12 +4802,23 @@ MonoBehaviour:
   currentHealth: 0
   isAlive: 0
   isInvincible: 0
-  invincibilityTime: 0.25
+  invincibilityTime: 0
   hpBar: {fileID: 0}
   barPrefab: {fileID: 0}
   canvas: {fileID: 0}
   barHeight: 0
   expAmount: 0
+--- !u!114 &2137645480 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 664786766065984095, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
+  m_PrefabInstance: {fileID: 2137645477}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95757776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d45b07f11304cc438b85cb182cba84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
