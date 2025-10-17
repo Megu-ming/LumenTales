@@ -3,7 +3,8 @@ using UnityEngine.Events;
 
 public class BossController : CreatureController
 {
-    public Transform player;
+    Transform player;
+    public EnemyStatus status;
 
     private void Start()
     {
@@ -11,6 +12,8 @@ public class BossController : CreatureController
         {
             player = Player.instance.transform;
         }
+        if(status is null)
+            status = GetComponent<EnemyStatus>();
     }
 
     public void LookAtPlayer()

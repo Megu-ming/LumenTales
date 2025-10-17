@@ -24,6 +24,7 @@ public class EnemyStatus : Status
             hpBarInstance = Instantiate(barPrefab, canvas.transform);
             hpBar = hpBarInstance.GetComponent<RectTransform>();
         }
+        CurrentHealth = BaseMaxHealth;
     }
 
     protected override void Update()

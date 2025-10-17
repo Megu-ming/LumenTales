@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class BossScene : SceneBase
 {
+    [SerializeField] Transform boss;
+    [SerializeField] Transform hpBarUI;
+
+    [SerializeField] UnityEngine.UI.Image hpBarImage;
+    EnemyStatus bossStatus;
+
     protected override void Awake()
     {
         base.Awake();
@@ -20,6 +26,31 @@ public class BossScene : SceneBase
         base.Start();
 
         InitScene();
+
+        bossStatus = boss.GetComponent<EnemyStatus>();
+
+    }
+
+    private void Update()
+    {
+        if(hpBarUI.gameObject.activeSelf is true)
+        {
+            hpBarImage.fillAmount = CalculateRatio(bossStatus.CurrentHealth, bossStatus.BaseMaxHealth);
+        }
+
+    }
+
+    public void OpenHPBarUI()
+    {
+        if (boss is not null && hpBarUI is not null)
+            hpBarUI.gameObject.SetActive(true);
+    }
+
+    float CalculateRatio(float cur, float max)
+    {
+        if (max is not 0)
+            return cur / max;
+        else return 0;
     }
 
     public void InitScene()
