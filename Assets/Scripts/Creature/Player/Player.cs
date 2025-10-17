@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour
     public PlayerStatus Status { get; private set; }
     public PlayerController PlayerController { get; private set; }
     public InventoryController InventoryController { get; private set; }
+    public Light2D spotLight;
 
     // ─── Quest ────────────────────────────────────────────────────────────────
    
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
 
         // 태그 보정(트리거/포털 인식용)
         if (CompareTag("Untagged")) gameObject.tag = "Player";
+        if (spotLight is not null) spotLight.gameObject.SetActive(false);
     }
 
     private void OnDestroy()

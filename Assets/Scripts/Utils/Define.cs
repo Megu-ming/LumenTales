@@ -3,10 +3,10 @@
 public enum PlayerSpawnPoint
 {
     Default,
-    TownToBattle,
-    BattleToBoss,
-    BossToBattle,
-    BattleToTown,
+    Town_2,
+    Battle_1,
+    Battle_2,
+    Boss,
 }
 
 public enum EnemyType

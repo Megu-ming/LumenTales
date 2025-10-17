@@ -1,17 +1,21 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Portal : InteractiveObj
+public class Portal : MonoBehaviour
 {
     [SerializeField] SceneType nextScene;
     [SerializeField] PlayerSpawnPoint spawnPoint;
     
-    public override void OnInteraction()
+    private void OnTriggerEnter2D()
     {
-        DataManager.instance.BackupCurrentSlot();
-        DataManager.instance.SaveAll();
+        if(DataManager.instance is not null)
+        {
+            DataManager.instance.BackupCurrentSlot();
+            DataManager.instance.SaveAll();
+        }
 
-        GameManager.instance.SetSpawnPoint(spawnPoint);
-        GameManager.instance.LoadScene(nextScene);
+        GameManager.instance?.SetSpawnPoint(spawnPoint);
+        GameManager.instance?.LoadScene(nextScene);
     }
 }

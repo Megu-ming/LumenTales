@@ -30,5 +30,7 @@ public class TownScene : SceneBase
         UIManager.instance?.InitUI();
 
         GameManager.instance?.InjectData();
+
+        Player.instance?.spotLight.gameObject.SetActive(false);
     }
 }

@@ -35,7 +35,8 @@ public class SceneBase : MonoBehaviour
                 if(GameManager.instance is not null)
                     player.transform.position = GameManager.instance.GetSpawnPosition();
 #if UNITY_EDITOR
-                player.transform.position = editor_SpawnPoint.position;
+                else
+                    player.transform.position = editor_SpawnPoint.position;
 #endif
             }
         }
