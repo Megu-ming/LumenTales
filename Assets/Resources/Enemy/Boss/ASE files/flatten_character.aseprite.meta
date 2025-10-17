@@ -7,42 +7,42 @@ ScriptedImporter:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: death
-    second: {fileID: 7400000, guid: 44bb4e9bf7cbe5b47aa4776a292a47d7, type: 2}
+    second: {fileID: 7400000, guid: 9738474dcff366544af708750b00d675, type: 2}
   - first:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: glow
-    second: {fileID: 7400000, guid: d6e171a03582c3e44be076f6d25c68ec, type: 2}
+    second: {fileID: 7400000, guid: 5b7b2efb5e28a4e4e880cd4ccbe986c0, type: 2}
   - first:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: idle
-    second: {fileID: 7400000, guid: 76bd3207b37c5c4438146dbbf1d6dce4, type: 2}
+    second: {fileID: 7400000, guid: 0e45ca4714ccf97468e2587af5cebcab, type: 2}
   - first:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: immune
-    second: {fileID: 7400000, guid: 658858dcbe04aab4c8c1fee1178f30aa, type: 2}
+    second: {fileID: 7400000, guid: c749f0b950131744e903eb06931a9284, type: 2}
   - first:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: laser_cast
-    second: {fileID: 7400000, guid: c9278453ece0a794e86aaa26930d26db, type: 2}
+    second: {fileID: 7400000, guid: 06ec1b31ef8392140a50e7a1862b457f, type: 2}
   - first:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: melee
-    second: {fileID: 7400000, guid: 99539c47a8a5cf14fba6109aaa49cc19, type: 2}
+    second: {fileID: 7400000, guid: 2256abcec8c27ae4a96a5ccbb5f30691, type: 2}
   - first:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: sheild_cast
-    second: {fileID: 7400000, guid: 248f1d663acbd544ea51e868cb55318f, type: 2}
+    second: {fileID: 7400000, guid: e5b55b0db9d11914289f31c3012ee470, type: 2}
   - first:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: shoot
-    second: {fileID: 7400000, guid: 37cdc6fff8bfa3643a07a40439851785, type: 2}
+    second: {fileID: 7400000, guid: 99588bbb5f9c92642b79f3efdc4a2fa0, type: 2}
   serializedVersion: 2
   userData: 
   assetBundleName: 
@@ -76,7 +76,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 100
+    spritePixelsToUnits: 32
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -138,7 +138,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638920729168781283
+  platformSettingsDirtyTick: 638963065139735134
   textureAssetName: 
   singleSpriteImportData:
   - name: 
