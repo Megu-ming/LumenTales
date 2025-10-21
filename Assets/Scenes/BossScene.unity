@@ -4364,14 +4364,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 273643346831380197, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.89
-      objectReference: {fileID: 0}
-    - target: {fileID: 273643346831380197, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.83
-      objectReference: {fileID: 0}
     - target: {fileID: 664786766065984095, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
       propertyPath: chaseSpeed
       value: 1.5
@@ -4492,11 +4484,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8523473078834212216, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.65
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7119630699711008688, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2351676514915156785, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
     - {fileID: 7372734017946411997, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
+    - {fileID: 8877774553175919585, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}

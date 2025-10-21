@@ -30,13 +30,11 @@ public class MissileProjectile : MonoBehaviour
         transform.position = from;
         
         dir = (to - from).normalized;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        if (rb) rb.MoveRotation(angle);
+
+        transform.right = -dir;
+
         Debug.DrawLine(from, to, Color.red, 1f);
         if (rb) rb.linearVelocity = dir * speed;
-
-        //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        //if (rb) rb.MoveRotation(angle);
     }
 
     private void Update()
@@ -50,6 +48,7 @@ public class MissileProjectile : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Player Hit");
             var pc = Player.instance.Status;
             pc.Hit(damage, pc.knockBack);
         }

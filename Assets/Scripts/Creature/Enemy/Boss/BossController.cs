@@ -8,14 +8,14 @@ public class BossController : CreatureController
 
     float attackRange = 1.5f;
 
-    [Header("Æ¯¼öÆĞÅÏ ÄğÅ¸ÀÓ")]
+    [Header("íŠ¹ìˆ˜íŒ¨í„´ ì¿¨íƒ€ì„")]
     [SerializeField] float attackCooltime = 3f;
     [SerializeField] float laserCooltime = 10f;
     [SerializeField] float missileCooltime = 15f;
     [SerializeField] float shieldCooltime = 20f;
 
-    // "´ÙÀ½ »ç¿ë °¡´É ½Ã°¢"µé
-    float nextAttackTime;   // ±Û·Î¹ú °£°İ
+    // "ë‹¤ìŒ ì‚¬ìš© ê°€ëŠ¥ ì‹œê°"ë“¤
+    float nextAttackTime;   // ê¸€ë¡œë²Œ ê°„ê²©
     float nextLaserTime;
     float nextMissileTime;
     float nextShieldTime;
@@ -35,7 +35,7 @@ public class BossController : CreatureController
         if(status is null)
             status = GetComponent<EnemyStatus>();
 
-        // ½ÃÀÛÇÏÀÚ¸¶ÀÚ ´Ù »ç¿ë °¡´É
+        // ì‹œì‘í•˜ìë§ˆì ë‹¤ ì‚¬ìš© ê°€ëŠ¥
         float t = Time.time;
         nextAttackTime = t;
         nextLaserTime = t;
@@ -62,16 +62,16 @@ public class BossController : CreatureController
     {
         if (Time.time < nextAttackTime) return false;
 
-        //if(Time.time >= nextShieldTime)
-            //return Fire("Shield", ref nextShieldTime, shieldCooltime);
-        if (Time.time >= nextMissileTime /* && Á¶°Ç */)
+        if (Time.time >= nextShieldTime)
+            return Fire("Shield", ref nextShieldTime, shieldCooltime);
+        if (Time.time >= nextMissileTime /* && ì¡°ê±´ */)
             return Fire("Missile", ref nextMissileTime, missileCooltime);
-        //if (Time.time >= nextLaserTime /* && Á¶°Ç */)
-            //return Fire("Laser", ref nextLaserTime, laserCooltime);
+        if (Time.time >= nextLaserTime /* && ì¡°ê±´ */)
+            return Fire("Laser", ref nextLaserTime, laserCooltime);
 
-        // Æ¯¼öÆĞÅÏÀÌ ¸·ÇôÀÖ´Ù¸é ±âº»°ø°İ(±ÙÁ¢ ¹üÀ§ÀÏ ¶§¸¸)
-        //if (distanceToPlayer <= attackRange)
-            //return Fire("Attack", ref nextAttackTime, attackCooltime, isBasic: true);
+        //íŠ¹ìˆ˜íŒ¨í„´ì´ ë§‰í˜€ìˆë‹¤ë©´ ê¸°ë³¸ê³µê²©(ê·¼ì ‘ ë²”ìœ„ì¼ ë•Œë§Œ)
+        if (distanceToPlayer <= attackRange)
+            return Fire("Attack", ref nextAttackTime, attackCooltime, isBasic: true);
 
         return false;
     }
@@ -79,7 +79,7 @@ public class BossController : CreatureController
     bool Fire(string triggerName, ref float nextPatternTime, float cooldown, bool isBasic = false)
     {
         animator.SetTrigger(triggerName);
-        if (!isBasic) nextPatternTime = Time.time + cooldown; // ±Û·Î¹ú ÄğÅ¸ÀÓ Àû¿ë
+        if (!isBasic) nextPatternTime = Time.time + cooldown; // ê¸€ë¡œë²Œ ì¿¨íƒ€ì„ ì ìš©
         nextAttackTime = Time.time + attackCooltime;
         return true;
     }
