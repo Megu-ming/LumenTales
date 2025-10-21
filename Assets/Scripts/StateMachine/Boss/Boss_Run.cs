@@ -20,14 +20,12 @@ public class Boss_Run : StateMachineBehaviour
     {
         boss.LookAtPlayer();
 
-        Vector2 target = new Vector2(player.position.x, rb.position.y);
-        Vector2 newPos = Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
-        rb.MovePosition(newPos);
+        float distance = Vector2.Distance(player.position, rb.position);
 
-        if(Vector2.Distance(player.position, rb.position)<attackRange)
-        {
-            animator.SetTrigger("Attack");
-        }
+        if(boss.TryTriggerNextPattern(distance))
+            return;
+
+        boss.MoveToPlayer();
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
