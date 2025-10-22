@@ -7,7 +7,7 @@ public class BossScene : SceneBase
     [SerializeField] Transform hpBarUI;
 
     [SerializeField] UnityEngine.UI.Image hpBarImage;
-    EnemyStatus bossStatus;
+    BossStatus bossStatus;
 
     protected override void Awake()
     {
@@ -27,7 +27,7 @@ public class BossScene : SceneBase
 
         InitScene();
 
-        bossStatus = boss.GetComponent<EnemyStatus>();
+        bossStatus = boss.GetComponent<BossStatus>();
 
     }
 

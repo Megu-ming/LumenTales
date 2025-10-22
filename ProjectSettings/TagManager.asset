@@ -61,11 +61,14 @@ TagManager:
   - name: NPC
     uniqueID: 4244235727
     locked: 0
-  - name: TileMaps
-    uniqueID: 3330951421
-    locked: 0
   - name: Enemy
     uniqueID: 2402020385
+    locked: 0
+  - name: EnemyAttack
+    uniqueID: 651310997
+    locked: 0
+  - name: TileMaps
+    uniqueID: 3330951421
     locked: 0
   - name: Player
     uniqueID: 1043645373

@@ -10,6 +10,8 @@ public class BossStatus : Status
     protected override void Start()
     {
         base.Start();
+
+        CurrentHealth = BaseMaxHealth;
     }
 
     protected override void Update() { }

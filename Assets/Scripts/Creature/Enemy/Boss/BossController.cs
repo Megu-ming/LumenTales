@@ -1,24 +1,41 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum BossSkillEntry
+{
+    Default,
+    Missile,
+    Laser,
+    Shield,
+}
+
 public class BossController : CreatureController
 {
     Transform player;
-    public EnemyStatus status;
+    public BossStatus status;
 
     float attackRange = 1.5f;
 
     [Header("특수패턴 쿨타임")]
     [SerializeField] float attackCooltime = 3f;
+    [SerializeField] float meleeCooltime = 2f;
     [SerializeField] float laserCooltime = 10f;
     [SerializeField] float missileCooltime = 15f;
     [SerializeField] float shieldCooltime = 20f;
 
+    [Header("패턴 쿨타임 시각화")]
     // "다음 사용 가능 시각"들
-    float nextAttackTime;   // 글로벌 간격
-    float nextLaserTime;
-    float nextMissileTime;
-    float nextShieldTime;
+    [SerializeField] float attackTimer;   // 글로벌 간격
+    [SerializeField] float meleeTimer;
+    [SerializeField] float laserTimer;
+    [SerializeField] float missileTimer;
+    [SerializeField] float shieldTimer;
+
+    bool canAttack = true;
+    bool isMeleeReady = true;
+    bool isMissileReady = true;
+    bool isLaserReady = true;
+    bool isShieldReady = true;
 
     private void Awake()
     {
@@ -33,14 +50,48 @@ public class BossController : CreatureController
             player = Player.instance.transform;
         }
         if(status is null)
-            status = GetComponent<EnemyStatus>();
+            status = GetComponent<BossStatus>();
+    }
 
-        // 시작하자마자 다 사용 가능
-        float t = Time.time;
-        nextAttackTime = t;
-        nextLaserTime = t;
-        nextMissileTime = t;
-        nextShieldTime = t;
+    private void Update()
+    {
+        // 공격 가능해지면 타이머 안돌림
+        if (canAttack is false) 
+        {
+            attackTimer += Time.deltaTime;
+            if (attackTimer >= attackCooltime)
+                canAttack = true;
+        }
+
+        if (isMeleeReady is false)
+        {
+            meleeTimer += Time.deltaTime;
+            if(meleeTimer >= meleeCooltime)
+                isMeleeReady = true;
+        }
+
+        // 나머지 특수 패턴들은 패턴 사용가능한 상태가 아니면 항상 쿨타임이 돔
+        if(isMissileReady is false)
+        {
+            missileTimer += Time.deltaTime;
+            if(missileTimer >= missileCooltime)
+                isMissileReady = true;
+        }
+        if (isLaserReady is false)
+        {
+            laserTimer += Time.deltaTime;
+            if(laserTimer >= laserCooltime)
+                isLaserReady = true;
+        }
+        if (isShieldReady is false)
+        {
+            shieldTimer += Time.deltaTime;
+            if(shieldTimer >= shieldCooltime)
+                isShieldReady = true;
+        }
+
+        // 공격 가능한 상태면 패턴 사용
+        TryTriggerPattern();
     }
 
     public void LookAtPlayer()
@@ -58,29 +109,28 @@ public class BossController : CreatureController
         rb.MovePosition(newPos);
     }
 
-    public bool TryTriggerNextPattern(float distanceToPlayer)
+    public bool TryTriggerPattern(/*float distanceToPlayer*/)
     {
-        if (Time.time < nextAttackTime) return false;
+        if (canAttack is false) return false;
 
-        if (Time.time >= nextShieldTime)
-            return Fire("Shield", ref nextShieldTime, shieldCooltime);
-        if (Time.time >= nextMissileTime /* && 조건 */)
-            return Fire("Missile", ref nextMissileTime, missileCooltime);
-        if (Time.time >= nextLaserTime /* && 조건 */)
-            return Fire("Laser", ref nextLaserTime, laserCooltime);
+        if (isShieldReady is true)
+            return Fire("Shield", ref shieldTimer, ref isShieldReady);
+        if (isMissileReady is true)
+            return Fire("Missile", ref missileTimer, ref isMissileReady);
+        if (isLaserReady is true)
+            return Fire("Laser", ref laserTimer, ref isLaserReady);
 
-        //특수패턴이 막혀있다면 기본공격(근접 범위일 때만)
-        if (distanceToPlayer <= attackRange)
-            return Fire("Attack", ref nextAttackTime, attackCooltime, isBasic: true);
-
-        return false;
+        // 전부 쿨타임이면 평타
+        return Fire("Attack", ref attackTimer, ref isMeleeReady);
     }
 
-    bool Fire(string triggerName, ref float nextPatternTime, float cooldown, bool isBasic = false)
+    bool Fire(string triggerName, ref float patternTimer, ref bool isPatternReady)
     {
         animator.SetTrigger(triggerName);
-        if (!isBasic) nextPatternTime = Time.time + cooldown; // 글로벌 쿨타임 적용
-        nextAttackTime = Time.time + attackCooltime;
+        patternTimer = 0f;
+
+        // 여기 수정해야함!!
+        
         return true;
     }
 
