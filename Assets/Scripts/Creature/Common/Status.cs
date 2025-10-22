@@ -71,6 +71,7 @@ public class Status : MonoBehaviour
 
     [Header("무적시간")]
     [SerializeField] private bool isInvincible = false;
+    public void SetInvincible(bool val) => isInvincible = val;
     [SerializeField] private float invincibilityTime = 0.25f;
     private float timeSinceHit = 0f;
 
@@ -101,6 +102,12 @@ public class Status : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 피격 됐을 때 상대방에서 호출
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="knockback"></param>
+    /// <returns></returns>
     public virtual bool Hit(float damage, Vector2 knockback)
     {
         if (IsAlive && !isInvincible)

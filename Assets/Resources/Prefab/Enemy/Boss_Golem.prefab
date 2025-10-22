@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8255415219619128249}
   - component: {fileID: 1937265425853730964}
   - component: {fileID: 664786766065984095}
+  - component: {fileID: 4799991972154359301}
   - component: {fileID: 2067108314137141686}
-  - component: {fileID: 4586110242245614126}
   m_Layer: 6
   m_Name: Boss_Golem
   m_TagString: Untagged
@@ -113,12 +113,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d45b07f11304cc438b85cb182cba84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  status: {fileID: 4586110242245614126}
-  attackCooltime: 3
-  laserCooltime: 10
-  missileCooltime: 15
-  shieldCooltime: 20
---- !u!114 &2067108314137141686
+  status: {fileID: 0}
+  attackCooltime: 1
+  laserCooltime: 3
+  missileCooltime: 5
+  shieldCooltime: 60
+--- !u!114 &4799991972154359301
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,25 +127,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4750482188371169509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26a4e75215e000b4fa0648854beadd3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dataTable: {fileID: 11400000, guid: 3effffe93f7e1534bb0b256b8d5648d5, type: 2}
-  fanHalfAngle: 15
-  baseSpeed: 2
-  staggerInterval: 0.06
-  gravityScale: 1.5
-  itemMaterial: {fileID: 6200000, guid: 7c495fe0d23ccd8449b438123f4dce4a, type: 2}
---- !u!114 &4586110242245614126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4750482188371169509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffbbff39ad9af3447bc3fb7d9d7c395b, type: 3}
+  m_Script: {fileID: 11500000, guid: 033c535a246e23341963de7854632b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damageableHit:
@@ -166,17 +148,30 @@ MonoBehaviour:
   level: 1
   baseAtkDamage: 0
   knockBack: {x: 0, y: 0}
-  baseDefence: 50
-  baseMaxHealth: 1000
+  baseDefence: 0
+  baseMaxHealth: 100
   currentHealth: 0
   isAlive: 0
   isInvincible: 0
   invincibilityTime: 0
-  hpBar: {fileID: 0}
-  barPrefab: {fileID: 0}
-  canvas: {fileID: 0}
-  barHeight: 0
-  expAmount: 0
+--- !u!114 &2067108314137141686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4750482188371169509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a4e75215e000b4fa0648854beadd3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataTable: {fileID: 11400000, guid: 3effffe93f7e1534bb0b256b8d5648d5, type: 2}
+  fanHalfAngle: 15
+  baseSpeed: 2
+  staggerInterval: 0.06
+  gravityScale: 1.5
+  itemMaterial: {fileID: 6200000, guid: 7c495fe0d23ccd8449b438123f4dce4a, type: 2}
 --- !u!1 &5788776088509987275
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,7 +320,7 @@ Transform:
   m_GameObject: {fileID: 6774200261942455602}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.089, y: 1.153, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -342,8 +337,7 @@ GameObject:
   - component: {fileID: 777120152145724167}
   - component: {fileID: 7050789000402088634}
   - component: {fileID: 8512580509841165991}
-  - component: {fileID: 4649122963900352668}
-  - component: {fileID: 2200228406268209742}
+  - component: {fileID: 1173929794725012643}
   m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
@@ -411,9 +405,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1892946911
-  m_SortingLayer: 8
+  m_SortingLayer: 7
   m_SortingOrder: 0
-  m_Sprite: {fileID: -385987808, guid: 2b3ad5a4e8a9b7b48a8a74b18406aabc, type: 3}
+  m_Sprite: {fileID: -1023558605, guid: 2b3ad5a4e8a9b7b48a8a74b18406aabc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -446,7 +440,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4649122963900352668
+--- !u!114 &1173929794725012643
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -455,21 +449,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 9089647982171885644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f4c0bca2ea4b8c46b31bb4a287ca88c, type: 3}
+  m_Script: {fileID: 11500000, guid: 315d8f7aee2f79f458ef554bd0983f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossTransform: {fileID: 8431617840549984468}
   meleeCollider: {fileID: 8523473078834212216}
---- !u!114 &2200228406268209742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9089647982171885644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33545ac021a615b468d9176a5d1480d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   missilePrefab: {fileID: 8918614526724920773, guid: 654ffb3bd3d19fa41b91b605b273bbe7, type: 3}
   missileParent: {fileID: 273643346831380197}
+  laserPrefab: {fileID: 4632316195862814071, guid: 39567e6801d292b409da8a87648aa15f, type: 3}
+  laserParent: {fileID: 1571563688475970092}

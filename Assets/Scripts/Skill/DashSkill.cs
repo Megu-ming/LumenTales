@@ -17,15 +17,16 @@ public class DashSkill : SkillBase
         var pc = Player.instance.PlayerController;
         pc.IsDash = true;
         pc.IsSprint = false;
+        var ps = Player.instance.Status;
+        ps.SetInvincible(true);
         defaultSpeed = pc.moveSpeed;
         pc.moveSpeed = dashSpeed;
         pc.SetGravity(0);
-        Time.timeScale = 0.5f;
         yield return new WaitForSeconds(dashDuration);
         pc.IsDash = false;
+        ps.SetInvincible(false);
         pc.moveSpeed = defaultSpeed;
         pc.SetGravity(3);
-        Time.timeScale = 1f;
         yield break;
     }
 }
