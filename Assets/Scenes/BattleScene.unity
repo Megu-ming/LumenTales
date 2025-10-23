@@ -225,7 +225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5557772740651338587, guid: 37876e7c4de568e4f821136c2ccb7bc0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.2036724
+      value: -2.1236725
       objectReference: {fileID: 0}
     - target: {fileID: 5557772740651338587, guid: 37876e7c4de568e4f821136c2ccb7bc0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4640,7 +4640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5557772740651338587, guid: 37876e7c4de568e4f821136c2ccb7bc0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.25
+      value: -3.12
       objectReference: {fileID: 0}
     - target: {fileID: 5557772740651338587, guid: 37876e7c4de568e4f821136c2ccb7bc0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4933,7 +4933,7 @@ GameObject:
   m_Layer: 0
   m_Name: PortalToBoss
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -5295,7 +5295,7 @@ GameObject:
   m_Layer: 0
   m_Name: PortalToTown
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -5467,7 +5467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5557772740651338587, guid: 37876e7c4de568e4f821136c2ccb7bc0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.73
+      value: -2.65
       objectReference: {fileID: 0}
     - target: {fileID: 5557772740651338587, guid: 37876e7c4de568e4f821136c2ccb7bc0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5804,7 +5804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5557772740651338587, guid: 37876e7c4de568e4f821136c2ccb7bc0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.22
+      value: -2.14
       objectReference: {fileID: 0}
     - target: {fileID: 5557772740651338587, guid: 37876e7c4de568e4f821136c2ccb7bc0, type: 3}
       propertyPath: m_LocalPosition.z

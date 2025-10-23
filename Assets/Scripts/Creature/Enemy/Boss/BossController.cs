@@ -14,6 +14,7 @@ public class BossController : CreatureController
 {
 	Transform player;
 	public BossStatus status;
+	ItemDropHelper dropHelper;
 
 	// --------------------- 공격 가능 범위 ---------------------
 	[Header("Ranges")]
@@ -60,9 +61,9 @@ public class BossController : CreatureController
 	{
 		if (player == null && Player.instance != null)
 			player = Player.instance.transform;
-
 		if (status == null)
 			status = GetComponent<BossStatus>();
+		dropHelper = GetComponent<ItemDropHelper>();
 
 		// 시작 시 타이머 초기화
 		attackTimer = meleeTimer = laserTimer = missileTimer = shieldTimer = 0f;
@@ -228,4 +229,9 @@ public class BossController : CreatureController
 	{
 		// TODO: 경직/패턴 캔슬/분노 게이지 등 연동 지점
 	}
+
+    public override void OnDead()
+    {
+        dropHelper.DropItem(transform.position,() => gameObject.SetActive(false));
+    }
 }

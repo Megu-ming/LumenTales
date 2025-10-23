@@ -118,8 +118,8 @@ public class EnemyController : CreatureController
         rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
     }
 
-    public void OnDead()
-    {
+    public override void OnDead()
+    { 
         itemDropHelper.DropItem(transform.position, () => { gameObject.SetActive(false); });
 
         // 퀘스트 관련 이벤트

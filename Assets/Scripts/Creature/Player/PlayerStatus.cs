@@ -98,6 +98,8 @@ public class PlayerStatus : Status
     protected override void OnDied()
     {
         base.OnDied();
+
+        UIManager.instance.OpenDeadUI();
     }
 
     public void AddArmorAddedStat(EquipmentItemData data)

@@ -34,6 +34,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject healthTextPrefab;
     [SerializeField] float textHeight;
 
+    [Header("DeadUI Prefab")]
+    [SerializeField] GameObject deadUIPrefab;
+
     [Header("Modal UI Prefabs")]
     [SerializeField] GameObject warningModalPrefab;
     [SerializeField] GameObject inputFieldModalPrefab;
@@ -56,6 +59,7 @@ public class UIManager : MonoBehaviour
     public WarningModalUI warningModal;
     public InputFieldModalUI inputFieldModal;
     public GameObject dummy;
+    public GameObject deadUI;
 
     [Header("StackUI")]
     public int baseSorting = 100;
@@ -152,6 +156,11 @@ public class UIManager : MonoBehaviour
     {
         CharacterEvents.characterDamaged -= CharacterTookDamage;
         CharacterEvents.characterHealed -= CharacterHealed;
+    }
+
+    public void OpenDeadUI()
+    {
+        deadUI = Instantiate(deadUIPrefab);
     }
 
     public void CharacterTookDamage(GameObject character, float damageReceived)

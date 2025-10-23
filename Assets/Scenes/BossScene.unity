@@ -3542,7 +3542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6251467598962010301, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: baseMaxHealth
-      value: 500
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3965,6 +3965,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 372443217234336205, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
+      propertyPath: deadUIPrefab
+      value: 
+      objectReference: {fileID: 2905368568861600427, guid: 1d8f8f0f6fa837746ae8df84bd3592a1, type: 3}
     - target: {fileID: 5814457941707002991, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
       propertyPath: m_Name
       value: UIManager
@@ -4282,7 +4286,7 @@ Transform:
   m_GameObject: {fileID: 2118203050}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.911174, y: -3.0368998, z: -10}
+  m_LocalPosition: {x: 2.0146518, y: -3.0392098, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4411,6 +4415,10 @@ PrefabInstance:
     - target: {fileID: 961586681756457868, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
       propertyPath: damageableHit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067108314137141686, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
+      propertyPath: baseSpeed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2094251422335724901, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
       propertyPath: m_Size.x

@@ -164,6 +164,11 @@ public class PlayerController : CreatureController
         }
     }
 
+    public override void OnDead()
+    {
+        
+    }
+
     #region InputFunction
     public void OnMove(InputAction.CallbackContext context)
     {
