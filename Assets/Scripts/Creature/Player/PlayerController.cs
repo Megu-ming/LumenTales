@@ -119,15 +119,6 @@ public class PlayerController : CreatureController
         rb.freezeRotation = true;
     }
 
-    private void OnEnable()
-    {
-        //NPCConverstionHandler.OnConversationToggle += SetConversationsState;
-    }
-    private void OnDisable()
-    {
-        //NPCConverstionHandler.OnConversationToggle -= SetConversationsState;
-    }
-
     private void Update()
     {
         // Ground Check
@@ -231,13 +222,13 @@ public class PlayerController : CreatureController
     public void OnEquipmentToggle()
     {
         if (isConversation) return;
-        Player.instance?.InventoryController?.RequestToggleEquipUI();
+        Player.instance.InventoryController?.RequestToggleEquipUI();
     }
 
     public void OnInvenUIToggle()
     {
         if (isConversation) return;
-        Player.instance?.InventoryController?.RequestToggleInvenUI();
+        Player.instance.InventoryController?.RequestToggleInvenUI();
     }
 
     public void OnInteract(InputAction.CallbackContext context)

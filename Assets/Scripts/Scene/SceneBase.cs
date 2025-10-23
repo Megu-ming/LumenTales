@@ -32,7 +32,7 @@ public class SceneBase : MonoBehaviour
             if (player != null && cam != null)
             {
                 cam.Target.TrackingTarget = player.transform;
-                if(GameManager.instance is not null)
+                if(GameManager.instance != null)
                 {
                     player.transform.position = GameManager.instance.GetSpawnPosition();
 #if UNITY_EDITOR

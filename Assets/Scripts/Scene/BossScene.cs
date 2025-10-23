@@ -41,7 +41,7 @@ public class BossScene : SceneBase
 
     public void OpenHPBarUI()
     {
-        if (boss is not null && hpBarUI is not null)
+        if (boss != null && hpBarUI is not null)
             hpBarUI.gameObject.SetActive(true);
     }
 
