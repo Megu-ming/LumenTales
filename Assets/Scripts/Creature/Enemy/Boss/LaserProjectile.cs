@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LaserProjectile : MonoBehaviour
 {
+    Animator animator;
     [SerializeField] float damage;
     [SerializeField] Vector2 knockback;
 
@@ -9,18 +10,13 @@ public class LaserProjectile : MonoBehaviour
     float tickTimer = 0f;
     Vector2 dir;
 
-    public void Launch(Vector2 from, Vector2 to)
+	public void Launch(Vector2 from, Vector2 to)
     {
         dir = (to - from).normalized;
 
         transform.right = dir;
 
         Debug.DrawLine(from, to, Color.red, 2f);
-    }
-
-    private void OnDestroy()
-    {
-        Debug.Log("LaserDestroy");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -39,5 +35,10 @@ public class LaserProjectile : MonoBehaviour
             tickTimer = 0f;
         }
         tickTimer += Time.deltaTime;
+    }
+
+    public void EndAnimation()
+    {
+        Destroy(gameObject);
     }
 }

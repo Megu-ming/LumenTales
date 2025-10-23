@@ -37,7 +37,6 @@ public class BossScene : SceneBase
         {
             hpBarImage.fillAmount = CalculateRatio(bossStatus.CurrentHealth, bossStatus.BaseMaxHealth);
         }
-
     }
 
     public void OpenHPBarUI()

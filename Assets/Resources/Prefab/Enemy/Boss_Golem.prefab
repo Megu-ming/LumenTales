@@ -114,10 +114,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: {fileID: 0}
-  attackCooltime: 1
-  laserCooltime: 3
-  missileCooltime: 5
-  shieldCooltime: 60
+  meleeAttackRange: 1.5
+  laserAttackRange: 2.6
+  minMissileAttackRange: 2
+  maxMissileAttackRange: 5
+  attackCooltime: 3
+  meleeCooltime: 2
+  laserCooltime: 10
+  missileCooltime: 12
+  shieldCooltime: 30
+  attackTimer: 0
+  meleeTimer: 0
+  laserTimer: 0
+  missileTimer: 0
+  shieldTimer: 0
 --- !u!114 &4799991972154359301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,7 +364,7 @@ Transform:
   m_GameObject: {fileID: 9089647982171885644}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.361, z: 0}
+  m_LocalPosition: {x: 0, y: -0.255, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:

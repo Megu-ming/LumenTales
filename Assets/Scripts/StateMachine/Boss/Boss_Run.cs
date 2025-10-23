@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Boss_Run : StateMachineBehaviour
@@ -14,10 +15,14 @@ public class Boss_Run : StateMachineBehaviour
         // 바라보고
         boss.LookAtPlayer();
 
-        // 잠깐 대기 && 플레이어와 거리 판단
-        
-        // 플레이어쪽으로 이동
-        boss.MoveToPlayer();
+		// 잠깐 대기
+		float dist = boss.WaitForCalculateDistance();
+		// 플레이어와 거리 판단 -> false면 이동
+		if (boss.TryTriggerPattern(dist) is false)
+        { 
+            // 플레이어쪽으로 이동
+            boss.MoveToPlayer(); 
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
