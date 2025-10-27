@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolver: {fileID: 11400000, guid: 4a6511df113adae439bb7d4f70c1ca46, type: 2}
   spawnData: {fileID: 11400000, guid: abc5e39851a4cd14cadb328f5a2326ad, type: 2}
+  uiManagerPrefab: {fileID: 372443217234336205, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
+  dataManagerPrefab: {fileID: 5506303376343074444, guid: b160d4c232bdcbd4ca53f22fede05da7, type: 3}

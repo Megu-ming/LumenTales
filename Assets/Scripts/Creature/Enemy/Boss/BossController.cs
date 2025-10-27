@@ -12,12 +12,15 @@ public enum BossSkillEntry
 
 public class BossController : CreatureController
 {
-	Transform player;
-	public BossStatus status;
-	ItemDropHelper dropHelper;
+	Player target;
+	[Header("컴포넌트 참조")]
+	[SerializeField] BossStatus status;
+    [SerializeField] ItemDropHelper dropHelper;
+	[SerializeField] BossAnimTriggers animTriggers;
+	[SerializeField] MeleeAttack meleeAttack;
 
-	// --------------------- 공격 가능 범위 ---------------------
-	[Header("Ranges")]
+    // --------------------- 공격 가능 범위 ---------------------
+    [Header("Ranges")]
 	[SerializeField] float meleeAttackRange = 1.5f;
 	[SerializeField] float laserAttackRange = 2.6f;
 	[SerializeField] float minMissileAttackRange = 2f;
@@ -57,17 +60,22 @@ public class BossController : CreatureController
 		animator = GetComponentInChildren<Animator>();
 	}
 
+	public void Init(Player player)
+	{
+		target = player;
+		animTriggers.Init(player);
+		meleeAttack.Init(player);
+
+        // 시작 시 타이머 초기화
+        attackTimer = meleeTimer = laserTimer = missileTimer = shieldTimer = 0f;
+        canAttack = isMeleeReady = isMissileReady = isLaserReady = isShieldReady = true;
+    }
+
 	private void Start()
 	{
-		if (player == null && Player.instance != null)
-			player = Player.instance.transform;
 		if (status == null)
 			status = GetComponent<BossStatus>();
 		dropHelper = GetComponent<ItemDropHelper>();
-
-		// 시작 시 타이머 초기화
-		attackTimer = meleeTimer = laserTimer = missileTimer = shieldTimer = 0f;
-		canAttack = isMeleeReady = isMissileReady = isLaserReady = isShieldReady = true;
 	}
 
 	private void OnDisable()
@@ -77,7 +85,7 @@ public class BossController : CreatureController
 
 	private void Update()
 	{
-		if (!player) return;
+		if (!target) return;
 
 		// 공격 가능한 상태면 패턴 시도 (쿨타임 관리는 코루틴이 담당)
 		TryTriggerPattern(targetDistance);
@@ -85,8 +93,8 @@ public class BossController : CreatureController
 
 	public void LookAtPlayer()
 	{
-		if (!player) return;
-		if (transform.position.x > player.position.x)
+		if (!target) return;
+		if (transform.position.x > target.transform.position.x)
 			transform.localScale = new Vector3(-1, 1, 1);
 		else
 			transform.localScale = new Vector3(1, 1, 1);
@@ -98,7 +106,7 @@ public class BossController : CreatureController
 	/// <returns>플레이어와 보스 사이 거리</returns>
 	public float WaitForCalculateDistance()
 	{
-		targetDistance = Vector2.Distance(transform.position, player.position);
+		targetDistance = Vector2.Distance(transform.position, target.transform.position);
 		// 대기
 		StartCoroutine(Co_WaitTimer(5f));
 		return targetDistance;		
@@ -106,9 +114,9 @@ public class BossController : CreatureController
 
 	public void MoveToPlayer()
 	{
-		if (!player) return;
-		Vector2 target = new Vector2(player.position.x, rb.position.y);
-		Vector2 newPos = Vector2.MoveTowards(rb.position, target, 1f * Time.fixedDeltaTime);
+		if (!target) return;
+		Vector2 targetPos = new Vector2(target.transform.position.x, rb.position.y);
+		Vector2 newPos = Vector2.MoveTowards(rb.position, targetPos, 1f * Time.fixedDeltaTime);
 		rb.MovePosition(newPos);
 	}
 

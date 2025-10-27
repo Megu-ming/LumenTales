@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : CreatureController
 {
+    Player player;
     #region MovementVariables
     [Header("Movement")]
     [SerializeField] private float jumpForce = 8f;
@@ -119,6 +120,11 @@ public class PlayerController : CreatureController
         rb.freezeRotation = true;
     }
 
+    public void Init(Player player)
+    {
+        this.player = player;
+    }
+
     private void Update()
     {
         // Ground Check
@@ -227,13 +233,13 @@ public class PlayerController : CreatureController
     public void OnEquipmentToggle()
     {
         if (isConversation) return;
-        Player.instance.InventoryController?.RequestToggleEquipUI();
+        player.InventoryController?.RequestToggleEquipUI();
     }
 
     public void OnInvenUIToggle()
     {
         if (isConversation) return;
-        Player.instance.InventoryController?.RequestToggleInvenUI();
+        player.InventoryController?.RequestToggleInvenUI();
     }
 
     public void OnInteract(InputAction.CallbackContext context)

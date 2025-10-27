@@ -13,10 +13,8 @@ public class EnemyStatus : Status
 
     public int expAmount = 0;
 
-    protected override void Awake()
+    public void Init()
     {
-        base.Awake();
-
         if (barPrefab != null)
         {
             canvas = GameObject.Find("GameHUD");

@@ -3,15 +3,9 @@ using UnityEngine.InputSystem;
 
 public abstract class SkillBase : MonoBehaviour
 {
-    [SerializeField] InputActionAsset inputAsset;
+    protected Player player;
     [SerializeField] float coolTime;
-    private InputAction skillAction;
     private float coolDownTimer;
-
-    private void Start()
-    {
-        Init();
-    }
 
     // Update is called once per frame
     void Update()
@@ -30,5 +24,9 @@ public abstract class SkillBase : MonoBehaviour
     }
 
     public abstract void UseSkill();
-    protected virtual void Init() {}
+
+    public virtual void Init(Player player)
+    {
+        this.player = player;
+    }
 }

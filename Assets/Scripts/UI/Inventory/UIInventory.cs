@@ -29,8 +29,11 @@ public class UIInventory : UIBase
 
     public bool isAttachedToStore = false;
 
-    public void Init()
+    public void Init(InventoryController inven, UIManager uiManager)
     {
+        inventory = inven;
+        this.uiManager = uiManager;
+
         ped = new PointerEventData(EventSystem.current);
         rrList = new List<RaycastResult>(10);
 
@@ -41,6 +44,7 @@ public class UIInventory : UIBase
             int slotIndex = i;
 
             var slot = Instantiate(slotPrefab, contentPanel);
+            slot.Init(uiManager, inven);
             slot.gameObject.SetActive(true);
             slot.name = $"Slot[{slotIndex}]";
             slot.SetSlotIndex(slotIndex);
@@ -48,19 +52,6 @@ public class UIInventory : UIBase
         }
 
         UpdateGoldText(inventory.Gold);
-    }
-
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
-    private void Start()
-    {
-        if (inventory == null) inventory = Player.instance?.InventoryController;
-        if (inventory == null) return;
-
-        Init();
 
         inventory.OnGoldChanged += UpdateGoldText;
         inventory.OnSlotUpdated += HandleSlotUpdated;
@@ -70,6 +61,11 @@ public class UIInventory : UIBase
         for (int i = 0; i < inventory.Capacity; i++)
             HandleSlotUpdated(i, inventory.GetItemData(i));
         gameObject.SetActive(false);
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
     }
 
     private void Update()
@@ -165,7 +161,7 @@ public class UIInventory : UIBase
     {
         base.OnDrag(eventData);
         if (beginDragSlot == null) return;
-        UIManager.instance.BringToFront(this);
+        uiManager.BringToFront(this);
         if (eventData.button == InputButton.Left)
         {
             if (beginDragIconTr)
@@ -186,7 +182,7 @@ public class UIInventory : UIBase
                 EndDrag();
 
                 SetSlotIconInvisible(beginDragSlot, true);
-                if (UIManager.instance.dummy) { UIManager.instance.dummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
+                if (uiManager.dummy) { uiManager.dummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
 
                 beginDragSlot = null;
                 beginDragIconTr = null;
@@ -237,7 +233,7 @@ public class UIInventory : UIBase
         if(store != null)
         {
             // 모달 열기
-            var modal = UIManager.instance.inputFieldModal;
+            var modal = uiManager.inputFieldModal;
             if(inventory.GetItemData(beginDragSlot.Index) is CountableItemData)
             {
                 int amount = inventory.GetCurrentAmount(beginDragSlot.Index);
@@ -291,9 +287,9 @@ public class UIInventory : UIBase
     private void SetDummyFromSlot(UIInventorySlot slot, RectTransform rt)
     {
         var icon = slot?.itemImage;
-        var dummy = UIManager.instance.dummy?.GetComponent<Image>();
+        var dummy = uiManager.dummy?.GetComponent<Image>();
         dummy.sprite = icon?.sprite;
-        var dummyRt = UIManager.instance.dummy?.GetComponent<RectTransform>();
+        var dummyRt = uiManager.dummy?.GetComponent<RectTransform>();
         dummyRt = rt;
 
         dummy.enabled = true;
@@ -301,10 +297,10 @@ public class UIInventory : UIBase
 
     private void SetDummyPosition(Vector3 pos)
     {
-        if (UIManager.instance.dummy != null)
-        {
-            UIManager.instance.dummy.transform.position = pos;
-            UIManager.instance.dummy.transform.SetAsLastSibling();
+        if (uiManager.dummy != null)
+        {   
+            uiManager.dummy.transform.position = pos;
+            uiManager.dummy.transform.SetAsLastSibling();
         }
     }
 #endregion

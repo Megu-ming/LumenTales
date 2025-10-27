@@ -3,21 +3,28 @@ using UnityEngine.InputSystem;
 
 public class IngameMenu : UIBase
 {
+    Player player;
+
+    public void Init(Player player)
+    {
+        this.player = player;
+    }
+
     protected override void OnOpen()
     {
         Time.timeScale = 0f;
-        if (Player.instance != null)
+        if (player != null)
         {
-            var playerInput = Player.instance.GetComponent<PlayerInput>();
+            var playerInput = player.GetComponent<PlayerInput>();
             playerInput.SwitchCurrentActionMap("UI");
         }
     }
     protected override void OnClose()
     {
         Time.timeScale = 1f;
-        if (Player.instance != null)
+        if (player != null)
         {
-            var playerInput = Player.instance.GetComponent<PlayerInput>();
+            var playerInput = player.GetComponent<PlayerInput>();
             playerInput.SwitchCurrentActionMap("Player");
         }
     }
@@ -29,22 +36,13 @@ public class IngameMenu : UIBase
 
     public void OnClickMainMenu()
     {
-        if(DataManager.instance is not null)
-        {
-            DataManager.instance.BackupCurrentSlot();
-            DataManager.instance.SaveAll();
-        }        
         Close();
-        GameManager.instance.LoadScene(SceneType.Menu);
+        GameManager.instance.LoadSceneWithSave(SceneType.Menu);
     }
 
     public void OnClickQuitGame()
     {
-        if(DataManager.instance is not null)
-        {
-            DataManager.instance.BackupCurrentSlot();
-            DataManager.instance.SaveAll();
-        }
+        GameManager.instance.SaveData();
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

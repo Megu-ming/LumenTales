@@ -8,7 +8,7 @@ using static Utils;
 public class UIEquipment : UIBase
 {
     [SerializeField] UIEquipmentSlot[] slots;
-    public UICharacterInfo characterInfoUI;
+    [SerializeField] UICharacterInfo characterInfoUI;
     InventoryController inventory;
     
     private readonly Dictionary<EquipmentSlotType, UIEquipmentSlot> map = new();
@@ -21,19 +21,24 @@ public class UIEquipment : UIBase
     private Vector2 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
     private Vector2 beginDragCursorPoint;       // 드래그 시작시 커서 위치
 
-    public void Init()
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    public void Init(UIManager uiManager, Player player)
     {
         map.Clear();
         foreach (var s in slots)
         {
             if (s == null) continue;
+            s.Init(uiManager);
             map[s.slotType] = s;
             s.Clear();
         }
 
-        if (inventory is null) inventory = Player.instance?.InventoryController;
-        if (characterInfoUI is null) characterInfoUI = GetComponentInChildren<UICharacterInfo>();
-        if (characterInfoUI) characterInfoUI.Refresh();
+        inventory = player.InventoryController;
+        this.uiManager = uiManager;
 
         inventory.OnEquippedChanged += HandleEquippedChanged;
         inventory.OnEquipUIToggleRequest += Toggle;
@@ -45,19 +50,8 @@ public class UIEquipment : UIBase
 
         ped = new PointerEventData(EventSystem.current);
         rrList = new List<RaycastResult>(16);
-    }
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
-    private void Start()
-    {
-        if (inventory == null) inventory = Player.instance?.InventoryController;
-        if (inventory == null) return;
-
-        Init();
+        characterInfoUI.Init(player);
 
         gameObject.SetActive(false);
     }
@@ -112,13 +106,13 @@ public class UIEquipment : UIBase
             return;
         }
 
-        if(UIManager.instance.dummy && UIManager.instance.dummy.TryGetComponent<Image>(out Image img))
+        if(uiManager.dummy && uiManager.dummy.TryGetComponent<Image>(out Image img))
         {
             img.sprite = beginDragSlot.CurrentIcon;
             img.enabled = true;
             SetSlotIconInvisible(beginDragSlot, false);
-            UIManager.instance.dummy.transform.position = beginDragSlot.IconRect.position;
-            UIManager.instance.dummy.transform.SetAsLastSibling();
+            uiManager.dummy.transform.position = beginDragSlot.IconRect.position;
+            uiManager.dummy.transform.SetAsLastSibling();
         }
 
         beginDragIconPoint = beginDragSlot.IconRect.position;
@@ -131,10 +125,10 @@ public class UIEquipment : UIBase
         if (beginDragSlot == null) return;
         if (eventData.button != InputButton.Left) return;
 
-        if (UIManager.instance.dummy)
+        if (uiManager.dummy)
         {
             Vector3 pos = beginDragIconPoint + (eventData.position - beginDragCursorPoint);
-            UIManager.instance.dummy.transform.position = pos;
+            uiManager.dummy.transform.position = pos;
         }
     }
 
@@ -172,7 +166,7 @@ public class UIEquipment : UIBase
 
     private void EndDragCleanup()
     {
-        if (UIManager.instance.dummy && UIManager.instance.dummy.TryGetComponent<Image>(out var img))
+        if (uiManager.dummy && uiManager.dummy.TryGetComponent<Image>(out var img))
             img.enabled = false;
     }
 

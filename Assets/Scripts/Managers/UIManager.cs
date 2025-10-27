@@ -7,16 +7,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
-
     [Header("Canvas Prefabs")]
-    [SerializeField] GameObject mainMenuCanvasPrefab;
     [SerializeField] GameObject UIRootPrefab;
     [SerializeField] GameObject GameHUDPrefab;
-
-    [Header("MenuScene UI Prefabs")]
-    [SerializeField] GameObject mainMenuPanelPrefab;
-    [SerializeField] GameObject slotPanelPrefab;
 
     [Header("UIRoot UI Prefabs")]
     [SerializeField] GameObject conversationBoxPrefab;
@@ -38,7 +31,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject reviveUIPrefab;
 
     [Header("Modal UI Prefabs")]
-    [SerializeField] GameObject warningModalPrefab;
     [SerializeField] GameObject inputFieldModalPrefab;
 
     [Header("Canvas Instances")]
@@ -47,8 +39,6 @@ public class UIManager : MonoBehaviour
     public Canvas gameHUD;
 
     [Header("UI Instances")]
-    public MainMenuPanelUI mainMenuPanel;
-    public SlotPanelUI slotPanel;
     public UIConversation conversationUI;
     public GameObject interactPanel;
     public IngameMenu ingameMenu;
@@ -56,7 +46,6 @@ public class UIManager : MonoBehaviour
     public StoreUI storeUI;
     public UIInventory inventoryUI;
     public UIEquipment characterInfoUI;
-    public WarningModalUI warningModal;
     public InputFieldModalUI inputFieldModal;
     public GameObject dummy;
     public ReviveUI reviveUI;
@@ -73,32 +62,18 @@ public class UIManager : MonoBehaviour
 
     // Events
 
-    private void Awake()
-    {
-        // singleton
-        if(instance && instance != this) { Destroy(gameObject); return; }
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) CloseTopIfAllowed();
     }
 
-    public void InitUI()
+    public void Init(Player player)
     {
-        // Prefab 생성
-        if (GameManager.instance && GameManager.instance.CurrentScene is MenuScene)
-        {
-            Instantiate(mainMenuCanvasPrefab).TryGetComponent<Canvas>(out mainMenuCanvas);
-            Instantiate(mainMenuPanelPrefab, mainMenuCanvas.transform).TryGetComponent<MainMenuPanelUI>(out mainMenuPanel);
-            Instantiate(slotPanelPrefab, mainMenuCanvas.transform).TryGetComponent<SlotPanelUI>(out slotPanel);
-            Instantiate(warningModalPrefab, mainMenuCanvas.transform).TryGetComponent<WarningModalUI>(out warningModal);
+        if (GameManager.instance.CurrentScene is MenuScene) return;
+        if(player == null) return;
 
-            return;
-        }
-        if (uiRoot == null) Instantiate(UIRootPrefab).TryGetComponent<UIRoot>(out uiRoot);
+        // Prefab 생성
+        if (Instantiate(UIRootPrefab).TryGetComponent<UIRoot>(out uiRoot)) uiRoot.Init(this, player);
         if (gameHUD == null) Instantiate(GameHUDPrefab).TryGetComponent<Canvas>(out gameHUD);
 
         if (conversationUI == null)
@@ -107,13 +82,14 @@ public class UIManager : MonoBehaviour
             conversationUI.gameObject.SetActive(false);
         }
         if (interactPanel == null)
-        { 
+        {
             interactPanel = Instantiate(interactPanelPrefab, uiRoot.transform);
             interactPanel.gameObject.SetActive(false);
         }
         if (ingameMenu == null)
         {
             Instantiate(ingameMenuPrefab, uiRoot.transform).TryGetComponent<IngameMenu>(out ingameMenu);
+            ingameMenu.Init(player);
             ingameMenu.gameObject.SetActive(false);
         }
         if (expSlider == null) expSlider = Instantiate(expSliderPrefab, uiRoot.transform);
@@ -126,21 +102,25 @@ public class UIManager : MonoBehaviour
         if (storeUI == null)
         {
             Instantiate(storePrefab, uiRoot.transform).TryGetComponent<StoreUI>(out storeUI);
+            storeUI.Init(this, player, null);
             storeUI.gameObject.SetActive(false);
         }
-        if(inventoryUI == null)
+        if (inventoryUI == null)
         {
             Instantiate(inventoryPrefab, uiRoot.transform).TryGetComponent<UIInventory>(out inventoryUI);
+            inventoryUI.Init(player.InventoryController, this);
         }
-        if(characterInfoUI == null)
+        if (characterInfoUI == null)
         {
             Instantiate(characterInfoPrefab, uiRoot.transform).TryGetComponent<UIEquipment>(out characterInfoUI);
+            characterInfoUI.Init(this, player);
         }
         if (inputFieldModal == null)
         {
             Instantiate(inputFieldModalPrefab, uiRoot.transform).TryGetComponent<InputFieldModalUI>(out inputFieldModal);
+            inputFieldModal.Init(this);
         }
-        if(dummy == null)
+        if (dummy == null)
         {
             dummy = Instantiate(dummyPrefab, uiRoot.transform);
         }

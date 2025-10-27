@@ -10,14 +10,22 @@ public class UIRoot : MonoBehaviour
     Transform invenOrigParent;
     int invenOrigSiblingIndex;
     bool invenDocked;
+    UIManager uiManager;
+    Player player;
+
+    public void Init(UIManager uiManager, Player player)
+    {
+        this.uiManager = uiManager;
+        this.player = player;
+    }
 
     public void AttachInvenToStore(StoreDataTable data)
     {
         if (invenDocked) return;
         if (inventoryRT == null)
-            UIManager.instance.inventoryUI.TryGetComponent<RectTransform>(out inventoryRT);
+            uiManager.inventoryUI.TryGetComponent<RectTransform>(out inventoryRT);
         if(storeParentRt == null)
-            UIManager.instance.storeUI.TryGetComponent<RectTransform>(out storeParentRt);
+            uiManager.storeUI.TryGetComponent<RectTransform>(out storeParentRt);
 
         // 캐시(원상복구용)
         invenOrigParent = inventoryRT.parent;
@@ -30,20 +38,20 @@ public class UIRoot : MonoBehaviour
 
         // 상점 아이템 데이터 전달
         storeParentRt.TryGetComponent<StoreUI>(out var uiStore);
-        if(uiStore != null) uiStore.InitStore(data);
+        if(uiStore != null) uiStore.Init(uiManager, player, data);
 
         // 상점 UI 활성화
         inventoryRT.TryGetComponent<UIInventory>(out var uiInven);
         
         // 뭔가 열려 있었다면
-        if(UIManager.instance!=null && UIManager.instance.Top!=null)
+        if(uiManager.Top!=null)
         {
-            UIManager.instance.CloseTopIfAllowed();
+            uiManager.CloseTopIfAllowed();
         }
 
         uiStore.Open();
         uiInven.gameObject.SetActive(true);
-        if(Player.instance?.InventoryController is not null) Player.instance?.InventoryController.RefreshAllSlots();
+        if(player.InventoryController is not null) player.InventoryController.RefreshAllSlots();
     }
 
     public void DetachInvenFromStore()

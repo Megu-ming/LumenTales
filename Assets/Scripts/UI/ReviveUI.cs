@@ -6,9 +6,12 @@ public class ReviveUI : MonoBehaviour
     [SerializeField] Button reviveButton;
     [SerializeField] Button townButton;
     [SerializeField] Button mainMenuButton;
+    Player player;
 
-    private void Awake()
+    public void Init(Player player)
     {
+        this.player = player;
+
         reviveButton.onClick.AddListener(OnClickRevive);
         townButton.onClick.AddListener(OnClickTown);
         mainMenuButton.onClick.AddListener(OnClickMenu);
@@ -16,32 +19,18 @@ public class ReviveUI : MonoBehaviour
 
     void OnClickRevive()
     {
-        Player.instance.Revive();
+        player.Revive();
 
         Destroy(gameObject);        
     }
 
     void OnClickTown()
     {
-        if (DataManager.instance is not null)
-        {
-            DataManager.instance.BackupCurrentSlot();
-            DataManager.instance.SaveAll();
-        }
-
-        if (GameManager.instance is not null)
-            GameManager.instance.LoadScene(SceneType.Town);
+        GameManager.instance.LoadSceneWithSave(SceneType.Town);
     }
 
     void OnClickMenu()
     {
-        if (DataManager.instance is not null)
-        {
-            DataManager.instance.BackupCurrentSlot();
-            DataManager.instance.SaveAll();
-        }
-
-        if(GameManager.instance is not null)
-            GameManager.instance.LoadScene(SceneType.Menu);
+        GameManager.instance.LoadSceneWithSave(SceneType.Menu);
     }
 }

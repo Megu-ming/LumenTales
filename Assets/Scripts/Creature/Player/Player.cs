@@ -4,18 +4,22 @@ using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
-    // ─── Singleton ──────────────────────────────────────────────────────────────
-    public static Player instance;
-
     // ─── Cached Components (필요한 것만 캐싱) ───────────────────────────────────
     public PlayerStatus Status { get; private set; }
     public PlayerController PlayerController { get; private set; }
     public InventoryController InventoryController { get; private set; }
     public Light2D spotLight;
     // ─── Lifecycle ──────────────────────────────────────────────────────────────
+    public void Init()
+    {
+        Status.Init(GameManager.instance.GetUIManager());
+        PlayerController.Init(this);
+        InventoryController.Init(this);
+        spotLight.gameObject.SetActive(false);
+    }
+
     void Awake()
     {
-        InitSingleton();
         Status = GetComponent<PlayerStatus>();
         PlayerController = GetComponent<PlayerController>();
         InventoryController = GetComponentInChildren<InventoryController>();
@@ -23,12 +27,6 @@ public class Player : MonoBehaviour
         // 태그 보정(트리거/포털 인식용)
         if (CompareTag("Untagged")) gameObject.tag = "Player";
         if (spotLight is not null) spotLight.gameObject.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        if(DataManager.instance != null)
-            DataManager.instance.BackupCurrentSlot();
     }
 
     public void Revive()
@@ -49,11 +47,6 @@ public class Player : MonoBehaviour
         Status.SpAddedLuk = ps.spAddedLuk;
         if(GameManager.instance.CurrentScene != null)
             GameManager.instance.CurrentScene.StatusPoint = ps.statusPoint;
-
-        if(UIManager.instance!=null)
-        {
-            UIManager.instance.OnExpChanged(Status.CurrentExp, Status.MaxExp);
-        }
     }
 
     /// <summary>
@@ -84,13 +77,5 @@ public class Player : MonoBehaviour
         snapshot.equippedEntry = InventoryController.GetEquipSnapshot();
 
         return snapshot;
-    }
-
-    // Singleton
-    private void InitSingleton()
-    {
-        if (!instance)
-        { instance = this; DontDestroyOnLoad(gameObject); }
-        else if (instance != this) Destroy(gameObject);
     }
 }

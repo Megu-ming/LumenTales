@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIEquipmentSlot : MonoBehaviour, 
     IPointerEnterHandler,IPointerClickHandler, IPointerMoveHandler, IPointerExitHandler
 {
+    UIManager uiManager;
     UIEquipment eqUI => GetComponentInParent<UIEquipment>();
     public EquipmentSlotType slotType;
     
@@ -19,8 +20,10 @@ public class UIEquipmentSlot : MonoBehaviour,
     private void ShowHighLight() => highLightGo.SetActive(true);
     private void HideHighLight() => highLightGo.SetActive(false);
 
-    private void Awake()
+    public void Init(UIManager uiManager)
     {
+        this.uiManager = uiManager;
+
         highLightGo = borderImage.gameObject;
         HideHighLight();
     }
@@ -56,7 +59,6 @@ public class UIEquipmentSlot : MonoBehaviour,
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        if(UIManager.instance == null) return;
         if(!HasItem) return;
 
         TryShowTooltip(eventData.position);
@@ -64,23 +66,23 @@ public class UIEquipmentSlot : MonoBehaviour,
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        UIManager.instance?.Hide();
+        uiManager.Hide();
         HideHighLight();
     }
 
     void TryShowTooltip(Vector2 screenPos)
     {
-        if (!HasItem) { UIManager.instance?.Hide(); return; }
-        if (!eqUI) { UIManager.instance?.Hide(); return; }
-        if(!eqUI.TryGetEquipped(slotType, out var equipped)) { UIManager.instance?.Hide(); return; }
+        if (!HasItem) { uiManager.Hide(); return; }
+        if (!eqUI) { uiManager.Hide(); return; }
+        if(!eqUI.TryGetEquipped(slotType, out var equipped)) { uiManager.Hide(); return; }
 
         var data = equipped.itemData;
         if (data is EquipmentItemData eqData)
         {
             int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
-            UIManager.instance?.Show
+            uiManager.Show
                 (data.ItemName, data.Tooltip, data.Price, screenPos, eqVal, !eqData.isArmor, eqData.isArmor);
         }
-        else { UIManager.instance?.Hide(); return; }
+        else { uiManager.Hide(); return; }
     }
 }

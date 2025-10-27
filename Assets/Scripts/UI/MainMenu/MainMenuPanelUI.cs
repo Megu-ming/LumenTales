@@ -10,9 +10,9 @@ public class MainMenuPanelUI : MonoBehaviour
 
     SlotPanelUI slotPanel;
 
-    public void Init()
+    public void Init(SlotPanelUI slotPanel)
     {
-        slotPanel = UIManager.instance.slotPanel;
+        this.slotPanel = slotPanel;
     }
 
     public void OnClickNewGame()

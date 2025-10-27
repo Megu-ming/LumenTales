@@ -6,6 +6,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Canvas)), RequireComponent(typeof(GraphicRaycaster))]
 public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    protected UIManager uiManager;
+
     [Header("UI Base Option")]
     public bool closeOnEsc = true;
 
@@ -20,15 +22,15 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     protected virtual void OnDisable()
     {
-        UIManager.instance?.Hide();
+        uiManager.Hide();
     }
 
     public void Open()
     {
-        if(isOpen) { UIManager.instance.BringToFront(this); OnFocus(); return; }
+        if(isOpen) { uiManager.BringToFront(this); OnFocus(); return; }
         isOpen = true;
         gameObject.SetActive(true);
-        UIManager.instance.Push(this);
+        uiManager.Push(this);
         OnOpen();
     }
 
@@ -36,7 +38,7 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
     {
         if (!isOpen) return;
         isOpen = false;
-        UIManager.instance.Pop(this);
+        uiManager.Pop(this);
         OnClose();
         gameObject.SetActive(false);
     }
@@ -54,7 +56,7 @@ public abstract class UIBase : MonoBehaviour, IPointerDownHandler, IDragHandler,
     protected virtual void OnOpen() { }
     protected virtual void OnClose() { }
 
-    public virtual void OnPointerDown(PointerEventData e) => UIManager.instance.BringToFront(this);
+    public virtual void OnPointerDown(PointerEventData e) => uiManager.BringToFront(this);
     public virtual void OnDrag(PointerEventData e) { }
-    public virtual void OnPointerUp(PointerEventData e) => UIManager.instance.BringToFront(this);
+    public virtual void OnPointerUp(PointerEventData e) => uiManager.BringToFront(this);
 }

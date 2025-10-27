@@ -5,32 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class TownScene : SceneBase
 {
-    protected override void Awake()
-    {
-        base.Awake();
+    [SerializeField] UIRoot uiRoot;
+    [SerializeField] Store storeNPC;
 
+    protected void Start()
+    {
+        GameManager.instance.SceneStart();
+        uiRoot = GameManager.instance.GetUIManager().uiRoot;
+    }
+
+    public override void Init()
+    {
+        base.Init();
         sceneType = SceneType.Town;
 
-        if(GameObject.Find("CMCam").TryGetComponent<CinemachineCamera>(out cam) && Player.instance is not null)
-        {
-            cam.Target.TrackingTarget = Player.instance.transform;
-        }
-    }
+        player.Init();
+        uiRoot.Init(GameManager.instance.GetUIManager(), player);
+        storeNPC.Init(GameManager.instance.GetUIManager());
 
-    protected override void Start()
-    {
-        base.Start();
+        SpawnAndTrackingPlayer();
 
-        InitScene();
-    }
-
-    public void InitScene()
-    {
-        Player.instance?.InventoryController.Init();
-        UIManager.instance?.InitUI();
-
-        GameManager.instance?.InjectData();
-
-        Player.instance?.spotLight.gameObject.SetActive(false);
+        GameManager.instance?.LoadData();
     }
 }

@@ -9,25 +9,24 @@ public class SlotPanelUI : MonoBehaviour
     public TMP_Text[] slotTitleLines;
 
     public Button backBtn;
+    WarningModalUI modal;
+    DataManager dataManager;
 
     private bool isFromNewGame;
     public bool IsFromNewGame { get { return isFromNewGame; } set { isFromNewGame = value; } }
 
-    void Start()
+    public void Init(WarningModalUI warningModal, DataManager dataManager)
     {
+        modal = warningModal;
+        this.dataManager = dataManager;
+
+        dataManager.OnSlotsChanged += RefreshSlotsIfOpen;
         gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    private void OnDestroy()
     {
-        if (DataManager.instance)
-            DataManager.instance.OnSlotsChanged += RefreshSlotsIfOpen;
-    }
-
-    private void OnDisable()
-    {
-        if (DataManager.instance)
-            DataManager.instance.OnSlotsChanged -= RefreshSlotsIfOpen;
+        dataManager.OnSlotsChanged -= RefreshSlotsIfOpen;
     }
 
     public void RefreshSlotsIfOpen()
@@ -39,7 +38,7 @@ public class SlotPanelUI : MonoBehaviour
 
     public void RefreshSlots()
     {
-        var metas = DataManager.instance.GetSlotMetas();
+        var metas = dataManager.GetSlotMetas();
         for (int i = 0; i < metas.Length; i++)
         {
             var meta = metas[i];
@@ -55,7 +54,7 @@ public class SlotPanelUI : MonoBehaviour
     void RefreshTitlesOnly()
     {
         if (slotTitleLines == null) return;
-        var metas = DataManager.instance.GetSlotMetas();
+        var metas = dataManager.GetSlotMetas();
         for (int i = 0; i < slotTitleLines.Length && i < metas.Length; i++)
         {
             if (slotTitleLines[i] != null)
@@ -72,7 +71,7 @@ public class SlotPanelUI : MonoBehaviour
 
     public void OnClickSlot(int slot)
     {
-        var metas = DataManager.instance.GetSlotMetas();
+        var metas = dataManager.GetSlotMetas();
         if (slot < 0 || slot >= metas.Length) return;
 
         var meta = metas[slot];
@@ -82,26 +81,22 @@ public class SlotPanelUI : MonoBehaviour
             if (meta.exists)
             {
                 // 덮어쓰기 모달 출력
-                var modal = UIManager.instance.warningModal;
                 modal.SettingModal(ModalType.InNewGameWarning, slot);
             }
             else
             {
-                DataManager.instance.NewGameAtSlot(slot);
-                GameManager.instance.LoadScene(SceneType.Town);
+                GameManager.instance.LoadSceneFromNewGame(slot);
             }
         }
         else
         {
             if (meta.exists)
             {
-                DataManager.instance.ContinueAtSlot(slot);
-                GameManager.instance.LoadScene(SceneType.Town);
+                GameManager.instance.LoadSceneFromContine(slot);
             }
             else
             {
                 // 새로 시작할거냐고 묻는 모달
-                var modal = UIManager.instance.warningModal;
                 modal.SettingModal(ModalType.InContinueWarning, slot);
             }
         }
@@ -109,7 +104,6 @@ public class SlotPanelUI : MonoBehaviour
 
     public void DeleteSlotData(int slot)
     {
-        var modal = UIManager.instance.warningModal;
         modal.SettingModal(ModalType.InDeleteWarning, slot);
     }
 }

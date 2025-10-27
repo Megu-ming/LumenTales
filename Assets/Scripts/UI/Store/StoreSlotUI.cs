@@ -11,10 +11,16 @@ public class StoreSlotUI : MonoBehaviour, IPointerDownHandler, IPointerClickHand
     [SerializeField] TMPro.TMP_Text itemPriceText;
 
     private ItemData item;
+    InventoryController inven;
 
     // 더블클릭 감지
     private float lastClickTime;
     private const float doubleClickTime = 0.2f; // Time in seconds
+
+    public void Init(InventoryController inven)
+    {
+        this.inven = inven;
+    }
 
     public void SetItem(ItemData data)
     {
@@ -59,6 +65,6 @@ public class StoreSlotUI : MonoBehaviour, IPointerDownHandler, IPointerClickHand
     {
         if (value is false) return;
 
-        Player.instance.InventoryController.BuyItem(item, amount);
+        inven.BuyItem(item, amount);
     }
 }

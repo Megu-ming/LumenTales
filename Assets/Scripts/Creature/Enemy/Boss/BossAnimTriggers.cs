@@ -4,10 +4,16 @@ public class BossAnimTriggers : MonoBehaviour
 {
     [SerializeField] Transform bossTransform;
     Animator animator;
+    Player player;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+    }
+
+    public void Init(Player player)
+    {
+        this.player = player;
     }
 
     // ------------ 기본 공격 ------------
@@ -25,27 +31,26 @@ public class BossAnimTriggers : MonoBehaviour
     // -----------------------------------
     // ------------ 미사일 특수패턴 ------------
     [Header("미사일 생성용")]
-    [SerializeField] MissileProjectile missilePrefab;
+    [SerializeField] MissileProjectile missile;
     [SerializeField] Transform missileParent;
 
     public void LaunchMissile()
     {
-        var missile = Instantiate(missilePrefab, missileParent);
-        missile.Launch(missileParent.position, Player.instance.transform.position);
+        missile.Init(player);
+        missile.Launch(missileParent.position, player.transform.position);
     }
     // -----------------------------------------
     // ------------ 레이저 특수패턴 ------------
     [Header("레이저 생성용")]
-    [SerializeField] LaserProjectile laserPrefab;
+    [SerializeField] LaserProjectile laser;
     [SerializeField] Transform laserParent;
-    LaserProjectile laser;
 
     public void LaunchLaser()
     {
-        laser = Instantiate(laserPrefab, laserParent);
+        laser.Init(player);
         if (bossTransform.localScale.x == -1)
             laser.transform.localScale = new Vector2(-1, 1);
-        laser.Launch(laserParent.position, Player.instance.transform.position);
+        laser.Launch(laserParent.position, player.transform.position);
         animator.SetBool("LaserEnd", false);
     }
 

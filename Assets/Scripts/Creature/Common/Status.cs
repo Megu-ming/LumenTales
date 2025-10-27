@@ -49,7 +49,7 @@ public class Status : MonoBehaviour
             }
         }
     }
-    [SerializeField] private bool isAlive;
+    [SerializeField] private bool isAlive = true;
     public bool IsAlive
     {
         get { return isAlive; }
@@ -74,19 +74,7 @@ public class Status : MonoBehaviour
     [SerializeField] private float invincibilityTime = 0.25f;
     private float timeSinceHit = 0f;
 
-    protected Animator animator;
-
-    protected virtual void Awake()
-    {
-        animator = GetComponentInChildren<Animator>();
-        if (animator == null)
-            Debug.LogWarning($"{gameObject.name}의 자식 오브젝트에 Animator 컴포넌트가 없습니다.");
-    }
-
-    protected virtual void Start()
-    {
-        IsAlive = true;
-    }
+    [SerializeField] Animator animator;
 
     protected virtual void Update()
     {

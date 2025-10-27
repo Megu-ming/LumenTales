@@ -98,8 +98,7 @@ public class EquippedEntry
 
 public class DataManager : MonoBehaviour
 {
-    public static DataManager instance;
-
+    Player player;
     string gameDataFileName = "LumenTalesData.json";
 
     public GameData Current = new GameData();
@@ -111,13 +110,13 @@ public class DataManager : MonoBehaviour
 
     string FilePath => Path.Combine(Application.persistentDataPath, gameDataFileName);
 
-    private void Awake()
+    public void Init(Player player)
     {
-        InitSingleton();
         LoadAll();     // 앱 시작 시 로드
+        this.player = player;
     }
 
-    public void LoadAll(int slotSize = 5)
+    private void LoadAll(int slotSize = 5)
     {
         if (File.Exists(FilePath))
         {
@@ -195,10 +194,9 @@ public class DataManager : MonoBehaviour
         if (Current.currentSlot < 0) return;
         var slot = Current.saveSlots[Current.currentSlot];
         if (slot == null || !slot.exists) return;
-        if (Player.instance == null) return;
 
-        Player.instance.ApplySummary(slot.player);
-        Player.instance.InventoryController.LoadFromSnapshot(slot.inventory, resolver);
+        player.ApplySummary(slot.player);
+        player.InventoryController.LoadFromSnapshot(slot.inventory, resolver);
     }
 
     public void BackupCurrentSlot()
@@ -207,21 +205,11 @@ public class DataManager : MonoBehaviour
         var slot = Current.saveSlots[Current.currentSlot];
         if (slot == null || !slot.exists) return;
 
-        if(Player.instance is not null && GameManager.instance is not null)
-        {
-            slot.player = Player.instance.GetPlayerSummary();
-            slot.inventory = Player.instance.GetInventorySnapshot();
-        }
+        slot.player = player.GetPlayerSummary();
+        slot.inventory = player.GetInventorySnapshot();
 
         slot.updatedAtUnix = DateTimeOffset.Now.ToUnixTimeSeconds();
 
         SaveAll();
-    }
-
-    private void InitSingleton()
-    {
-        if (!instance) instance = this;
-        else if (instance != this) Destroy(instance.gameObject);
-        DontDestroyOnLoad(gameObject);
     }
 }

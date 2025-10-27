@@ -18,8 +18,11 @@ public class WarningModalUI : MonoBehaviour
     int cachedSlotIndex;
     ModalType cachedtype;
 
-    void Start()
+    SlotPanelUI slotPanel;
+
+    public void Init(SlotPanelUI slotPanel)
     {
+        this.slotPanel = slotPanel;
         gameObject.SetActive(false);
     }
 
@@ -51,13 +54,12 @@ public class WarningModalUI : MonoBehaviour
 
         if(cachedtype == ModalType.InDeleteWarning)
         {
-            DataManager.instance.DeleteSlot(cachedSlotIndex);
-            UIManager.instance.slotPanel.RefreshSlots();
+            GameManager.instance.GetDataManager().DeleteSlot(cachedSlotIndex);
+            slotPanel.RefreshSlots();
             return;
         }
 
-        DataManager.instance.NewGameAtSlot(cachedSlotIndex);
-        GameManager.instance.LoadScene(SceneType.Town);
+        GameManager.instance.LoadSceneFromNewGame(cachedSlotIndex);
     }
 
     public void OnNoButton()

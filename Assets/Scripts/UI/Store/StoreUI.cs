@@ -9,45 +9,53 @@ public class StoreUI : UIBase
     [SerializeField] StoreSlotUI[] storeSlots;
     private StoreSlotUI choicedSlot;
 
+    Player player;
+
     protected override void Awake()
     {
         base.Awake();
         gameObject.SetActive(false);
     }
 
-    protected override void OnOpen()
+    public void Init(UIManager uiManager, Player player, StoreDataTable data)
     {
-        if (UIManager.instance != null && UIManager.instance.interactPanel != null)
-            UIManager.instance.interactPanel.SetActive(false);
-        var playerInput = Player.instance.GetComponent<PlayerInput>();
-        playerInput.SwitchCurrentActionMap("UI");
-        UIManager.instance.inventoryUI.SetSortingOrder(111);
-    }
+        this.uiManager = uiManager;
+        this.player = player;
 
-    protected override void OnClose()
-    {
-        var playerInput = Player.instance.GetComponent<PlayerInput>();
-        playerInput.SwitchCurrentActionMap("Player");
-        if (UIManager.instance != null && UIManager.instance.uiRoot != null)
-            UIManager.instance.uiRoot.DetachInvenFromStore();
-    }
-
-    public void InitStore(StoreDataTable data)
-    {
         currentData = data;
 
         for (int i = 0; i < storeSlots.Length; i++)
         {
             if (i < currentData.items.Length)
-                storeSlots[i].SetItem(currentData.items[i]);
+            {
+                storeSlots[i].Init(player.InventoryController);
+                storeSlots[i].SetItem(currentData.items[i]); 
+            }
             else
                 storeSlots[i].Clear();
         }
     }
 
+    protected override void OnOpen()
+    {
+        if (uiManager.interactPanel != null)
+            uiManager.interactPanel.SetActive(false);
+        var playerInput = player.GetComponent<PlayerInput>();
+        playerInput.SwitchCurrentActionMap("UI");
+        uiManager.inventoryUI.SetSortingOrder(111);
+    }
+
+    protected override void OnClose()
+    {
+        var playerInput = player.GetComponent<PlayerInput>();
+        playerInput.SwitchCurrentActionMap("Player");
+        if (uiManager.uiRoot != null)
+            uiManager.uiRoot.DetachInvenFromStore();
+    }
+
     public void OpenModal() 
     {
-        var modal = UIManager.instance.inputFieldModal;
+        var modal = uiManager.inputFieldModal;
         modal.owner = From.Store;
         modal.Open(); 
     }
@@ -58,7 +66,7 @@ public class StoreUI : UIBase
     {
         if (choicedSlot is not null && choicedSlot != slot)
         {
-            var modal = UIManager.instance.inputFieldModal;
+            var modal = uiManager.inputFieldModal;
             modal.HandleYesButton -= choicedSlot.TryBuyItem;
             choicedSlot.borderImage.color = Color.white;
         }

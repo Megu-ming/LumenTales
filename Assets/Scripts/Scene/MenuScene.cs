@@ -1,21 +1,20 @@
-using JetBrains.Annotations;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class MenuScene : SceneBase
 {
-    protected override void Awake()
+    [SerializeField] MainMenuPanelUI mainMenuUI;
+    [SerializeField] SlotPanelUI slotPanelUI;
+    [SerializeField] WarningModalUI warningModalUI;
+
+    public override void Init()
     {
-        base.Awake();
-        // 기본 씬 설정
+        base.Init();
+
         sceneType = SceneType.Menu;
         Cursor.lockState = CursorLockMode.None;
 
-        UIManager.instance.InitUI();
-
-        UIManager.instance.mainMenuPanel.Init();
+        mainMenuUI.Init(slotPanelUI);
+        slotPanelUI.Init(warningModalUI, GameManager.instance.GetDataManager());
+        warningModalUI.Init(slotPanelUI);
     }
 }

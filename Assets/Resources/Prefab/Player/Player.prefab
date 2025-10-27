@@ -344,6 +344,7 @@ MonoBehaviour:
   isAlive: 0
   isInvincible: 0
   invincibilityTime: 0.25
+  animator: {fileID: 733211002397713240}
   currentExp: 0
   maxExp: 10
   baseStrength: 5
@@ -374,7 +375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dc448d6fa1f4054c838b90e031356ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   coolTime: 5
   dashSpeed: 15
 --- !u!1 &1606769465347345484

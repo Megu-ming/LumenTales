@@ -3,6 +3,7 @@ using UnityEngine;
 public class MissileProjectile : MonoBehaviour
 {
     Rigidbody2D rb;
+    Player player;
 
     [SerializeField] float speed = 10f;
     [SerializeField] float lifeTime = 2f;
@@ -17,6 +18,12 @@ public class MissileProjectile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         transform.SetParent(null, false);
         transform.localScale = Vector3.one;
+    }
+
+    public void Init(Player player)
+    {
+        gameObject.SetActive(true);
+        this.player = player;
     }
 
     private void OnEnable()
@@ -49,7 +56,7 @@ public class MissileProjectile : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Player Hit");
-            var pc = Player.instance.Status;
+            var pc = player.Status;
             pc.Hit(damage, pc.knockBack);
         }
     }

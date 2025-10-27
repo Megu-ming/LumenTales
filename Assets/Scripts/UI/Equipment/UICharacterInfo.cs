@@ -6,9 +6,11 @@ public class UICharacterInfo : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI levelText, atkText, defText, hpText, speedText, dropText;
     [SerializeField] TextMeshProUGUI strText, dexText, lukText, spText;
+    Player player;
 
-    private void Awake()
+    public void Init(Player player)
     {
+        this.player = player;
         Refresh();
 
         CharacterEvents.infoUIRefresh += Refresh;
@@ -22,14 +24,14 @@ public class UICharacterInfo : MonoBehaviour
     public void OnStrButton()
     {
         if(GameManager.instance.CurrentScene.StatusPoint <= 0) return;
-        Player.instance.Status.SpAddedStr++;
+        player.Status.SpAddedStr++;
         GameManager.instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
     public void OnDexButton()
     {
         if (GameManager.instance.CurrentScene.StatusPoint <= 0) return;
-        Player.instance.Status.SpAddedAgi++;
+        player.Status.SpAddedAgi++;
         GameManager.instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
@@ -37,14 +39,14 @@ public class UICharacterInfo : MonoBehaviour
     public void OnLuckButton()
     {
         if (GameManager.instance.CurrentScene.StatusPoint <= 0) return;
-        Player.instance.Status.SpAddedLuk++;
+        player.Status.SpAddedLuk++;
         GameManager.instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
 
     public void Refresh()
     {
-        var playerStatus = Player.instance.Status;
+        var playerStatus = player.Status;
         if (playerStatus == null) return;
         if (levelText)  levelText.text = $"{playerStatus.Level}";
         if (atkText)    atkText.text = $"{(int)playerStatus.FinalAtkDamage}";

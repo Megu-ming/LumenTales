@@ -5,30 +5,15 @@ public class BossScene : SceneBase
 {
     [SerializeField] Transform boss;
     [SerializeField] Transform hpBarUI;
+    [SerializeField] UIRoot uiRoot;
 
     [SerializeField] UnityEngine.UI.Image hpBarImage;
     BossStatus bossStatus;
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-
-        sceneType = SceneType.Town;
-
-        if (GameObject.Find("CMCam").TryGetComponent<CinemachineCamera>(out cam) && Player.instance is not null)
-        {
-            cam.Target.TrackingTarget = Player.instance.transform;
-        }
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-
-        InitScene();
-
         bossStatus = boss.GetComponent<BossStatus>();
-
+        Init();
     }
 
     private void Update()
@@ -52,11 +37,16 @@ public class BossScene : SceneBase
         else return 0;
     }
 
-    public void InitScene()
+    public override void Init()
     {
-        Player.instance?.InventoryController.Init();
-        UIManager.instance?.InitUI();
+        base.Init();
+        sceneType = SceneType.Town;
 
-        GameManager.instance?.InjectData();
+        player.Init();
+        uiRoot.Init(GameManager.instance.GetUIManager(), player);
+
+        SpawnAndTrackingPlayer();
+
+        GameManager.instance?.LoadData();
     }
 }

@@ -3,12 +3,18 @@ using UnityEngine;
 public class LaserProjectile : MonoBehaviour
 {
     Animator animator;
+    Player player;
     [SerializeField] float damage;
     [SerializeField] Vector2 knockback;
 
     float attackTick = 0.25f;
     float tickTimer = 0f;
     Vector2 dir;
+
+    public void Init(Player player)
+    {
+        this.player = player;
+    }
 
 	public void Launch(Vector2 from, Vector2 to)
     {
@@ -31,7 +37,7 @@ public class LaserProjectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && tickTimer >= attackTick)
         {
-            Player.instance.Status.Hit(damage, knockback);
+            player.Status.Hit(damage, knockback);
             tickTimer = 0f;
         }
         tickTimer += Time.deltaTime;

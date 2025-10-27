@@ -4,6 +4,7 @@ using UnityEngine;
 public class SceneBase : MonoBehaviour
 {
     [SerializeField] Transform editor_SpawnPoint;
+    [SerializeField] protected Player player;
 
     protected SceneType sceneType;
 
@@ -18,21 +19,20 @@ public class SceneBase : MonoBehaviour
     [SerializeField] protected CinemachineCamera cam;   
     [SerializeField] Texture2D cursorTexture;
 
-    protected virtual void Awake()
+    public virtual void Init()
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.SetCursor(cursorTexture, new Vector2(), CursorMode.Auto);
     }
 
-    protected virtual void Start()
+    public void SpawnAndTrackingPlayer()
     {
-        if (Player.instance != null)
+        if (player != null)
         {
-            var player = Player.instance?.gameObject;
-            if (player != null && cam != null)
+            if (cam != null)
             {
                 cam.Target.TrackingTarget = player.transform;
-                if(GameManager.instance != null)
+                if (GameManager.instance != null)
                 {
                     player.transform.position = GameManager.instance.GetSpawnPosition();
 #if UNITY_EDITOR
@@ -42,11 +42,11 @@ public class SceneBase : MonoBehaviour
                 else
                 {
 #if UNITY_EDITOR
-					player.transform.position = editor_SpawnPoint.position;
-					return;
+                    player.transform.position = editor_SpawnPoint.position;
+                    return;
 #endif
-				}
-			}
+                }
+            }
         }
     }
 
@@ -58,7 +58,7 @@ public class SceneBase : MonoBehaviour
 
     public void AddExp(int exp)
     {
-        var status = Player.instance.Status;
+        var status = player.Status;
         if(status != null)
         {
             status.CurrentExp += exp;

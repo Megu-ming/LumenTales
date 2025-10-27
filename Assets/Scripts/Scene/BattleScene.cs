@@ -3,38 +3,26 @@ using UnityEngine;
 
 public class BattleScene : SceneBase
 {
-    protected override void Awake()
-    {
-        base.Awake();
+    [SerializeField] UIRoot uiRoot;
 
+    protected void Start()
+    {
+        Init();
+    }
+
+    public override void Init()
+    {
+        base.Init();
         sceneType = SceneType.Battle;
 
-        if (GameObject.Find("CMCam").TryGetComponent<CinemachineCamera>(out cam) && Player.instance is not null)
-        {
-            cam.Target.TrackingTarget = Player.instance.transform;
-        }
-    }
+        player.Init();
+        uiRoot.Init(GameManager.instance.GetUIManager(), player);
 
-    protected override void Start()
-    {
-        base.Start();
+        SpawnAndTrackingPlayer();
 
-        InitScene();
-    }
+        GameManager.instance.LoadData();
 
-    private void FixedUpdate()
-    {
-        cam.transform.position = new Vector3(cam.transform.position.x, Mathf.Max(-1.42f, cam.transform.position.y), cam.transform.position.z);
-    }
-
-    public void InitScene()
-    {
-        Player.instance?.InventoryController.Init();
-        UIManager.instance.InitUI();
-
-        GameManager.instance.InjectData();
-
-        if (Player.instance is not null)
-            Player.instance.spotLight.gameObject.SetActive(true);
+        //if (Player.instance is not null)
+        //    Player.instance.spotLight.gameObject.SetActive(true);
     }
 }

@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6268149906289420916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3775954196552925906}
+  - component: {fileID: 5506303376343074444}
+  m_Layer: 0
+  m_Name: DataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3775954196552925906
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6268149906289420916}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 720.09796, y: 464.99158, z: 4.2967606}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5506303376343074444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6268149906289420916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3e80c4af9c3df47aaec9ec1d5837ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Current:
+    currentSlot: -1
+    saveSlots:
+    - exists: 0
+      createdAtUnix: 0
+      updatedAtUnix: 0
+      player:
+        level: 1
+        currentExp: 0
+        maxExp: 20
+        spAddedStr: 0
+        spAddedAgi: 0
+        spAddedLuk: 0
+        statusPoint: 0
+      inventory:
+        gold: 0
+        itemEntry: []
+        equippedEntry: []
+    - exists: 0
+      createdAtUnix: 0
+      updatedAtUnix: 0
+      player:
+        level: 1
+        currentExp: 0
+        maxExp: 20
+        spAddedStr: 0
+        spAddedAgi: 0
+        spAddedLuk: 0
+        statusPoint: 0
+      inventory:
+        gold: 0
+        itemEntry: []
+        equippedEntry: []
+    - exists: 0
+      createdAtUnix: 0
+      updatedAtUnix: 0
+      player:
+        level: 1
+        currentExp: 0
+        maxExp: 20
+        spAddedStr: 0
+        spAddedAgi: 0
+        spAddedLuk: 0
+        statusPoint: 0
+      inventory:
+        gold: 0
+        itemEntry: []
+        equippedEntry: []
+    - exists: 0
+      createdAtUnix: 0
+      updatedAtUnix: 0
+      player:
+        level: 1
+        currentExp: 0
+        maxExp: 20
+        spAddedStr: 0
+        spAddedAgi: 0
+        spAddedLuk: 0
+        statusPoint: 0
+      inventory:
+        gold: 0
+        itemEntry: []
+        equippedEntry: []
+    - exists: 0
+      createdAtUnix: 0
+      updatedAtUnix: 0
+      player:
+        level: 1
+        currentExp: 0
+        maxExp: 20
+        spAddedStr: 0
+        spAddedAgi: 0
+        spAddedLuk: 0
+        statusPoint: 0
+      inventory:
+        gold: 0
+        itemEntry: []
+        equippedEntry: []

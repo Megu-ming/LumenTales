@@ -7,6 +7,11 @@ public class DashSkill : SkillBase
     private float dashDuration = 0.1f;
     private float defaultSpeed;
 
+    public override void Init(Player player)
+    {
+        base.Init(player);
+    }
+
     public override void UseSkill()
     {
         StartCoroutine(DashCoroutine());
@@ -14,10 +19,10 @@ public class DashSkill : SkillBase
 
     private IEnumerator DashCoroutine()
     {
-        var pc = Player.instance.PlayerController;
+        var pc = player.PlayerController;
         pc.IsDash = true;
         pc.IsSprint = false;
-        var ps = Player.instance.Status;
+        var ps = player.Status;
         ps.SetInvincible(true);
         defaultSpeed = pc.moveSpeed;
         pc.moveSpeed = dashSpeed;

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
+    Player player;
     public int Capacity { get; private set; }
     [SerializeField, Range(10, 30)] int initialCapacity = 30;
     [SerializeField, Range(0, 30)] int maxInventorySize = 30;
@@ -25,15 +26,13 @@ public class InventoryController : MonoBehaviour
     public event Action OnInvenUIToggleRequest;
     public event Action OnEquipUIToggleRequest;
 
-    private void Start()
+    public void Init(Player player)
     {
-        RefreshAllSlots();
-    }
-
-    public void Init()
-    {
+        this.player = player;
         items = new Item[maxInventorySize];
         Capacity = initialCapacity;
+
+        RefreshAllSlots();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -103,7 +102,7 @@ public class InventoryController : MonoBehaviour
             items[index] = null;
             UpdateSlot(index);
             equipped[tartgetType] = eq;
-            Player.instance.Status.AddArmorAddedStat(eq.EquipmentData);
+            player.Status.AddArmorAddedStat(eq.EquipmentData);
             OnEquippedChanged?.Invoke(tartgetType, eq);
         }
     }
@@ -125,7 +124,7 @@ public class InventoryController : MonoBehaviour
         items[empty] = current;
         UpdateSlot(empty);
         equipped[slot] = null;
-        Player.instance.Status.RemoveArmorAddedStat(current.EquipmentData);
+        player.Status.RemoveArmorAddedStat(current.EquipmentData);
         OnEquippedChanged?.Invoke(slot, null);
     }
 
@@ -305,7 +304,7 @@ public class InventoryController : MonoBehaviour
             {
                 items[empty] = current;
                 // armoradded스탯에서 current의 스탯만큼 제거
-                Player.instance.Status.RemoveArmorAddedStat(current.EquipmentData);
+                player.Status.RemoveArmorAddedStat(current.EquipmentData);
                 UpdateSlot(empty);
             }
         }
@@ -316,7 +315,7 @@ public class InventoryController : MonoBehaviour
         UpdateSlot(index);
         OnEquippedChanged?.Invoke(slot, eq);
         // armoradded스탯에 eq의 스탯만큼 추가
-        Player.instance.Status.AddArmorAddedStat(eq.EquipmentData);
+        player.Status.AddArmorAddedStat(eq.EquipmentData);
         Debug.Log($"Equipped {eq.itemData.ItemName} to {slot}");
     }
     
@@ -444,7 +443,7 @@ public class InventoryController : MonoBehaviour
 
             equipped[newEq.EquipmentData.slot] = newEq;
 
-            Player.instance.Status.AddArmorAddedStat(eqData);
+            player.Status.AddArmorAddedStat(eqData);
             OnEquippedChanged?.Invoke(eqData.slot, newEq);
         }
 

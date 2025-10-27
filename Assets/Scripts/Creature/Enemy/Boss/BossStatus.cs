@@ -2,19 +2,10 @@ using UnityEngine;
 
 public class BossStatus : Status
 {
-    protected override void Awake()
+    public void Init()
     {
-        base.Awake();
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-
         CurrentHealth = BaseMaxHealth;
     }
-
-    protected override void Update() { }
 
     public override bool Hit(float damage, Vector2 knockback)
     {
