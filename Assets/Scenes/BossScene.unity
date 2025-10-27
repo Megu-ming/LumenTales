@@ -3966,7 +3966,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 372443217234336205, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}
-      propertyPath: deadUIPrefab
+      propertyPath: reviveUIPrefab
       value: 
       objectReference: {fileID: 2905368568861600427, guid: 1d8f8f0f6fa837746ae8df84bd3592a1, type: 3}
     - target: {fileID: 5814457941707002991, guid: c3e3462062d7a294781d9ccf02130de8, type: 3}

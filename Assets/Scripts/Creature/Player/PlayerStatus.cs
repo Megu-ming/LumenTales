@@ -102,6 +102,12 @@ public class PlayerStatus : Status
         UIManager.instance.OpenDeadUI();
     }
 
+    // 부활
+    public override void Respawn()
+    {
+        base.Respawn();
+    }
+
     public void AddArmorAddedStat(EquipmentItemData data)
     {
         armorAddedAtk += data.attackValue;

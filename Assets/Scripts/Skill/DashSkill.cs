@@ -7,7 +7,7 @@ public class DashSkill : SkillBase
     private float dashDuration = 0.1f;
     private float defaultSpeed;
 
-    protected override void UseSkill()
+    public override void UseSkill()
     {
         StartCoroutine(DashCoroutine());
     }

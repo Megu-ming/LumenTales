@@ -16,16 +16,32 @@ public class ReviveUI : MonoBehaviour
 
     void OnClickRevive()
     {
-        Debug.Log("Revive!");
+        Player.instance.Revive();
+
+        Destroy(gameObject);        
     }
 
     void OnClickTown()
     {
-        Debug.Log("Respawn To Town!");
+        if (DataManager.instance is not null)
+        {
+            DataManager.instance.BackupCurrentSlot();
+            DataManager.instance.SaveAll();
+        }
+
+        if (GameManager.instance is not null)
+            GameManager.instance.LoadScene(SceneType.Town);
     }
 
     void OnClickMenu()
     {
-        Debug.Log("Go To Mainmenu!");
+        if (DataManager.instance is not null)
+        {
+            DataManager.instance.BackupCurrentSlot();
+            DataManager.instance.SaveAll();
+        }
+
+        if(GameManager.instance is not null)
+            GameManager.instance.LoadScene(SceneType.Menu);
     }
 }

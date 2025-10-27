@@ -10,11 +10,8 @@ public abstract class SkillBase : MonoBehaviour
 
     private void Start()
     {
-        skillAction = inputAsset.FindActionMap("Player").FindAction("Skill");
-        skillAction.performed += UseSkillInputAction;
         Init();
     }
-
 
     // Update is called once per frame
     void Update()
@@ -23,12 +20,7 @@ public abstract class SkillBase : MonoBehaviour
             coolDownTimer -= Time.deltaTime;
     }
 
-    private void OnDestroy()
-    {
-        skillAction.performed -= UseSkillInputAction;
-    }
-
-    private void UseSkillInputAction(InputAction.CallbackContext context)
+    public void UseSkillInputAction(InputAction.CallbackContext context)
     {
         if(coolDownTimer <= 0f)
         {
@@ -37,9 +29,6 @@ public abstract class SkillBase : MonoBehaviour
         }
     }
 
-    protected abstract void UseSkill();
-    protected virtual void Init()
-    {
-
-    }
+    public abstract void UseSkill();
+    protected virtual void Init() {}
 }

@@ -34,8 +34,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject healthTextPrefab;
     [SerializeField] float textHeight;
 
-    [Header("DeadUI Prefab")]
-    [SerializeField] GameObject deadUIPrefab;
+    [Header("Revive UI Prefab")]
+    [SerializeField] GameObject reviveUIPrefab;
 
     [Header("Modal UI Prefabs")]
     [SerializeField] GameObject warningModalPrefab;
@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
     public WarningModalUI warningModal;
     public InputFieldModalUI inputFieldModal;
     public GameObject dummy;
-    public GameObject deadUI;
+    public ReviveUI reviveUI;
 
     [Header("StackUI")]
     public int baseSorting = 100;
@@ -89,7 +89,7 @@ public class UIManager : MonoBehaviour
     public void InitUI()
     {
         // Prefab 생성
-        if (GameManager.instance is not null && GameManager.instance.CurrentScene is MenuScene)
+        if (GameManager.instance && GameManager.instance.CurrentScene is MenuScene)
         {
             Instantiate(mainMenuCanvasPrefab).TryGetComponent<Canvas>(out mainMenuCanvas);
             Instantiate(mainMenuPanelPrefab, mainMenuCanvas.transform).TryGetComponent<MainMenuPanelUI>(out mainMenuPanel);
@@ -160,7 +160,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenDeadUI()
     {
-        deadUI = Instantiate(deadUIPrefab);
+        Instantiate(reviveUIPrefab).TryGetComponent<ReviveUI>(out reviveUI);
     }
 
     public void CharacterTookDamage(GameObject character, float damageReceived)

@@ -12,11 +12,6 @@ public class Player : MonoBehaviour
     public PlayerController PlayerController { get; private set; }
     public InventoryController InventoryController { get; private set; }
     public Light2D spotLight;
-
-    // ─── Quest ────────────────────────────────────────────────────────────────
-   
-    
-
     // ─── Lifecycle ──────────────────────────────────────────────────────────────
     void Awake()
     {
@@ -34,6 +29,11 @@ public class Player : MonoBehaviour
     {
         if(DataManager.instance != null)
             DataManager.instance.BackupCurrentSlot();
+    }
+
+    public void Revive()
+    {
+        Status.Respawn();
     }
 
     // 불러온 데이터 주입

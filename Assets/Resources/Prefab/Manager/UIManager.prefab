@@ -49,7 +49,6 @@ MonoBehaviour:
   GameHUDPrefab: {fileID: 7127955731233042555, guid: 112f9418f1747154aaf391ed9888717e, type: 3}
   mainMenuPanelPrefab: {fileID: 3058743565986640823, guid: 092aa24e90aec7d4fae233a062bd251a, type: 3}
   slotPanelPrefab: {fileID: 1060490730772775228, guid: 5a20bcdc695790f4ab580453a407a684, type: 3}
-  pointerAreaPrefab: {fileID: 8765462299283313957, guid: 655328c611e3abc41a467bdee61ba536, type: 3}
   conversationBoxPrefab: {fileID: 8754853602647074860, guid: d3a544d9a5e06684d9bb51f7fc5441b7, type: 3}
   interactPanelPrefab: {fileID: 1217242372141417082, guid: b997d1f5b3ed6a64e9bfc58ccdcc1b4a, type: 3}
   ingameMenuPrefab: {fileID: 6063705532578988288, guid: fbc91b2085e89984680994f0e13cea43, type: 3}
@@ -62,6 +61,7 @@ MonoBehaviour:
   damageTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
   healthTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
   textHeight: 0.2
+  reviveUIPrefab: {fileID: 2905368568861600427, guid: 1d8f8f0f6fa837746ae8df84bd3592a1, type: 3}
   warningModalPrefab: {fileID: 1306131959998460079, guid: 3e42b3851bfff554eb7b66185402216c, type: 3}
   inputFieldModalPrefab: {fileID: 3166835735112269633, guid: 41b503d6a91df034fa5673d3665dd628, type: 3}
   mainMenuCanvas: {fileID: 0}
@@ -69,7 +69,6 @@ MonoBehaviour:
   gameHUD: {fileID: 0}
   mainMenuPanel: {fileID: 0}
   slotPanel: {fileID: 0}
-  pointerArea: {fileID: 0}
   conversationUI: {fileID: 0}
   interactPanel: {fileID: 0}
   ingameMenu: {fileID: 0}
@@ -80,5 +79,6 @@ MonoBehaviour:
   warningModal: {fileID: 0}
   inputFieldModal: {fileID: 0}
   dummy: {fileID: 0}
+  reviveUI: {fileID: 0}
   baseSorting: 100
   step: 10
