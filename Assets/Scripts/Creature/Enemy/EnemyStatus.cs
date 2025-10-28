@@ -29,6 +29,7 @@ public class EnemyStatus : Status
         knockBack = data.knockBack;
         expAmount = data.expAmount;
 
+        IsAlive = true;
         CurrentHealth = BaseMaxHealth;
     }
 

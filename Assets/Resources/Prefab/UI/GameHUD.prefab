@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5979296739730900560}
   - component: {fileID: 4338593395127460193}
   - component: {fileID: 4234935484868247340}
+  - component: {fileID: 3857248698945235965}
   m_Layer: 5
   m_Name: GameHUD
   m_TagString: Untagged
@@ -83,3 +84,18 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &3857248698945235965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7127955731233042555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6620deef0281e34bbbbc4845745d135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTextPrefab: {fileID: 1527099804864950973, guid: 93c90cb5274bedd40b7c4e6d5b5ad4bb, type: 3}
+  healthTextPrefab: {fileID: 1527099804864950973, guid: 9f25c167a32346e4eb12842805bdc1d7, type: 3}
+  textHeight: 0

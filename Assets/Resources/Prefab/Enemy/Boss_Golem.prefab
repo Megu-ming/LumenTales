@@ -471,9 +471,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossTransform: {fileID: 8431617840549984468}
   meleeCollider: {fileID: 8523473078834212216}
-  missile: {fileID: 0}
+  missile: {fileID: 8918614526724920773, guid: 654ffb3bd3d19fa41b91b605b273bbe7, type: 3}
   missileParent: {fileID: 273643346831380197}
-  laser: {fileID: 0}
+  laser: {fileID: 4632316195862814071, guid: 39567e6801d292b409da8a87648aa15f, type: 3}
   laserParent: {fileID: 1571563688475970092}
 --- !u!1001 &4333447852885480525
 PrefabInstance:

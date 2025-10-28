@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class BossStatus : Status
 {
-    public void Init()
+    public override void Init()
     {
+        base.Init();
         CurrentHealth = BaseMaxHealth;
     }
 

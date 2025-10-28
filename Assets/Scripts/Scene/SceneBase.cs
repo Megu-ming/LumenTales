@@ -6,6 +6,11 @@ public class SceneBase : MonoBehaviour
     [SerializeField] Transform editor_SpawnPoint;
     [SerializeField] protected Player player;
 
+#if UNITY_EDITOR
+    [Header("에디터용")]
+    [SerializeField] GameManager gameManagerPrefab;
+#endif
+
     protected SceneType sceneType;
 
     int statusPoint;
@@ -18,6 +23,14 @@ public class SceneBase : MonoBehaviour
     [Header("SceneBase Option")]
     [SerializeField] protected CinemachineCamera cam;   
     [SerializeField] Texture2D cursorTexture;
+
+    protected virtual void Start()
+     {
+#if UNITY_EDITOR
+        if ( gameManagerPrefab && GameManager.instance is null)
+            Instantiate(gameManagerPrefab);
+#endif
+    }
 
     public virtual void Init()
     {

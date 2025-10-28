@@ -46,7 +46,6 @@ public class UIRoot : MonoBehaviour
     Transform invenOrigParent;
     int invenOrigSiblingIndex;
     bool invenDocked;
-    UIManager uiManager;
     Player player;
 
     [Header("StackUI")]
@@ -178,7 +177,8 @@ public class UIRoot : MonoBehaviour
     /// </summary>
     public void OpenDeadUI()
     {
-        Instantiate(reviveUIPrefab).TryGetComponent<ReviveUI>(out reviveUI);
+        if(Instantiate(reviveUIPrefab).TryGetComponent<ReviveUI>(out reviveUI))
+            reviveUI.Init(player);
     }
 
     // StackManager에서 하던거

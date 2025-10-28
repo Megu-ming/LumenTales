@@ -92,8 +92,9 @@ public class PlayerStatus : Status
     public Action HandleOpenDeadUI;
     public Action<float, float> HandleExpChanged;
 
-    public void Init()
+    public override void Init()
     {
+        base.Init();
         CurrentHealth = FinalMaxHealth;
     }
 
@@ -109,6 +110,9 @@ public class PlayerStatus : Status
     public override void Respawn()
     {
         base.Respawn();
+
+        SetInvincibleTime(2f);
+        SetInvincible(true);
     }
 
     public void AddArmorAddedStat(EquipmentItemData data)

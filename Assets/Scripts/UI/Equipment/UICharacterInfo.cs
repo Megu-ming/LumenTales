@@ -57,6 +57,6 @@ public class UICharacterInfo : MonoBehaviour
         if (dexText)    dexText.text = $"{playerStatus.Agility}";
         if (lukText)    lukText.text = $"{playerStatus.Luck}";
 
-        if (spText) spText.text = $"{GameManager.instance.CurrentScene.StatusPoint}";
+        if (spText) spText.text = $"{GameManager.instance?.CurrentScene.StatusPoint}";
     }
 }

@@ -6,7 +6,7 @@ public class MenuScene : SceneBase
     [SerializeField] SlotPanelUI slotPanelUI;
     [SerializeField] WarningModalUI warningModalUI;
 
-    private void Start()
+    protected override void Start()
     {
         GameManager.instance.SceneStart();
     }
@@ -19,7 +19,7 @@ public class MenuScene : SceneBase
         Cursor.lockState = CursorLockMode.None;
 
         mainMenuUI.Init(slotPanelUI);
-        slotPanelUI.Init(warningModalUI, GameManager.instance.GetDataManager());
+        slotPanelUI.Init(warningModalUI, GameManager.instance?.GetDataManager());
         warningModalUI.Init(slotPanelUI);
     }
 }

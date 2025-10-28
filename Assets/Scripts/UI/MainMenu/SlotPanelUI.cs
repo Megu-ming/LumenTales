@@ -20,7 +20,8 @@ public class SlotPanelUI : MonoBehaviour
         modal = warningModal;
         this.dataManager = dataManager;
 
-        dataManager.OnSlotsChanged += RefreshSlotsIfOpen;
+        if(dataManager)
+            dataManager.OnSlotsChanged += RefreshSlotsIfOpen;
         gameObject.SetActive(false);
     }
 

@@ -72,9 +72,15 @@ public class Status : MonoBehaviour
     [SerializeField] private bool isInvincible = false;
     public void SetInvincible(bool val) => isInvincible = val;
     [SerializeField] private float invincibilityTime = 0.25f;
+    public void SetInvincibleTime(float time) => invincibilityTime = time;
     private float timeSinceHit = 0f;
 
     [SerializeField] Animator animator;
+
+    public virtual void Init()
+    {
+        IsAlive = true;
+    }
 
     protected virtual void Update()
     {

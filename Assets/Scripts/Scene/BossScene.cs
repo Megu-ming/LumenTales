@@ -10,10 +10,18 @@ public class BossScene : SceneBase
     [SerializeField] UnityEngine.UI.Image hpBarImage;
     BossStatus bossStatus;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
+        var bc = boss.GetComponent<BossController>();
         bossStatus = boss.GetComponent<BossStatus>();
-        Init();
+
+        player.Init();
+        bc.Init(player);
+        uiRoot.Init(player);
+
+        GameManager.instance?.SceneStart();
     }
 
     private void Update()
@@ -40,10 +48,7 @@ public class BossScene : SceneBase
     public override void Init()
     {
         base.Init();
-        sceneType = SceneType.Town;
-
-        player.Init();
-        uiRoot.Init(player);
+        sceneType = SceneType.Boss;
 
         SpawnAndTrackingPlayer();
 

@@ -8,13 +8,15 @@ public class TownScene : SceneBase
     [SerializeField] UIRoot uiRoot;
     [SerializeField] Store storeNPC;
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
+
         player.Init();
         uiRoot.Init(player);
         storeNPC.Init(uiRoot);
 
-        GameManager.instance.SceneStart();
+        GameManager.instance?.SceneStart();
     }
 
     public override void Init()
