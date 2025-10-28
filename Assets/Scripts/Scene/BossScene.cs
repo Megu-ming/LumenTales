@@ -10,10 +10,8 @@ public class BossScene : SceneBase
     [SerializeField] UnityEngine.UI.Image hpBarImage;
     BossStatus bossStatus;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-
         var bc = boss.GetComponent<BossController>();
         bossStatus = boss.GetComponent<BossStatus>();
 

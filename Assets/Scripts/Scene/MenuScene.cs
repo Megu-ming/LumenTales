@@ -6,9 +6,10 @@ public class MenuScene : SceneBase
     [SerializeField] SlotPanelUI slotPanelUI;
     [SerializeField] WarningModalUI warningModalUI;
 
-    protected override void Start()
+    protected void Start()
     {
-        GameManager.instance.SceneStart();
+        if(GameManager.instance)    
+            GameManager.instance.SceneStart();
     }
 
     public override void Init()

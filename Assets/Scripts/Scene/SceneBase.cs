@@ -3,13 +3,7 @@ using UnityEngine;
 
 public class SceneBase : MonoBehaviour
 {
-    [SerializeField] Transform editor_SpawnPoint;
     [SerializeField] protected Player player;
-
-#if UNITY_EDITOR
-    [Header("에디터용")]
-    [SerializeField] GameManager gameManagerPrefab;
-#endif
 
     protected SceneType sceneType;
 
@@ -23,14 +17,6 @@ public class SceneBase : MonoBehaviour
     [Header("SceneBase Option")]
     [SerializeField] protected CinemachineCamera cam;   
     [SerializeField] Texture2D cursorTexture;
-
-    protected virtual void Start()
-     {
-#if UNITY_EDITOR
-        if ( gameManagerPrefab && GameManager.instance is null)
-            Instantiate(gameManagerPrefab);
-#endif
-    }
 
     public virtual void Init()
     {
@@ -48,17 +34,8 @@ public class SceneBase : MonoBehaviour
                 if (GameManager.instance != null)
                 {
                     player.transform.position = GameManager.instance.GetSpawnPosition();
-#if UNITY_EDITOR
-                    player.transform.position = editor_SpawnPoint.position;
-#endif
                 }
-                else
-                {
-#if UNITY_EDITOR
-                    player.transform.position = editor_SpawnPoint.position;
-                    return;
-#endif
-                }
+
             }
         }
     }

@@ -5,10 +5,8 @@ public class BattleScene : SceneBase
 {
     [SerializeField] UIRoot uiRoot;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-
         player.Init();
         uiRoot.Init(player);
 
