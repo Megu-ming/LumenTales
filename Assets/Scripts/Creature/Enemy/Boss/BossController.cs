@@ -63,6 +63,7 @@ public class BossController : CreatureController
 	public void Init(Player player)
 	{
 		target = player;
+		status.Init();
 		animTriggers.Init(player);
 		meleeAttack.Init(player);
 

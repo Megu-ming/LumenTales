@@ -86,6 +86,7 @@ public class SlotPanelUI : MonoBehaviour
             }
             else
             {
+                GameManager.instance.SetSpawnPoint(PlayerSpawnPoint.Default);
                 GameManager.instance.LoadSceneFromNewGame(slot);
             }
         }
@@ -93,6 +94,7 @@ public class SlotPanelUI : MonoBehaviour
         {
             if (meta.exists)
             {
+                GameManager.instance.SetSpawnPoint(PlayerSpawnPoint.Default);
                 GameManager.instance.LoadSceneFromContine(slot);
             }
             else

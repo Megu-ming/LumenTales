@@ -18,6 +18,7 @@ public class LaserProjectile : MonoBehaviour
 
 	public void Launch(Vector2 from, Vector2 to)
     {
+        gameObject.SetActive(true);
         dir = (to - from).normalized;
 
         transform.right = dir;

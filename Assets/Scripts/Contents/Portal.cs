@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour
 {
     [SerializeField] SceneType nextScene;
-    [SerializeField] PlayerSpawnPoint spawnPoint;
+    [SerializeField] PlayerSpawnPoint nextSpawnPoint;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -19,7 +19,7 @@ public class Portal : MonoBehaviour
         }
         if(GameManager.instance is not null)
         {
-            GameManager.instance.SetSpawnPoint(spawnPoint);
+            GameManager.instance.SetSpawnPoint(nextSpawnPoint);
             GameManager.instance.LoadScene(nextScene);
         }
     }

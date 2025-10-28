@@ -36,7 +36,7 @@ public class BossAnimTriggers : MonoBehaviour
 
     public void LaunchMissile()
     {
-        missile.Init(player);
+        missile.Init(player, missileParent);
         missile.Launch(missileParent.position, player.transform.position);
     }
     // -----------------------------------------
@@ -57,8 +57,7 @@ public class BossAnimTriggers : MonoBehaviour
     public void EndLaser()
     {
         animator.SetBool("LaserEnd", true);
-        Destroy(laser.gameObject);
-        laser = null;
+        laser.gameObject.SetActive(false);
     }
     // -----------------------------------------
 }

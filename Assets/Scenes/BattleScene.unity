@@ -4966,7 +4966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: 3
-  spawnPoint: 2
+  nextSpawnPoint: 4
 --- !u!61 &1050499504
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5437,7 +5437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: 1
-  spawnPoint: 4
+  nextSpawnPoint: 1
 --- !u!61 &1694960980
 BoxCollider2D:
   m_ObjectHideFlags: 0

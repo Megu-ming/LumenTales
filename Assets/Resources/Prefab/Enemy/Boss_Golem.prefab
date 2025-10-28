@@ -471,10 +471,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossTransform: {fileID: 8431617840549984468}
   meleeCollider: {fileID: 8523473078834212216}
-  missile: {fileID: 8918614526724920773, guid: 654ffb3bd3d19fa41b91b605b273bbe7, type: 3}
+  missile: {fileID: 5180889392993583496}
   missileParent: {fileID: 273643346831380197}
-  laser: {fileID: 4632316195862814071, guid: 39567e6801d292b409da8a87648aa15f, type: 3}
-  laserParent: {fileID: 1571563688475970092}
+  laser: {fileID: 2917116351774227938}
+  laserParent: {fileID: 5082656820466794856}
 --- !u!1001 &4333447852885480525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -536,6 +536,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 654ffb3bd3d19fa41b91b605b273bbe7, type: 3}
+--- !u!114 &5180889392993583496 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8918614526724920773, guid: 654ffb3bd3d19fa41b91b605b273bbe7, type: 3}
+  m_PrefabInstance: {fileID: 4333447852885480525}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c385a82e12911d14eb52bdf8837b9db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7218890661951507599 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6344966128244758722, guid: 654ffb3bd3d19fa41b91b605b273bbe7, type: 3}
@@ -602,6 +613,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39567e6801d292b409da8a87648aa15f, type: 3}
+--- !u!114 &2917116351774227938 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4632316195862814071, guid: 39567e6801d292b409da8a87648aa15f, type: 3}
+  m_PrefabInstance: {fileID: 7508317330046017685}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de879583b64f69a4b9c207722362c5ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5082656820466794856 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3367531051746238973, guid: 39567e6801d292b409da8a87648aa15f, type: 3}

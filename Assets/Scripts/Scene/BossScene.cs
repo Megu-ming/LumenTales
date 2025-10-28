@@ -26,7 +26,7 @@ public class BossScene : SceneBase
 
     private void Update()
     {
-        if(hpBarUI.gameObject.activeSelf is true)
+        //if(hpBarUI.gameObject.activeSelf is true)
         {
             hpBarImage.fillAmount = CalculateRatio(bossStatus.CurrentHealth, bossStatus.BaseMaxHealth);
         }

@@ -4400,6 +4400,10 @@ PrefabInstance:
       propertyPath: spawnPoint
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2715309100759216874, guid: 4439ac20b5864564fa710fb3d14ecebf, type: 3}
+      propertyPath: nextSpawnPoint
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

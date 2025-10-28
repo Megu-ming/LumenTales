@@ -10,20 +10,20 @@ public class MissileProjectile : MonoBehaviour
     [SerializeField] float damage = 15f;
     [SerializeField] LayerMask targetMask;
 
+    Transform parentTransform;
     Vector2 dir;
     float life;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        transform.SetParent(null, false);
-        transform.localScale = Vector3.one;
+        
     }
 
-    public void Init(Player player)
+    public void Init(Player player, Transform parent)
     {
-        gameObject.SetActive(true);
         this.player = player;
+        parentTransform = parent;
     }
 
     private void OnEnable()
@@ -34,6 +34,9 @@ public class MissileProjectile : MonoBehaviour
 
     public void Launch(Vector2 from, Vector2 to)
     {
+        gameObject.SetActive(true);
+        transform.SetParent(null, false);
+        transform.localScale = Vector3.one;
         transform.position = from;
         
         dir = (to - from).normalized;
@@ -48,7 +51,17 @@ public class MissileProjectile : MonoBehaviour
     {
         life -= Time.deltaTime;
         if (life <= 0f)
-        { Destroy(gameObject); return; }
+        { 
+            gameObject.SetActive(false);
+            ResetPosition();
+            return; 
+        }
+    }
+
+    private void ResetPosition()
+    {
+        transform.SetParent(parentTransform);
+        transform.position = new Vector2(0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -59,6 +59,7 @@ public class WarningModalUI : MonoBehaviour
             return;
         }
 
+        GameManager.instance.SetSpawnPoint(PlayerSpawnPoint.Default);
         GameManager.instance.LoadSceneFromNewGame(cachedSlotIndex);
     }
 
