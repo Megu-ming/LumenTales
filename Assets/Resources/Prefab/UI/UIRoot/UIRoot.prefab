@@ -1,80 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1542252425555082210
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5028469769407779271}
-  - component: {fileID: 3273883743678704463}
-  - component: {fileID: 5303270796196297005}
-  m_Layer: 5
-  m_Name: QuestViewer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &5028469769407779271
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542252425555082210}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5271131284054728681}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -80}
-  m_SizeDelta: {x: 400, y: 200}
-  m_Pivot: {x: 1, y: 1}
---- !u!222 &3273883743678704463
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542252425555082210}
-  m_CullTransparentMesh: 1
---- !u!114 &5303270796196297005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542252425555082210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: e44d599418f35774c88487c325e7a7d7, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4533651249495632695
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,8 +31,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5028469769407779271}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -190,5 +114,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f375a0e10e46af49ad8b522d1279c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  conversationBoxPrefab: {fileID: 8754853602647074860, guid: d3a544d9a5e06684d9bb51f7fc5441b7, type: 3}
+  interactPanelPrefab: {fileID: 1217242372141417082, guid: b997d1f5b3ed6a64e9bfc58ccdcc1b4a, type: 3}
+  ingameMenuPrefab: {fileID: 6063705532578988288, guid: fbc91b2085e89984680994f0e13cea43, type: 3}
+  expSliderPrefab: {fileID: 8754124665213882085, guid: 7bd988559fa5b634fb2452a18e30b460, type: 3}
+  tooltipPrefab: {fileID: 6129715416068939442, guid: ef3e01fd193803440bd9d37827e6716d, type: 3}
+  storePrefab: {fileID: 2231967871071688245, guid: 0a6724d4cbe78804c92debfa41660f33, type: 3}
+  inventoryPrefab: {fileID: 8431638238036347946, guid: 0c86538808e9f32438290bc01301239c, type: 3}
+  characterInfoPrefab: {fileID: 6104374164706897903, guid: cda54cfd02f761f42b126c48a9756c5f, type: 3}
+  dummyPrefab: {fileID: 403509325429966908, guid: 2f763697ea6fc164c8f0ae6676204773, type: 3}
+  inputFieldModalPrefab: {fileID: 3166835735112269633, guid: 41b503d6a91df034fa5673d3665dd628, type: 3}
+  reviveUIPrefab: {fileID: 2905368568861600427, guid: 1d8f8f0f6fa837746ae8df84bd3592a1, type: 3}
+  conversationUI: {fileID: 0}
+  interactPanel: {fileID: 0}
+  ingameMenu: {fileID: 0}
+  expSlider: {fileID: 0}
+  storeUI: {fileID: 0}
+  inventoryUI: {fileID: 0}
+  characterInfoUI: {fileID: 0}
+  inputFieldModal: {fileID: 0}
+  dummy: {fileID: 0}
+  reviveUI: {fileID: 0}
   storeParentRt: {fileID: 0}
   inventoryRT: {fileID: 0}
+  baseSorting: 100
+  step: 10

@@ -43,7 +43,7 @@ public class BossScene : SceneBase
         sceneType = SceneType.Town;
 
         player.Init();
-        uiRoot.Init(GameManager.instance.GetUIManager(), player);
+        uiRoot.Init(player);
 
         SpawnAndTrackingPlayer();
 

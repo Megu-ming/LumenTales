@@ -5,8 +5,9 @@ public class IngameMenu : UIBase
 {
     Player player;
 
-    public void Init(Player player)
+    public void Init(UIRoot uiRoot, Player player)
     {
+        this.uiRoot = uiRoot;
         this.player = player;
     }
 

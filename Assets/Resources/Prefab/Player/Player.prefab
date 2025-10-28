@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0e7169cfd3d0246b0ef14224a0503a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill: {fileID: 1432597458464436165}
   jumpForce: 7
   sprintMul: 1.2
   isMoving: 0

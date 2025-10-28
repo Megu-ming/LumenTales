@@ -8,6 +8,8 @@ public class StoreUI : UIBase
 
     [SerializeField] StoreSlotUI[] storeSlots;
     private StoreSlotUI choicedSlot;
+    [Header("컴포넌트 참조")]
+    InputFieldModalUI inputFieldModal;
 
     Player player;
 
@@ -17,45 +19,48 @@ public class StoreUI : UIBase
         gameObject.SetActive(false);
     }
 
-    public void Init(UIManager uiManager, Player player, StoreDataTable data)
+    public void Init(UIRoot uiRoot, Player player, InputFieldModalUI inputFieldModal, StoreDataTable data)
     {
-        this.uiManager = uiManager;
+        this.uiRoot = uiRoot;
         this.player = player;
-
+        this.inputFieldModal = inputFieldModal;
         currentData = data;
-
-        for (int i = 0; i < storeSlots.Length; i++)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+        if(currentData is not null)
         {
-            if (i < currentData.items.Length)
+            for (int i = 0; i < storeSlots.Length; i++)
             {
-                storeSlots[i].Init(player.InventoryController);
-                storeSlots[i].SetItem(currentData.items[i]); 
+                if (i < currentData.items.Length)
+                {
+                    storeSlots[i].Init(player.InventoryController);
+                    storeSlots[i].SetItem(currentData.items[i]);
+                }
+                else
+                    storeSlots[i].Clear();
             }
-            else
-                storeSlots[i].Clear();
         }
     }
 
     protected override void OnOpen()
     {
-        if (uiManager.interactPanel != null)
-            uiManager.interactPanel.SetActive(false);
+        if (uiRoot.interactPanel != null)
+            uiRoot.interactPanel.SetActive(false);
         var playerInput = player.GetComponent<PlayerInput>();
         playerInput.SwitchCurrentActionMap("UI");
-        uiManager.inventoryUI.SetSortingOrder(111);
+        uiRoot.inventoryUI.SetSortingOrder(111);
     }
 
     protected override void OnClose()
     {
         var playerInput = player.GetComponent<PlayerInput>();
         playerInput.SwitchCurrentActionMap("Player");
-        if (uiManager.uiRoot != null)
-            uiManager.uiRoot.DetachInvenFromStore();
+        if (uiRoot != null)
+            uiRoot.DetachInvenFromStore();
     }
 
     public void OpenModal() 
     {
-        var modal = uiManager.inputFieldModal;
+        var modal = inputFieldModal;
         modal.owner = From.Store;
         modal.Open(); 
     }
@@ -66,7 +71,7 @@ public class StoreUI : UIBase
     {
         if (choicedSlot is not null && choicedSlot != slot)
         {
-            var modal = uiManager.inputFieldModal;
+            var modal = inputFieldModal;
             modal.HandleYesButton -= choicedSlot.TryBuyItem;
             choicedSlot.borderImage.color = Color.white;
         }

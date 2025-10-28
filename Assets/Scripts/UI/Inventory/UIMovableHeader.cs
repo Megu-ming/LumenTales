@@ -3,16 +3,16 @@ using UnityEngine.EventSystems;
 
 public class UIMovableHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    [SerializeField] RectTransform target;
-    UIManager uiManager;
+    RectTransform target;
+    UIRoot uiRoot;
 
     private Vector2 beginPos;
     private Vector2 moveBegin;
 
-    public void Init(UIManager uiManager, RectTransform target)
+    public void Init(UIRoot uiRoot, RectTransform target)
     {
         this.target = target;
-        this.uiManager = uiManager;
+        this.uiRoot = uiRoot;
     }
     
     public void OnPointerDown(PointerEventData eventData)
@@ -21,7 +21,7 @@ public class UIMovableHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
         moveBegin = eventData.position;
 
         if (target && target.gameObject.TryGetComponent<UIBase>(out UIBase ui))
-            uiManager.BringToFront(ui);
+            uiRoot.BringToFront(ui);
     }
 
     public void OnDrag(PointerEventData eventData)

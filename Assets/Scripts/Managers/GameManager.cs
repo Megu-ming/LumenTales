@@ -9,12 +9,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] SpawnData spawnData;
     PlayerSpawnPoint currentSpawnPoint = PlayerSpawnPoint.Default;
 
-    [SerializeField] UIManager uiManagerPrefab;
-    [SerializeField] DataManager dataManagerPrefab;
+    [Header("--------------읽기 전용--------------")]
+    [SerializeField] UIRoot uiRoot;
+    public UIRoot GetUIRoot() => uiRoot;
 
-    UIManager ui;
-    public UIManager GetUIManager() => ui;
-    DataManager data;
+    [SerializeField] DataManager data;
     public DataManager GetDataManager() => data;
 
     SceneBase currentScene;
@@ -41,14 +40,13 @@ public class GameManager : MonoBehaviour
 
     void Play()
     {
-        if (ui is null && data is null)
+        player = FindAnyObjectByType<Player>();
+        
+        data = FindAnyObjectByType<DataManager>();
+        if (data is not null)
         {
-            ui = Instantiate(uiManagerPrefab);
-            data = Instantiate(dataManagerPrefab);
+            data.Init(player);
         }
-
-        ui.Init(player);
-        data.Init(player);
 
         CurrentScene.Init();
     }
@@ -71,6 +69,8 @@ public class GameManager : MonoBehaviour
     // ---------- Scene 이동 ----------
     public void LoadScene(SceneType type)
     {
+        uiRoot = null;
+        data = null;
         SceneManager.LoadScene((int)type);
     }
 

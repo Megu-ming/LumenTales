@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     // ─── Lifecycle ──────────────────────────────────────────────────────────────
     public void Init()
     {
-        Status.Init(GameManager.instance.GetUIManager());
+        Status.Init();
         PlayerController.Init(this);
         InventoryController.Init(this);
         spotLight.gameObject.SetActive(false);

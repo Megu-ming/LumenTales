@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerStatus : Status
 {
-    UIManager ui;
-
     [Header("플레이어 기본 능력치")]
-    [SerializeField] private int currentExp = 0;        // 경험치
-    [SerializeField] private int maxExp = 10;           // 요구 경험치
+    [SerializeField] private float currentExp = 0;        // 경험치
+    [SerializeField] private float maxExp = 10;           // 요구 경험치
     [SerializeField] private float baseStrength = 5;      // 힘
     [SerializeField] private float baseAgility = 5;       // 민첩
     [SerializeField] private float baseLuck = 5;          // 행운
@@ -34,8 +32,8 @@ public class PlayerStatus : Status
     [SerializeField] private float spAddedLuk = 0;      // 스탯포인트로 추가된 행운
     public float SpAddedLuk { get => spAddedLuk; set => spAddedLuk = value; }
 
-    public int CurrentExp { get => currentExp; set { currentExp = Mathf.Clamp(value, 0, MaxExp); ui.OnExpChanged(CurrentExp, MaxExp); } }
-    public int MaxExp { get => maxExp; set { maxExp = Mathf.Max(1, value); } }
+    public float CurrentExp { get => currentExp; set { currentExp = Mathf.Clamp(value, 0, MaxExp); HandleExpChanged?.Invoke(CurrentExp, MaxExp); } }
+    public float MaxExp { get => maxExp; set { maxExp = Mathf.Max(1, value); } }
 
     public float FinalAtkDamage         // 최종 공격력 = 기본공격력 + 장비공격력 + 힘스케일 + 민첩스케일
     { 
@@ -90,10 +88,12 @@ public class PlayerStatus : Status
     [SerializeField] private float lukAttackPerPoint   = 0.125f;  // 행운 8 = 공격력 +1
     [SerializeField] private float lukDefPerPoint      = 0.5f;    // 행운 2 = 방어력 +1
 
-    public void Init(UIManager uiManager)
-    {
-        ui = uiManager;
+    //Event Handler
+    public Action HandleOpenDeadUI;
+    public Action<float, float> HandleExpChanged;
 
+    public void Init()
+    {
         CurrentHealth = FinalMaxHealth;
     }
 
@@ -102,7 +102,7 @@ public class PlayerStatus : Status
     {
         base.OnDied();
 
-        ui.OpenDeadUI();
+        HandleOpenDeadUI?.Invoke();
     }
 
     // 부활

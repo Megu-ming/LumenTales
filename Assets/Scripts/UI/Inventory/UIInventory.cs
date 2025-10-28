@@ -12,6 +12,7 @@ public class UIInventory : UIBase
     [Header("Options")]
     [SerializeField, ReadOnly] int inventoryCapacity;
     [SerializeField] UIInventorySlot slotPrefab;    // 아이템 슬롯 프리팹
+    [SerializeField] UIMovableHeader movableHeader;
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
@@ -29,10 +30,12 @@ public class UIInventory : UIBase
 
     public bool isAttachedToStore = false;
 
-    public void Init(InventoryController inven, UIManager uiManager)
+    public void Init(InventoryController inven, UIRoot uiRoot)
     {
         inventory = inven;
-        this.uiManager = uiManager;
+        this.uiRoot = uiRoot;
+        var rect = GetComponent<RectTransform>();
+        movableHeader.Init(uiRoot, rect);
 
         ped = new PointerEventData(EventSystem.current);
         rrList = new List<RaycastResult>(10);
@@ -44,7 +47,7 @@ public class UIInventory : UIBase
             int slotIndex = i;
 
             var slot = Instantiate(slotPrefab, contentPanel);
-            slot.Init(uiManager, inven);
+            slot.Init(uiRoot, inven);
             slot.gameObject.SetActive(true);
             slot.name = $"Slot[{slotIndex}]";
             slot.SetSlotIndex(slotIndex);
@@ -161,7 +164,7 @@ public class UIInventory : UIBase
     {
         base.OnDrag(eventData);
         if (beginDragSlot == null) return;
-        uiManager.BringToFront(this);
+        base.uiRoot.BringToFront(this);
         if (eventData.button == InputButton.Left)
         {
             if (beginDragIconTr)
@@ -182,7 +185,7 @@ public class UIInventory : UIBase
                 EndDrag();
 
                 SetSlotIconInvisible(beginDragSlot, true);
-                if (uiManager.dummy) { uiManager.dummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
+                if (base.uiRoot.dummy) { base.uiRoot.dummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
 
                 beginDragSlot = null;
                 beginDragIconTr = null;
@@ -233,7 +236,7 @@ public class UIInventory : UIBase
         if(store != null)
         {
             // 모달 열기
-            var modal = uiManager.inputFieldModal;
+            var modal = base.uiRoot.inputFieldModal;
             if(inventory.GetItemData(beginDragSlot.Index) is CountableItemData)
             {
                 int amount = inventory.GetCurrentAmount(beginDragSlot.Index);
@@ -287,9 +290,9 @@ public class UIInventory : UIBase
     private void SetDummyFromSlot(UIInventorySlot slot, RectTransform rt)
     {
         var icon = slot?.itemImage;
-        var dummy = uiManager.dummy?.GetComponent<Image>();
+        var dummy = base.uiRoot.dummy?.GetComponent<Image>();
         dummy.sprite = icon?.sprite;
-        var dummyRt = uiManager.dummy?.GetComponent<RectTransform>();
+        var dummyRt = base.uiRoot.dummy?.GetComponent<RectTransform>();
         dummyRt = rt;
 
         dummy.enabled = true;
@@ -297,10 +300,10 @@ public class UIInventory : UIBase
 
     private void SetDummyPosition(Vector3 pos)
     {
-        if (uiManager.dummy != null)
+        if (base.uiRoot.dummy != null)
         {   
-            uiManager.dummy.transform.position = pos;
-            uiManager.dummy.transform.SetAsLastSibling();
+            base.uiRoot.dummy.transform.position = pos;
+            base.uiRoot.dummy.transform.SetAsLastSibling();
         }
     }
 #endregion

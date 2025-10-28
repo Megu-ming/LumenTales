@@ -3,17 +3,17 @@ using UnityEngine;
 public class Store : InteractiveObj
 {
     [SerializeField] StoreDataTable storeDatatable; // 판매하는 아이템 데이터 테이블
-    UIManager uiManager;
+    UIRoot uiRoot;
 
-    public void Init(UIManager uiManager)
+    public void Init(UIRoot uiRoot)
     {
-        this.uiManager = uiManager;
+        this.uiRoot = uiRoot;
     }
 
     // 상호작용 키 입력 시에 호출되는 상점 UI Open 함수
     public override void OnInteraction()
     {
-        if(uiManager.uiRoot != null)
-            uiManager.uiRoot.AttachInvenToStore(storeDatatable);
+        if(uiRoot != null)
+            uiRoot.AttachInvenToStore(storeDatatable);
     }
 }

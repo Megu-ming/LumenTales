@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler
 {
-    UIManager uiManager;
+    UIRoot uiRoot;
     InventoryController inven;
 
     public Image itemImage;
@@ -33,9 +33,9 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
 
     public void SetSlotIndex(int index) =>Index = index;
 
-    public void Init(UIManager uiManager, InventoryController inven)
+    public void Init(UIRoot uiRoot, InventoryController inven)
     {
-        this.uiManager = uiManager;
+        this.uiRoot = uiRoot;
         this.inven = inven;
 
         InitComponent();
@@ -99,21 +99,21 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
     void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
     {
         // ToolTip UI
-        if (!HasItem) { uiManager.Hide(); return; }
+        if (!HasItem) { uiRoot.Hide(); return; }
         var data = inven.GetItemData(Index);
         if (data is EquipmentItemData eqData)
         {
             int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
-            uiManager.Show
+            uiRoot.Show
                 (data.ItemName, data.Tooltip, data.Price, eventData.position, eqVal, !eqData.isArmor, eqData.isArmor);
         }
         else
-            uiManager.Show(data.ItemName, data.Tooltip, data.Price, eventData.position);
+            uiRoot.Show(data.ItemName, data.Tooltip, data.Price, eventData.position);
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        uiManager.Hide();
+        uiRoot.Hide();
         HideHighLight();
     }
 }

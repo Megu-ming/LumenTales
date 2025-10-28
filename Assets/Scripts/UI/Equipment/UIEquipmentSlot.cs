@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIEquipmentSlot : MonoBehaviour, 
     IPointerEnterHandler,IPointerClickHandler, IPointerMoveHandler, IPointerExitHandler
 {
-    UIManager uiManager;
+    UIRoot uiRoot;
     UIEquipment eqUI => GetComponentInParent<UIEquipment>();
     public EquipmentSlotType slotType;
     
@@ -20,9 +20,9 @@ public class UIEquipmentSlot : MonoBehaviour,
     private void ShowHighLight() => highLightGo.SetActive(true);
     private void HideHighLight() => highLightGo.SetActive(false);
 
-    public void Init(UIManager uiManager)
+    public void Init(UIRoot uiRoot)
     {
-        this.uiManager = uiManager;
+        this.uiRoot = uiRoot;
 
         highLightGo = borderImage.gameObject;
         HideHighLight();
@@ -66,23 +66,23 @@ public class UIEquipmentSlot : MonoBehaviour,
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        uiManager.Hide();
+        uiRoot.Hide();
         HideHighLight();
     }
 
     void TryShowTooltip(Vector2 screenPos)
     {
-        if (!HasItem) { uiManager.Hide(); return; }
-        if (!eqUI) { uiManager.Hide(); return; }
-        if(!eqUI.TryGetEquipped(slotType, out var equipped)) { uiManager.Hide(); return; }
+        if (!HasItem) { uiRoot.Hide(); return; }
+        if (!eqUI) { uiRoot.Hide(); return; }
+        if(!eqUI.TryGetEquipped(slotType, out var equipped)) { uiRoot.Hide(); return; }
 
         var data = equipped.itemData;
         if (data is EquipmentItemData eqData)
         {
             int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
-            uiManager.Show
+            uiRoot.Show
                 (data.ItemName, data.Tooltip, data.Price, screenPos, eqVal, !eqData.isArmor, eqData.isArmor);
         }
-        else { uiManager.Hide(); return; }
+        else { uiRoot.Hide(); return; }
     }
 }

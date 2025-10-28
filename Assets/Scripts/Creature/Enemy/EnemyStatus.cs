@@ -13,7 +13,7 @@ public class EnemyStatus : Status
 
     public int expAmount = 0;
 
-    public void Init()
+    public void Init(EnemyData data)
     {
         if (barPrefab != null)
         {
@@ -22,6 +22,13 @@ public class EnemyStatus : Status
             hpBarInstance = Instantiate(barPrefab, canvas.transform);
             hpBar = hpBarInstance.GetComponent<RectTransform>();
         }
+
+        Type = data.enemyType;
+        BaseMaxHealth = data.maxHp;
+        BaseAtkDamage = data.damage;
+        knockBack = data.knockBack;
+        expAmount = data.expAmount;
+
         CurrentHealth = BaseMaxHealth;
     }
 

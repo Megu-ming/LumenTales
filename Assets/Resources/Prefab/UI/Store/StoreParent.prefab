@@ -1510,6 +1510,7 @@ MonoBehaviour:
   - {fileID: 2530817825417222912}
   - {fileID: 8687457833140050857}
   - {fileID: 7774538869951738516}
+  inputFieldModal: {fileID: 0}
 --- !u!1 &2337601647511519004
 GameObject:
   m_ObjectHideFlags: 0

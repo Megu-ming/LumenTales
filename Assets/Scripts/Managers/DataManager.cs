@@ -62,8 +62,8 @@ public class SlotMeta
 public class PlayerSummary
 {
     public int level = 1;
-    public int currentExp = 0;
-    public int maxExp = 20;
+    public float currentExp = 0;
+    public float maxExp = 20;
 
     public float spAddedStr = 0;
     public float spAddedAgi = 0;

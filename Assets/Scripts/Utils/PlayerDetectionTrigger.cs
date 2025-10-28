@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class PlayerDetectionTrigger : MonoBehaviour
 {
+    [SerializeField] UIRoot uiRoot;
     PlayerController pc;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.TryGetComponent<PlayerController>(out pc)) return;
-        UIManager ui = GameManager.instance.GetUIManager();
-        if(ui != null && ui.interactPanel != null)
-            ui.interactPanel.SetActive(true);
+
+        if(uiRoot != null && uiRoot.interactPanel != null)
+            uiRoot.interactPanel.SetActive(true);
         if (TryGetComponent<InteractiveObj>(out var obj))
         {
             pc.OnInteractionEvent += obj.OnInteraction;
@@ -19,10 +20,9 @@ public class PlayerDetectionTrigger : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.TryGetComponent<PlayerController>(out pc)) return;
-        UIManager ui = GameManager.instance.GetUIManager();
 
-        if (ui != null && ui.interactPanel != null)
-            ui.interactPanel.SetActive(false);
+        if (uiRoot != null && uiRoot.interactPanel != null)
+            uiRoot.interactPanel.SetActive(false);
         if (TryGetComponent<InteractiveObj>(out var obj))
         {
             pc.OnInteractionEvent -= obj.OnInteraction;

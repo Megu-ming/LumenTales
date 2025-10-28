@@ -9,6 +9,7 @@ public class UIEquipment : UIBase
 {
     [SerializeField] UIEquipmentSlot[] slots;
     [SerializeField] UICharacterInfo characterInfoUI;
+    [SerializeField] UIMovableHeader movableHeader;
     InventoryController inventory;
     
     private readonly Dictionary<EquipmentSlotType, UIEquipmentSlot> map = new();
@@ -26,19 +27,19 @@ public class UIEquipment : UIBase
         base.Awake();
     }
 
-    public void Init(UIManager uiManager, Player player)
+    public void Init(UIRoot uiRoot, Player player)
     {
         map.Clear();
         foreach (var s in slots)
         {
             if (s == null) continue;
-            s.Init(uiManager);
+            s.Init(uiRoot);
             map[s.slotType] = s;
             s.Clear();
         }
 
+        this.uiRoot = uiRoot;
         inventory = player.InventoryController;
-        this.uiManager = uiManager;
 
         inventory.OnEquippedChanged += HandleEquippedChanged;
         inventory.OnEquipUIToggleRequest += Toggle;
@@ -51,7 +52,9 @@ public class UIEquipment : UIBase
         ped = new PointerEventData(EventSystem.current);
         rrList = new List<RaycastResult>(16);
 
+        var rect = GetComponent<RectTransform>();
         characterInfoUI.Init(player);
+        movableHeader.Init(uiRoot, rect);
 
         gameObject.SetActive(false);
     }
@@ -106,13 +109,13 @@ public class UIEquipment : UIBase
             return;
         }
 
-        if(uiManager.dummy && uiManager.dummy.TryGetComponent<Image>(out Image img))
+        if(uiRoot.dummy && uiRoot.dummy.TryGetComponent<Image>(out Image img))
         {
             img.sprite = beginDragSlot.CurrentIcon;
             img.enabled = true;
             SetSlotIconInvisible(beginDragSlot, false);
-            uiManager.dummy.transform.position = beginDragSlot.IconRect.position;
-            uiManager.dummy.transform.SetAsLastSibling();
+            uiRoot.dummy.transform.position = beginDragSlot.IconRect.position;
+            uiRoot.dummy.transform.SetAsLastSibling();
         }
 
         beginDragIconPoint = beginDragSlot.IconRect.position;
@@ -125,10 +128,10 @@ public class UIEquipment : UIBase
         if (beginDragSlot == null) return;
         if (eventData.button != InputButton.Left) return;
 
-        if (uiManager.dummy)
+        if (uiRoot.dummy)
         {
             Vector3 pos = beginDragIconPoint + (eventData.position - beginDragCursorPoint);
-            uiManager.dummy.transform.position = pos;
+            uiRoot.dummy.transform.position = pos;
         }
     }
 
@@ -166,7 +169,7 @@ public class UIEquipment : UIBase
 
     private void EndDragCleanup()
     {
-        if (uiManager.dummy && uiManager.dummy.TryGetComponent<Image>(out var img))
+        if (uiRoot.dummy && uiRoot.dummy.TryGetComponent<Image>(out var img))
             img.enabled = false;
     }
 

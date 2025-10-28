@@ -7,7 +7,10 @@ public class BattleScene : SceneBase
 
     protected void Start()
     {
-        Init();
+        player.Init();
+        uiRoot.Init(player);
+
+        GameManager.instance.SceneStart();
     }
 
     public override void Init()
@@ -15,14 +18,10 @@ public class BattleScene : SceneBase
         base.Init();
         sceneType = SceneType.Battle;
 
-        player.Init();
-        uiRoot.Init(GameManager.instance.GetUIManager(), player);
-
         SpawnAndTrackingPlayer();
 
         GameManager.instance.LoadData();
 
-        //if (Player.instance is not null)
-        //    Player.instance.spotLight.gameObject.SetActive(true);
+        player.spotLight.gameObject.SetActive(true);
     }
 }

@@ -13,9 +13,9 @@ public class InputFieldModalUI : UIBase
     public From owner;
     public event Action<bool, int> HandleYesButton;
 
-    public void Init(UIManager uiManager)
+    public void Init(UIRoot uiRoot)
     {
-        this.uiManager = uiManager;
+        this.uiRoot = uiRoot;
 
         yesBtn.onClick.AddListener(OnClickYesButton);
         noBtn.onClick.AddListener(OnClickNoButton);
@@ -26,13 +26,13 @@ public class InputFieldModalUI : UIBase
     {
         if (owner is From.Store)
         {
-            HandleYesButton -= uiManager.storeUI.GetChoicedSlot().TryBuyItem;
-            HandleYesButton += uiManager.storeUI.GetChoicedSlot().TryBuyItem;
+            HandleYesButton -= uiRoot.storeUI.GetChoicedSlot().TryBuyItem;
+            HandleYesButton += uiRoot.storeUI.GetChoicedSlot().TryBuyItem;
         }
         if (owner is From.Inventory)
         {
-            HandleYesButton -= uiManager.inventoryUI.TrySellItem;
-            HandleYesButton += uiManager.inventoryUI.TrySellItem;
+            HandleYesButton -= uiRoot.inventoryUI.TrySellItem;
+            HandleYesButton += uiRoot.inventoryUI.TrySellItem;
         }
     }
 
@@ -40,11 +40,11 @@ public class InputFieldModalUI : UIBase
     {
         if (owner is From.Store)
         {
-            HandleYesButton -= uiManager.storeUI.GetChoicedSlot().TryBuyItem;
+            HandleYesButton -= uiRoot.storeUI.GetChoicedSlot().TryBuyItem;
         }
         if (owner is From.Inventory)
         {
-            HandleYesButton -= uiManager.inventoryUI.TrySellItem;
+            HandleYesButton -= uiRoot.inventoryUI.TrySellItem;
         }
     }
 

@@ -10,18 +10,17 @@ public class TownScene : SceneBase
 
     protected void Start()
     {
+        player.Init();
+        uiRoot.Init(player);
+        storeNPC.Init(uiRoot);
+
         GameManager.instance.SceneStart();
-        uiRoot = GameManager.instance.GetUIManager().uiRoot;
     }
 
     public override void Init()
     {
         base.Init();
         sceneType = SceneType.Town;
-
-        player.Init();
-        uiRoot.Init(GameManager.instance.GetUIManager(), player);
-        storeNPC.Init(GameManager.instance.GetUIManager());
 
         SpawnAndTrackingPlayer();
 

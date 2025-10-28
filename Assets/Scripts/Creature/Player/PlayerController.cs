@@ -8,6 +8,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : CreatureController
 {
     Player player;
+    [Header("Skills")]
+    [SerializeField] SkillBase skill;
+
     #region MovementVariables
     [Header("Movement")]
     [SerializeField] private float jumpForce = 8f;
@@ -18,15 +21,11 @@ public class PlayerController : CreatureController
     {
         get
         {
-            // ✅ 대시가 최우선: CanMove=false여도 대시 속도만 적용
-            // (현재 DashSkill이 moveSpeed를 dashSpeed로 바꿔두므로 여기선 moveSpeed를 그대로 반환)
             if (isDash) return moveSpeed;
 
-            // ⛔ 대시가 아닐 때는 CanMove/IsMoving 조건으로 제어
             if (!CanMove) return 0f;
             if (!IsMoving) return 0f;
 
-            // 🏃 스프린트 배수
             return IsSprint ? moveSpeed * sprintMul : moveSpeed;
         }
     }
@@ -123,6 +122,7 @@ public class PlayerController : CreatureController
     public void Init(Player player)
     {
         this.player = player;
+        skill.Init(player);
     }
 
     private void Update()
