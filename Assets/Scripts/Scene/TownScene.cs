@@ -25,5 +25,6 @@ public class TownScene : SceneBase
         SpawnAndTrackingPlayer();
 
         GameManager.Instance?.LoadData();
+        GameManager.Instance.IsIngame = true;
     }
 }

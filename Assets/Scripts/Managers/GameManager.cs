@@ -15,9 +15,19 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] DataManager data;
     public DataManager GetDataManager() => data;
+    int currentSlotIndex = 0;
+    public void SetCurrentSlotIndex(int index) => currentSlotIndex = index;
 
     SceneBase currentScene;
     Player player;
+
+    // 게임이 진행 중인지 확인하는 불 변수
+    bool isIngame;
+    public bool IsIngame
+    {
+        get { return isIngame; }
+        set { isIngame = value; }
+    }
 
     public SceneBase CurrentScene
     {
@@ -36,27 +46,18 @@ public class GameManager : MonoBehaviour
         InitSingleton();
     }
 
-    private void Start()
-    {
-        Play();
-    }
-
-    void Play()
+    public void SceneStart()
     {
         player = FindAnyObjectByType<Player>();
-        
+
         data = FindAnyObjectByType<DataManager>();
         if (data is not null)
         {
-            data.Init(player);
+            data.Init(player, currentSlotIndex);
         }
 
-        CurrentScene.Init();
-    }
-
-    public void SceneStart()
-    {
-        Play();
+        if (CurrentScene != null)
+            CurrentScene.Init();
     }
 
     public void SetSpawnPoint(PlayerSpawnPoint point)
@@ -98,7 +99,10 @@ public class GameManager : MonoBehaviour
 
     public void LoadData()
     {
-        data.InjectIntoCurrentPlayer(resolver);
+        if (!isIngame)
+            data.InjectIntoCurrentPlayer(resolver);
+        else
+            data.InjectPlayerIngameData(resolver);
     }
 
     public void SaveData()

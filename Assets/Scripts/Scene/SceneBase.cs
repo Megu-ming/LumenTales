@@ -59,6 +59,7 @@ public class SceneBase : MonoBehaviour
                 statusPoint += 5;
                 status.CurrentExp -= status.MaxExp;
                 status.MaxExp *= 2;
+                status.CurrentHealth = status.FinalMaxHealth;
                 CharacterEvents.infoUIRefresh?.Invoke();
             }
         }

@@ -8,8 +8,11 @@ public class MenuScene : SceneBase
 
     protected void Start()
     {
-        if(GameManager.Instance)    
+        if(GameManager.Instance)
+        {
+            GameManager.Instance.IsIngame = false;
             GameManager.Instance.SceneStart();
+        }
     }
 
     public override void Init()

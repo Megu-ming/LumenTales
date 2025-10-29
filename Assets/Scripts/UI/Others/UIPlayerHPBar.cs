@@ -7,10 +7,10 @@ public class UIPlayerHPBar : MonoBehaviour
     [SerializeField] Image hpBar;
     [SerializeField] TMP_Text hpText;
 
-    public void UpdateHpBar(float currentHp, float maxHp)
+    public void UpdateHpBar(float current, float max)
     {
-        float fillAmount = currentHp / maxHp;
+        float fillAmount = current / max;
         hpBar.fillAmount = fillAmount;
-        hpText.text = $"{currentHp} / {maxHp}";
+        hpText.text = $"{current} / {max}";
     }
 }

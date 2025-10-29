@@ -9,7 +9,7 @@ public class Attack : MonoBehaviour
         float damage = myStatus.BaseAtkDamage;
         if(myStatus is PlayerStatus playerStatus)
         {
-            damage = playerStatus.FinalAtkDamage;
+            damage = playerStatus.FinalRandomDamage;
         }
         Vector2 knockBack = myStatus.knockBack;
 

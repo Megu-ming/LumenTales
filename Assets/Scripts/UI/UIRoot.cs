@@ -112,8 +112,9 @@ public class UIRoot : MonoBehaviour
         {
             Instantiate(playerHpPrefab, transform).TryGetComponent<UIPlayerHPBar>(out playerHpBar);
             playerHpBar.gameObject.SetActive(true);
+
             player.Status.HandleHpChanged += playerHpBar.UpdateHpBar;
-            playerHpBar.UpdateHpBar(player.Status.CurrentHealth, player.Status.FinalMaxHealth);
+            player.Status.HandleHpChanged.Invoke(player.Status.CurrentHealth, player.Status.FinalMaxHealth);
         }
 
         player.Status.HandleExpChanged += OnExpChanged;

@@ -29,6 +29,7 @@ public enum EquipmentSlotType
 
 public enum SceneType
 {
+    Boot,
     Menu,
     Town,
     Battle,

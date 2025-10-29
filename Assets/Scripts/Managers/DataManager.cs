@@ -64,7 +64,7 @@ public class PlayerSummary
     public int level = 1;
     public float currentExp = 0;
     public float maxExp = 20;
-
+    public float currentHp = 0;
     public float spAddedStr = 0;
     public float spAddedAgi = 0;
     public float spAddedLuk = 0;
@@ -110,10 +110,11 @@ public class DataManager : MonoBehaviour
 
     string FilePath => Path.Combine(Application.persistentDataPath, gameDataFileName);
 
-    public void Init(Player player)
+    public void Init(Player player, int currentSlotIndex)
     {
         LoadAll();     // 앱 시작 시 로드
         this.player = player;
+        Current.currentSlot = currentSlotIndex;
     }
 
     private void LoadAll(int slotSize = 5)
@@ -168,6 +169,7 @@ public class DataManager : MonoBehaviour
 
         Current.currentSlot = slotIndex;
         Current.saveSlots[slotIndex] = slot;
+        GameManager.Instance.SetCurrentSlotIndex(slotIndex);
         SaveAll();
     }
 
@@ -177,6 +179,7 @@ public class DataManager : MonoBehaviour
         if(slot == null || !slot.exists) return false;
 
         Current.currentSlot = slotIndex;
+        GameManager.Instance.SetCurrentSlotIndex(slotIndex);
 
         return true;
     }
@@ -189,14 +192,32 @@ public class DataManager : MonoBehaviour
         SaveAll();
     }
 
+    /// <summary>
+    /// 인게임에 진입할 때 최초로 플레이어의 저장 데이터를 주입하는 함수
+    /// </summary>
+    /// <param name="resolver"></param>
     public void InjectIntoCurrentPlayer(IItemResolver resolver)
     {
         if (Current.currentSlot < 0) return;
         var slot = Current.saveSlots[Current.currentSlot];
         if (slot == null || !slot.exists) return;
 
-        player.ApplySummary(slot.player);
         player.InventoryController.LoadFromSnapshot(slot.inventory, resolver);
+        player.ApplySummary(slot.player);
+    }
+
+    /// <summary>
+    /// 인게임에서 씬 전환 시 데이터 전달하는 함수
+    /// </summary>
+    /// <param name="resolver"></param>
+    public void InjectPlayerIngameData(IItemResolver resolver)
+    {
+        if (Current.currentSlot < 0) return;
+        var slot = Current.saveSlots[Current.currentSlot];
+        if (slot == null || !slot.exists) return;
+
+        player.InventoryController.LoadFromSnapshot(slot.inventory, resolver);
+        player.ApplyInGameSummary(slot.player);
     }
 
     public void BackupCurrentSlot()

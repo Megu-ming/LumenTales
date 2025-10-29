@@ -42,11 +42,32 @@ public class Player : MonoBehaviour
         Status.Level = ps.level;
         Status.CurrentExp = ps.currentExp;
         Status.MaxExp = ps.maxExp;
+
         Status.SpAddedStr = ps.spAddedStr;
         Status.SpAddedAgi = ps.spAddedAgi;
-        Status.SpAddedLuk = ps.spAddedLuk;
+
+        Status.CurrentHealth = Status.FinalMaxHealth;
         if(GameManager.Instance.CurrentScene != null)
             GameManager.Instance.CurrentScene.StatusPoint = ps.statusPoint;
+        Status.HandleExpChanged?.Invoke(Status.CurrentExp, Status.MaxExp);
+    }
+
+    public void ApplyInGameSummary(PlayerSummary ps)
+    {
+        if (ps == null) return;
+
+        Status.Level = ps.level;
+        Status.CurrentExp = ps.currentExp;
+        Status.MaxExp = ps.maxExp;
+
+        Status.SpAddedStr = ps.spAddedStr;
+        Status.SpAddedAgi = ps.spAddedAgi;
+
+        Status.CurrentHealth = ps.currentHp;
+        if (GameManager.Instance.CurrentScene != null)
+            GameManager.Instance.CurrentScene.StatusPoint = ps.statusPoint;
+        //Status.HandleHpChanged?.Invoke();
+        Status.HandleExpChanged?.Invoke(Status.CurrentExp, Status.MaxExp);
     }
 
     /// <summary>
@@ -60,9 +81,9 @@ public class Player : MonoBehaviour
         summary.level = Status.Level;
         summary.currentExp = Status.CurrentExp;
         summary.maxExp = Status.MaxExp;
+        summary.currentHp = Status.CurrentHealth;
         summary.spAddedStr = Status.SpAddedStr;
         summary.spAddedAgi = Status.SpAddedAgi;
-        summary.spAddedLuk = Status.SpAddedLuk;
         if (GameManager.Instance.CurrentScene != null)
             summary.statusPoint = GameManager.Instance.CurrentScene.StatusPoint;
 

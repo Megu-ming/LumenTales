@@ -20,23 +20,15 @@ public class Status : MonoBehaviour
         set { baseAtkDamage = value; }
     }
     public Vector2 knockBack = Vector2.zero;
-    [SerializeField] private float baseDefence;
-    public float BaseDefense
-    {
-        get { return baseDefence; }
-        set { baseDefence = value; }
-    }
+
     [SerializeField] private float baseMaxHealth;
     public float BaseMaxHealth
     {
         get { return baseMaxHealth; }
-        set
-        {
-            baseMaxHealth = value;
-        }
+        set { baseMaxHealth = value; }
     }
-    [SerializeField] private float currentHealth;
-    public float CurrentHealth
+    [SerializeField] protected float currentHealth;
+    public virtual float CurrentHealth
     {
         get { return currentHealth; }
         set 

@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerStatus : Status
 {
@@ -10,7 +11,6 @@ public class PlayerStatus : Status
     [SerializeField] private float maxExp = 10;           // 요구 경험치
     [SerializeField] private float baseStrength = 5;      // 힘
     [SerializeField] private float baseAgility = 5;       // 민첩
-    [SerializeField] private float baseLuck = 5;          // 행운
 
     [Header("장비 능력치")]
     [SerializeField] private float armorAddedAtk = 0;   // 장비로 추가된 공격력
@@ -21,28 +21,30 @@ public class PlayerStatus : Status
     public float ArmorAddedStr { get => armorAddedStr; set => armorAddedStr = value; }
     [SerializeField] private float armorAddedAgi = 0;   // 장비로 추가된 민첩
     public float ArmorAddedAgi { get => armorAddedAgi; set => armorAddedAgi = value; }
-    [SerializeField] private float armorAddedLuk = 0;   // 장비로 추가된 행운
-    public float ArmorAddedLuk { get => armorAddedLuk; set => armorAddedLuk = value; }
 
     [Header("투자 포인트 능력치")]
     [SerializeField] private float spAddedStr = 0;      // 스탯포인트로 추가된 힘
     public float SpAddedStr { get => spAddedStr; set => spAddedStr = value; }
     [SerializeField] private float spAddedAgi = 0;      // 스탯포인트로 추가된 민첩
     public float SpAddedAgi { get => spAddedAgi; set => spAddedAgi = value; }
-    [SerializeField] private float spAddedLuk = 0;      // 스탯포인트로 추가된 행운
-    public float SpAddedLuk { get => spAddedLuk; set => spAddedLuk = value; }
 
     public float CurrentExp { get => currentExp; set { currentExp = Mathf.Clamp(value, 0, MaxExp); HandleExpChanged?.Invoke(CurrentExp, MaxExp); } }
     public float MaxExp { get => maxExp; set { maxExp = Mathf.Max(1, value); } }
 
-    public float FinalAtkDamage         // 최종 공격력 = 기본공격력 + 장비공격력 + 힘스케일 + 민첩스케일
+    /// <summary>
+    /// 최종 데미지의 0.9~1.1배 사이로 랜덤한 데미지
+    /// </summary>
+    public float FinalRandomDamage         // 최종 공격력 = 기본공격력 + 장비공격력 + 힘스케일 + 민첩스케일
     { 
         get 
         {
             float strToAtk = Strength * strAttackPerPoint;
             float agiToAtk = Agility * agiAttackPerPoint;
 
-            return BaseAtkDamage + armorAddedAtk + strToAtk + agiToAtk;
+            float centerDamage = BaseAtkDamage + armorAddedAtk + strToAtk + agiToAtk;
+
+            float randDamage = UnityEngine.Random.Range(centerDamage * 0.9f, centerDamage * 1.1f);
+            return randDamage;
         }
         set 
         { 
@@ -53,6 +55,14 @@ public class PlayerStatus : Status
         } 
     }                                                         
     private float finalAtkDamage;
+
+    public float FinalAttack { get {
+            float strToAtk = Strength * strAttackPerPoint;
+            float agiToAtk = Agility * agiAttackPerPoint;
+
+            float centerDamage = BaseAtkDamage + armorAddedAtk + strToAtk + agiToAtk;
+            return centerDamage;
+        } }
     
     public float Strength               // 최종 힘
     { 
@@ -66,18 +76,34 @@ public class PlayerStatus : Status
         private set => finalAgility = baseAgility + ArmorAddedAgi + SpAddedAgi; 
     }     
     private float finalAgility;
-    public float Luck                    // 최종 행운
+
+    public override float CurrentHealth 
     { 
-        get => baseLuck + ArmorAddedLuk + SpAddedLuk;
-        private set => finalLuck = baseLuck + ArmorAddedLuk + SpAddedLuk; 
-    }             
-    private float finalLuck;
+        get
+        {
+            return currentHealth = Mathf.Clamp(currentHealth, 0, FinalMaxHealth);
+        }
+        
+    }
+    public void SetCurrentHealth(float amount)
+    {
+        currentHealth = Mathf.Clamp(amount, 0, FinalMaxHealth);
+
+        if (currentHealth == 0)
+        {
+            IsAlive = false;
+            OnDied();
+        }
+    }
 
     public float FinalMaxHealth
     {
-        get => BaseMaxHealth + (SpAddedStr + ArmorAddedStr) * strHpPerPoint;
+        get 
+        {
+            float fmh = BaseMaxHealth + (SpAddedStr + ArmorAddedStr) * strHpPerPoint;
+            return fmh; 
+        }
     }
-    private float finalMaxHealth;
 
     [Header("Derived")]
 
@@ -85,8 +111,6 @@ public class PlayerStatus : Status
     [SerializeField] private float strAttackPerPoint   = 0.25f;   // 힘 4 = 공격력 +1
     [SerializeField] private float strHpPerPoint       = 10;      // 힘 1 = 최대HP +10
     [SerializeField] private float agiAttackPerPoint   = 0.125f;  // 민첩 8 = 공격력 +1
-    [SerializeField] private float lukAttackPerPoint   = 0.125f;  // 행운 8 = 공격력 +1
-    [SerializeField] private float lukDefPerPoint      = 0.5f;    // 행운 2 = 방어력 +1
 
     //Event Handler
     public Action HandleOpenDeadUI;
@@ -111,7 +135,8 @@ public class PlayerStatus : Status
     // 부활
     public override void Respawn()
     {
-        base.Respawn();
+        SetCurrentHealth(FinalMaxHealth);
+        IsAlive = true;
 
         SetInvincibleTime(2f);
         SetInvincible(true);
@@ -123,7 +148,6 @@ public class PlayerStatus : Status
         armorAddedDef += data.defenseValue;
         armorAddedStr += data.strength;
         armorAddedAgi += data.agility;
-        armorAddedLuk += data.luck;
 
         CharacterEvents.infoUIRefresh?.Invoke();
     }
@@ -134,7 +158,6 @@ public class PlayerStatus : Status
         armorAddedDef -= data.defenseValue;
         armorAddedStr -= data.strength;
         armorAddedAgi -= data.agility;
-        armorAddedLuk -= data.luck;
 
         CharacterEvents.infoUIRefresh?.Invoke();
     }
@@ -143,7 +166,7 @@ public class PlayerStatus : Status
     {
         bool hit = base.Hit(damage, knockback);
 
-        if(hit)
+        if (hit)
             HandleHpChanged?.Invoke(CurrentHealth, FinalMaxHealth);
         return hit;
     }
