@@ -7,22 +7,21 @@ public class Status : MonoBehaviour
     public UnityEvent<float, Vector2> damageableHit;
 
     [Header("상태")]
-    [SerializeField] int level = 1;
-    public int Level
+    [SerializeField] protected int level = 1;
+    public virtual int Level
     {
         get { return level; }
         set { level = Mathf.Max(1, value); }
     }
-    [SerializeField] private float baseAtkDamage;
-    public float BaseAtkDamage
+    [SerializeField] protected float baseAtkDamage;
+    public virtual float BaseAtkDamage
     {
         get { return baseAtkDamage; }
         set { baseAtkDamage = value; }
     }
-    public Vector2 knockBack = Vector2.zero;
 
-    [SerializeField] private float baseMaxHealth;
-    public float BaseMaxHealth
+    [SerializeField] protected float baseMaxHealth;
+    public virtual float BaseMaxHealth
     {
         get { return baseMaxHealth; }
         set { baseMaxHealth = value; }
@@ -41,6 +40,9 @@ public class Status : MonoBehaviour
             }
         }
     }
+
+    public Vector2 knockBack = Vector2.zero;
+
     [SerializeField] private bool isAlive = true;
     public bool IsAlive
     {
@@ -109,7 +111,6 @@ public class Status : MonoBehaviour
 
             return true;
         }
-
         return false;
     }
 

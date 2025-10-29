@@ -27,6 +27,11 @@ public class UIEquipment : UIBase
         base.Awake();
     }
 
+    private void Update()
+    {
+        characterInfoUI.Refresh();
+    }
+
     public void Init(UIRoot uiRoot, Player player)
     {
         map.Clear();

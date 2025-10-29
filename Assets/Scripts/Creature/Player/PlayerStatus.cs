@@ -6,9 +6,46 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerStatus : Status
 {
-    [Header("플레이어 기본 능력치")]
+    // 공통 능력치
+    public override int Level 
+    { 
+        get => level; 
+        set { level = Mathf.Max(1, value); }
+    }
+
+    public override float BaseAtkDamage  { get => baseAtkDamage; }
+    public override float BaseMaxHealth  { get => baseMaxHealth; }
+    public override float CurrentHealth { get => currentHealth; }
+    /// <summary>
+    /// 현재 체력 설정
+    /// </summary>
+    /// <param name="val">설정할 현재 체력값</param>
+    public void SetCurrentHealth(float val)
+    {
+        currentHealth = Mathf.Clamp(val, 0, FinalMaxHealth);
+        HandleHpChanged?.Invoke(currentHealth, finalMaxHealth);
+        if (currentHealth == 0)
+        {
+            IsAlive = false;
+            OnDied();
+        }
+    }
+    [SerializeField] float finalMaxHealth;
+
+    [Header("플레이어 고유 기본 능력치")]
     [SerializeField] private float currentExp = 0;        // 경험치
+    public float CurrentExp
+    {
+        get => currentExp;
+        set
+        {
+            currentExp = Mathf.Clamp(value, 0, MaxExp);
+            HandleExpChanged?.Invoke(CurrentExp, MaxExp);
+        }
+    }
+
     [SerializeField] private float maxExp = 10;           // 요구 경험치
+    public float MaxExp { get => maxExp; set { maxExp = Mathf.Max(1, value); } }
     [SerializeField] private float baseStrength = 5;      // 힘
     [SerializeField] private float baseAgility = 5;       // 민첩
 
@@ -28,9 +65,7 @@ public class PlayerStatus : Status
     [SerializeField] private float spAddedAgi = 0;      // 스탯포인트로 추가된 민첩
     public float SpAddedAgi { get => spAddedAgi; set => spAddedAgi = value; }
 
-    public float CurrentExp { get => currentExp; set { currentExp = Mathf.Clamp(value, 0, MaxExp); HandleExpChanged?.Invoke(CurrentExp, MaxExp); } }
-    public float MaxExp { get => maxExp; set { maxExp = Mathf.Max(1, value); } }
-
+    // ------------------------- 최종 능력치 -------------------------
     /// <summary>
     /// 최종 데미지의 0.9~1.1배 사이로 랜덤한 데미지
     /// </summary>
@@ -56,7 +91,8 @@ public class PlayerStatus : Status
     }                                                         
     private float finalAtkDamage;
 
-    public float FinalAttack { get {
+    public float FinalAttack { 
+        get {
             float strToAtk = Strength * strAttackPerPoint;
             float agiToAtk = Agility * agiAttackPerPoint;
 
@@ -69,43 +105,20 @@ public class PlayerStatus : Status
         get => baseStrength + ArmorAddedStr + SpAddedStr;
         private set => finalStrength = baseStrength + ArmorAddedStr + SpAddedStr;
     }  
-    private float finalStrength;
+    [SerializeField] float finalStrength;
     public float Agility                // 최종 민첩
     { 
         get => baseAgility + ArmorAddedAgi + SpAddedAgi;
         private set => finalAgility = baseAgility + ArmorAddedAgi + SpAddedAgi; 
-    }     
-    private float finalAgility;
+    }
+    [SerializeField] float finalAgility;
 
-    public override float CurrentHealth 
-    { 
+    public float FinalMaxHealth { 
         get
-        {
-            return currentHealth = Mathf.Clamp(currentHealth, 0, FinalMaxHealth);
-        }
-        
+        { 
+            return finalMaxHealth = BaseMaxHealth + (SpAddedStr + ArmorAddedStr) * strHpPerPoint;
+        } 
     }
-    public void SetCurrentHealth(float amount)
-    {
-        currentHealth = Mathf.Clamp(amount, 0, FinalMaxHealth);
-
-        if (currentHealth == 0)
-        {
-            IsAlive = false;
-            OnDied();
-        }
-    }
-
-    public float FinalMaxHealth
-    {
-        get 
-        {
-            float fmh = BaseMaxHealth + (SpAddedStr + ArmorAddedStr) * strHpPerPoint;
-            return fmh; 
-        }
-    }
-
-    [Header("Derived")]
 
     [Header("Attribute Scaling")]
     [SerializeField] private float strAttackPerPoint   = 0.25f;   // 힘 4 = 공격력 +1
@@ -148,7 +161,7 @@ public class PlayerStatus : Status
         armorAddedDef += data.defenseValue;
         armorAddedStr += data.strength;
         armorAddedAgi += data.agility;
-
+        SetCurrentHealth(currentHealth);
         CharacterEvents.infoUIRefresh?.Invoke();
     }
 
@@ -158,7 +171,7 @@ public class PlayerStatus : Status
         armorAddedDef -= data.defenseValue;
         armorAddedStr -= data.strength;
         armorAddedAgi -= data.agility;
-
+        SetCurrentHealth(currentHealth);
         CharacterEvents.infoUIRefresh?.Invoke();
     }
 
