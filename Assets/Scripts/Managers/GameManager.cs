@@ -3,13 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance { get; private set; }
 
     [SerializeField] AllItemData resolver;
     [SerializeField] SpawnData spawnData;
     PlayerSpawnPoint currentSpawnPoint = PlayerSpawnPoint.Default;
 
-    [Header("--------------¿–±‚ ¿¸øÎ--------------")]
+    [Header("--------------ÏùΩÍ∏∞ Ï†ÑÏö©--------------")]
     [SerializeField] UIRoot uiRoot;
     public UIRoot GetUIRoot() => uiRoot;
 
@@ -31,10 +31,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         InitSingleton();
+    }
 
+    private void Start()
+    {
         Play();
     }
 
@@ -66,7 +69,7 @@ public class GameManager : MonoBehaviour
         return spawnData.spawnPoint[(int)currentSpawnPoint];
     }
 
-    // ---------- Scene ¿Ãµø ----------
+    // ---------- Scene Ïù¥Îèô ----------
     public void LoadScene(SceneType type)
     {
         uiRoot = null;
@@ -106,8 +109,12 @@ public class GameManager : MonoBehaviour
 
     private void InitSingleton()
     {
-        if (!instance) instance = this;
-        else if (instance != this) Destroy(instance.gameObject);
+        if (Instance != null && Instance != this) 
+        {
+            Destroy(gameObject);
+            Instance = this; 
+        }
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 }

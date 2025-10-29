@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000038146973}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -28, y: -19.99999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &54422057
@@ -3543,11 +3543,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.714
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.07
+      value: -3.22
       objectReference: {fileID: 0}
     - target: {fileID: 5330670826637342837, guid: d3c87a704a597964c982986d465d715c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3754,11 +3754,11 @@ RectTransform:
   - {fileID: 54422056}
   m_Father: {fileID: 1682838120}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: -1000, y: 50}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 130}
+  m_SizeDelta: {x: -800, y: 60}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1173028688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3952,7 +3952,7 @@ Transform:
   m_GameObject: {fileID: 1198775792}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.714, y: -3.07, z: -9.951386}
+  m_LocalPosition: {x: 0.06, y: -3.22, z: -9.951386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4333,9 +4333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e96e9738510d464a81d91ea01730262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editor_SpawnPoint: {fileID: 683576857}
   player: {fileID: 558922246}
-  gameManagerPrefab: {fileID: 4888019632270943569, guid: 6bb02e1682fc1ba4fac59dfc360ca365, type: 3}
   cam: {fileID: 1198775793}
   cursorTexture: {fileID: 2800000, guid: 8c7c484682b32a8449cf1b52f6d2eff9, type: 3}
   boss: {fileID: 2137645478}

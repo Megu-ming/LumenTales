@@ -19,7 +19,7 @@ public class BossScene : SceneBase
         bc.Init(player);
         uiRoot.Init(player);
 
-        GameManager.instance?.SceneStart();
+        GameManager.Instance?.SceneStart();
     }
 
     private void Update()
@@ -50,6 +50,6 @@ public class BossScene : SceneBase
 
         SpawnAndTrackingPlayer();
 
-        GameManager.instance?.LoadData();
+        GameManager.Instance?.LoadData();
     }
 }

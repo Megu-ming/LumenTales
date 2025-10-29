@@ -10,7 +10,7 @@ public class BattleScene : SceneBase
         player.Init();
         uiRoot.Init(player);
 
-        GameManager.instance?.SceneStart();
+        GameManager.Instance?.SceneStart();
     }
 
     public override void Init()
@@ -20,7 +20,7 @@ public class BattleScene : SceneBase
 
         SpawnAndTrackingPlayer();
 
-        GameManager.instance.LoadData();
+        GameManager.Instance.LoadData();
 
         player.spotLight.gameObject.SetActive(true);
     }

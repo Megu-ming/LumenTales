@@ -90,12 +90,14 @@ public class PlayerStatus : Status
 
     //Event Handler
     public Action HandleOpenDeadUI;
+    public Action<float, float> HandleHpChanged;
     public Action<float, float> HandleExpChanged;
 
     public override void Init()
     {
         base.Init();
         CurrentHealth = FinalMaxHealth;
+        HandleHpChanged?.Invoke(CurrentHealth, FinalMaxHealth);
     }
 
     // 사망 처리
@@ -135,5 +137,14 @@ public class PlayerStatus : Status
         armorAddedLuk -= data.luck;
 
         CharacterEvents.infoUIRefresh?.Invoke();
+    }
+
+    public override bool Hit(float damage, Vector2 knockback)
+    {
+        bool hit = base.Hit(damage, knockback);
+
+        if(hit)
+            HandleHpChanged?.Invoke(CurrentHealth, FinalMaxHealth);
+        return hit;
     }
 }

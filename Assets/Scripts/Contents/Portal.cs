@@ -12,15 +12,15 @@ public class Portal : MonoBehaviour
         if (!other.gameObject.CompareTag("Player"))
             return;
 
-        if(GameManager.instance.GetDataManager() is not null)
+        if(GameManager.Instance.GetDataManager() is not null)
         {
-            GameManager.instance.GetDataManager().BackupCurrentSlot();
-            GameManager.instance.GetDataManager().SaveAll();
+            GameManager.Instance.GetDataManager().BackupCurrentSlot();
+            GameManager.Instance.GetDataManager().SaveAll();
         }
-        if(GameManager.instance is not null)
+        if(GameManager.Instance is not null)
         {
-            GameManager.instance.SetSpawnPoint(nextSpawnPoint);
-            GameManager.instance.LoadScene(nextScene);
+            GameManager.Instance.SetSpawnPoint(nextSpawnPoint);
+            GameManager.Instance.LoadScene(nextScene);
         }
     }
 }

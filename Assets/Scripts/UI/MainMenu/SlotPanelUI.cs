@@ -86,16 +86,16 @@ public class SlotPanelUI : MonoBehaviour
             }
             else
             {
-                GameManager.instance.SetSpawnPoint(PlayerSpawnPoint.Default);
-                GameManager.instance.LoadSceneFromNewGame(slot);
+                GameManager.Instance.SetSpawnPoint(PlayerSpawnPoint.Default);
+                GameManager.Instance.LoadSceneFromNewGame(slot);
             }
         }
         else
         {
             if (meta.exists)
             {
-                GameManager.instance.SetSpawnPoint(PlayerSpawnPoint.Default);
-                GameManager.instance.LoadSceneFromContine(slot);
+                GameManager.Instance.SetSpawnPoint(PlayerSpawnPoint.Default);
+                GameManager.Instance.LoadSceneFromContine(slot);
             }
             else
             {

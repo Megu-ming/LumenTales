@@ -26,13 +26,13 @@ public class ReviveUI : MonoBehaviour
 
     void OnClickTown()
     {
-        GameManager.instance.SetSpawnPoint(PlayerSpawnPoint.Default);
-        GameManager.instance.LoadSceneWithSave(SceneType.Town);
+        GameManager.Instance.SetSpawnPoint(PlayerSpawnPoint.Default);
+        GameManager.Instance.LoadSceneWithSave(SceneType.Town);
     }
 
     void OnClickMenu()
     {
-        GameManager.instance.SetSpawnPoint(PlayerSpawnPoint.Default);
-        GameManager.instance.LoadSceneWithSave(SceneType.Menu);
+        GameManager.Instance.SetSpawnPoint(PlayerSpawnPoint.Default);
+        GameManager.Instance.LoadSceneWithSave(SceneType.Menu);
     }
 }

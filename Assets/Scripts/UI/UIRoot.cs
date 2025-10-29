@@ -15,6 +15,7 @@ public class UIRoot : MonoBehaviour
     [SerializeField] GameObject inventoryPrefab;
     [SerializeField] GameObject characterInfoPrefab;
     [SerializeField] GameObject dummyPrefab;
+    [SerializeField] UIPlayerHPBar playerHpPrefab;
 
     [Header("Modal UI Prefabs")]
     [SerializeField] GameObject inputFieldModalPrefab;
@@ -33,6 +34,7 @@ public class UIRoot : MonoBehaviour
     public InputFieldModalUI inputFieldModal;
     public GameObject dummy;
     public ReviveUI reviveUI;
+    public UIPlayerHPBar playerHpBar;
 
     [Header("Tooltip")]
     UIItemTooltip tooltip;
@@ -105,6 +107,13 @@ public class UIRoot : MonoBehaviour
         if (dummy == null)
         {
             dummy = Instantiate(dummyPrefab, transform);
+        }
+        if(playerHpBar == null)
+        {
+            Instantiate(playerHpPrefab, transform).TryGetComponent<UIPlayerHPBar>(out playerHpBar);
+            playerHpBar.gameObject.SetActive(true);
+            player.Status.HandleHpChanged += playerHpBar.UpdateHpBar;
+            playerHpBar.UpdateHpBar(player.Status.CurrentHealth, player.Status.FinalMaxHealth);
         }
 
         player.Status.HandleExpChanged += OnExpChanged;

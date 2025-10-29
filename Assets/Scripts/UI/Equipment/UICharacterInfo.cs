@@ -23,24 +23,24 @@ public class UICharacterInfo : MonoBehaviour
 
     public void OnStrButton()
     {
-        if(GameManager.instance.CurrentScene.StatusPoint <= 0) return;
+        if(GameManager.Instance.CurrentScene.StatusPoint <= 0) return;
         player.Status.SpAddedStr++;
-        GameManager.instance.CurrentScene.UseStatusPoint();
+        GameManager.Instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
     public void OnDexButton()
     {
-        if (GameManager.instance.CurrentScene.StatusPoint <= 0) return;
+        if (GameManager.Instance.CurrentScene.StatusPoint <= 0) return;
         player.Status.SpAddedAgi++;
-        GameManager.instance.CurrentScene.UseStatusPoint();
+        GameManager.Instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
 
     public void OnLuckButton()
     {
-        if (GameManager.instance.CurrentScene.StatusPoint <= 0) return;
+        if (GameManager.Instance.CurrentScene.StatusPoint <= 0) return;
         player.Status.SpAddedLuk++;
-        GameManager.instance.CurrentScene.UseStatusPoint();
+        GameManager.Instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
 
@@ -57,6 +57,6 @@ public class UICharacterInfo : MonoBehaviour
         if (dexText)    dexText.text = $"{playerStatus.Agility}";
         if (lukText)    lukText.text = $"{playerStatus.Luck}";
 
-        if (spText) spText.text = $"{GameManager.instance?.CurrentScene.StatusPoint}";
+        if (spText) spText.text = $"{GameManager.Instance?.CurrentScene.StatusPoint}";
     }
 }

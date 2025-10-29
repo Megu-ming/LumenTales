@@ -31,9 +31,9 @@ public class SceneBase : MonoBehaviour
             if (cam != null)
             {
                 cam.Target.TrackingTarget = player.transform;
-                if (GameManager.instance != null)
+                if (GameManager.Instance != null)
                 {
-                    player.transform.position = GameManager.instance.GetSpawnPosition();
+                    player.transform.position = GameManager.Instance.GetSpawnPosition();
                 }
 
             }

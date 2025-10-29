@@ -8,8 +8,8 @@ public class MenuScene : SceneBase
 
     protected void Start()
     {
-        if(GameManager.instance)    
-            GameManager.instance.SceneStart();
+        if(GameManager.Instance)    
+            GameManager.Instance.SceneStart();
     }
 
     public override void Init()
@@ -20,7 +20,7 @@ public class MenuScene : SceneBase
         Cursor.lockState = CursorLockMode.None;
 
         mainMenuUI.Init(slotPanelUI);
-        slotPanelUI.Init(warningModalUI, GameManager.instance?.GetDataManager());
+        slotPanelUI.Init(warningModalUI, GameManager.Instance?.GetDataManager());
         warningModalUI.Init(slotPanelUI);
     }
 }

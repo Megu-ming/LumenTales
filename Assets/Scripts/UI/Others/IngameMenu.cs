@@ -38,12 +38,12 @@ public class IngameMenu : UIBase
     public void OnClickMainMenu()
     {
         Close();
-        GameManager.instance.LoadSceneWithSave(SceneType.Menu);
+        GameManager.Instance.LoadSceneWithSave(SceneType.Menu);
     }
 
     public void OnClickQuitGame()
     {
-        GameManager.instance.SaveData();
+        GameManager.Instance.SaveData();
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

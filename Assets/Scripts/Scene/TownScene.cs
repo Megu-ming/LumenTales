@@ -14,7 +14,7 @@ public class TownScene : SceneBase
         uiRoot.Init(player);
         storeNPC.Init(uiRoot);
 
-        GameManager.instance?.SceneStart();
+        GameManager.Instance?.SceneStart();
     }
 
     public override void Init()
@@ -24,6 +24,6 @@ public class TownScene : SceneBase
 
         SpawnAndTrackingPlayer();
 
-        GameManager.instance?.LoadData();
+        GameManager.Instance?.LoadData();
     }
 }

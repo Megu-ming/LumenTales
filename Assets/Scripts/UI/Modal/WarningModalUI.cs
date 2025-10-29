@@ -54,13 +54,13 @@ public class WarningModalUI : MonoBehaviour
 
         if(cachedtype == ModalType.InDeleteWarning)
         {
-            GameManager.instance.GetDataManager().DeleteSlot(cachedSlotIndex);
+            GameManager.Instance.GetDataManager().DeleteSlot(cachedSlotIndex);
             slotPanel.RefreshSlots();
             return;
         }
 
-        GameManager.instance.SetSpawnPoint(PlayerSpawnPoint.Default);
-        GameManager.instance.LoadSceneFromNewGame(cachedSlotIndex);
+        GameManager.Instance.SetSpawnPoint(PlayerSpawnPoint.Default);
+        GameManager.Instance.LoadSceneFromNewGame(cachedSlotIndex);
     }
 
     public void OnNoButton()
