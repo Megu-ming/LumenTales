@@ -65,6 +65,7 @@ public class PlayerSummary
     public float currentExp = 0;
     public float maxExp = 20;
     public float currentHp = 0;
+    public float baseMaxHp = 50;
     public float spAddedStr = 0;
     public float spAddedAgi = 0;
     public float spAddedLuk = 0;

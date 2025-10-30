@@ -64,6 +64,7 @@ public class Player : MonoBehaviour
         Status.SpAddedStr = ps.spAddedStr;
         Status.SpAddedAgi = ps.spAddedAgi;
 
+        Status.BaseMaxHealth = ps.baseMaxHp;
         Status.SetCurrentHealth(ps.currentHp);
         if (GameManager.Instance.CurrentScene != null)
             GameManager.Instance.CurrentScene.StatusPoint = ps.statusPoint;
@@ -83,6 +84,7 @@ public class Player : MonoBehaviour
         summary.currentExp = Status.CurrentExp;
         summary.maxExp = Status.MaxExp;
         summary.currentHp = Status.CurrentHealth;
+        summary.baseMaxHp = Status.BaseMaxHealth;
         summary.spAddedStr = Status.SpAddedStr;
         summary.spAddedAgi = Status.SpAddedAgi;
         if (GameManager.Instance.CurrentScene != null)

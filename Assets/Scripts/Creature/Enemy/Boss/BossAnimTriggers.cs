@@ -47,7 +47,7 @@ public class BossAnimTriggers : MonoBehaviour
 
     public void LaunchLaser()
     {
-        laser.Init(player);
+        laser.Init(player, gameObject);
         if (bossTransform.localScale.x == -1)
             laser.transform.localScale = new Vector2(-1, 1);
         laser.Launch(laserParent.position, player.transform.position);

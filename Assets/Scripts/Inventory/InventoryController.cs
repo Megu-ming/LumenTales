@@ -173,7 +173,10 @@ public class InventoryController : MonoBehaviour
                 if(slot == -1) break;
 
                 int put = Mathf.Min(remain, ((CountableItemData)itemData).MaxAmount);
-                items[slot] = new CountableItem((CountableItemData)itemData, put);
+                if(itemData is ConsumableItemData)
+                    items[slot] = new ConsumableItem((ConsumableItemData)itemData, put);
+                else
+                    items[slot] = new CountableItem((CountableItemData)itemData, put);
                 UpdateSlot(slot);
                 remain -= put;
             }
@@ -232,7 +235,7 @@ public class InventoryController : MonoBehaviour
 
         if (items[index] is ConsumableItem con)
         {
-            bool used = con.Use(this);
+            bool used = con.Use(player);
             if (used)
             {
                 if(con.IsEmpty) items[index] = null;
@@ -419,13 +422,20 @@ public class InventoryController : MonoBehaviour
         {
             if(entry == null) continue;
             if (!IsValidIndex(entry.slotIndex)) continue;
-            if(!resolver.TryGetItemData(entry.itemName, out var data) || data == null) continue;
+            if (!resolver.TryGetItemData(entry.itemName, out var data) || data == null) 
+            {
+                Debug.Log($"{entry.itemName}은 아이템 리졸버에 존재하지 않습니다.");
+                continue; 
+            }
 
             if(data.IsStackable)
             {
                 var cid = (CountableItemData)data;
                 int amount = Mathf.Max(1, entry.amount);
-                items[entry.slotIndex] = new CountableItem(cid, Mathf.Min(amount, cid.MaxAmount));
+                if(cid is ConsumableItemData)
+                    items[entry.slotIndex] = new ConsumableItem((ConsumableItemData)cid, Mathf.Min(amount, cid.MaxAmount));
+                else
+                    items[entry.slotIndex] = new CountableItem(cid, Mathf.Min(amount, cid.MaxAmount));
             }
             else
             {

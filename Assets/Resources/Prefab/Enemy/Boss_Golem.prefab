@@ -160,10 +160,9 @@ MonoBehaviour:
         m_CallState: 2
   level: 1
   baseAtkDamage: 0
-  knockBack: {x: 0, y: 0}
-  baseDefence: 0
   baseMaxHealth: 100
   currentHealth: 0
+  knockBack: {x: 0, y: 0}
   isAlive: 0
   isInvincible: 0
   invincibilityTime: 0

@@ -16,5 +16,6 @@ internal class AnimationStrings
     internal static string lockVelocity = "LockVelocity";
     internal static string attackCooldown = "AttackCooldown";
     internal static string isDash = "IsDash";
+    internal static string cooldownOn = "CoolTimeOn";
 
 }

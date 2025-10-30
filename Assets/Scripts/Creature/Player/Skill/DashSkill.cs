@@ -14,6 +14,7 @@ public class DashSkill : SkillBase
 
     public override void UseSkill()
     {
+        view.SetCooldownOn(true);
         StartCoroutine(DashCoroutine());
     }
 

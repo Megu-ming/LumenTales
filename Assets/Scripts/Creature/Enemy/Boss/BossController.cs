@@ -92,24 +92,23 @@ public class BossController : CreatureController
 		TryTriggerPattern(targetDistance);
 	}
 
-	public void LookAtPlayer()
+	public void LookAtPlayer(GameObject obj)
 	{
 		if (!target) return;
 		if (transform.position.x > target.transform.position.x)
-			transform.localScale = new Vector3(-1, 1, 1);
+			obj.transform.localScale = new Vector3(-1, 1, 1);
 		else
-			transform.localScale = new Vector3(1, 1, 1);
+			obj.transform.localScale = new Vector3(1, 1, 1);
 	}
 
 	/// <summary>
-	/// 플레이어 방향을 바라보고 잠시 대기하여 공격 준비
+	/// 플레이어와 거리 계산
 	/// </summary>
 	/// <returns>플레이어와 보스 사이 거리</returns>
-	public float WaitForCalculateDistance()
+	public float CalculateDistance()
 	{
 		targetDistance = Vector2.Distance(transform.position, target.transform.position);
-		// 대기
-		StartCoroutine(Co_WaitTimer(5f));
+
 		return targetDistance;		
 	}
 
@@ -118,6 +117,7 @@ public class BossController : CreatureController
 		if (!target) return;
 		Vector2 targetPos = new Vector2(target.transform.position.x, rb.position.y);
 		Vector2 newPos = Vector2.MoveTowards(rb.position, targetPos, 1f * Time.fixedDeltaTime);
+		LookAtPlayer(animator.gameObject);
 		rb.MovePosition(newPos);
 	}
 
@@ -221,17 +221,6 @@ public class BossController : CreatureController
 		}
 		onTick?.Invoke(cooldown);
 		onReady?.Invoke();
-	}
-
-	// 대기 코루틴
-	IEnumerator Co_WaitTimer(float waitTime)
-	{
-		float timer = 0f;
-		while(timer <= waitTime)
-		{
-			timer += Time.deltaTime;
-			yield return new WaitForFixedUpdate();
-		}
 	}
 
 	public void OnHit(float damage, Vector2 knockback)

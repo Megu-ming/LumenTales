@@ -14,7 +14,7 @@ public class PlayerStatus : Status
     }
 
     public override float BaseAtkDamage  { get => baseAtkDamage; }
-    public override float BaseMaxHealth  { get => baseMaxHealth; }
+    public override float BaseMaxHealth  { get => baseMaxHealth; set => baseMaxHealth = value; }
     public override float CurrentHealth { get => currentHealth; }
     /// <summary>
     /// 현재 체력 설정
@@ -30,6 +30,7 @@ public class PlayerStatus : Status
             OnDied();
         }
     }
+    public void AddCurrentHealth(float val) => SetCurrentHealth(currentHealth + val);
     [SerializeField] float finalMaxHealth;
 
     [Header("플레이어 고유 기본 능력치")]
@@ -177,10 +178,22 @@ public class PlayerStatus : Status
 
     public override bool Hit(float damage, Vector2 knockback)
     {
-        bool hit = base.Hit(damage, knockback);
-
-        if (hit)
+        if(IsAlive && !isInvincible)
+        {
+            float finalDamage = Mathf.Max(0, damage);
+            SetCurrentHealth(CurrentHealth - finalDamage);
             HandleHpChanged?.Invoke(CurrentHealth, FinalMaxHealth);
-        return hit;
+            isInvincible = true;
+
+            animator.SetTrigger(AnimationStrings.hitTrigger);
+            LockVelocity = true;
+
+            damageableHit?.Invoke(damage, knockback);
+            CharacterEvents.characterDamaged?.Invoke(gameObject, finalDamage);
+
+            return true;
+        }
+
+        return false;
     }
 }

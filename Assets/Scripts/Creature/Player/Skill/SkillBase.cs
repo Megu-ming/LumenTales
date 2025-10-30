@@ -4,21 +4,31 @@ using UnityEngine.InputSystem;
 public abstract class SkillBase : MonoBehaviour
 {
     protected Player player;
-    [SerializeField] float coolTime;
-    private float coolDownTimer;
+    [SerializeField] protected float coolTime;
+    protected float coolDownTimer;
+    // UI
+    [SerializeField] protected DashView view;
+
+    private void Start()
+    {
+        coolDownTimer = coolTime;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (coolDownTimer > 0f)
-            coolDownTimer -= Time.deltaTime;
+        if (coolDownTimer <= coolTime)
+        { 
+            coolDownTimer += Time.deltaTime;
+            view.UpdateCooltime(coolDownTimer, coolTime);
+        }
     }
 
     public void UseSkillInputAction(InputAction.CallbackContext context)
     {
-        if(coolDownTimer <= 0f)
+        if(coolDownTimer >= coolTime)
         {
-            coolDownTimer += coolTime;
+            coolDownTimer = 0f;
             UseSkill();
         }
     }

@@ -180,17 +180,10 @@ public class PlayerController : CreatureController
     {
         if (isConversation) return;
 
-        if (context.canceled)
-        {
-            moveInput = Vector2.zero;
-            IsMoving = false;
-            return;
-        }
-
         if (isDash) return;
 
         moveInput = context.ReadValue<Vector2>();
-        if(IsAlive && IsAttack is false)
+        if(IsAlive || !IsAttack)
         {
             IsMoving = moveInput != Vector2.zero;
             SetFacingDirection(moveInput);

@@ -63,13 +63,13 @@ public class Status : MonoBehaviour
     }
 
     [Header("무적시간")]
-    [SerializeField] private bool isInvincible = false;
+    [SerializeField] protected bool isInvincible = false;
     public void SetInvincible(bool val) => isInvincible = val;
     [SerializeField] private float invincibilityTime = 0.25f;
     public void SetInvincibleTime(float time) => invincibilityTime = time;
     private float timeSinceHit = 0f;
 
-    [SerializeField] Animator animator;
+    [SerializeField] protected Animator animator;
 
     public virtual void Init()
     {
