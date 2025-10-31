@@ -68,7 +68,6 @@ public class Player : MonoBehaviour
         Status.SetCurrentHealth(ps.currentHp);
         if (GameManager.Instance.CurrentScene != null)
             GameManager.Instance.CurrentScene.StatusPoint = ps.statusPoint;
-        //Status.HandleHpChanged?.Invoke();
         Status.HandleExpChanged?.Invoke(Status.CurrentExp, Status.MaxExp);
     }
 

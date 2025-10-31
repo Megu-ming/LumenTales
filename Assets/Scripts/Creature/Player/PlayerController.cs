@@ -185,7 +185,7 @@ public class PlayerController : CreatureController
         moveInput = context.ReadValue<Vector2>();
         if(IsAlive || !IsAttack)
         {
-            IsMoving = moveInput != Vector2.zero;
+            IsMoving = Mathf.Abs(moveInput.x) > 0;
             SetFacingDirection(moveInput);
         }
         else IsMoving = false;
