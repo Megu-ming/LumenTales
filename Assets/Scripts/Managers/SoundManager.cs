@@ -10,34 +10,38 @@ public enum SoundType
     EnemyDie,
     ItemPickup,
     LevelUp,
-    BGM,
-    Footstep,
+    MenuBGM,
+    TownBGM,
+    BattleBGM,
+    BossBGM,
+    Footstep_Walk,
+    Footstep_Run,
 }
 
-[RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
+[ExecuteInEditMode]
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private SoundList[] soundList;
     private static SoundManager instance;
-    private AudioSource audioSource;
+    [SerializeField] AudioSource BGMAudioSource;
+    [SerializeField] AudioSource SFXAudioSource;
 
     private void Awake()
     {
         instance = this;
-
-        DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    public static void PlayRandomSound(SoundType sound, float volume = 1)
     {
-        audioSource = GetComponent<AudioSource>();
+        AudioClip[] clips = instance.soundList[(int)sound].Sounds;
+        AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
+        instance.SFXAudioSource.PlayOneShot(randomClip, volume);
     }
-
     public static void PlaySound(SoundType sound, float volume = 1)
     {
         AudioClip[] clips = instance.soundList[(int)sound].Sounds;
         AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
-        instance.audioSource.PlayOneShot(randomClip, volume);
+        instance.BGMAudioSource.Play();
     }
 
 #if UNITY_EDITOR

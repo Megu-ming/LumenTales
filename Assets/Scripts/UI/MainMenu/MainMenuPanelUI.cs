@@ -1,18 +1,22 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class MainMenuPanelUI : MonoBehaviour
 {
-    public Button newGameBtn; 
-    public Button continueBtn;
-    public Button exitBtn;
+    [SerializeField] Button newGameBtn; 
+    [SerializeField] Button continueBtn;
+    [SerializeField] Button settingBtn;
+    [SerializeField] Button exitBtn;
 
     SlotPanelUI slotPanel;
+    SettingPanelUI setting;
 
-    public void Init(SlotPanelUI slotPanel)
+    public void Init(SlotPanelUI slotPanel, SettingPanelUI settingPanel)
     {
         this.slotPanel = slotPanel;
+        setting = settingPanel;
     }
 
     public void OnClickNewGame()
@@ -25,12 +29,17 @@ public class MainMenuPanelUI : MonoBehaviour
         OpenSlotPanel(false);
     }
 
+    public void OnClickSetting()
+    {
+        OpenSetting();
+    }
+
     public void OnClickExit()
     {
 #if UNITY_EDITOR
-        EditorApplication.isPlaying = false;    // ¿¡µðÅÍ¿¡¼­ Á¾·á
+        EditorApplication.isPlaying = false;    // ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 #else
-        Application.Quit();                     // ºôµå ½Ã Á¾·á
+        Application.Quit();                     // ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 #endif
     }
 
@@ -42,6 +51,10 @@ public class MainMenuPanelUI : MonoBehaviour
             slotPanel.gameObject.SetActive(true);
         }
         slotPanel.RefreshSlots();
+    }
+    void OpenSetting()
+    {
+        setting.gameObject.SetActive(true);
     }
 }          
            

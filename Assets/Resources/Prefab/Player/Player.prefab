@@ -338,32 +338,29 @@ MonoBehaviour:
         m_CallState: 2
   level: 1
   baseAtkDamage: 10
-  knockBack: {x: 0, y: 0}
-  baseDefence: 5
   baseMaxHealth: 50
   currentHealth: 0
+  knockBack: {x: 0, y: 0}
   isAlive: 0
   isInvincible: 0
   invincibilityTime: 0.25
   animator: {fileID: 733211002397713240}
+  finalMaxHealth: 0
   currentExp: 0
   maxExp: 10
   baseStrength: 5
   baseAgility: 5
-  baseLuck: 5
   armorAddedAtk: 0
   armorAddedDef: 0
   armorAddedStr: 0
   armorAddedAgi: 0
-  armorAddedLuk: 0
   spAddedStr: 0
   spAddedAgi: 0
-  spAddedLuk: 0
+  finalStrength: 0
+  finalAgility: 0
   strAttackPerPoint: 2
   strHpPerPoint: 10
   agiAttackPerPoint: 1
-  lukAttackPerPoint: 0.125
-  lukDefPerPoint: 0.5
 --- !u!114 &1432597458464436165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coolTime: 5
+  view: {fileID: 0}
   dashSpeed: 15
 --- !u!1 &1606769465347345484
 GameObject:
@@ -738,6 +736,8 @@ GameObject:
   - component: {fileID: 5831180401160371925}
   - component: {fileID: 3576369754799086949}
   - component: {fileID: 733211002397713240}
+  - component: {fileID: 1140384262594717534}
+  - component: {fileID: 6675242447047486709}
   m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
@@ -840,6 +840,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1140384262594717534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5795559674297493043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4915165a70192fd4ca185a2c281afde9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: 0.538
+--- !u!114 &6675242447047486709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5795559674297493043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d1359c74e54da468a72701f3db28d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6616328917977678726
 GameObject:
   m_ObjectHideFlags: 0

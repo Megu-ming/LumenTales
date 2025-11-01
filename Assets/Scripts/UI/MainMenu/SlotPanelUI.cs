@@ -32,9 +32,9 @@ public class SlotPanelUI : MonoBehaviour
 
     public void RefreshSlotsIfOpen()
     {
-        // ½½·Ô ÆÐ³ÎÀÌ ¿­·ÁÀÖÀ¸¸é °»½Å(¸ÞÀÎ ÆÐ³ÎÀÏ ¶§´Â »ý·« °¡´É)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         if (gameObject.activeSelf) RefreshSlots();
-        else RefreshTitlesOnly(); // ¸ÞÀÎ¿¡¼­µµ ¶óº§¸¸ ÃÖ½ÅÈ­ÇÏ°í ½Í´Ù¸é È£Ãâ
+        else RefreshTitlesOnly(); // ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½óº§¸ï¿½ ï¿½Ö½ï¿½È­ï¿½Ï°ï¿½ ï¿½Í´Ù¸ï¿½ È£ï¿½ï¿½
     }
 
     public void RefreshSlots()
@@ -47,7 +47,7 @@ public class SlotPanelUI : MonoBehaviour
             if (slotTitleLines[i].text != null)
             {
                 slotTitleLines[i].text = meta.exists
-                    ? $"{meta.TitleLine}" : "(ºó ½½·Ô)";
+                    ? $"{meta.TitleLine}" : "(ë¹ˆ ìŠ¬ë¡¯)";
             }
         }
     }
@@ -60,7 +60,7 @@ public class SlotPanelUI : MonoBehaviour
         {
             if (slotTitleLines[i] != null)
                 slotTitleLines[i].text = metas[i].exists
-                    ? $"{metas[i].TitleLine}" : "(ºó ½½·Ô)";
+                    ? $"{metas[i].TitleLine}" : "(ë¹ˆ ìŠ¬ë¡¯)";
         }
     }
 
@@ -81,7 +81,7 @@ public class SlotPanelUI : MonoBehaviour
         {
             if (meta.exists)
             {
-                // µ¤¾î¾²±â ¸ð´Þ Ãâ·Â
+                // ï¿½ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 modal.SettingModal(ModalType.InNewGameWarning, slot);
             }
             else
@@ -99,7 +99,7 @@ public class SlotPanelUI : MonoBehaviour
             }
             else
             {
-                // »õ·Î ½ÃÀÛÇÒ°Å³Ä°í ¹¯´Â ¸ð´Þ
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò°Å³Ä°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 modal.SettingModal(ModalType.InContinueWarning, slot);
             }
         }

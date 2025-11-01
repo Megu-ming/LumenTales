@@ -26,5 +26,7 @@ public class TownScene : SceneBase
 
         GameManager.Instance?.LoadData();
         GameManager.Instance.IsIngame = true;
+
+        SoundManager.PlayRandomSound(SoundType.TownBGM);
     }
 }
