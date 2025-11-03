@@ -28,6 +28,6 @@ public class MenuScene : SceneBase
         warningModalUI.Init(slotPanelUI);
         settingPanelUI.Init();
 
-        SoundManager.PlayRandomSound(SoundType.MenuBGM);
+        SoundManager.PlayBGM(BgmType.Menu);
     }
 }

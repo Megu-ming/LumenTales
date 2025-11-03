@@ -24,6 +24,6 @@ public class BattleScene : SceneBase
 
         player.spotLight.gameObject.SetActive(true);
 
-        SoundManager.PlayRandomSound(SoundType.BattleBGM);
+        SoundManager.PlayBGM(BgmType.Battle);
     }
 }

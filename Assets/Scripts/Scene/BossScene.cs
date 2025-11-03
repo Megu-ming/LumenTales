@@ -52,6 +52,6 @@ public class BossScene : SceneBase
 
         GameManager.Instance?.LoadData();
 
-        SoundManager.PlayRandomSound(SoundType.BossBGM);
+        SoundManager.PlayBGM(BgmType.Boss);
     }
 }

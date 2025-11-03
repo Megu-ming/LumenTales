@@ -4930,7 +4930,6 @@ GameObject:
   - component: {fileID: 1050499505}
   - component: {fileID: 1050499504}
   - component: {fileID: 1050499503}
-  - component: {fileID: 1050499502}
   m_Layer: 0
   m_Name: PortalToBoss
   m_TagString: Untagged
@@ -4938,19 +4937,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1050499502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1050499501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c6f11a71212ba64d898b569e22ce995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiRoot: {fileID: 0}
 --- !u!114 &1050499503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5401,7 +5387,6 @@ GameObject:
   - component: {fileID: 1694960981}
   - component: {fileID: 1694960980}
   - component: {fileID: 1694960979}
-  - component: {fileID: 1694960978}
   m_Layer: 0
   m_Name: PortalToTown
   m_TagString: Untagged
@@ -5409,19 +5394,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1694960978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1694960977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c6f11a71212ba64d898b569e22ce995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiRoot: {fileID: 0}
 --- !u!114 &1694960979
 MonoBehaviour:
   m_ObjectHideFlags: 0

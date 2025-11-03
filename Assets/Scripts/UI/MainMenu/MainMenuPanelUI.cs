@@ -56,5 +56,7 @@ public class MainMenuPanelUI : MonoBehaviour
     {
         setting.gameObject.SetActive(true);
     }
+
+    
 }          
            

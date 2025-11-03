@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 8991489833550886667}
   - component: {fileID: 8390848374016425869}
   - component: {fileID: 5001374233572911326}
+  - component: {fileID: 4821745248010199007}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -268,6 +269,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4821745248010199007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101866080925489703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 5001374233572911326}
 --- !u!1 &227347075714326153
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,6 +1096,7 @@ GameObject:
   - component: {fileID: 7234129111978065697}
   - component: {fileID: 7263958189104424277}
   - component: {fileID: 7362760683754112646}
+  - component: {fileID: 3102956086974749780}
   m_Layer: 5
   m_Name: Slot_1
   m_TagString: Untagged
@@ -1201,6 +1218,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3102956086974749780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142791426179522804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 0}
 --- !u!1 &2194835474112872722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,6 +1245,7 @@ GameObject:
   - component: {fileID: 99966438693262301}
   - component: {fileID: 714726054605219579}
   - component: {fileID: 5492436824725874512}
+  - component: {fileID: 7686544315210243677}
   m_Layer: 5
   m_Name: Slot_0
   m_TagString: Untagged
@@ -1334,6 +1367,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7686544315210243677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2194835474112872722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 5492436824725874512}
 --- !u!1 &2242189353098401389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1346,6 +1394,7 @@ GameObject:
   - component: {fileID: 8775886100265493065}
   - component: {fileID: 5152511025543796988}
   - component: {fileID: 7775774039621067422}
+  - component: {fileID: 8222898837019779610}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1467,6 +1516,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8222898837019779610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2242189353098401389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 0}
 --- !u!1 &2676997968898404185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,6 +1619,7 @@ GameObject:
   - component: {fileID: 7857380021987912105}
   - component: {fileID: 3269394297265655639}
   - component: {fileID: 2495205520591306671}
+  - component: {fileID: 746912975648852679}
   m_Layer: 5
   m_Name: Slot_2
   m_TagString: Untagged
@@ -1676,6 +1741,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &746912975648852679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3538305718608122756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 0}
 --- !u!1 &4340840035710217316
 GameObject:
   m_ObjectHideFlags: 0
@@ -1960,6 +2040,7 @@ GameObject:
   - component: {fileID: 9074858811786272913}
   - component: {fileID: 228160860842508205}
   - component: {fileID: 7504330798985532455}
+  - component: {fileID: 7277985647755186106}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -2075,11 +2156,26 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7277985647755186106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4997712873989778816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 0}
 --- !u!1 &5174257719836530461
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,6 +2396,7 @@ GameObject:
   - component: {fileID: 4511923482703835100}
   - component: {fileID: 3370325824245196611}
   - component: {fileID: 3003447126965852441}
+  - component: {fileID: 5629677600547936674}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -2415,11 +2512,26 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5629677600547936674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6423896796280377152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 0}
 --- !u!1 &7655071931549342989
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,6 +2544,7 @@ GameObject:
   - component: {fileID: 4145982803862501613}
   - component: {fileID: 4908128431289418778}
   - component: {fileID: 4147923297336682700}
+  - component: {fileID: 7357478064741983449}
   m_Layer: 5
   m_Name: Slot_4
   m_TagString: Untagged
@@ -2553,6 +2666,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7357478064741983449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7655071931549342989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 0}
 --- !u!1 &7703883784179784225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2565,6 +2693,7 @@ GameObject:
   - component: {fileID: 4530797094527182492}
   - component: {fileID: 639385543933802845}
   - component: {fileID: 438175448129859239}
+  - component: {fileID: 3492415827920048458}
   m_Layer: 5
   m_Name: Slot_3
   m_TagString: Untagged
@@ -2686,6 +2815,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3492415827920048458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7703883784179784225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 0}
 --- !u!1 &7770636886369693285
 GameObject:
   m_ObjectHideFlags: 0
@@ -2834,6 +2978,7 @@ GameObject:
   - component: {fileID: 8316344199970446947}
   - component: {fileID: 2802559293710555635}
   - component: {fileID: 358025225105132976}
+  - component: {fileID: 227101843573772708}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -2949,11 +3094,26 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &227101843573772708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587092116085397325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 0}
 --- !u!1 &8808918279654767051
 GameObject:
   m_ObjectHideFlags: 0
@@ -2966,6 +3126,7 @@ GameObject:
   - component: {fileID: 1509209394681372806}
   - component: {fileID: 4366201930442816260}
   - component: {fileID: 6021248495350395197}
+  - component: {fileID: 4504817720197898412}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -3081,8 +3242,23 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4504817720197898412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8808918279654767051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbe7f5bf7af24746a60be1d0bb9f933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 6
+  clickType: 7
+  button: {fileID: 0}

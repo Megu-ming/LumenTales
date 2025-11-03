@@ -161,10 +161,6 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: -8715080372967414792}
   m_StateMachineTransitions:
-  - first: {fileID: -9143704366489869349}
-    second:
-    - {fileID: 342132772779184012}
-    - {fileID: -7138379151153211609}
   - first: {fileID: -5131693726669483517}
     second:
     - {fileID: -7247931120838550775}
@@ -174,6 +170,10 @@ AnimatorStateMachine:
     second:
     - {fileID: 1613812762833883929}
     - {fileID: 7930359152343027927}
+  - first: {fileID: -9143704366489869349}
+    second:
+    - {fileID: 342132772779184012}
+    - {fileID: -7138379151153211609}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 830, y: 100, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -412,15 +412,16 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 6393203719257408981}
-    m_Position: {x: 360, y: 110, z: 0}
+    m_Position: {x: 360, y: 120, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 1542912100284791927}
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 130, z: 0}
-  m_ExitPosition: {x: 790, y: 120, z: 0}
+  m_ExitPosition: {x: 730, y: 130, z: 0}
   m_ParentStateMachinePosition: {x: 30, y: 60, z: 0}
   m_DefaultState: {fileID: 6393203719257408981}
 --- !u!1101 &-4335801092821574660
@@ -988,6 +989,23 @@ MonoBehaviour:
   updateOnStateMachine: 0
   valueOnEnter: 0
   valueOnExit: 1
+--- !u!114 &1542912100284791927
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c12052b52269d1a44aef37e8e73b2bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxType: 4
+  updateOnState: 0
+  updateOnStateMachine: 1
+  valueOnEnter: 1
+  valueOnExit: 0
 --- !u!114 &1606994167000332998
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,15 +1,29 @@
 using UnityEngine;
 
-public class PlayerWalkSound : MonoBehaviour
+public class PlayerSFX : MonoBehaviour
 {
-    [SerializeField, Range(0, 1f)] float volume;
-
     public void PlayWalkSound()
     {
-        SoundManager.PlayRandomSound(SoundType.Footstep_Walk, volume);
+        SoundManager.PlayRandomSFX(SfxType.Footstep_Walk);
     }
     public void PlayRunSound()
     {
-        SoundManager.PlayRandomSound(SoundType.Footstep_Run);
+        SoundManager.PlayRandomSFX(SfxType.Footstep_Run);
+    }
+    public void PlayJumpSound()
+    {
+        SoundManager.PlayRandomSFX(SfxType.Jump);
+    }
+    public void PlayLandSound()
+    {
+        SoundManager.PlayRandomSFX(SfxType.Land);
+    }
+    public void PlayAttackSound()
+    {
+        SoundManager.PlayRandomSFX(SfxType.Attack);
+    }
+    public void PlayHurtSound()
+    {
+        SoundManager.PlayRandomSFX(SfxType.Hurt);
     }
 }
