@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class IngameMenu : UIBase
 {
+    [SerializeField] SettingPanelUI settingPanel;
     Player player;
 
     public void Init(UIRoot uiRoot, Player player)
@@ -19,6 +20,9 @@ public class IngameMenu : UIBase
             var playerInput = player.GetComponent<PlayerInput>();
             playerInput.SwitchCurrentActionMap("UI");
         }
+
+        if (settingPanel.gameObject.activeSelf)
+            settingPanel.gameObject.SetActive(false);
     }
     protected override void OnClose()
     {
@@ -33,6 +37,11 @@ public class IngameMenu : UIBase
     public void OnClickResume()
     {
         Close();
+    }
+
+    public void OnClickSetting()
+    {
+        settingPanel.gameObject.SetActive(true);
     }
 
     public void OnClickMainMenu()

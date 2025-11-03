@@ -76,6 +76,16 @@ public class SoundManager : MonoBehaviour
     {
         audioMixer.SetFloat(audioMixerType.ToString(), Mathf.Log10(volume) * 20);
     }
+
+    public float GetAudioVolume(EAudioMixerType audioMixerType)
+    {
+        float dB = 0;
+        audioMixer.GetFloat(audioMixerType.ToString(), out dB);
+        // 퍼센트로 변환
+        float volume = Mathf.Clamp01(Mathf.Pow(10f, dB / 20f));
+
+        return volume;
+    }
     #endregion
 
     #region BGM (단일 클립, loop, Play 사용)

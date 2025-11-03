@@ -4813,7 +4813,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4799991972154359301, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
       propertyPath: baseMaxHealth
-      value: 500
+      value: 20000
       objectReference: {fileID: 0}
     - target: {fileID: 7050789000402088634, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
       propertyPath: m_Sprite
