@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public enum BgmType
@@ -24,14 +25,18 @@ public enum SfxType
     UI_Click,      // UI 클릭
 }
 
+public enum EAudioMixerType { Master, BGM, SFX }
+
 [DisallowMultipleComponent]
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager I { get; private set; }
+    public static SoundManager instance;
 
     [Header("Audio Sources (자식 오브젝트에 부착)")]
     [SerializeField] private AudioSource bgmSource; // loop 전용, clip+Play 사용
     [SerializeField] private AudioSource sfxSource; // 원샷 전용, PlayOneShot 사용
+
+    [SerializeField] private AudioMixer audioMixer;
 
     [Header("BGM 테이블 (타입당 1개 클립)")]
     [SerializeField] private BgmEntry[] bgmTable;
@@ -41,17 +46,11 @@ public class SoundManager : MonoBehaviour
 
     // 내부 상태
     private Coroutine bgmFadeCo;
-    private float bgmBaseVolume = 1f; // 페이드 후 원복용
-    private float sfxBaseVolume = 1f;
 
     #region Singleton & Lifetime
     private void Awake()
     {
-        if (I != null && I != this) { Destroy(gameObject); return; }
-        I = this;
-
-        if (bgmSource != null) bgmBaseVolume = bgmSource.volume;
-        if (sfxSource != null) sfxBaseVolume = sfxSource.volume;
+        instance = this;
     }
 
     private void OnEnable()
@@ -73,23 +72,10 @@ public class SoundManager : MonoBehaviour
 
     #region Public API (Settings 연동)
     // 설정 메뉴에서 호출해줄 볼륨 세터
-    public static void SetBgmVolume(float v)
+    public void SetAudioVolume(EAudioMixerType audioMixerType, float volume)
     {
-        if (I?.bgmSource == null) return;
-        I.bgmBaseVolume = Mathf.Clamp01(v);
-        I.bgmSource.volume = I.bgmBaseVolume;
+        audioMixer.SetFloat(audioMixerType.ToString(), Mathf.Log10(volume) * 20);
     }
-
-    public static void SetSfxVolume(float v)
-    {
-        if (I?.sfxSource == null) return;
-        I.sfxBaseVolume = Mathf.Clamp01(v);
-        // PlayOneShot은 인스펙터/오디오소스의 volume을 기본 스케일로 씀
-        I.sfxSource.volume = I.sfxBaseVolume;
-    }
-
-    public static float GetBgmVolume() => I?.bgmSource ? I.bgmSource.volume : 0f;
-    public static float GetSfxVolume() => I?.sfxSource ? I.sfxSource.volume : 0f;
     #endregion
 
     #region BGM (단일 클립, loop, Play 사용)
@@ -98,9 +84,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public static void PlayBGM(BgmType type, float fadeSeconds = 0.25f)
     {
-        if (I == null || I.bgmSource == null) return;
+        if (instance == null || instance.bgmSource == null) return;
 
-        var clip = I.GetBgmClip(type);
+        var clip = instance.GetBgmClip(type);
         if (clip == null)
         {
             Debug.LogWarning($"[SoundManager] BGM 클립이 비어있습니다: {type}");
@@ -108,10 +94,10 @@ public class SoundManager : MonoBehaviour
         }
 
         // 같은 트랙이면 스킵
-        if (I.bgmSource.isPlaying && I.bgmSource.clip == clip) return;
+        if (instance.bgmSource.isPlaying && instance.bgmSource.clip == clip) return;
 
-        if (I.bgmFadeCo != null) I.StopCoroutine(I.bgmFadeCo);
-        I.bgmFadeCo = I.StartCoroutine(I.Co_SwapBgm(clip, fadeSeconds));
+        if (instance.bgmFadeCo != null) instance.StopCoroutine(instance.bgmFadeCo);
+        instance.bgmFadeCo = instance.StartCoroutine(instance.Co_SwapBgm(clip, fadeSeconds));
     }
 
     /// <summary>
@@ -119,11 +105,11 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public static void StopBGM(float fadeSeconds = 0.15f)
     {
-        if (I == null || I.bgmSource == null) return;
-        if (!I.bgmSource.isPlaying) return;
+        if (instance == null || instance.bgmSource == null) return;
+        if (!instance.bgmSource.isPlaying) return;
 
-        if (I.bgmFadeCo != null) I.StopCoroutine(I.bgmFadeCo);
-        I.bgmFadeCo = I.StartCoroutine(I.Co_StopBgm(fadeSeconds));
+        if (instance.bgmFadeCo != null) instance.StopCoroutine(instance.bgmFadeCo);
+        instance.bgmFadeCo = instance.StartCoroutine(instance.Co_StopBgm(fadeSeconds));
     }
 
     private IEnumerator Co_SwapBgm(AudioClip next, float fade)
@@ -147,7 +133,8 @@ public class SoundManager : MonoBehaviour
         bgmSource.Play();
 
         // 페이드인
-        float target = bgmBaseVolume;
+        //float target = bgmBaseVolume;
+        float target = 1f;
         if (fade > 0f)
         {
             for (float t = 0; t < fade; t += Time.unscaledDeltaTime)
@@ -172,7 +159,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         bgmSource.Stop();
-        bgmSource.volume = bgmBaseVolume;
+        //bgmSource.volume = bgmBaseVolume;
         bgmFadeCo = null;
     }
 
@@ -190,18 +177,18 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public static void PlayRandomSFX(SfxType type, float volumeScale = 1f, bool randomizePitch = false, float pitchMin = 0.96f, float pitchMax = 1.04f)
     {
-        if (I == null || I.sfxSource == null) return;
+        if (instance == null || instance.sfxSource == null) return;
 
-        var clip = I.GetRandomSfxClip(type);
+        var clip = instance.GetRandomSfxClip(type);
         if (clip == null) return;
 
         // 원래 피치 복구 후, 옵션에 따라 랜덤 피치
-        float oldPitch = I.sfxSource.pitch;
-        if (randomizePitch) I.sfxSource.pitch = UnityEngine.Random.Range(pitchMin, pitchMax);
+        float oldPitch = instance.sfxSource.pitch;
+        if (randomizePitch) instance.sfxSource.pitch = UnityEngine.Random.Range(pitchMin, pitchMax);
 
-        I.sfxSource.PlayOneShot(clip, Mathf.Clamp01(volumeScale));
+        instance.sfxSource.PlayOneShot(clip, Mathf.Clamp01(volumeScale));
 
-        I.sfxSource.pitch = oldPitch;
+        instance.sfxSource.pitch = oldPitch;
     }
 
     private AudioClip GetRandomSfxClip(SfxType type)
@@ -239,6 +226,11 @@ public class SoundManager : MonoBehaviour
         }
     }
 #endif
+
+    private void ChangeVolume(float volume)
+    {
+        instance.SetAudioVolume(EAudioMixerType.BGM, volume);
+    }
 }
 
 [Serializable]
