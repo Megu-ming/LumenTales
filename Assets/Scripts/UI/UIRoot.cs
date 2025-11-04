@@ -91,7 +91,6 @@ public class UIRoot : MonoBehaviour
         if (storeUI == null)
         {
             Instantiate(storePrefab, transform).TryGetComponent<StoreUI>(out storeUI);
-            storeUI.Init(this, player, inputFieldModal, null);
             storeUI.gameObject.SetActive(false);
         }
         if (inventoryUI == null)

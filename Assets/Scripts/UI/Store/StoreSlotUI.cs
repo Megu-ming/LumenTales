@@ -17,8 +17,9 @@ public class StoreSlotUI : MonoBehaviour, IPointerDownHandler, IPointerClickHand
     private float lastClickTime;
     private const float doubleClickTime = 0.2f; // Time in seconds
 
-    public void Init(InventoryController inven)
+    public void Init(StoreUI store, InventoryController inven)
     {
+        this.store = store;
         this.inven = inven;
     }
 
