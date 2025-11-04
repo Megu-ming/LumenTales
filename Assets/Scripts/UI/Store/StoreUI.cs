@@ -46,6 +46,10 @@ public class StoreUI : UIBase
 
                     storeSlots.Add(slot);
                 }
+
+                // slotParent Height 슬롯 높이만큼 더해줘야 드래그나 마우스 휠 돌렸을 때 상점 잘 작동함
+                Vector2 size = slotParent.sizeDelta;
+                
             }
             isInit = true;
         }

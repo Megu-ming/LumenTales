@@ -1,8 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// 보스 특수 패턴 : 레이저 발사체 클래스
+/// </summary>
 public class LaserProjectile : MonoBehaviour
 {
-    Animator animator;
     Player player;
     GameObject owner;
     [SerializeField] float damage;
@@ -43,7 +45,8 @@ public class LaserProjectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && tickTimer >= attackTick)
         {
-            player.Status.Hit(damage, knockback);
+            float randDamage = Random.Range(damage - 5f, damage + 5f);
+            player.Status.Hit(randDamage, knockback);
             tickTimer = 0f;
         }
         tickTimer += Time.deltaTime;

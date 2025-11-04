@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// 적 스폰 담당
+/// </summary>
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Setting")]
@@ -44,6 +47,9 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 최초로는 적 인스턴스 생성, 이후로는 활성화로 리스폰
+    /// </summary>
     private void SpawnEnemy()
     {
         if(enemyPrefab == null)

@@ -2,6 +2,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// ¾À ÀÌµ¿¿ë Æ÷Å»
+/// </summary>
 public class Portal : MonoBehaviour
 {
     [SerializeField] SceneType nextScene;

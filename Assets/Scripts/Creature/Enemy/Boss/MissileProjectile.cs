@@ -7,7 +7,7 @@ public class MissileProjectile : MonoBehaviour
 
     [SerializeField] float speed = 10f;
     [SerializeField] float lifeTime = 2f;
-    [SerializeField] float damage = 15f;
+    [SerializeField] float damage = 50f;
     [SerializeField] LayerMask targetMask;
 
     Transform parentTransform;
@@ -70,7 +70,8 @@ public class MissileProjectile : MonoBehaviour
         {
             Debug.Log("Player Hit");
             var pc = player.Status;
-            pc.Hit(damage, pc.knockBack);
+            float randDamage = Random.Range(damage - 5f, damage + 5f);
+            pc.Hit(randDamage, pc.knockBack);
         }
     }
 }

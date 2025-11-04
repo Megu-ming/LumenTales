@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95fc6a6bddfdae649963f8b637620a24, type: 3}
+  m_Name: LV2_Gauntlets
+  m_EditorClassIdentifier: 
+  itemName: "\uC601\uC6C5\uC758 \uC7A5\uAC11"
+  icon: {fileID: -3548316171075815120, guid: ecbb56fef5785454db885b6fa197a8d4, type: 3}
+  prefab: {fileID: 5703064305491636780, guid: 1f0435bf836b7f3409514ef3e7ae8aef, type: 3}
+  tooltip: "\uC601\uC6C5\uC5D0\uAC8C \uD558\uC0AC\uB418\uB294 \uC7A5\uAC11"
+  price: 2000
+  slot: 4
+  defenseValue: 10
+  attackValue: 0
+  isArmor: 1
+  strength: 0
+  agility: 0
+  luck: 3

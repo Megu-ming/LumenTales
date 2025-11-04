@@ -112,6 +112,9 @@ public class BossController : CreatureController
 		return targetDistance;		
 	}
 
+	/// <summary>
+	/// 플레이어에게 이동하는 함수
+	/// </summary>
 	public void MoveToPlayer()
 	{
 		if (!target) return;
@@ -217,7 +220,7 @@ public class BossController : CreatureController
 		{
 			t += Time.deltaTime;
 			onTick?.Invoke(Mathf.Min(t, cooldown));
-			yield return null; // 매 프레임 업데이트(게이지용)
+			yield return null;
 		}
 		onTick?.Invoke(cooldown);
 		onReady?.Invoke();
@@ -225,7 +228,7 @@ public class BossController : CreatureController
 
 	public void OnHit(float damage, Vector2 knockback)
 	{
-		// TODO: 경직/패턴 캔슬/분노 게이지 등 연동 지점
+		
 	}
 
     public override void OnDead()
