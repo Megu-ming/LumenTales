@@ -35,6 +35,8 @@ public class StoreUI : UIBase
             this.inputFieldModal = inputFieldModal;
             currentData = data;
 
+            Vector2 contentSize = new Vector2(slotParent.sizeDelta.x, 0);
+
             if (currentData is not null)
             {
                 int count = currentData.items.Length;
@@ -45,11 +47,13 @@ public class StoreUI : UIBase
                     slot.SetItem(data.items[i]);
 
                     storeSlots.Add(slot);
+                    
+                    contentSize.y += slot.GetComponent<RectTransform>().sizeDelta.y;
+                    contentSize.y += 3f;
                 }
 
                 // slotParent Height 슬롯 높이만큼 더해줘야 드래그나 마우스 휠 돌렸을 때 상점 잘 작동함
-                Vector2 size = slotParent.sizeDelta;
-                
+                slotParent.sizeDelta = contentSize;
             }
             isInit = true;
         }
