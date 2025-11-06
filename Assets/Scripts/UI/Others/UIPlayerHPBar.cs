@@ -11,6 +11,6 @@ public class UIPlayerHPBar : MonoBehaviour
     {
         float fillAmount = current / max;
         hpBar.fillAmount = fillAmount;
-        hpText.text = $"{current} / {max}";
+        hpText.text = $"{current:N0} / {max:N0}";
     }
 }
