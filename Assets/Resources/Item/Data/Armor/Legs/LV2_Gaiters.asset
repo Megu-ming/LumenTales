@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 2505823910624998816, guid: ecbb56fef5785454db885b6fa197a8d4, type: 3}
   prefab: {fileID: 5703064305491636780, guid: 1f0435bf836b7f3409514ef3e7ae8aef, type: 3}
   tooltip: "\uC601\uC6C5\uC5D0\uAC8C \uD558\uC0AC\uB418\uB294 \uAC01\uBC18"
-  price: 100
+  price: 2000
   slot: 3
   defenseValue: 5
   attackValue: 0

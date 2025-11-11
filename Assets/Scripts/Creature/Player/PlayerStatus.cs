@@ -62,9 +62,9 @@ public class PlayerStatus : Status
 
     [Header("투자 포인트 능력치")]
     [SerializeField] private float spAddedStr = 0;      // 스탯포인트로 추가된 힘
-    public float SpAddedStr { get => spAddedStr; set => spAddedStr = value; }
+    public float SpAddedStr { get => spAddedStr; set { spAddedStr = value; HandleHpChanged?.Invoke(CurrentHealth, FinalMaxHealth); } }
     [SerializeField] private float spAddedAgi = 0;      // 스탯포인트로 추가된 민첩
-    public float SpAddedAgi { get => spAddedAgi; set => spAddedAgi = value; }
+    public float SpAddedAgi { get => spAddedAgi; set { spAddedAgi = value; HandleHpChanged?.Invoke(CurrentHealth, FinalMaxHealth); } }
 
     // ------------------------- 최종 능력치 -------------------------
     /// <summary>

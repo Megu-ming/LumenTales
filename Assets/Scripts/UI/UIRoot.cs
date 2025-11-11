@@ -243,7 +243,7 @@ public class UIRoot : MonoBehaviour
 
         tooltip.SetupTooltip(name, desc, price, atk, isAtk, isDef);
 
-        tooltip.transform.position = screenPos + new Vector2(70, -70);
+        tooltip.transform.position = screenPos + new Vector2(30, -30);
 
         float pivotX = tooltipRect.anchoredPosition.x + tooltipRect.sizeDelta.x > canvasRect.sizeDelta.x ? 1f : 0f; // anchor 11
         float pivotY = tooltipRect.anchoredPosition.y - tooltipRect.sizeDelta.y < -canvasRect.sizeDelta.y ? 0f : 1f; // anchor 00
