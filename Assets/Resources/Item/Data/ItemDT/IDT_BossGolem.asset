@@ -12,5 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3bdf24ae08c934db0f94d15af24ef5, type: 3}
   m_Name: IDT_BossGolem
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - item: {fileID: 11400000, guid: 2c59a121c2fb9f94ea05557c1148b174, type: 2}
+    weight: 100
+  - item: {fileID: 11400000, guid: 2722c1dab782e004191ce84d6b03c8c6, type: 2}
+    weight: 70
+  - item: {fileID: 11400000, guid: 9f00be407ff635543811c941d04346b4, type: 2}
+    weight: 70
+  - item: {fileID: 11400000, guid: b745eafe680e9614a88c2303ff4cdb1b, type: 2}
+    weight: 2
+  - item: {fileID: 11400000, guid: 48b7b659521d2ef458522ecba3b1e9b3, type: 2}
+    weight: 2
+  - item: {fileID: 11400000, guid: 9690138ac465cbd4789cbc3b0a8130f2, type: 2}
+    weight: 2
+  - item: {fileID: 11400000, guid: e291ae1bd3776684f929581fb6380b5b, type: 2}
+    weight: 2
+  - item: {fileID: 11400000, guid: f39ae930be295354eabef9cdb74eb9dc, type: 2}
+    weight: 2
+  - item: {fileID: 11400000, guid: 335413ddbd8507e4fa9ab5755afa1ba6, type: 2}
+    weight: 1
   weightMax: 100

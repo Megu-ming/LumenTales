@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIEquipmentSlot : MonoBehaviour, 
     IPointerEnterHandler,IPointerClickHandler, IPointerMoveHandler, IPointerExitHandler
 {
+    UIRoot uiRoot;
     UIEquipment eqUI => GetComponentInParent<UIEquipment>();
     public EquipmentSlotType slotType;
     
@@ -19,8 +20,10 @@ public class UIEquipmentSlot : MonoBehaviour,
     private void ShowHighLight() => highLightGo.SetActive(true);
     private void HideHighLight() => highLightGo.SetActive(false);
 
-    private void Awake()
+    public void Init(UIRoot uiRoot)
     {
+        this.uiRoot = uiRoot;
+
         highLightGo = borderImage.gameObject;
         HideHighLight();
     }
@@ -56,7 +59,6 @@ public class UIEquipmentSlot : MonoBehaviour,
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        if(TooltipService.I == null) return;
         if(!HasItem) return;
 
         TryShowTooltip(eventData.position);
@@ -64,23 +66,23 @@ public class UIEquipmentSlot : MonoBehaviour,
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        TooltipService.I?.Hide();
+        uiRoot.Hide();
         HideHighLight();
     }
 
     void TryShowTooltip(Vector2 screenPos)
     {
-        if (!HasItem) { TooltipService.I?.Hide(); return; }
-        if (!eqUI) { TooltipService.I?.Hide(); return; }
-        if(!eqUI.TryGetEquipped(slotType, out var equipped)) { TooltipService.I?.Hide(); return; }
+        if (!HasItem) { uiRoot.Hide(); return; }
+        if (!eqUI) { uiRoot.Hide(); return; }
+        if(!eqUI.TryGetEquipped(slotType, out var equipped)) { uiRoot.Hide(); return; }
 
         var data = equipped.itemData;
         if (data is EquipmentItemData eqData)
         {
             int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
-            TooltipService.I?.Show
+            uiRoot.Show
                 (data.ItemName, data.Tooltip, data.Price, screenPos, eqVal, !eqData.isArmor, eqData.isArmor);
         }
-        else { TooltipService.I?.Hide(); return; }
+        else { uiRoot.Hide(); return; }
     }
 }

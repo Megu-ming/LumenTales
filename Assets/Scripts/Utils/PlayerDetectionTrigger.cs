@@ -2,23 +2,30 @@ using UnityEngine;
 
 public class PlayerDetectionTrigger : MonoBehaviour
 {
-    [SerializeField] PlayerController pc;
-    [SerializeField] NPCConverstionHandler npcCH;
-    [SerializeField] GameObject interactPanel;
+    [SerializeField] UIRoot uiRoot;
+    PlayerController pc;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Player")) return;
-        
-        interactPanel.SetActive(true);
-        pc.OnInteractionEvent += npcCH.ConversationEvent;
+        if (!collision.TryGetComponent<PlayerController>(out pc)) return;
+
+        if(uiRoot != null && uiRoot.interactPanel != null)
+            uiRoot.interactPanel.SetActive(true);
+        if (TryGetComponent<InteractiveObj>(out var obj))
+        {
+            pc.OnInteractionEvent += obj.OnInteraction;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Player")) return;
+        if (!collision.TryGetComponent<PlayerController>(out pc)) return;
 
-        interactPanel.SetActive(false);
-        pc.OnInteractionEvent -= npcCH.ConversationEvent;
+        if (uiRoot != null && uiRoot.interactPanel != null)
+            uiRoot.interactPanel.SetActive(false);
+        if (TryGetComponent<InteractiveObj>(out var obj))
+        {
+            pc.OnInteractionEvent -= obj.OnInteraction;
+        }
     }
 }

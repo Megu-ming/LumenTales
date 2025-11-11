@@ -7,11 +7,13 @@ using UnityEngine.UI;
 
 public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler
 {
+    UIRoot uiRoot;
+    InventoryController inven;
+
     public Image itemImage;
     [SerializeField] Image borderImage;
     [SerializeField] TextMeshProUGUI amountText;
 
-    private UIInventory inventoryUI;
     public int Index { get; private set; }
     public bool HasItem => itemImage.sprite != null;
     public RectTransform SlotRect => slotRect;
@@ -31,8 +33,11 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
 
     public void SetSlotIndex(int index) =>Index = index;
 
-    public void Awake()
+    public void Init(UIRoot uiRoot, InventoryController inven)
     {
+        this.uiRoot = uiRoot;
+        this.inven = inven;
+
         InitComponent();
         HideIcon();
         HideHighLight();
@@ -45,8 +50,6 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
 
     private void InitComponent()
     {
-        inventoryUI = GetComponentInParent<UIInventory>();
-
         slotRect = GetComponent<RectTransform>();
         iconRect = itemImage.GetComponent<RectTransform>();
         iconGo = itemImage.gameObject;
@@ -79,7 +82,7 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
     public void SetAmount(int amount)
     {
         if (amount > 1) amountText.text = amount.ToString();
-        else amountText.text = string.Empty;
+        else amountText.text = "";
     }
 
     public void RemoveItem()
@@ -90,31 +93,27 @@ public class UIInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerMove
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        //if (!HasItem) return;
-        if (!HasItem) return;
         ShowHighLight();
     }
 
     void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
     {
         // ToolTip UI
-        if (TooltipService.I == null) return;
-        if (!HasItem) { TooltipService.I?.Hide(); return; }
-        if (inventoryUI == null) { TooltipService.I?.Hide(); return; }
-        var data = inventoryUI.inventory.GetItemData(Index);
+        if (!HasItem) { uiRoot.Hide(); return; }
+        var data = inven.GetItemData(Index);
         if (data is EquipmentItemData eqData)
         {
             int eqVal = eqData.isArmor ? eqData.defenseValue : eqData.attackValue;
-            TooltipService.I?.Show
+            uiRoot.Show
                 (data.ItemName, data.Tooltip, data.Price, eventData.position, eqVal, !eqData.isArmor, eqData.isArmor);
         }
         else
-            TooltipService.I?.Show(data.ItemName, data.Tooltip, data.Price, eventData.position);
+            uiRoot.Show(data.ItemName, data.Tooltip, data.Price, eventData.position);
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        TooltipService.I?.Hide();
+        uiRoot.Hide();
         HideHighLight();
     }
 }

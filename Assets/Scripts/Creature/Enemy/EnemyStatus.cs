@@ -13,10 +13,8 @@ public class EnemyStatus : Status
 
     public int expAmount = 0;
 
-    protected override void Awake()
+    public void Init(EnemyData data)
     {
-        base.Awake();
-
         if (barPrefab != null)
         {
             canvas = GameObject.Find("GameHUD");
@@ -24,6 +22,15 @@ public class EnemyStatus : Status
             hpBarInstance = Instantiate(barPrefab, canvas.transform);
             hpBar = hpBarInstance.GetComponent<RectTransform>();
         }
+
+        Type = data.enemyType;
+        BaseMaxHealth = data.maxHp;
+        BaseAtkDamage = data.damage;
+        knockBack = data.knockBack;
+        expAmount = data.expAmount;
+
+        IsAlive = true;
+        CurrentHealth = BaseMaxHealth;
     }
 
     protected override void Update()
@@ -59,6 +66,7 @@ public class EnemyStatus : Status
         base.OnDied();
         if (hpBarInstance != null)
             hpBarInstance.SetActive(false);
-        GameManager.Instance.AddExp(expAmount);
+        if (GameManager.Instance != null)
+            GameManager.Instance.CurrentScene.AddExp(expAmount);
     }
 }

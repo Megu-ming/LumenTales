@@ -100,12 +100,8 @@ public class EnemyController : CreatureController
             gameObject.name = enemyData.enemyName;
             moveSpeed = enemyData.moveSpeed;
             walkStopRate = enemyData.walkStopRate;
-            status.Type = enemyData.enemyType;
-            status.BaseMaxHealth = enemyData.maxHp;
-            status.CurrentHealth = enemyData.maxHp;
-            status.BaseAtkDamage = enemyData.damage;
-            status.knockBack = enemyData.knockBack;
-            status.expAmount = enemyData.expAmount;
+
+            status.Init(enemyData);
         }
         else
         {
@@ -118,9 +114,11 @@ public class EnemyController : CreatureController
         rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
     }
 
-    public void OnDead()
-    {
+    public override void OnDead()
+    { 
         itemDropHelper.DropItem(transform.position, () => { gameObject.SetActive(false); });
+
+        // 퀘스트 관련 이벤트
     }
 
     #region AIFunction

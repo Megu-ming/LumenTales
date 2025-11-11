@@ -305,18 +305,20 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   level: 1
-  damage: 0
+  baseAtkDamage: 0
   knockBack: {x: 0, y: 0}
-  defense: 0
-  maxHealth: 0
-  health: 0
+  baseDefence: 0
+  baseMaxHealth: 0
+  currentHealth: 0
   isAlive: 0
   isInvincible: 0
   invincibilityTime: 0.25
+  animator: {fileID: 8512580509841165991}
   hpBar: {fileID: 0}
   barPrefab: {fileID: 3817013291082002495, guid: 51617cc5ae3e477409ccf6c68d81f7bd, type: 3}
   canvas: {fileID: 0}
   barHeight: 0.21
+  expAmount: 0
 --- !u!1 &5786434029583975151
 GameObject:
   m_ObjectHideFlags: 0

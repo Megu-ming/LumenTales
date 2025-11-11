@@ -7,6 +7,7 @@ internal class AnimationStrings
     internal static string isGrounded = "IsGrounded";
     internal static string isOnWall = "IsOnWall";
     internal static string isOnCeiling = "IsOnCeiling";
+    internal static string isAttack = "IsAttack";
     internal static string velY = "VelY";
     internal static string attack = "Attack";
     internal static string isAlive = "IsAlive";
@@ -14,4 +15,7 @@ internal class AnimationStrings
     internal static string hitTrigger = "Hit";
     internal static string lockVelocity = "LockVelocity";
     internal static string attackCooldown = "AttackCooldown";
+    internal static string isDash = "IsDash";
+    internal static string cooldownOn = "CoolTimeOn";
+
 }

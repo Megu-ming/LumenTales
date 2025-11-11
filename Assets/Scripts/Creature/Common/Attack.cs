@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// 모든 기본 공격 클래스
+/// </summary>
 public class Attack : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
@@ -9,13 +12,14 @@ public class Attack : MonoBehaviour
         float damage = myStatus.BaseAtkDamage;
         if(myStatus is PlayerStatus playerStatus)
         {
-            damage = playerStatus.FinalAtkDamage;
+            damage = playerStatus.FinalRandomDamage;
         }
         Vector2 knockBack = myStatus.knockBack;
 
         if (otherStatus != null)
         {
-            bool gotHit = otherStatus.Hit(damage, knockBack);
+            float randDamage = Random.Range(damage - 5f, damage + 5f);
+            bool gotHit = otherStatus.Hit(randDamage, knockBack);
 
             if (gotHit)
                 Debug.Log("Hit " + collision.name + " for " + damage);

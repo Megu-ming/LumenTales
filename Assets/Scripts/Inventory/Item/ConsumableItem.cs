@@ -11,7 +11,7 @@ public class ConsumableItem : CountableItem
         SetAmount(amount);
     }
 
-    public bool Use(InventoryController owner)
+    public bool Use(Player owner)
     {
         if(IsEmpty) return false;
         ConsumableData.ApplyEffect(owner);

@@ -8,9 +8,9 @@ using static Utils;
 public class UIEquipment : UIBase
 {
     [SerializeField] UIEquipmentSlot[] slots;
-    [SerializeField] InventoryController inventory;
-
-    [SerializeField] GameObject imageDummy;
+    [SerializeField] UICharacterInfo characterInfoUI;
+    [SerializeField] UIMovableHeader movableHeader;
+    InventoryController inventory;
     
     private readonly Dictionary<EquipmentSlotType, UIEquipmentSlot> map = new();
 
@@ -18,7 +18,6 @@ public class UIEquipment : UIBase
     private List<RaycastResult> rrList;
 
     private UIEquipmentSlot beginDragSlot;      // 드래그를 시작한 슬롯
-    private Transform beginDragIconTr;          // 해당 슬롯의 아이콘 트랜스폼
 
     private Vector2 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
     private Vector2 beginDragCursorPoint;       // 드래그 시작시 커서 위치
@@ -28,32 +27,50 @@ public class UIEquipment : UIBase
         base.Awake();
     }
 
-    private void Start()
+    private void Update()
     {
-        if (inventory == null) return;
+        characterInfoUI.Refresh();
+    }
 
+    public void Init(UIRoot uiRoot, Player player)
+    {
         map.Clear();
-        foreach(var s in slots)
+        foreach (var s in slots)
         {
-            if(s == null) continue;
+            if (s == null) continue;
+            s.Init(uiRoot);
             map[s.slotType] = s;
             s.Clear();
         }
 
-        inventory.OnEquippedChanged += HandleEquippedChanged;
+        this.uiRoot = uiRoot;
+        inventory = player.InventoryController;
 
-        foreach(var kv in inventory.GetEquippedItems())
+        inventory.OnEquippedChanged += HandleEquippedChanged;
+        inventory.OnEquipUIToggleRequest += Toggle;
+
+        foreach (var kv in inventory.GetEquippedItems())
         {
             if (map.TryGetValue(kv.Key, out var ui)) ui.SetIcon(kv.Value.itemData.Icon);
         }
 
         ped = new PointerEventData(EventSystem.current);
         rrList = new List<RaycastResult>(16);
+
+        var rect = GetComponent<RectTransform>();
+        characterInfoUI.Init(player);
+        movableHeader.Init(uiRoot, rect);
+
+        gameObject.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        if(inventory != null) inventory.OnEquippedChanged -= HandleEquippedChanged;
+        if(inventory != null) 
+        {
+            inventory.OnEquippedChanged -= HandleEquippedChanged;
+            inventory.OnEquipUIToggleRequest -= Toggle;
+        }
     }
 
     protected override void OnOpen()
@@ -70,8 +87,6 @@ public class UIEquipment : UIBase
         if(itemOrNull == null) ui.SetIcon(null);
         else ui.SetIcon(itemOrNull.itemData?.Icon);
     }
-
-    public void OnToggleEquipment() => Toggle();
 
     public void RequestUnequip(EquipmentSlotType slot) => inventory?.Unequip(slot);
 
@@ -99,13 +114,13 @@ public class UIEquipment : UIBase
             return;
         }
 
-        if(imageDummy && imageDummy.TryGetComponent<Image>(out Image img))
+        if(uiRoot.dummy && uiRoot.dummy.TryGetComponent<Image>(out Image img))
         {
             img.sprite = beginDragSlot.CurrentIcon;
             img.enabled = true;
             SetSlotIconInvisible(beginDragSlot, false);
-            imageDummy.transform.position = beginDragSlot.IconRect.position;
-            imageDummy.transform.SetAsLastSibling();
+            uiRoot.dummy.transform.position = beginDragSlot.IconRect.position;
+            uiRoot.dummy.transform.SetAsLastSibling();
         }
 
         beginDragIconPoint = beginDragSlot.IconRect.position;
@@ -118,10 +133,10 @@ public class UIEquipment : UIBase
         if (beginDragSlot == null) return;
         if (eventData.button != InputButton.Left) return;
 
-        if (imageDummy)
+        if (uiRoot.dummy)
         {
             Vector3 pos = beginDragIconPoint + (eventData.position - beginDragCursorPoint);
-            imageDummy.transform.position = pos;
+            uiRoot.dummy.transform.position = pos;
         }
     }
 
@@ -159,7 +174,7 @@ public class UIEquipment : UIBase
 
     private void EndDragCleanup()
     {
-        if (imageDummy && imageDummy.TryGetComponent<Image>(out var img))
+        if (uiRoot.dummy && uiRoot.dummy.TryGetComponent<Image>(out var img))
             img.enabled = false;
     }
 

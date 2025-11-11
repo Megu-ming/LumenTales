@@ -3,24 +3,25 @@ using UnityEngine.EventSystems;
 
 public class UIMovableHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    [SerializeField] RectTransform target;
+    RectTransform target;
+    UIRoot uiRoot;
 
     private Vector2 beginPos;
     private Vector2 moveBegin;
 
-    private void Awake()
+    public void Init(UIRoot uiRoot, RectTransform target)
     {
-        if (target == null)
-            target = transform.parent.GetComponent<RectTransform>();
+        this.target = target;
+        this.uiRoot = uiRoot;
     }
-
+    
     public void OnPointerDown(PointerEventData eventData)
     {
         beginPos = target.position;
         moveBegin = eventData.position;
 
         if (target && target.gameObject.TryGetComponent<UIBase>(out UIBase ui))
-            UIStackManager.Instance.BringToFront(ui);
+            uiRoot.BringToFront(ui);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -30,6 +31,4 @@ public class UIMovableHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
     }
 
     public void OnClickBtn() => target.gameObject.SetActive(false);
-
-
 }

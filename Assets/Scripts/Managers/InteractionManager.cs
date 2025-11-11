@@ -3,22 +3,16 @@ using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
 {
-    public static InteractionManager I { get; private set; }
-
-    [SerializeField] GameObject cam;
+    public GameObject cam;
 
     private float camSize;
     private Vector3 camOffset;
     float t = 5f;
 
-    private void Awake()
+    public bool ZoomIn()
     {
-        if (I && I != this) { Destroy(gameObject); return; }
-        I = this;
-    }
+        if (cam is null) cam = GameObject.Find("CMCam");
 
-    public bool ConversationStart()
-    {
         bool result = false;
         cam.TryGetComponent<CinemachineCamera>(out CinemachineCamera cineCam);
         cam.TryGetComponent<CinemachinePositionComposer>(out CinemachinePositionComposer cinePC);
@@ -38,8 +32,10 @@ public class InteractionManager : MonoBehaviour
         return result;
     }
 
-    public bool ConversationEnd()
+    public bool ZoomOut()
     {
+        if (cam is null) cam = GameObject.Find("CMCam");
+
         cam.TryGetComponent<CinemachineCamera>(out CinemachineCamera cineCam);
         cam.TryGetComponent<CinemachinePositionComposer>(out CinemachinePositionComposer cinePC);
 

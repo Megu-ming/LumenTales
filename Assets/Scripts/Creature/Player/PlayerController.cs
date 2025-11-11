@@ -1,22 +1,45 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : CreatureController
 {
+    Player player;
+    [Header("Skills")]
+    [SerializeField] SkillBase skill;
+
     #region MovementVariables
     [Header("Movement")]
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float sprintMul = 1.2f;
-    [SerializeField] private bool _isMoving = false;
+    [SerializeField] private bool isMoving = false;
+    public float moveSpeed;
+    public float CurrentSpeed
+    {
+        get
+        {
+            if (isDash) return moveSpeed;
+
+            if (!CanMove) return 0f;
+            if (!IsMoving) return 0f;
+
+            return IsSprint ? moveSpeed * sprintMul : moveSpeed;
+        }
+    }
+    private bool isDash;
+    public bool IsDash
+    {
+        get { return isDash; }
+        set { isDash = value; animator.SetBool(AnimationStrings.isDash, value); }
+    }
+
     public bool IsMoving { 
         get 
-        { return _isMoving; } 
+        { return isMoving; } 
         set
         {
-            _isMoving = value;
+            isMoving = value;
             animator.SetBool(AnimationStrings.move, value);
         }
     }
@@ -29,23 +52,6 @@ public class PlayerController : CreatureController
         {
             _isSprint = value;
             animator.SetBool(AnimationStrings.sprint, value);
-        }
-    }
-     
-    public float CurrentSpeed
-    {
-        get
-        {
-            if (CanMove)
-            {
-                if (IsMoving)
-                {
-                    if (IsSprint) return GameManager.Instance.GetStatus().MoveSpeed * sprintMul;
-                    else return GameManager.Instance.GetStatus().MoveSpeed;
-                }
-                else return 0;
-            }
-            else return 0;
         }
     }
 
@@ -86,31 +92,35 @@ public class PlayerController : CreatureController
 
     private Vector2 moveInput;
     private bool isGrounded;
-    PlayerStatus status;
+
     public bool IsGrounded 
     { 
         get { return isGrounded; }
         set { animator.SetBool(AnimationStrings.isGrounded, value); }
     }
 
+    public bool IsAttack
+    {
+        get { return animator.GetBool(AnimationStrings.isAttack); }
+    }
+
     public event Action OnInteractionEvent;
     public bool isConversation = false;
+
+    // Dash CoolTime
+    public float dashCooltime;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        status = GetComponent<PlayerStatus>();
         rb.freezeRotation = true;
     }
 
-    private void OnEnable()
+    public void Init(Player player)
     {
-        NPCConverstionHandler.OnConversationToggle += SetConversationsState;
-    }
-    private void OnDisable()
-    {
-        NPCConverstionHandler.OnConversationToggle -= SetConversationsState;
+        this.player = player;
+        skill.Init(player);
     }
 
     private void Update()
@@ -135,33 +145,57 @@ public class PlayerController : CreatureController
 
     private void FixedUpdate()
     {
-        if(!status.LockVelocity)
-            rb.linearVelocity = new Vector2(moveInput.x * CurrentSpeed, rb.linearVelocityY);
+        // 이동 잠금: 대시가 아닐 때만 잠금 적용
+        if (!CanMove && !isDash)
+        {
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocityY);
+            return;
+        }
+
+        float xVel;
+
+        if (isDash)
+        {
+            // 대시 중: 입력 무시, 바라보는 방향 × CurrentSpeed
+            xVel = (IsFacingRight ? 1f : -1f) * CurrentSpeed;
+            rb.linearVelocity = new Vector2(xVel, 0);
+        }
+        else
+        {
+            // 일반 이동: 입력 × CurrentSpeed (스프린트/정지/잠금은 CurrentSpeed 내부에서 처리)
+            xVel = moveInput.x * CurrentSpeed;
+            rb.linearVelocity = new Vector2(xVel, rb.linearVelocityY);
+        }
+    }
+
+    public override void OnDead()
+    {
+        
     }
 
     #region InputFunction
     public void OnMove(InputAction.CallbackContext context)
     {
         if (isConversation) return;
+
+        if (isDash) return;
+
         moveInput = context.ReadValue<Vector2>();
-        if(IsAlive)
+        if(IsAlive || !IsAttack)
         {
-            IsMoving = moveInput != Vector2.zero;
+            IsMoving = Mathf.Abs(moveInput.x) > 0;
             SetFacingDirection(moveInput);
         }
         else IsMoving = false;
 
-        if (moveInput.x > 0)
-            moveInput.x = 1f;
-        else if (moveInput.x < 0)
-            moveInput.x = -1f;
-        else
-            moveInput.x = 0f;
+        if (moveInput.x > 0) moveInput.x = 1f;
+        else if (moveInput.x < 0) moveInput.x = -1f;
+        else moveInput.x = 0f;
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (isConversation) return;
+        if (isConversation || isDash) return;
         if (context.performed && jumpCount > 0 && CanMove)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
@@ -181,10 +215,22 @@ public class PlayerController : CreatureController
             IsSprint = false;
     }
 
-    public void OnAttack()
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (isConversation || isDash) return;
+        animator.SetTrigger(AnimationStrings.attack);
+    }
+
+    public void OnEquipmentToggle()
     {
         if (isConversation) return;
-        animator.SetTrigger(AnimationStrings.attack);
+        player.InventoryController?.RequestToggleEquipUI();
+    }
+
+    public void OnInvenUIToggle()
+    {
+        if (isConversation) return;
+        player.InventoryController?.RequestToggleInvenUI();
     }
 
     public void OnInteract(InputAction.CallbackContext context)
@@ -195,7 +241,7 @@ public class PlayerController : CreatureController
         }
     }
 
-    public void OnHit(int damage, Vector2 knockback)
+    public void OnHit(float damage, Vector2 knockback)
     {
         rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocityY + knockback.y);
     }
@@ -215,6 +261,11 @@ public class PlayerController : CreatureController
             IsFacingRight = false;
         }
 
+    }
+
+    public void SetGravity(float val)
+    {
+        rb.gravityScale = val;
     }
 
     public void CallInteractEvent() => OnInteractionEvent?.Invoke();

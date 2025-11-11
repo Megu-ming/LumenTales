@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
+    Player player;
     public int Capacity { get; private set; }
     [SerializeField, Range(10, 30)] int initialCapacity = 30;
     [SerializeField, Range(0, 30)] int maxInventorySize = 30;
@@ -18,13 +21,14 @@ public class InventoryController : MonoBehaviour
     public int Gold { get; private set; }
     public event Action<int> OnGoldChanged;
 
-    [SerializeField] PlayerStatus playerStatus;
-
     public event Action<int, ItemData> OnSlotUpdated;
     public event Action<int, int> OnSlotTextUpdated;
+    public event Action OnInvenUIToggleRequest;
+    public event Action OnEquipUIToggleRequest;
 
-    private void Awake()
+    public void Init(Player player)
     {
+        this.player = player;
         items = new Item[maxInventorySize];
         Capacity = initialCapacity;
 
@@ -43,6 +47,9 @@ public class InventoryController : MonoBehaviour
     }
 
     #region Public Methods
+    public void RequestToggleInvenUI() => OnInvenUIToggleRequest?.Invoke();
+    public void RequestToggleEquipUI() => OnEquipUIToggleRequest?.Invoke();
+
     public bool HasItem(int index) => IsValidIndex(index) && items[index] != null;
     public bool IsCountableItem(int index) => HasItem(index) && items[index] is CountableItem;
 
@@ -53,6 +60,22 @@ public class InventoryController : MonoBehaviour
     {
         if (!IsCountableItem(index)) return 0;
         return ((CountableItem)items[index]).Amount;
+    }
+
+    public int GetItemCount(ItemData itemData)
+    {
+        if (itemData == null) return 0;
+        int count = 0;
+        for (int i = 0; i < Capacity; i++)
+        {
+            if (items[i] == null) continue;
+            if (items[i].itemData == itemData)
+            {
+                if (items[i] is CountableItem ci) count += ci.Amount;
+                else count += 1;
+            }
+        }
+        return count;
     }
 
     public IReadOnlyDictionary<EquipmentSlotType, EquipmentItem> GetEquippedItems() => equipped;
@@ -79,7 +102,7 @@ public class InventoryController : MonoBehaviour
             items[index] = null;
             UpdateSlot(index);
             equipped[tartgetType] = eq;
-            playerStatus.AddArmorAddedStat(eq.EquipmentData);
+            player.Status.AddArmorAddedStat(eq.EquipmentData);
             OnEquippedChanged?.Invoke(tartgetType, eq);
         }
     }
@@ -101,7 +124,7 @@ public class InventoryController : MonoBehaviour
         items[empty] = current;
         UpdateSlot(empty);
         equipped[slot] = null;
-        playerStatus.RemoveArmorAddedStat(current.EquipmentData);
+        player.Status.RemoveArmorAddedStat(current.EquipmentData);
         OnEquippedChanged?.Invoke(slot, null);
     }
 
@@ -150,7 +173,10 @@ public class InventoryController : MonoBehaviour
                 if(slot == -1) break;
 
                 int put = Mathf.Min(remain, ((CountableItemData)itemData).MaxAmount);
-                items[slot] = new CountableItem((CountableItemData)itemData, put);
+                if(itemData is ConsumableItemData)
+                    items[slot] = new ConsumableItem((ConsumableItemData)itemData, put);
+                else
+                    items[slot] = new CountableItem((CountableItemData)itemData, put);
                 UpdateSlot(slot);
                 remain -= put;
             }
@@ -209,7 +235,7 @@ public class InventoryController : MonoBehaviour
 
         if (items[index] is ConsumableItem con)
         {
-            bool used = con.Use(this);
+            bool used = con.Use(player);
             if (used)
             {
                 if(con.IsEmpty) items[index] = null;
@@ -219,6 +245,46 @@ public class InventoryController : MonoBehaviour
         else if (items[index] is EquipmentItem eq)
         {
             ToggleEquip(index, eq);
+        }
+    }
+
+    public void BuyItem(ItemData data, int amount = 1)
+    {
+        if (data.Price * amount <= Gold)
+        {
+            SpendGold(data.Price * amount);
+            Add(data, amount);
+        }
+        else Debug.Log("Not enough Gold");
+    }
+
+    public void SellItem(int index, int amount)
+    {
+        if(IsValidIndex(index) && items[index].itemData != null)
+        {
+            if (items[index] is CountableItem)
+            {
+                var ci = (CountableItem)items[index];
+                int totalGold;
+                if (amount >= ci.Amount)
+                {
+                    totalGold = ci.Amount * ci.itemData.Price;
+                    AddGold(totalGold);
+                }
+                else
+                {
+                    ci.SetAmount(ci.Amount - amount);
+                    OnSlotTextUpdated?.Invoke(index, ci.Amount);
+                    totalGold = amount * ci.itemData.Price;
+                    AddGold(totalGold);
+
+                    return;
+                }
+            }
+            else
+                AddGold(items[index].itemData.Price);
+
+            Remove(index);
         }
     }
     #endregion
@@ -237,11 +303,13 @@ public class InventoryController : MonoBehaviour
                 Debug.LogWarning("No empty slot to unequip current armor.");
                 return;
             }
-            items[empty] = current;
-
-            // armoradded스탯에서 current의 스탯만큼 제거
-            playerStatus.RemoveArmorAddedStat(current.EquipmentData);
-            UpdateSlot(empty);
+            if (current != null)
+            {
+                items[empty] = current;
+                // armoradded스탯에서 current의 스탯만큼 제거
+                player.Status.RemoveArmorAddedStat(current.EquipmentData);
+                UpdateSlot(empty);
+            }
         }
 
         // 현재 슬롯의 장비를 장착 목록으로 이동
@@ -250,7 +318,7 @@ public class InventoryController : MonoBehaviour
         UpdateSlot(index);
         OnEquippedChanged?.Invoke(slot, eq);
         // armoradded스탯에 eq의 스탯만큼 추가
-        playerStatus.AddArmorAddedStat(eq.EquipmentData);
+        player.Status.AddArmorAddedStat(eq.EquipmentData);
         Debug.Log($"Equipped {eq.itemData.ItemName} to {slot}");
     }
     
@@ -268,7 +336,11 @@ public class InventoryController : MonoBehaviour
 
         OnSlotUpdated?.Invoke(index, item?.itemData);
         if (item is CountableItem countableItem)
-            OnSlotTextUpdated?.Invoke(index, countableItem.Amount);
+        {
+            if(OnSlotTextUpdated is not null)
+                OnSlotTextUpdated?.Invoke(index, countableItem.Amount);
+            // 아직 등록안됐으면 직접 호출
+        }
         if(item is EquipmentItem eqItem)
             OnSlotTextUpdated?.Invoke(index, 1);
     }
@@ -284,16 +356,108 @@ public class InventoryController : MonoBehaviour
         return -1; // 빈 슬롯 없음
     }
 
-    private void RefreshAllSlots()
+    public void RefreshAllSlots()
     {
         for (int i = 0; i < Capacity; i++) UpdateSlot(i);
     }
 
     private void RaiseGoldChanged() => OnGoldChanged?.Invoke(Gold);
 
-    private void RaiseAmount(CountableItem ci, int amount =1)
+    public List<InventoryItemEntry> GetInvenSnapshot()
     {
-        ci.Amount += amount;
+        var entry = new List<InventoryItemEntry>();
+        for(int i =0;i<Capacity;i++)
+        {
+            if (items[i] == null) continue;
+
+            var item = new InventoryItemEntry();
+            if (items[i] is CountableItem ci)
+            {
+                item.slotIndex = i;
+                item.itemName = ci.itemData.ItemName;
+                item.amount = ci.Amount;
+            }
+            else 
+            {
+                item.slotIndex = i;
+                item.itemName = items[i].itemData.ItemName;
+
+            }
+            entry.Add(item);
+        }
+        return entry;
+    }
+
+    public List<EquippedEntry> GetEquipSnapshot()
+    {
+        var entry = new List<EquippedEntry>();
+
+        foreach(var kvp in equipped)
+        {
+            if (kvp.Value == null) continue;
+
+            var item = new EquippedEntry
+            {
+                slotType = kvp.Key,
+                itemName = kvp.Value.itemData.ItemName
+            };
+
+            entry.Add(item);
+        }
+
+        return entry;
+    }
+
+    public void LoadFromSnapshot(InventorySnapshot snap, IItemResolver resolver)
+    {
+        if (snap == null || resolver == null) return;
+
+        for (int i = 0; i < Capacity; i++) items[i] = null;
+        equipped.Clear();
+
+        Gold = Mathf.Max(0, snap.gold);
+        RaiseGoldChanged();
+
+        foreach(var entry in snap.itemEntry)
+        {
+            if(entry == null) continue;
+            if (!IsValidIndex(entry.slotIndex)) continue;
+            if (!resolver.TryGetItemData(entry.itemName, out var data) || data == null) 
+            {
+                Debug.Log($"{entry.itemName}은 아이템 리졸버에 존재하지 않습니다.");
+                continue; 
+            }
+
+            if(data.IsStackable)
+            {
+                var cid = (CountableItemData)data;
+                int amount = Mathf.Max(1, entry.amount);
+                if(cid is ConsumableItemData)
+                    items[entry.slotIndex] = new ConsumableItem((ConsumableItemData)cid, Mathf.Min(amount, cid.MaxAmount));
+                else
+                    items[entry.slotIndex] = new CountableItem(cid, Mathf.Min(amount, cid.MaxAmount));
+            }
+            else
+            {
+                items[entry.slotIndex] = data.CreateItem();
+            }
+        }
+
+        foreach(var eq in snap.equippedEntry)
+        {
+            if(eq == null) continue;
+            if (!resolver.TryGetItemData(eq.itemName, out var data) || data == null) continue;
+            if (data is not EquipmentItemData eqData) continue;
+            
+            var newEq = new EquipmentItem(eqData);
+
+            equipped[newEq.EquipmentData.slot] = newEq;
+
+            player.Status.AddArmorAddedStat(eqData);
+            OnEquippedChanged?.Invoke(eqData.slot, newEq);
+        }
+
+        RefreshAllSlots();
     }
     #endregion
 }

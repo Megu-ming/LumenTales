@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,11 +12,11 @@ public class UIInventory : UIBase
     [Header("Options")]
     [SerializeField, ReadOnly] int inventoryCapacity;
     [SerializeField] UIInventorySlot slotPrefab;    // 아이템 슬롯 프리팹
+    [SerializeField] UIMovableHeader movableHeader;
     [SerializeField] RectTransform contentPanel;    // 스크롤뷰의 Content
-    [SerializeField] GameObject imageDummy;        // 드래그 중인 아이템 아이콘
     [SerializeField] TextMeshProUGUI goldText;      // 골드 텍스트
 
-    public InventoryController inventory;
+    InventoryController inventory;
 
     List<UIInventorySlot> slotUIList = new List<UIInventorySlot>();
     private PointerEventData ped;
@@ -27,20 +28,47 @@ public class UIInventory : UIBase
     private Vector3 beginDragIconPoint;         // 드래그 시작시 아이콘 위치
     private Vector3 beginDragCursorPoint;       // 드래그 시작시 커서 위치
 
-    protected override void Awake()
-    {
-        base.Awake();
+    public bool isAttachedToStore = false;
 
-        if (inventory == null) return;
-        Init();
-        InitSlot();
+    public void Init(InventoryController inven, UIRoot uiRoot)
+    {
+        inventory = inven;
+        this.uiRoot = uiRoot;
+        var rect = GetComponent<RectTransform>();
+        movableHeader.Init(uiRoot, rect);
+
+        ped = new PointerEventData(EventSystem.current);
+        rrList = new List<RaycastResult>(10);
+
+        inventoryCapacity = inventory.Capacity;
+
+        for (int i = 0; i < inventoryCapacity; i++)
+        {
+            int slotIndex = i;
+
+            var slot = Instantiate(slotPrefab, contentPanel);
+            slot.Init(uiRoot, inven);
+            slot.gameObject.SetActive(true);
+            slot.name = $"Slot[{slotIndex}]";
+            slot.SetSlotIndex(slotIndex);
+            slotUIList.Add(slot);
+        }
+
         UpdateGoldText(inventory.Gold);
+
         inventory.OnGoldChanged += UpdateGoldText;
         inventory.OnSlotUpdated += HandleSlotUpdated;
         inventory.OnSlotTextUpdated += HandleSlotTextUpdated;
+        inventory.OnInvenUIToggleRequest += Toggle;
 
         for (int i = 0; i < inventory.Capacity; i++)
             HandleSlotUpdated(i, inventory.GetItemData(i));
+        gameObject.SetActive(false);
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
     }
 
     private void Update()
@@ -55,18 +83,20 @@ public class UIInventory : UIBase
             inventory.OnGoldChanged -= UpdateGoldText;
             inventory.OnSlotUpdated -= HandleSlotUpdated;
             inventory.OnSlotTextUpdated -= HandleSlotTextUpdated;
+            inventory.OnInvenUIToggleRequest -= Toggle;
         }
     }
 
     protected override void OnOpen()
     {
+        if (inventory is not null)
+            inventory.RefreshAllSlots();
     }
 
     protected override void OnClose()
     {
+        
     }
-
-    public void OnInventoryToggle() => Toggle();
 
     public void SetItemIcon(int index, Sprite icon)
     {
@@ -134,7 +164,7 @@ public class UIInventory : UIBase
     {
         base.OnDrag(eventData);
         if (beginDragSlot == null) return;
-        UIStackManager.Instance.BringToFront(this);
+        base.uiRoot.BringToFront(this);
         if (eventData.button == InputButton.Left)
         {
             if (beginDragIconTr)
@@ -155,7 +185,7 @@ public class UIInventory : UIBase
                 EndDrag();
 
                 SetSlotIconInvisible(beginDragSlot, true);
-                if (imageDummy) { imageDummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
+                if (base.uiRoot.dummy) { base.uiRoot.dummy.TryGetComponent<Image>(out Image img); img.enabled = false; }
 
                 beginDragSlot = null;
                 beginDragIconTr = null;
@@ -165,28 +195,7 @@ public class UIInventory : UIBase
     #endregion
 
     #region Private Methods
-    private void Init()
-    {
-        ped = new PointerEventData(EventSystem.current);
-        rrList = new List<RaycastResult>(10);
-
-        inventoryCapacity = inventory.Capacity;
-    }
-
-    private void InitSlot()
-    {
-        for (int i = 0; i < inventoryCapacity; i++)
-        {
-            int slotIndex = i;
-
-            var slot = Instantiate(slotPrefab, contentPanel);
-            slot.gameObject.SetActive(true);
-            slot.name = $"Slot[{slotIndex}]";
-            slot.SetSlotIndex(slotIndex);
-            slotUIList.Add(slot);
-        }
-    }
-
+    int sellingIndex;
     private void EndDrag()
     {
         var endDragSlot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
@@ -216,16 +225,33 @@ public class UIInventory : UIBase
 
         // 장비창 슬롯 위 드롭
         var eqSlot = RaycastAndGetComponent<UIEquipmentSlot>(rrList, ped);
-        if(eqSlot!=null) // 장비타입에 맞는 창인지도 확인해야함
+        if(eqSlot != null) // 장비타입에 맞는 창인지도 확인해야함
         {
             inventory.EquipFromInventory(beginDragSlot.Index, eqSlot.slotType);
             return;
         }
-        
-        // 버리기 구현
-        // TODO
 
-        // 드래그 시작 슬롯으로 복귀
+        // 상점 UI위 드롭하면 판매
+        var store = RaycastAndGetComponent<StoreSlotUI>(rrList, ped);
+        if(store != null)
+        {
+            // 모달 열기
+            var modal = base.uiRoot.inputFieldModal;
+            if(inventory.GetItemData(beginDragSlot.Index) is CountableItemData)
+            {
+                int amount = inventory.GetCurrentAmount(beginDragSlot.Index);
+                modal.maxAmount = amount;
+            }
+            else
+            {
+                modal.maxAmount = 1;
+            }
+            modal.owner = From.Inventory;
+            modal.Open();
+
+            sellingIndex = beginDragSlot.Index;
+            return;
+        }
     }
 
     private void TrySwapItems(UIInventorySlot from,  UIInventorySlot to)
@@ -235,6 +261,12 @@ public class UIInventory : UIBase
 
         from.SwapOrMoveIcon(to);
         inventory.Swap(from.Index, to.Index);
+    }
+
+    public void TrySellItem(bool value, int amount)
+    {
+        if (value is true)
+            inventory.SellItem(sellingIndex, amount);
     }
 
     private void TrySeparateAmount(int indexA, int indexB, int amount)
@@ -258,9 +290,9 @@ public class UIInventory : UIBase
     private void SetDummyFromSlot(UIInventorySlot slot, RectTransform rt)
     {
         var icon = slot?.itemImage;
-        var dummy = imageDummy?.GetComponent<Image>();
+        var dummy = base.uiRoot.dummy?.GetComponent<Image>();
         dummy.sprite = icon?.sprite;
-        var dummyRt = imageDummy?.GetComponent<RectTransform>();
+        var dummyRt = base.uiRoot.dummy?.GetComponent<RectTransform>();
         dummyRt = rt;
 
         dummy.enabled = true;
@@ -268,10 +300,10 @@ public class UIInventory : UIBase
 
     private void SetDummyPosition(Vector3 pos)
     {
-        if (imageDummy != null)
-        { 
-            imageDummy.transform.position = pos;
-            imageDummy.transform.SetAsLastSibling();
+        if (base.uiRoot.dummy != null)
+        {   
+            base.uiRoot.dummy.transform.position = pos;
+            base.uiRoot.dummy.transform.SetAsLastSibling();
         }
     }
 #endregion

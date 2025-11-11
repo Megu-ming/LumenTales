@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class UICharacterInfo : MonoBehaviour
 {
-    [SerializeField] PlayerStatus playerStatus;
     [SerializeField] TextMeshProUGUI levelText, atkText, defText, hpText, speedText, dropText;
-    [SerializeField] TextMeshProUGUI strText, dexText, lukText, spText;
+    [SerializeField] TextMeshProUGUI strText, dexText, spText;
+    Player player;
 
-    private void Awake()
+    public void Init(Player player)
     {
-        if(playerStatus == null)
-        {
-            playerStatus = GameManager.Instance.GetStatus();
-        }
+        this.player = player;
         Refresh();
 
         CharacterEvents.infoUIRefresh += Refresh;
@@ -21,50 +18,35 @@ public class UICharacterInfo : MonoBehaviour
 
     private void OnDestroy()
     {
-
         CharacterEvents.infoUIRefresh -= Refresh;
     }
 
     public void OnStrButton()
     {
-        if (playerStatus == null) return;
-        if(GameManager.Instance.GetStatusPoint() <= 0) return;
-        playerStatus.SpAddedStr++;
-        GameManager.Instance.UseStatusPoint();
+        if(GameManager.Instance.CurrentScene.StatusPoint <= 0) return;
+        player.Status.SpAddedStr++;
+        GameManager.Instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
     public void OnDexButton()
     {
-        if (playerStatus == null) return;
-        if (GameManager.Instance.GetStatusPoint() <= 0) return;
-        playerStatus.SpAddedAgi++;
-        GameManager.Instance.UseStatusPoint();
-        Refresh();
-    }
-
-    public void OnLuckButton()
-    {
-        if (playerStatus == null) return;
-        if (GameManager.Instance.GetStatusPoint() <= 0) return;
-        playerStatus.SpAddedLuk++;
-        GameManager.Instance.UseStatusPoint();
+        if (GameManager.Instance.CurrentScene.StatusPoint <= 0) return;
+        player.Status.SpAddedAgi++;
+        GameManager.Instance.CurrentScene.UseStatusPoint();
         Refresh();
     }
 
     public void Refresh()
     {
+        var playerStatus = player.Status;
         if (playerStatus == null) return;
         if (levelText)  levelText.text = $"{playerStatus.Level}";
-        if (atkText)    atkText.text = $"{(int)playerStatus.FinalAtkDamage}";
-        if (defText)    defText.text = $"{playerStatus.BaseDefense}";
-        if (hpText)     hpText.text = $"{playerStatus.BaseMaxHealth}";
-        if (speedText)  speedText.text = $"{playerStatus.MoveSpeed:F1}";
-        if (dropText)   dropText.text = $"{playerStatus.DropRate:P1}";
+        if (atkText)    atkText.text = $"{(int)playerStatus.FinalAttack}";
+        if (hpText)     hpText.text = $"{playerStatus.FinalMaxHealth}";
 
         if (strText)    strText.text = $"{playerStatus.Strength}";
         if (dexText)    dexText.text = $"{playerStatus.Agility}";
-        if (lukText)    lukText.text = $"{playerStatus.Luck}";
 
-        if (spText) spText.text = $"{GameManager.Instance.GetStatusPoint()}";
+        if (spText) spText.text = $"{GameManager.Instance?.CurrentScene.StatusPoint}";
     }
 }

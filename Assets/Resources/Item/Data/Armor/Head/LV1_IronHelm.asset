@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95fc6a6bddfdae649963f8b637620a24, type: 3}
   m_Name: LV1_IronHelm
   m_EditorClassIdentifier: 
-  itemName: Iron  helm
+  itemName: "\uCCA0 \uD5EC\uB984"
   icon: {fileID: -1128947775675819744, guid: ecbb56fef5785454db885b6fa197a8d4, type: 3}
   prefab: {fileID: 5703064305491636780, guid: 1f0435bf836b7f3409514ef3e7ae8aef, type: 3}
-  tooltip: basic iron helm
-  price: 500
+  tooltip: "\uB2E8\uB2E8\uD55C \uD22C\uAD6C\uC774\uB2E4"
+  price: 100
   slot: 1
   defenseValue: 5
   attackValue: 0

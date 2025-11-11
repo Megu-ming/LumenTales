@@ -15,9 +15,9 @@ MonoBehaviour:
   enemyName: Golem
   enemyType: 2
   damage: 10
-  knockBack: {x: 0, y: 0}
+  knockBack: {x: 0.5, y: 0.2}
   cooldown: 2
-  maxHp: 15
+  maxHp: 100
   isInvincible: 0
   invincibilityTime: 0
   moveSpeed: 1

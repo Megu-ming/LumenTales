@@ -1,4 +1,3 @@
-using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,36 +7,27 @@ public class Status : MonoBehaviour
     public UnityEvent<float, Vector2> damageableHit;
 
     [Header("상태")]
-    [SerializeField] int level = 1;
-    public int Level
+    [SerializeField] protected int level = 1;
+    public virtual int Level
     {
         get { return level; }
         set { level = Mathf.Max(1, value); }
     }
-    [SerializeField] private float baseAtkDamage;
-    public float BaseAtkDamage
+    [SerializeField] protected float baseAtkDamage;
+    public virtual float BaseAtkDamage
     {
         get { return baseAtkDamage; }
         set { baseAtkDamage = value; }
     }
-    public Vector2 knockBack = Vector2.zero;
-    [SerializeField] private float baseDefence;
-    public float BaseDefense
-    {
-        get { return baseDefence; }
-        set { baseDefence = value; }
-    }
-    [SerializeField] private float baseMaxHealth;
-    public float BaseMaxHealth
+
+    [SerializeField] protected float baseMaxHealth;
+    public virtual float BaseMaxHealth
     {
         get { return baseMaxHealth; }
-        set
-        {
-            baseMaxHealth = value;
-        }
+        set { baseMaxHealth = value; }
     }
-    [SerializeField] private float currentHealth;
-    public float CurrentHealth
+    [SerializeField] protected float currentHealth;
+    public virtual float CurrentHealth
     {
         get { return currentHealth; }
         set 
@@ -50,7 +40,10 @@ public class Status : MonoBehaviour
             }
         }
     }
-    [SerializeField] private bool isAlive;
+
+    public Vector2 knockBack = Vector2.zero;
+
+    [SerializeField] private bool isAlive = true;
     public bool IsAlive
     {
         get { return isAlive; }
@@ -70,20 +63,15 @@ public class Status : MonoBehaviour
     }
 
     [Header("무적시간")]
-    [SerializeField] private bool isInvincible = false;
+    [SerializeField] protected bool isInvincible = false;
+    public void SetInvincible(bool val) => isInvincible = val;
     [SerializeField] private float invincibilityTime = 0.25f;
+    public void SetInvincibleTime(float time) => invincibilityTime = time;
     private float timeSinceHit = 0f;
 
-    protected Animator animator;
+    [SerializeField] protected Animator animator;
 
-    protected virtual void Awake()
-    {
-        animator = GetComponentInChildren<Animator>();
-        if (animator == null)
-            Debug.LogWarning($"{gameObject.name}의 자식 오브젝트에 Animator 컴포넌트가 없습니다.");
-    }
-
-    protected virtual void Start()
+    public virtual void Init()
     {
         IsAlive = true;
     }
@@ -101,6 +89,12 @@ public class Status : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 피격 됐을 때 상대방에서 호출
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="knockback"></param>
+    /// <returns></returns>
     public virtual bool Hit(float damage, Vector2 knockback)
     {
         if (IsAlive && !isInvincible)
@@ -117,7 +111,6 @@ public class Status : MonoBehaviour
 
             return true;
         }
-
         return false;
     }
 

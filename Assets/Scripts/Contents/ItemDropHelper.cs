@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 아이템이 드랍될 때 사용하는 클래스
+/// </summary>
 public class ItemDropHelper : MonoBehaviour
 {
     [Header("Data Table")]
@@ -19,6 +22,11 @@ public class ItemDropHelper : MonoBehaviour
     [SerializeField] private float gravityScale = 2.8f;
     [SerializeField] private PhysicsMaterial2D itemMaterial;
 
+    /// <summary>
+    /// 아이템을 드랍하는 코루틴을 실행하는 함수
+    /// </summary>
+    /// <param name="position">아이템 스폰 위치</param>
+    /// <param name="onComplete">아이템 드랍 후 실행될 콜백 함수</param>
     public void DropItem(Vector3 position, System.Action onComplete = null)
     {
         var items = SelectDropItem();

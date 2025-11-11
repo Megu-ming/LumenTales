@@ -512,7 +512,6 @@ GameObject:
   - component: {fileID: 5809806093151594674}
   - component: {fileID: 3047686387400115799}
   - component: {fileID: 1613715476555522547}
-  - component: {fileID: 6732341869584035517}
   - component: {fileID: 4135225129816851659}
   m_Layer: 15
   m_Name: Inventory
@@ -540,8 +539,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 681.24396, y: -539.7538}
-  m_SizeDelta: {x: 762.4881, y: 679.5076}
+  m_AnchoredPosition: {x: 1431, y: -539.7538}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2324233381290405196
 CanvasRenderer:
@@ -622,10 +621,10 @@ MonoBehaviour:
   closeOnEsc: 1
   inventoryCapacity: 0
   slotPrefab: {fileID: 7589465340715453603, guid: c1fd285d1ed5d2f45a92fd35cd1e94d0, type: 3}
+  movableHeader: {fileID: 2278993694062987306}
   contentPanel: {fileID: 7484848336977489693}
-  imageDummy: {fileID: 0}
-  goldText: {fileID: 0}
-  inventory: {fileID: 0}
+  goldText: {fileID: 2015218865959189359}
+  isAttachedToStore: 0
 --- !u!114 &3047686387400115799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,7 +653,7 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
@@ -663,18 +662,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!225 &6732341869584035517
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8431638238036347946}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!114 &4135225129816851659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,9 +687,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5244692417356795753}
     m_Modifications:
+    - target: {fileID: 1275521619228692005, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 5244692417356795753}
     - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_text
-      value: INVENTORY
+      value: "\uC778\uBCA4\uD1A0\uB9AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: m_fontSize
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4069465274122290599, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_Name
@@ -714,11 +709,11 @@ PrefabInstance:
       objectReference: {fileID: 5809806093151594674}
     - target: {fileID: 7785676821488876942, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnInventoryToggle
+      value: Toggle
       objectReference: {fileID: 0}
     - target: {fileID: 7785676821488876942, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UIInventory, Assembly-CSharp
+      value: UIBase, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7824712219358802914, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_Pivot.x
@@ -805,6 +800,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+--- !u!114 &2278993694062987306 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1275521619228692005, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+  m_PrefabInstance: {fileID: 1014168184616371727}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec5451cc53548d2409787665e9a4b409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7099356198641989101 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7824712219358802914, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
