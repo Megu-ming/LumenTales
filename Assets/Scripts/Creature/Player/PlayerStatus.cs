@@ -144,6 +144,7 @@ public class PlayerStatus : Status
         base.OnDied();
 
         HandleOpenDeadUI?.Invoke();
+        SoundManager.PlayRandomSFX(SfxType.Death);
     }
 
     // 부활

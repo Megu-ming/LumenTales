@@ -290,3 +290,6 @@ MonoBehaviour:
   - label: UI_Click
     clips:
     - {fileID: 8300000, guid: adc59a6d37188e64888ed0ef77080b3c, type: 3}
+  - label: Death
+    clips:
+    - {fileID: 8300000, guid: 35ce408210dfa9843ba14da86f8efb4e, type: 3}

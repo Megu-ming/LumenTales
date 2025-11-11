@@ -23,6 +23,7 @@ public enum SfxType
     // 필요하면 계속 추가
     UI_Hover,      // UI 호버
     UI_Click,      // UI 클릭
+    Death,         // 캐릭터 사망    
 }
 
 public enum EAudioMixerType { Master, BGM, SFX }

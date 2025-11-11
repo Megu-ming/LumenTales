@@ -127,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   lifeTime: 2
-  damage: 15
+  damage: 100
   targetMask:
     serializedVersion: 2
     m_Bits: 128

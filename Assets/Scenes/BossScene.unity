@@ -4706,10 +4706,6 @@ PrefabInstance:
       propertyPath: obstacleMask.m_Bits
       value: 128
       objectReference: {fileID: 0}
-    - target: {fileID: 664786766065984095, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
-      propertyPath: maxMissileAttackRange
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 961586681756457868, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
       propertyPath: damageableHit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -4801,14 +4797,6 @@ PrefabInstance:
     - target: {fileID: 8431617840549984468, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8523473078834212216, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8523473078834212216, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.65
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7119630699711008688, guid: 2e4d8b9eb42a9dd4d972f86f3c73b6ef, type: 3}

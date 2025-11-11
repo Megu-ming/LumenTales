@@ -6,7 +6,7 @@ using UnityEngine;
 public class MeleeAttack : MonoBehaviour
 {
     [SerializeField] Player player;
-    public float meleeDamage = 50f;
+    [SerializeField] float meleeDamage;
 
     public void Init(Player player)
     {
@@ -19,7 +19,7 @@ public class MeleeAttack : MonoBehaviour
         {
             var status = player.Status;
 
-            float randDamage = Random.Range(meleeDamage - 5f, meleeDamage + 5f);
+            float randDamage = Random.Range(meleeDamage - (meleeDamage * 0.1f), meleeDamage + (meleeDamage * 0.1f));
             status.Hit(randDamage, new Vector2(2, 0));
         }
     }

@@ -119,8 +119,8 @@ MonoBehaviour:
   meleeAttack: {fileID: 1543895557022222413}
   meleeAttackRange: 1.5
   laserAttackRange: 2.6
-  minMissileAttackRange: 2
-  maxMissileAttackRange: 5
+  minMissileAttackRange: 1
+  maxMissileAttackRange: 7
   attackCooltime: 3
   meleeCooltime: 2
   laserCooltime: 10
@@ -225,7 +225,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5788776088509987275}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -252,7 +252,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.3048532, y: 0.17016755}
+  m_Offset: {x: 0.56, y: 0.35}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  meleeDamage: 10
+  meleeDamage: 200
 --- !u!1 &6728314165217724141
 GameObject:
   m_ObjectHideFlags: 0

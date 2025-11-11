@@ -70,7 +70,7 @@ public class MissileProjectile : MonoBehaviour
         {
             Debug.Log("Player Hit");
             var pc = player.Status;
-            float randDamage = Random.Range(damage - 5f, damage + 5f);
+            float randDamage = Random.Range(damage - (damage * 0.1f), damage + (damage * 0.1f));
             pc.Hit(randDamage, pc.knockBack);
         }
     }

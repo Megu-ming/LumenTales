@@ -45,7 +45,7 @@ public class LaserProjectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && tickTimer >= attackTick)
         {
-            float randDamage = Random.Range(damage - 5f, damage + 5f);
+            float randDamage = Random.Range(damage - (damage * 0.1f), damage + (damage * 0.1f));
             player.Status.Hit(randDamage, knockback);
             tickTimer = 0f;
         }
