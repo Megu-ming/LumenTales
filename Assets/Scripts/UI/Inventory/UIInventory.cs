@@ -128,7 +128,8 @@ public class UIInventory : UIBase
         SetItemAmount(index, amount);
     }
 
-    #region Event System Handlers
+    // -------------------------- 드래그 & 드롭 관련 함수 --------------------------
+    // -----------------------------------------------------------------------------
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
@@ -192,33 +193,16 @@ public class UIInventory : UIBase
             }
         }
     }
-    #endregion
 
-    #region Private Methods
     int sellingIndex;
     private void EndDrag()
     {
         var endDragSlot = RaycastAndGetComponent<UIInventorySlot>(rrList, ped);
 
+        // 인벤토리의 슬롯 위 드롭
         if(endDragSlot != null)
         {
-            bool isSeparatable =
-                   (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftShift)) &&
-                   (inventory.IsCountableItem(beginDragSlot.Index) && !inventory.HasItem(endDragSlot.Index));
-
-            bool isSeparation = false;
-            int currentAmount = 0;
-
-            // 현재 개수 확인
-            if(isSeparatable)
-            {
-                currentAmount = inventory.GetCurrentAmount(beginDragSlot.Index);
-                if (currentAmount > 1) isSeparation = true;
-            }
-
-            if (isSeparation)
-                TrySeparateAmount(beginDragSlot.Index, endDragSlot.Index, currentAmount);
-            else TrySwapItems(beginDragSlot, endDragSlot);
+            TrySwapItems(beginDragSlot, endDragSlot);
 
             return;
         }
@@ -236,7 +220,7 @@ public class UIInventory : UIBase
         if(store != null)
         {
             // 모달 열기
-            var modal = base.uiRoot.inputFieldModal;
+            var modal = uiRoot.inputFieldModal;
             if(inventory.GetItemData(beginDragSlot.Index) is CountableItemData)
             {
                 int amount = inventory.GetCurrentAmount(beginDragSlot.Index);
@@ -262,18 +246,13 @@ public class UIInventory : UIBase
         from.SwapOrMoveIcon(to);
         inventory.Swap(from.Index, to.Index);
     }
+    // -----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
 
     public void TrySellItem(bool value, int amount)
     {
         if (value is true)
             inventory.SellItem(sellingIndex, amount);
-    }
-
-    private void TrySeparateAmount(int indexA, int indexB, int amount)
-    {
-        if (indexA == indexB) return;
-
-        string itemName = $"{inventory.GetItemName(indexA)} x{amount}";
     }
 
     private void UpdateGoldText(int gold)
@@ -306,5 +285,4 @@ public class UIInventory : UIBase
             base.uiRoot.dummy.transform.SetAsLastSibling();
         }
     }
-#endregion
 }
