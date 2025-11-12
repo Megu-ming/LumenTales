@@ -269,7 +269,7 @@ public class PlayerController : CreatureController
     }
 
     public void CallInteractEvent() => OnInteractionEvent?.Invoke();
-    private void SetConversationsState(bool state)
+    public void SetConversationsState(bool state)
     {
         isConversation = state;
         if(state)
