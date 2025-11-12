@@ -906,8 +906,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC7A5\uBE44 \uC0C1\uC810"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4c9fbc6cdc8c1c64c8fdba549ec77d8b, type: 2}
-  m_sharedMaterial: {fileID: -5266115717762181724, guid: 4c9fbc6cdc8c1c64c8fdba549ec77d8b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e94b028681a9dba4891922cca6535ea1, type: 2}
+  m_sharedMaterial: {fileID: -727181026084543775, guid: e94b028681a9dba4891922cca6535ea1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

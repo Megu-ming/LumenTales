@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: GOLD
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b9dede249e762884bae3387ab10b6eea, type: 2}
-  m_sharedMaterial: {fileID: -3754281881349447911, guid: b9dede249e762884bae3387ab10b6eea, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e94b028681a9dba4891922cca6535ea1, type: 2}
+  m_sharedMaterial: {fileID: -727181026084543775, guid: e94b028681a9dba4891922cca6535ea1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -224,8 +224,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b9dede249e762884bae3387ab10b6eea, type: 2}
-  m_sharedMaterial: {fileID: -3754281881349447911, guid: b9dede249e762884bae3387ab10b6eea, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e94b028681a9dba4891922cca6535ea1, type: 2}
+  m_sharedMaterial: {fileID: -727181026084543775, guid: e94b028681a9dba4891922cca6535ea1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -698,6 +698,18 @@ PrefabInstance:
     - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_fontSize
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: e94b028681a9dba4891922cca6535ea1, type: 2}
+    - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -727181026084543775, guid: e94b028681a9dba4891922cca6535ea1, type: 2}
+    - target: {fileID: 1846471135928724624, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4069465274122290599, guid: 4f68def57c9686f46bc3d55a5ea8cbee, type: 3}
       propertyPath: m_Name

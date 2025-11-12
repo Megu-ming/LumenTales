@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2892b1442b9f4bc438f58ec3ab56664a
+guid: 67632776ce291d442a12a6f86431c04e
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - m5x7
+  - NeoDunggeunmo Pro
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

@@ -72,8 +72,11 @@ public class NPCConversation : InteractiveObj
 
     void CloseConversation()
     {
-        uiRoot.conversationUI.Clear();
-        uiRoot.conversationUI.gameObject.SetActive(false);
+        if(uiRoot && uiRoot.conversationUI)
+        {
+            uiRoot.conversationUI.Clear();
+            uiRoot.conversationUI.gameObject.SetActive(false);
+        }
         currentLineIndex = -1;
 
         EndConversation();
